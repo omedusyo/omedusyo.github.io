@@ -1,5 +1,6 @@
 
 
+// ----SLIDERS
 // If step size is h = 1/10 = 0.1, then inverseStepSize(h) = 10
 // but because of how floating point arithmetic is implemented, we get tiny errors with which I do not want to deal with
 // so I use inverseStepSize instead of stepSize
@@ -27,12 +28,46 @@ function Slider({ selector, range: [min, max], value, inverseStepSize }) {
 // example
 // const sliderTest = Slider({selector: '#slider-test', range: [-3, 3], inverseStepSize: 10, value: 1 });
 // sliderTest.attachEvent(function (x) {
-//   console.log(x);
+//   ...
 // });
 
 
+// ----LATEX EQUATIONS
+const Equations = {
+  renderGeneral(dom) {
+    katex.render(`y = a x + b`, dom, {
+      throwOnError: false
+    });
+  },
+
+  particular(State) {
+    if (State.a == 0) {
+      return `y = ${State.b}`;
+    } else {
+      const alpha = State.a == 1 ? '' : `${State.a}`;
+      let beta;
+      if (State.b == 0) {
+        beta = '';
+      } else if (State.b > 0) {
+        beta = `+ ${State.b}`;
+      } else {
+        // State.b < 0
+        beta = `- ${-State.b}`;
+      }
+      return `y = ${alpha} x ${beta}`;
+    }
+  },
+
+  renderParticular(dom, State) {
+    // katex.render(`y = ${State.a} x + ${State.b}`, dom, {
+    katex.render(Equations.particular(State), dom, {
+      throwOnError: false,
+    });
+  },
+};
 
 
+// ----GRAPHING
 // TODO: Points that are simulteniously rectangular vs central coordinates 
 const LinearGraph = function ({ WIDTH, HEIGHT, slopeRange, translationRange, canvas}) {
   canvas.width = WIDTH;
@@ -140,12 +175,10 @@ const LinearGraph = function ({ WIDTH, HEIGHT, slopeRange, translationRange, can
     drawLine(Point.central(0, 0), Point.central(0, 1));
   }
 
-  // TODO
   function drawGridLines() {
+    // TODO  this calculation is coordinate dependent
     const xMax = (WIDTH/2 / unitLen) + 1;
     const yMax = (HEIGHT/2 / unitLen) + 1;
-    console.log('x =', xMax);
-    console.log('y =', yMax);
 
     let i = 0;
     while (i < xMax) {
@@ -200,7 +233,7 @@ const LinearGraph = function ({ WIDTH, HEIGHT, slopeRange, translationRange, can
       ctx.lineWidth = 3;
       graphLinearMap(this.a, this.b);
     }
-  }
+  };
   return State;
 }
 
