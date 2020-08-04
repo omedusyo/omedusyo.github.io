@@ -1,0 +1,23 @@
+
+.line {
+  border: 1px solid black;
+}
+
+.doc {
+}
+.doc-element {
+  display: inline-block;
+}
+
+.element-whitespace {
+  white-space: pre;
+}
+
+.cursor {
+  position: absolute;
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background-color: red;
+}
+
