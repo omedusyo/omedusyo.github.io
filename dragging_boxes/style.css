@@ -4,20 +4,28 @@ body {
 }
 
 .widget {
-  width: 400px;
-  height: 400px;
   background-color: blue;
-  border: 1px solid black;
   position: absolute;
+  box-sizing: border-box;
+  border: 1px solid black;
 }
 
-#box1 {
-  width: 200px;
-  height: 200px;
-  background-color: red;
-  /* z-index: -1; */
 
-  /* transform: translate(300px, 300px); */
-  /* transform: translateY(10px); */
+/* resizing widgets */
+.widget-resize-top-left, .widget-resize-top-right, .widget-resize-bottom-right, .widget-resize-bottom-left {
+  position: absolute;
+  width: 10px; height: 10px; background-color: green;
 }
+
+.widget-resize-top-left { top: 0; left: 0; }
+.widget-resize-top-left:hover { cursor: se-resize; }
+
+.widget-resize-top-right { top: 0; right: 0; }
+.widget-resize-top-right:hover { cursor: sw-resize; }
+
+.widget-resize-bottom-right { bottom: 0; right: 0; }
+.widget-resize-bottom-right:hover { cursor: se-resize; }
+
+.widget-resize-bottom-left { bottom: 0; left: 0; }
+.widget-resize-bottom-left:hover { cursor: sw-resize; }
 
