@@ -5416,14 +5416,15 @@ var $author$project$ArithExp$showStack = function (stack) {
 	return $elm$core$String$concat(
 		_List_fromArray(
 			[
+				'[  ',
 				A2(
 				$elm$core$String$join,
-				' :: ',
+				' , ',
 				A2(
 					$elm$core$List$map,
 					$author$project$ArithExp$showStackElement,
 					$elm$core$List$reverse(stack))),
-				' :: []'
+				'  ]'
 			]));
 };
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
