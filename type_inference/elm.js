@@ -4358,136 +4358,6 @@ function _Browser_load(url)
 
 
 
-
-// STRINGS
-
-
-var _Parser_isSubString = F5(function(smallString, offset, row, col, bigString)
-{
-	var smallLength = smallString.length;
-	var isGood = offset + smallLength <= bigString.length;
-
-	for (var i = 0; isGood && i < smallLength; )
-	{
-		var code = bigString.charCodeAt(offset);
-		isGood =
-			smallString[i++] === bigString[offset++]
-			&& (
-				code === 0x000A /* \n */
-					? ( row++, col=1 )
-					: ( col++, (code & 0xF800) === 0xD800 ? smallString[i++] === bigString[offset++] : 1 )
-			)
-	}
-
-	return _Utils_Tuple3(isGood ? offset : -1, row, col);
-});
-
-
-
-// CHARS
-
-
-var _Parser_isSubChar = F3(function(predicate, offset, string)
-{
-	return (
-		string.length <= offset
-			? -1
-			:
-		(string.charCodeAt(offset) & 0xF800) === 0xD800
-			? (predicate(_Utils_chr(string.substr(offset, 2))) ? offset + 2 : -1)
-			:
-		(predicate(_Utils_chr(string[offset]))
-			? ((string[offset] === '\n') ? -2 : (offset + 1))
-			: -1
-		)
-	);
-});
-
-
-var _Parser_isAsciiCode = F3(function(code, offset, string)
-{
-	return string.charCodeAt(offset) === code;
-});
-
-
-
-// NUMBERS
-
-
-var _Parser_chompBase10 = F2(function(offset, string)
-{
-	for (; offset < string.length; offset++)
-	{
-		var code = string.charCodeAt(offset);
-		if (code < 0x30 || 0x39 < code)
-		{
-			return offset;
-		}
-	}
-	return offset;
-});
-
-
-var _Parser_consumeBase = F3(function(base, offset, string)
-{
-	for (var total = 0; offset < string.length; offset++)
-	{
-		var digit = string.charCodeAt(offset) - 0x30;
-		if (digit < 0 || base <= digit) break;
-		total = base * total + digit;
-	}
-	return _Utils_Tuple2(offset, total);
-});
-
-
-var _Parser_consumeBase16 = F2(function(offset, string)
-{
-	for (var total = 0; offset < string.length; offset++)
-	{
-		var code = string.charCodeAt(offset);
-		if (0x30 <= code && code <= 0x39)
-		{
-			total = 16 * total + code - 0x30;
-		}
-		else if (0x41 <= code && code <= 0x46)
-		{
-			total = 16 * total + code - 55;
-		}
-		else if (0x61 <= code && code <= 0x66)
-		{
-			total = 16 * total + code - 87;
-		}
-		else
-		{
-			break;
-		}
-	}
-	return _Utils_Tuple2(offset, total);
-});
-
-
-
-// FIND STRING
-
-
-var _Parser_findSubString = F5(function(smallString, offset, row, col, bigString)
-{
-	var newOffset = bigString.indexOf(smallString, offset);
-	var target = newOffset < 0 ? bigString.length : newOffset + smallString.length;
-
-	while (offset < target)
-	{
-		var code = bigString.charCodeAt(offset++);
-		code === 0x000A /* \n */
-			? ( col=1, row++ )
-			: ( col++, (code & 0xF800) === 0xD800 && offset++ )
-	}
-
-	return _Utils_Tuple3(newOffset, row, col);
-});
-
-
-
 var _Bitwise_and = F2(function(a, b)
 {
 	return a & b;
@@ -5311,53 +5181,104 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Value$Closure = function (a) {
+var $author$project$Main$LambdaUiMsg = function (a) {
+	return {$: 'LambdaUiMsg', a: a};
+};
+var $author$project$Ui$Main$HelpMsg = function (a) {
+	return {$: 'HelpMsg', a: a};
+};
+var $author$project$Ui$Main$ModuleMsg = function (a) {
+	return {$: 'ModuleMsg', a: a};
+};
+var $author$project$Ui$Main$ProgramMsg = function (a) {
+	return {$: 'ProgramMsg', a: a};
+};
+var $author$project$Ui$Main$RegisterMachineMsg = function (a) {
+	return {$: 'RegisterMachineMsg', a: a};
+};
+var $author$project$Ui$Control$Context$embedModelIntoState = function (model) {
+	return {
+		model: model,
+		notifications: {}
+	};
+};
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $author$project$Ui$Control$InitContext$setModelTo = function (model) {
+	return function (_v0) {
+		return _Utils_Tuple2(
+			$author$project$Ui$Control$Context$embedModelIntoState(model),
+			$elm$core$Platform$Cmd$none);
+	};
+};
+var $author$project$Ui$Tab$Help$init = $author$project$Ui$Control$InitContext$setModelTo(
+	{});
+var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
+var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
+var $author$project$Calculus$Evaluation$Value$emptyFunctorEnvironment = $elm$core$Dict$empty;
+var $author$project$Calculus$Evaluation$Value$emptyModuleEnvironment = $elm$core$Dict$empty;
+var $author$project$Calculus$Evaluation$Value$emptyTermEnvironment = $elm$core$Dict$empty;
+var $author$project$Calculus$Evaluation$Value$emptyEnvironment = {functorEnv: $author$project$Calculus$Evaluation$Value$emptyFunctorEnvironment, moduleEnv: $author$project$Calculus$Evaluation$Value$emptyModuleEnvironment, termEnv: $author$project$Calculus$Evaluation$Value$emptyTermEnvironment};
+var $author$project$Calculus$Evaluation$Value$AssignFunctorLiteral = F2(
+	function (a, b) {
+		return {$: 'AssignFunctorLiteral', a: a, b: b};
+	});
+var $author$project$Calculus$Evaluation$Value$AssignModuleValue = F2(
+	function (a, b) {
+		return {$: 'AssignModuleValue', a: a, b: b};
+	});
+var $author$project$Calculus$Evaluation$Value$AssignValue = F2(
+	function (a, b) {
+		return {$: 'AssignValue', a: a, b: b};
+	});
+var $author$project$Calculus$Evaluation$Value$Closure = function (a) {
 	return {$: 'Closure', a: a};
 };
-var $author$project$Value$ConsValue = F2(
+var $author$project$Calculus$Evaluation$Value$Cons = F2(
 	function (a, b) {
-		return {$: 'ConsValue', a: a, b: b};
+		return {$: 'Cons', a: a, b: b};
 	});
-var $author$project$Value$EmptyListValue = {$: 'EmptyListValue'};
-var $author$project$Evaluation$ExpectedBoolean = {$: 'ExpectedBoolean'};
-var $author$project$Evaluation$ExpectedFunction = {$: 'ExpectedFunction'};
-var $author$project$Evaluation$ExpectedLeftRight = {$: 'ExpectedLeftRight'};
-var $author$project$Evaluation$ExpectedList = {$: 'ExpectedList'};
-var $author$project$Evaluation$ExpectedNat = {$: 'ExpectedNat'};
-var $author$project$Evaluation$ExpectedPair = {$: 'ExpectedPair'};
-var $author$project$Evaluation$ExpectedThunkClosure = {$: 'ExpectedThunkClosure'};
-var $author$project$Evaluation$FailedToForceThunk = function (a) {
+var $author$project$Calculus$Evaluation$Value$ConstEmpty = {$: 'ConstEmpty'};
+var $author$project$Calculus$Evaluation$Value$ConstFalse = {$: 'ConstFalse'};
+var $author$project$Calculus$Evaluation$Value$ConstTrue = {$: 'ConstTrue'};
+var $author$project$Calculus$Evaluation$Value$ConstZero = {$: 'ConstZero'};
+var $author$project$Calculus$Evaluation$Evaluation$ExpectedBoolean = {$: 'ExpectedBoolean'};
+var $author$project$Calculus$Evaluation$Evaluation$ExpectedFunction = {$: 'ExpectedFunction'};
+var $author$project$Calculus$Evaluation$Evaluation$ExpectedLeftRight = {$: 'ExpectedLeftRight'};
+var $author$project$Calculus$Evaluation$Evaluation$ExpectedList = {$: 'ExpectedList'};
+var $author$project$Calculus$Evaluation$Evaluation$ExpectedNat = {$: 'ExpectedNat'};
+var $author$project$Calculus$Evaluation$Evaluation$ExpectedPair = {$: 'ExpectedPair'};
+var $author$project$Calculus$Evaluation$Evaluation$ExpectedThunkClosure = {$: 'ExpectedThunkClosure'};
+var $author$project$Calculus$Evaluation$Evaluation$FailedToForceThunk = function (a) {
 	return {$: 'FailedToForceThunk', a: a};
 };
-var $author$project$Value$FalseValue = {$: 'FalseValue'};
-var $author$project$Value$ForcedThunk = function (a) {
+var $author$project$Calculus$Evaluation$Value$ForcedThunk = function (a) {
 	return {$: 'ForcedThunk', a: a};
 };
-var $author$project$Value$LeftValue = function (a) {
-	return {$: 'LeftValue', a: a};
+var $author$project$Calculus$Evaluation$Evaluation$FunctorApplicationNumberOfModuleParametersShouldBeEqualToNumberOfArguments = {$: 'FunctorApplicationNumberOfModuleParametersShouldBeEqualToNumberOfArguments'};
+var $author$project$Calculus$Evaluation$Value$Left = function (a) {
+	return {$: 'Left', a: a};
 };
-var $author$project$Value$ListValue = function (a) {
+var $author$project$Calculus$Evaluation$Value$ListValue = function (a) {
 	return {$: 'ListValue', a: a};
 };
-var $author$project$Value$NatSuccValue = function (a) {
-	return {$: 'NatSuccValue', a: a};
-};
-var $author$project$Value$NatValue = function (a) {
+var $author$project$Calculus$Evaluation$Value$NatValue = function (a) {
 	return {$: 'NatValue', a: a};
 };
-var $author$project$Value$NatZeroValue = {$: 'NatZeroValue'};
-var $author$project$Value$PairValue = F2(
+var $author$project$Calculus$Evaluation$Value$Pair = F2(
 	function (a, b) {
-		return {$: 'PairValue', a: a, b: b};
+		return {$: 'Pair', a: a, b: b};
 	});
-var $author$project$Value$RightValue = function (a) {
-	return {$: 'RightValue', a: a};
+var $author$project$Calculus$Evaluation$Value$Right = function (a) {
+	return {$: 'Right', a: a};
 };
-var $author$project$Value$ThunkClosure = function (a) {
+var $author$project$Calculus$Evaluation$Value$Succ = function (a) {
+	return {$: 'Succ', a: a};
+};
+var $author$project$Calculus$Evaluation$Value$ThunkClosure = function (a) {
 	return {$: 'ThunkClosure', a: a};
 };
-var $author$project$Value$TrueValue = {$: 'TrueValue'};
-var $author$project$StatefulReaderWithErr$andThen = F2(
+var $author$project$Lib$State$StatefulReaderWithErr$andThen = F2(
 	function (f, stateful_a) {
 		return F2(
 			function (r, state0) {
@@ -5410,7 +5331,6 @@ var $elm$core$Dict$RBNode_elm_builtin = F5(
 	function (a, b, c, d, e) {
 		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
 	});
-var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
 var $elm$core$Dict$Red = {$: 'Red'};
 var $elm$core$Dict$balance = F5(
 	function (color, key, value, left, right) {
@@ -5887,7 +5807,72 @@ var $elm$core$Dict$update = F3(
 			return A2($elm$core$Dict$remove, targetKey, dictionary);
 		}
 	});
-var $author$project$Value$extendEnvironment = F3(
+var $author$project$Calculus$Evaluation$Value$extendFunctorEnvironment0 = F3(
+	function (functorName, functor, env) {
+		return A3(
+			$elm$core$Dict$update,
+			functorName,
+			function (maybeBinding) {
+				if (maybeBinding.$ === 'Just') {
+					var functors = maybeBinding.a;
+					return $elm$core$Maybe$Just(
+						A2($elm$core$List$cons, functor, functors));
+				} else {
+					return $elm$core$Maybe$Just(
+						_List_fromArray(
+							[functor]));
+				}
+			},
+			env);
+	});
+var $author$project$Calculus$Evaluation$Value$extendFunctorEnvironment = F3(
+	function (functorName, functor, env) {
+		return _Utils_update(
+			env,
+			{
+				functorEnv: A3($author$project$Calculus$Evaluation$Value$extendFunctorEnvironment0, functorName, functor, env.functorEnv)
+			});
+	});
+var $author$project$Calculus$Evaluation$Value$extendModuleEnvironment0 = F3(
+	function (varName, module0, env) {
+		return A3(
+			$elm$core$Dict$update,
+			varName,
+			function (maybeBinding) {
+				if (maybeBinding.$ === 'Just') {
+					var modules = maybeBinding.a;
+					return $elm$core$Maybe$Just(
+						A2($elm$core$List$cons, module0, modules));
+				} else {
+					return $elm$core$Maybe$Just(
+						_List_fromArray(
+							[module0]));
+				}
+			},
+			env);
+	});
+var $author$project$Calculus$Evaluation$Value$extendModuleEnvironment = F3(
+	function (varName, module0, env) {
+		return _Utils_update(
+			env,
+			{
+				moduleEnv: A3($author$project$Calculus$Evaluation$Value$extendModuleEnvironment0, varName, module0, env.moduleEnv)
+			});
+	});
+var $author$project$Calculus$Evaluation$Value$extendModuleEnvironmentWithBindings = F2(
+	function (bindings, env0) {
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v0, env) {
+					var moduleName = _v0.a;
+					var moduleValue = _v0.b;
+					return A3($author$project$Calculus$Evaluation$Value$extendModuleEnvironment, moduleName, moduleValue, env);
+				}),
+			env0,
+			bindings);
+	});
+var $author$project$Calculus$Evaluation$Value$extendTermEnvironment0 = F3(
 	function (varName, term, env) {
 		return A3(
 			$elm$core$Dict$update,
@@ -5905,13 +5890,128 @@ var $author$project$Value$extendEnvironment = F3(
 			},
 			env);
 	});
-var $author$project$StatefulReaderWithErr$get0 = function (f) {
+var $author$project$Calculus$Evaluation$Value$extendTermEnvironment = F3(
+	function (varName, term, env) {
+		return _Utils_update(
+			env,
+			{
+				termEnv: A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment0, varName, term, env.termEnv)
+			});
+	});
+var $author$project$Calculus$Evaluation$Evaluation$UndefinedFunctor = function (a) {
+	return {$: 'UndefinedFunctor', a: a};
+};
+var $author$project$Lib$State$StatefulReaderWithErr$get0 = function (f) {
 	return F2(
 		function (r, state0) {
 			return A4(f, r, state0, r, state0);
 		});
 };
-var $author$project$StatefulReaderWithErr$map = F2(
+var $elm$core$Maybe$andThen = F2(
+	function (callback, maybeValue) {
+		if (maybeValue.$ === 'Just') {
+			var value = maybeValue.a;
+			return callback(value);
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Calculus$Evaluation$Value$lookupFunctorEnvironment0 = F2(
+	function (functorName, env) {
+		return A2(
+			$elm$core$Maybe$andThen,
+			function (functors) {
+				if (!functors.b) {
+					return $elm$core$Maybe$Nothing;
+				} else {
+					var functor = functors.a;
+					return $elm$core$Maybe$Just(functor);
+				}
+			},
+			A2($elm$core$Dict$get, functorName, env));
+	});
+var $author$project$Calculus$Evaluation$Value$lookupFunctorEnvironment = F2(
+	function (functorName, env) {
+		return A2($author$project$Calculus$Evaluation$Value$lookupFunctorEnvironment0, functorName, env.functorEnv);
+	});
+var $author$project$Lib$State$StatefulReaderWithErr$return = function (a) {
+	return F2(
+		function (r, state0) {
+			return $elm$core$Result$Ok(
+				_Utils_Tuple2(state0, a));
+		});
+};
+var $author$project$Lib$State$StatefulReaderWithErr$error = function (err) {
+	return F2(
+		function (_v0, _v1) {
+			return $elm$core$Result$Err(err);
+		});
+};
+var $author$project$Calculus$Evaluation$Evaluation$throwEvalError = $author$project$Lib$State$StatefulReaderWithErr$error;
+var $author$project$Calculus$Evaluation$Evaluation$functorLookup = function (functorName) {
+	return $author$project$Lib$State$StatefulReaderWithErr$get0(
+		F2(
+			function (env, _v0) {
+				var _v1 = A2($author$project$Calculus$Evaluation$Value$lookupFunctorEnvironment, functorName, env);
+				if (_v1.$ === 'Just') {
+					var val = _v1.a;
+					return $author$project$Lib$State$StatefulReaderWithErr$return(val);
+				} else {
+					return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
+						_List_fromArray(
+							[
+								$author$project$Calculus$Evaluation$Evaluation$UndefinedFunctor(functorName)
+							]));
+				}
+			}));
+};
+var $author$project$Calculus$Evaluation$Evaluation$UnknownModuleField = function (a) {
+	return {$: 'UnknownModuleField', a: a};
+};
+var $author$project$Calculus$Evaluation$Evaluation$lookupModuleTermField = F2(
+	function (field, moduleValue) {
+		var lookup = function (assignments0) {
+			lookup:
+			while (true) {
+				if (!assignments0.b) {
+					return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
+						_List_fromArray(
+							[
+								$author$project$Calculus$Evaluation$Evaluation$UnknownModuleField(field)
+							]));
+				} else {
+					var assignment = assignments0.a;
+					var assignments1 = assignments0.b;
+					switch (assignment.$) {
+						case 'AssignValue':
+							var field0 = assignment.a;
+							var val = assignment.b;
+							if (_Utils_eq(field0, field)) {
+								return $author$project$Lib$State$StatefulReaderWithErr$return(val);
+							} else {
+								var $temp$assignments0 = assignments1;
+								assignments0 = $temp$assignments0;
+								continue lookup;
+							}
+						case 'AssignType':
+							var $temp$assignments0 = assignments1;
+							assignments0 = $temp$assignments0;
+							continue lookup;
+						case 'AssignModuleValue':
+							var $temp$assignments0 = assignments1;
+							assignments0 = $temp$assignments0;
+							continue lookup;
+						default:
+							var $temp$assignments0 = assignments1;
+							assignments0 = $temp$assignments0;
+							continue lookup;
+					}
+				}
+			}
+		};
+		return lookup(moduleValue.assignments);
+	});
+var $author$project$Lib$State$StatefulReaderWithErr$map = F2(
 	function (f, stateful_a0) {
 		return F2(
 			function (r, state0) {
@@ -5930,7 +6030,17 @@ var $author$project$StatefulReaderWithErr$map = F2(
 				}
 			});
 	});
-var $author$project$StatefulReaderWithErr$pair = F2(
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Lib$State$StatefulReaderWithErr$pair = F2(
 	function (stateful_a, stateful_b) {
 		return F2(
 			function (r, state0) {
@@ -5958,43 +6068,93 @@ var $author$project$StatefulReaderWithErr$pair = F2(
 				}
 			});
 	});
-var $author$project$StatefulReaderWithErr$map2 = F3(
+var $author$project$Lib$State$StatefulReaderWithErr$map2 = F3(
 	function (f, stateful_a0, stateful_a1) {
 		return A2(
-			$author$project$StatefulReaderWithErr$map,
+			$author$project$Lib$State$StatefulReaderWithErr$map,
 			function (_v0) {
 				var a0 = _v0.a;
 				var a1 = _v0.b;
 				return A2(f, a0, a1);
 			},
-			A2($author$project$StatefulReaderWithErr$pair, stateful_a0, stateful_a1));
+			A2($author$project$Lib$State$StatefulReaderWithErr$pair, stateful_a0, stateful_a1));
 	});
-var $author$project$StatefulReaderWithErr$return = function (a) {
-	return F2(
-		function (r, state0) {
-			return $elm$core$Result$Ok(
-				_Utils_Tuple2(state0, a));
-		});
+var $author$project$Calculus$Evaluation$Evaluation$UndefinedModule = function (a) {
+	return {$: 'UndefinedModule', a: a};
 };
-var $author$project$StatefulReaderWithErr$second = F2(
+var $author$project$Calculus$Evaluation$Value$lookupModuleEnvironment0 = F2(
+	function (varName, env) {
+		return A2(
+			$elm$core$Maybe$andThen,
+			function (modules) {
+				if (!modules.b) {
+					return $elm$core$Maybe$Nothing;
+				} else {
+					var module0 = modules.a;
+					return $elm$core$Maybe$Just(module0);
+				}
+			},
+			A2($elm$core$Dict$get, varName, env));
+	});
+var $author$project$Calculus$Evaluation$Value$lookupModuleEnvironment = F2(
+	function (varName, env) {
+		return A2($author$project$Calculus$Evaluation$Value$lookupModuleEnvironment0, varName, env.moduleEnv);
+	});
+var $author$project$Calculus$Evaluation$Evaluation$moduleLookup = function (moduleName) {
+	return $author$project$Lib$State$StatefulReaderWithErr$get0(
+		F2(
+			function (env, _v0) {
+				var _v1 = A2($author$project$Calculus$Evaluation$Value$lookupModuleEnvironment, moduleName, env);
+				if (_v1.$ === 'Just') {
+					var val = _v1.a;
+					return $author$project$Lib$State$StatefulReaderWithErr$return(val);
+				} else {
+					return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
+						_List_fromArray(
+							[
+								$author$project$Calculus$Evaluation$Evaluation$UndefinedModule(moduleName)
+							]));
+				}
+			}));
+};
+var $author$project$Lib$State$StatefulReaderWithErr$second = F2(
 	function (stateful_a_ignored, stateful_b) {
 		return A2(
-			$author$project$StatefulReaderWithErr$map,
+			$author$project$Lib$State$StatefulReaderWithErr$map,
 			function (_v0) {
 				var b = _v0.b;
 				return b;
 			},
-			A2($author$project$StatefulReaderWithErr$pair, stateful_a_ignored, stateful_b));
+			A2($author$project$Lib$State$StatefulReaderWithErr$pair, stateful_a_ignored, stateful_b));
 	});
-var $author$project$Value$DelayedThunk = function (a) {
+var $author$project$Lib$State$StatefulReaderWithErr$sequence = function (stateful_as0) {
+	if (!stateful_as0.b) {
+		return $author$project$Lib$State$StatefulReaderWithErr$return(_List_Nil);
+	} else {
+		var stateful_a = stateful_as0.a;
+		var stateful_as1 = stateful_as0.b;
+		return A2(
+			$author$project$Lib$State$StatefulReaderWithErr$map,
+			function (_v1) {
+				var a = _v1.a;
+				var as1 = _v1.b;
+				return A2($elm$core$List$cons, a, as1);
+			},
+			A2(
+				$author$project$Lib$State$StatefulReaderWithErr$pair,
+				stateful_a,
+				$author$project$Lib$State$StatefulReaderWithErr$sequence(stateful_as1)));
+	}
+};
+var $author$project$Calculus$Evaluation$Value$DelayedThunk = function (a) {
 	return {$: 'DelayedThunk', a: a};
 };
-var $author$project$StatefulReaderWithErr$create = function (f) {
+var $author$project$Lib$State$StatefulReaderWithErr$create = function (f) {
 	return f;
 };
-var $author$project$Evaluation$storeNewThunk = F2(
+var $author$project$Calculus$Evaluation$Evaluation$storeNewThunk = F2(
 	function (env, body) {
-		return $author$project$StatefulReaderWithErr$create(
+		return $author$project$Lib$State$StatefulReaderWithErr$create(
 			F2(
 				function (_v0, state) {
 					var thunkContext = state.thunkContext;
@@ -6011,7 +6171,7 @@ var $author$project$Evaluation$storeNewThunk = F2(
 											thunks: A3(
 												$elm$core$Dict$insert,
 												id,
-												$author$project$Value$DelayedThunk(
+												$author$project$Calculus$Evaluation$Value$DelayedThunk(
 													{body: body, env: env}),
 												thunkContext.thunks)
 										})
@@ -6019,14 +6179,7 @@ var $author$project$Evaluation$storeNewThunk = F2(
 							id));
 				}));
 	});
-var $author$project$StatefulReaderWithErr$error = function (err) {
-	return F2(
-		function (_v0, _v1) {
-			return $elm$core$Result$Err(err);
-		});
-};
-var $author$project$Evaluation$throwEvalError = $author$project$StatefulReaderWithErr$error;
-var $author$project$StatefulReaderWithErr$update0 = function (f) {
+var $author$project$Lib$State$StatefulReaderWithErr$update0 = function (f) {
 	return F2(
 		function (r, state0) {
 			return $elm$core$Result$Ok(
@@ -6035,19 +6188,10 @@ var $author$project$StatefulReaderWithErr$update0 = function (f) {
 					_Utils_Tuple0));
 		});
 };
-var $author$project$Evaluation$UndefinedVar = function (a) {
+var $author$project$Calculus$Evaluation$Evaluation$UndefinedVar = function (a) {
 	return {$: 'UndefinedVar', a: a};
 };
-var $elm$core$Maybe$andThen = F2(
-	function (callback, maybeValue) {
-		if (maybeValue.$ === 'Just') {
-			var value = maybeValue.a;
-			return callback(value);
-		} else {
-			return $elm$core$Maybe$Nothing;
-		}
-	});
-var $author$project$Value$lookupEnvironment = F2(
+var $author$project$Calculus$Evaluation$Value$lookupTermEnvironment0 = F2(
 	function (varName, env) {
 		return A2(
 			$elm$core$Maybe$andThen,
@@ -6061,24 +6205,28 @@ var $author$project$Value$lookupEnvironment = F2(
 			},
 			A2($elm$core$Dict$get, varName, env));
 	});
-var $author$project$Evaluation$varLookup = function (varName) {
-	return $author$project$StatefulReaderWithErr$get0(
+var $author$project$Calculus$Evaluation$Value$lookupTermEnvironment = F2(
+	function (varName, env) {
+		return A2($author$project$Calculus$Evaluation$Value$lookupTermEnvironment0, varName, env.termEnv);
+	});
+var $author$project$Calculus$Evaluation$Evaluation$varLookup = function (varName) {
+	return $author$project$Lib$State$StatefulReaderWithErr$get0(
 		F2(
 			function (env, _v0) {
-				var _v1 = A2($author$project$Value$lookupEnvironment, varName, env);
+				var _v1 = A2($author$project$Calculus$Evaluation$Value$lookupTermEnvironment, varName, env);
 				if (_v1.$ === 'Just') {
 					var val = _v1.a;
-					return $author$project$StatefulReaderWithErr$return(val);
+					return $author$project$Lib$State$StatefulReaderWithErr$return(val);
 				} else {
-					return $author$project$Evaluation$throwEvalError(
+					return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 						_List_fromArray(
 							[
-								$author$project$Evaluation$UndefinedVar(varName)
+								$author$project$Calculus$Evaluation$Evaluation$UndefinedVar(varName)
 							]));
 				}
 			}));
 };
-var $author$project$StatefulReaderWithErr$withReadOnly = F2(
+var $author$project$Lib$State$StatefulReaderWithErr$withReadOnly = F2(
 	function (f, stateful_a) {
 		return F2(
 			function (r0, state0) {
@@ -6088,335 +6236,523 @@ var $author$project$StatefulReaderWithErr$withReadOnly = F2(
 					state0);
 			});
 	});
-var $author$project$Evaluation$eval = function (term) {
+var $author$project$Calculus$Evaluation$Evaluation$eval = function (term) {
 	switch (term.$) {
 		case 'VarUse':
 			var varName = term.a;
-			return $author$project$Evaluation$varLookup(varName);
+			return $author$project$Calculus$Evaluation$Evaluation$varLookup(varName);
 		case 'Pair':
 			var fst = term.a;
 			var snd = term.b;
 			return A3(
-				$author$project$StatefulReaderWithErr$map2,
-				$author$project$Value$PairValue,
-				$author$project$Evaluation$eval(fst),
-				$author$project$Evaluation$eval(snd));
-		case 'MatchProduct':
-			var arg = term.a.arg;
-			var var0 = term.a.var0;
-			var var1 = term.a.var1;
-			var body = term.a.body;
+				$author$project$Lib$State$StatefulReaderWithErr$map2,
+				$author$project$Calculus$Evaluation$Value$Pair,
+				$author$project$Calculus$Evaluation$Evaluation$eval(fst),
+				$author$project$Calculus$Evaluation$Evaluation$eval(snd));
+		case 'MatchPair':
+			var arg = term.a;
+			var var0 = term.b.var0;
+			var var1 = term.b.var1;
+			var body = term.b.body;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (argEvaled) {
-					if (argEvaled.$ === 'PairValue') {
+					if (argEvaled.$ === 'Pair') {
 						var val0 = argEvaled.a;
 						var val1 = argEvaled.b;
 						return A2(
-							$author$project$StatefulReaderWithErr$withReadOnly,
+							$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
 							F2(
-								function (env, _v9) {
+								function (env, _v23) {
 									return A3(
-										$author$project$Value$extendEnvironment,
+										$author$project$Calculus$Evaluation$Value$extendTermEnvironment,
 										var1,
 										val1,
-										A3($author$project$Value$extendEnvironment, var0, val0, env));
+										A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, var0, val0, env));
 								}),
-							$author$project$Evaluation$eval(body));
+							$author$project$Calculus$Evaluation$Evaluation$eval(body));
 					} else {
-						return $author$project$Evaluation$throwEvalError(
+						return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 							_List_fromArray(
-								[$author$project$Evaluation$ExpectedPair]));
+								[$author$project$Calculus$Evaluation$Evaluation$ExpectedPair]));
 					}
 				},
-				$author$project$Evaluation$eval(arg));
+				$author$project$Calculus$Evaluation$Evaluation$eval(arg));
 		case 'Abstraction':
-			var _var = term.a;
-			var body = term.b;
-			return $author$project$StatefulReaderWithErr$get0(
+			var _var = term.a._var;
+			var body = term.a.body;
+			return $author$project$Lib$State$StatefulReaderWithErr$get0(
 				F2(
-					function (env, _v10) {
-						return $author$project$StatefulReaderWithErr$return(
-							$author$project$Value$Closure(
+					function (env, _v24) {
+						return $author$project$Lib$State$StatefulReaderWithErr$return(
+							$author$project$Calculus$Evaluation$Value$Closure(
 								{body: body, env: env, _var: _var}));
 					}));
 		case 'Application':
 			var fn = term.a;
 			var arg = term.b;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (valFn) {
 					if (valFn.$ === 'Closure') {
 						var closure = valFn.a;
 						var _var = closure._var;
 						var body = closure.body;
 						return A2(
-							$author$project$StatefulReaderWithErr$andThen,
+							$author$project$Lib$State$StatefulReaderWithErr$andThen,
 							function (argEvaled) {
 								return A2(
-									$author$project$StatefulReaderWithErr$withReadOnly,
+									$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
 									F2(
-										function (_v12, _v13) {
-											return A3($author$project$Value$extendEnvironment, _var, argEvaled, closure.env);
+										function (_v26, _v27) {
+											return A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, _var, argEvaled, closure.env);
 										}),
-									$author$project$Evaluation$eval(body));
+									$author$project$Calculus$Evaluation$Evaluation$eval(body));
 							},
-							$author$project$Evaluation$eval(arg));
+							$author$project$Calculus$Evaluation$Evaluation$eval(arg));
 					} else {
-						return $author$project$Evaluation$throwEvalError(
+						return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 							_List_fromArray(
-								[$author$project$Evaluation$ExpectedFunction]));
+								[$author$project$Calculus$Evaluation$Evaluation$ExpectedFunction]));
 					}
 				},
-				$author$project$Evaluation$eval(fn));
+				$author$project$Calculus$Evaluation$Evaluation$eval(fn));
 		case 'Left':
 			var term1 = term.a;
 			return A2(
-				$author$project$StatefulReaderWithErr$map,
-				$author$project$Value$LeftValue,
-				$author$project$Evaluation$eval(term1));
+				$author$project$Lib$State$StatefulReaderWithErr$map,
+				$author$project$Calculus$Evaluation$Value$Left,
+				$author$project$Calculus$Evaluation$Evaluation$eval(term1));
 		case 'Right':
 			var term1 = term.a;
 			return A2(
-				$author$project$StatefulReaderWithErr$map,
-				$author$project$Value$RightValue,
-				$author$project$Evaluation$eval(term1));
-		case 'Case':
-			var arg = term.a.arg;
-			var leftVar = term.a.leftVar;
-			var leftBody = term.a.leftBody;
-			var rightVar = term.a.rightVar;
-			var rightBody = term.a.rightBody;
-			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
-				function (argEvaled) {
-					switch (argEvaled.$) {
-						case 'LeftValue':
-							var val = argEvaled.a;
-							return A2(
-								$author$project$StatefulReaderWithErr$withReadOnly,
-								F2(
-									function (env, _v15) {
-										return A3($author$project$Value$extendEnvironment, leftVar, val, env);
-									}),
-								$author$project$Evaluation$eval(leftBody));
-						case 'RightValue':
-							var val = argEvaled.a;
-							return A2(
-								$author$project$StatefulReaderWithErr$withReadOnly,
-								F2(
-									function (env, _v16) {
-										return A3($author$project$Value$extendEnvironment, rightVar, val, env);
-									}),
-								$author$project$Evaluation$eval(rightBody));
-						default:
-							return $author$project$Evaluation$throwEvalError(
-								_List_fromArray(
-									[$author$project$Evaluation$ExpectedLeftRight]));
-					}
-				},
-				$author$project$Evaluation$eval(arg));
-		case 'BoolTrue':
-			return $author$project$StatefulReaderWithErr$return($author$project$Value$TrueValue);
-		case 'BoolFalse':
-			return $author$project$StatefulReaderWithErr$return($author$project$Value$FalseValue);
-		case 'IfThenElse':
+				$author$project$Lib$State$StatefulReaderWithErr$map,
+				$author$project$Calculus$Evaluation$Value$Right,
+				$author$project$Calculus$Evaluation$Evaluation$eval(term1));
+		case 'MatchSum':
 			var arg = term.a;
-			var leftBody = term.b;
-			var rightBody = term.c;
+			var leftBranch = term.b.leftBranch;
+			var rightBranch = term.b.rightBranch;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (argEvaled) {
 					switch (argEvaled.$) {
-						case 'TrueValue':
-							return $author$project$Evaluation$eval(leftBody);
-						case 'FalseValue':
-							return $author$project$Evaluation$eval(rightBody);
+						case 'Left':
+							var val = argEvaled.a;
+							return A2(
+								$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
+								F2(
+									function (env, _v29) {
+										return A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, leftBranch._var, val, env);
+									}),
+								$author$project$Calculus$Evaluation$Evaluation$eval(leftBranch.body));
+						case 'Right':
+							var val = argEvaled.a;
+							return A2(
+								$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
+								F2(
+									function (env, _v30) {
+										return A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, rightBranch._var, val, env);
+									}),
+								$author$project$Calculus$Evaluation$Evaluation$eval(rightBranch.body));
 						default:
-							return $author$project$Evaluation$throwEvalError(
+							return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 								_List_fromArray(
-									[$author$project$Evaluation$ExpectedBoolean]));
+									[$author$project$Calculus$Evaluation$Evaluation$ExpectedLeftRight]));
 					}
 				},
-				$author$project$Evaluation$eval(arg));
-		case 'NatZero':
-			return $author$project$StatefulReaderWithErr$return(
-				$author$project$Value$NatValue($author$project$Value$NatZeroValue));
-		case 'NatSucc':
+				$author$project$Calculus$Evaluation$Evaluation$eval(arg));
+		case 'ConstTrue':
+			return $author$project$Lib$State$StatefulReaderWithErr$return($author$project$Calculus$Evaluation$Value$ConstTrue);
+		case 'ConstFalse':
+			return $author$project$Lib$State$StatefulReaderWithErr$return($author$project$Calculus$Evaluation$Value$ConstFalse);
+		case 'MatchBool':
+			var arg = term.a;
+			var trueBranch = term.b.trueBranch;
+			var falseBranch = term.b.falseBranch;
+			return A2(
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
+				function (argEvaled) {
+					switch (argEvaled.$) {
+						case 'ConstTrue':
+							return $author$project$Calculus$Evaluation$Evaluation$eval(trueBranch.body);
+						case 'ConstFalse':
+							return $author$project$Calculus$Evaluation$Evaluation$eval(falseBranch.body);
+						default:
+							return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
+								_List_fromArray(
+									[$author$project$Calculus$Evaluation$Evaluation$ExpectedBoolean]));
+					}
+				},
+				$author$project$Calculus$Evaluation$Evaluation$eval(arg));
+		case 'ConstZero':
+			return $author$project$Lib$State$StatefulReaderWithErr$return(
+				$author$project$Calculus$Evaluation$Value$NatValue($author$project$Calculus$Evaluation$Value$ConstZero));
+		case 'Succ':
 			var term1 = term.a;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (argEvaled) {
 					if (argEvaled.$ === 'NatValue') {
 						var natVal = argEvaled.a;
-						return $author$project$StatefulReaderWithErr$return(
-							$author$project$Value$NatValue(
-								$author$project$Value$NatSuccValue(natVal)));
+						return $author$project$Lib$State$StatefulReaderWithErr$return(
+							$author$project$Calculus$Evaluation$Value$NatValue(
+								$author$project$Calculus$Evaluation$Value$Succ(natVal)));
 					} else {
-						return $author$project$Evaluation$throwEvalError(
+						return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 							_List_fromArray(
-								[$author$project$Evaluation$ExpectedNat]));
+								[$author$project$Calculus$Evaluation$Evaluation$ExpectedNat]));
 					}
 				},
-				$author$project$Evaluation$eval(term1));
-		case 'NatLoop':
-			var base = term.a.base;
-			var loop = term.a.loop;
-			var arg = term.a.arg;
+				$author$project$Calculus$Evaluation$Evaluation$eval(term1));
+		case 'FoldNat':
+			var arg = term.a;
+			var zeroBranch = term.b.zeroBranch;
+			var succBranch = term.b.succBranch;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (argEvaled) {
 					if (argEvaled.$ === 'NatValue') {
 						var natVal = argEvaled.a;
 						var evalNatLoop = function (natVal0) {
-							if (natVal0.$ === 'NatZeroValue') {
-								return $author$project$Evaluation$eval(base);
+							if (natVal0.$ === 'ConstZero') {
+								return $author$project$Calculus$Evaluation$Evaluation$eval(zeroBranch.body);
 							} else {
 								var natVal1 = natVal0.a;
 								return A2(
-									$author$project$StatefulReaderWithErr$andThen,
+									$author$project$Lib$State$StatefulReaderWithErr$andThen,
 									function (prevVal) {
 										return A2(
-											$author$project$StatefulReaderWithErr$withReadOnly,
+											$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
 											F2(
-												function (env, _v21) {
-													return A3(
-														$author$project$Value$extendEnvironment,
-														loop.stateVar,
-														prevVal,
-														A3(
-															$author$project$Value$extendEnvironment,
-															loop.indexVar,
-															$author$project$Value$NatValue(natVal1),
-															env));
+												function (env, _v35) {
+													return A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, succBranch._var, prevVal, env);
 												}),
-											$author$project$Evaluation$eval(loop.body));
+											$author$project$Calculus$Evaluation$Evaluation$eval(succBranch.body));
 									},
 									evalNatLoop(natVal1));
 							}
 						};
 						return evalNatLoop(natVal);
 					} else {
-						return $author$project$Evaluation$throwEvalError(
+						return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 							_List_fromArray(
-								[$author$project$Evaluation$ExpectedNat]));
+								[$author$project$Calculus$Evaluation$Evaluation$ExpectedNat]));
 					}
 				},
-				$author$project$Evaluation$eval(arg));
-		case 'EmptyList':
-			return $author$project$StatefulReaderWithErr$return(
-				$author$project$Value$ListValue($author$project$Value$EmptyListValue));
+				$author$project$Calculus$Evaluation$Evaluation$eval(arg));
+		case 'ConstEmpty':
+			return $author$project$Lib$State$StatefulReaderWithErr$return(
+				$author$project$Calculus$Evaluation$Value$ListValue($author$project$Calculus$Evaluation$Value$ConstEmpty));
 		case 'Cons':
 			var headTerm = term.a;
 			var tailTerm = term.b;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (headValue) {
 					return A2(
-						$author$project$StatefulReaderWithErr$map,
+						$author$project$Lib$State$StatefulReaderWithErr$map,
 						function (tailValue) {
-							return $author$project$Value$ListValue(
-								A2($author$project$Value$ConsValue, headValue, tailValue));
+							return $author$project$Calculus$Evaluation$Value$ListValue(
+								A2($author$project$Calculus$Evaluation$Value$Cons, headValue, tailValue));
 						},
-						$author$project$Evaluation$eval(tailTerm));
+						$author$project$Calculus$Evaluation$Evaluation$eval(tailTerm));
 				},
-				$author$project$Evaluation$eval(headTerm));
-		case 'ListLoop':
-			var initState = term.a.initState;
-			var loop = term.a.loop;
-			var arg = term.a.arg;
+				$author$project$Calculus$Evaluation$Evaluation$eval(headTerm));
+		case 'FoldList':
+			var arg = term.a;
+			var emptyBranch = term.b.emptyBranch;
+			var consBranch = term.b.consBranch;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (argValue) {
 					if (argValue.$ === 'ListValue') {
 						var listValue = argValue.a;
 						var evalListLoop = function (listValue0) {
-							if (listValue0.$ === 'EmptyListValue') {
-								return $author$project$Evaluation$eval(initState);
+							if (listValue0.$ === 'ConstEmpty') {
+								return $author$project$Calculus$Evaluation$Evaluation$eval(emptyBranch.body);
 							} else {
 								var headValue = listValue0.a;
 								var restValue = listValue0.b;
 								if (restValue.$ === 'ListValue') {
 									var listValue1 = restValue.a;
 									return A2(
-										$author$project$StatefulReaderWithErr$andThen,
+										$author$project$Lib$State$StatefulReaderWithErr$andThen,
 										function (prevVal) {
 											return A2(
-												$author$project$StatefulReaderWithErr$withReadOnly,
+												$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
 												F2(
-													function (env, _v25) {
+													function (env, _v39) {
 														return A3(
-															$author$project$Value$extendEnvironment,
-															loop.stateVar,
+															$author$project$Calculus$Evaluation$Value$extendTermEnvironment,
+															consBranch.var1,
 															prevVal,
-															A3($author$project$Value$extendEnvironment, loop.listElementVar, headValue, env));
+															A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, consBranch.var0, headValue, env));
 													}),
-												$author$project$Evaluation$eval(loop.body));
+												$author$project$Calculus$Evaluation$Evaluation$eval(consBranch.body));
 										},
 										evalListLoop(listValue1));
 								} else {
-									return $author$project$Evaluation$throwEvalError(
+									return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 										_List_fromArray(
-											[$author$project$Evaluation$ExpectedList]));
+											[$author$project$Calculus$Evaluation$Evaluation$ExpectedList]));
 								}
 							}
 						};
 						return evalListLoop(listValue);
 					} else {
-						return $author$project$Evaluation$throwEvalError(
+						return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 							_List_fromArray(
-								[$author$project$Evaluation$ExpectedList]));
+								[$author$project$Calculus$Evaluation$Evaluation$ExpectedList]));
 					}
 				},
-				$author$project$Evaluation$eval(arg));
+				$author$project$Calculus$Evaluation$Evaluation$eval(arg));
 		case 'Delay':
-			var body = term.a;
-			return $author$project$StatefulReaderWithErr$get0(
+			var body = term.a.body;
+			return $author$project$Lib$State$StatefulReaderWithErr$get0(
 				F2(
-					function (env, _v26) {
+					function (env, _v40) {
 						return A2(
-							$author$project$StatefulReaderWithErr$andThen,
+							$author$project$Lib$State$StatefulReaderWithErr$andThen,
 							function (thunkId) {
-								return $author$project$StatefulReaderWithErr$return(
-									$author$project$Value$ThunkClosure(thunkId));
+								return $author$project$Lib$State$StatefulReaderWithErr$return(
+									$author$project$Calculus$Evaluation$Value$ThunkClosure(thunkId));
 							},
-							A2($author$project$Evaluation$storeNewThunk, env, body));
+							A2($author$project$Calculus$Evaluation$Evaluation$storeNewThunk, env, body));
 					}));
 		case 'Force':
 			var body = term.a;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (val) {
 					if (val.$ === 'ThunkClosure') {
 						var thunkId = val.a;
-						return $author$project$Evaluation$forceThunk(thunkId);
+						return $author$project$Calculus$Evaluation$Evaluation$forceThunk(thunkId);
 					} else {
-						return $author$project$Evaluation$throwEvalError(
+						return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 							_List_fromArray(
-								[$author$project$Evaluation$ExpectedThunkClosure]));
+								[$author$project$Calculus$Evaluation$Evaluation$ExpectedThunkClosure]));
 					}
 				},
-				$author$project$Evaluation$eval(body));
-		default:
-			var _var = term.a;
-			var arg = term.b;
-			var body = term.c;
+				$author$project$Calculus$Evaluation$Evaluation$eval(body));
+		case 'LetBe':
+			var arg = term.a;
+			var _var = term.b._var;
+			var body = term.b.body;
 			return A2(
-				$author$project$StatefulReaderWithErr$andThen,
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
 				function (argVal) {
 					return A2(
-						$author$project$StatefulReaderWithErr$withReadOnly,
+						$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
 						F2(
-							function (env, _v28) {
-								return A3($author$project$Value$extendEnvironment, _var, argVal, env);
+							function (env, _v42) {
+								return A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, _var, argVal, env);
 							}),
-						$author$project$Evaluation$eval(body));
+						$author$project$Calculus$Evaluation$Evaluation$eval(body));
 				},
-				$author$project$Evaluation$eval(arg));
+				$author$project$Calculus$Evaluation$Evaluation$eval(arg));
+		default:
+			var module0 = term.a;
+			var field = term.b;
+			return A2(
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
+				function (moduleValue) {
+					return A2($author$project$Calculus$Evaluation$Evaluation$lookupModuleTermField, field, moduleValue);
+				},
+				$author$project$Calculus$Evaluation$Evaluation$evalModule(module0));
 	}
 };
-var $author$project$Evaluation$forceThunk = function (thunkId) {
-	return $author$project$StatefulReaderWithErr$get0(
+var $author$project$Calculus$Evaluation$Evaluation$evalFunctorApplication = F2(
+	function (functorLiteral, modules) {
+		var zipSame = F2(
+			function (xs0, ys0) {
+				var _v14 = _Utils_Tuple2(xs0, ys0);
+				_v14$2:
+				while (true) {
+					if (!_v14.a.b) {
+						if (!_v14.b.b) {
+							return $elm$core$Maybe$Just(_List_Nil);
+						} else {
+							break _v14$2;
+						}
+					} else {
+						if (_v14.b.b) {
+							var _v15 = _v14.a;
+							var x = _v15.a;
+							var xs1 = _v15.b;
+							var _v16 = _v14.b;
+							var y = _v16.a;
+							var ys1 = _v16.b;
+							return A2(
+								$elm$core$Maybe$map,
+								function (zs1) {
+									return A2(
+										$elm$core$List$cons,
+										_Utils_Tuple2(x, y),
+										zs1);
+								},
+								A2(zipSame, xs1, ys1));
+						} else {
+							break _v14$2;
+						}
+					}
+				}
+				return $elm$core$Maybe$Nothing;
+			});
+		var _v17 = A2(zipSame, functorLiteral.parameters, modules);
+		if (_v17.$ === 'Just') {
+			var bindingsWithInterfaces = _v17.a;
+			var moduleTermBindings = $author$project$Lib$State$StatefulReaderWithErr$sequence(
+				A2(
+					$elm$core$List$map,
+					function (_v19) {
+						var _v20 = _v19.a;
+						var moduleName = _v20.a;
+						var moduleTerm = _v19.b;
+						return A2(
+							$author$project$Lib$State$StatefulReaderWithErr$map,
+							function (moduleValue) {
+								return _Utils_Tuple2(moduleName, moduleValue);
+							},
+							$author$project$Calculus$Evaluation$Evaluation$evalModule(moduleTerm));
+					},
+					bindingsWithInterfaces));
+			return A2(
+				$author$project$Lib$State$StatefulReaderWithErr$andThen,
+				function (bindings) {
+					return A2(
+						$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
+						F2(
+							function (env, _v18) {
+								return A2($author$project$Calculus$Evaluation$Value$extendModuleEnvironmentWithBindings, bindings, env);
+							}),
+						$author$project$Calculus$Evaluation$Evaluation$evalModule(functorLiteral.body));
+				},
+				moduleTermBindings);
+		} else {
+			return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
+				_List_fromArray(
+					[$author$project$Calculus$Evaluation$Evaluation$FunctorApplicationNumberOfModuleParametersShouldBeEqualToNumberOfArguments]));
+		}
+	});
+var $author$project$Calculus$Evaluation$Evaluation$evalModule = function (moduleTerm) {
+	switch (moduleTerm.$) {
+		case 'ModuleLiteralTerm':
+			var module0 = moduleTerm.a;
+			return $author$project$Calculus$Evaluation$Evaluation$evalModuleLiteral(module0);
+		case 'ModuleVarUse':
+			var moduleName = moduleTerm.a;
+			return $author$project$Calculus$Evaluation$Evaluation$moduleLookup(moduleName);
+		default:
+			var functorTerm = moduleTerm.a;
+			var modules = moduleTerm.b;
+			if (functorTerm.$ === 'FunctorVarUse') {
+				var functorName = functorTerm.a;
+				return A2(
+					$author$project$Lib$State$StatefulReaderWithErr$andThen,
+					function (functorLiteral) {
+						return A2($author$project$Calculus$Evaluation$Evaluation$evalFunctorApplication, functorLiteral, modules);
+					},
+					$author$project$Calculus$Evaluation$Evaluation$functorLookup(functorName));
+			} else {
+				var functorLiteral = functorTerm.a;
+				return A2($author$project$Calculus$Evaluation$Evaluation$evalFunctorApplication, functorLiteral, modules);
+			}
+	}
+};
+var $author$project$Calculus$Evaluation$Evaluation$evalModuleLiteral = function (module0) {
+	var evalBindings = function (bindings0) {
+		evalBindings:
+		while (true) {
+			if (!bindings0.b) {
+				return $author$project$Lib$State$StatefulReaderWithErr$return(_List_Nil);
+			} else {
+				var binding = bindings0.a;
+				var bindings1 = bindings0.b;
+				switch (binding.$) {
+					case 'LetTerm':
+						var varName = binding.a;
+						var term = binding.b;
+						return A2(
+							$author$project$Lib$State$StatefulReaderWithErr$andThen,
+							function (val) {
+								return A2(
+									$author$project$Lib$State$StatefulReaderWithErr$map,
+									function (assignments1) {
+										return A2(
+											$elm$core$List$cons,
+											A2($author$project$Calculus$Evaluation$Value$AssignValue, varName, val),
+											assignments1);
+									},
+									A2(
+										$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
+										F2(
+											function (env, _v9) {
+												return A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, varName, val, env);
+											}),
+										evalBindings(bindings1)));
+							},
+							$author$project$Calculus$Evaluation$Evaluation$eval(term));
+					case 'LetType':
+						var typeVar = binding.a;
+						var type0 = binding.b;
+						var $temp$bindings0 = bindings1;
+						bindings0 = $temp$bindings0;
+						continue evalBindings;
+					case 'LetModule':
+						var moduleName = binding.a;
+						var moduleTerm = binding.b;
+						return A2(
+							$author$project$Lib$State$StatefulReaderWithErr$andThen,
+							function (moduleValue) {
+								return A2(
+									$author$project$Lib$State$StatefulReaderWithErr$map,
+									function (assignments1) {
+										return A2(
+											$elm$core$List$cons,
+											A2($author$project$Calculus$Evaluation$Value$AssignModuleValue, moduleName, moduleValue),
+											assignments1);
+									},
+									A2(
+										$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
+										F2(
+											function (env, _v10) {
+												return A3($author$project$Calculus$Evaluation$Value$extendModuleEnvironment, moduleName, moduleValue, env);
+											}),
+										evalBindings(bindings1)));
+							},
+							$author$project$Calculus$Evaluation$Evaluation$evalModule(moduleTerm));
+					default:
+						var functorName = binding.a;
+						var functorLiteral = binding.b;
+						return A2(
+							$author$project$Lib$State$StatefulReaderWithErr$map,
+							function (assignments1) {
+								return A2(
+									$elm$core$List$cons,
+									A2($author$project$Calculus$Evaluation$Value$AssignFunctorLiteral, functorName, functorLiteral),
+									assignments1);
+							},
+							A2(
+								$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
+								F2(
+									function (env, _v11) {
+										return A3($author$project$Calculus$Evaluation$Value$extendFunctorEnvironment, functorName, functorLiteral, env);
+									}),
+								evalBindings(bindings1)));
+				}
+			}
+		}
+	};
+	return A2(
+		$author$project$Lib$State$StatefulReaderWithErr$map,
+		function (assignments) {
+			return {assignments: assignments};
+		},
+		evalBindings(module0.bindings));
+};
+var $author$project$Calculus$Evaluation$Evaluation$forceThunk = function (thunkId) {
+	return $author$project$Lib$State$StatefulReaderWithErr$get0(
 		F2(
 			function (_v0, _v1) {
 				var thunkContext = _v1.thunkContext;
@@ -6427,11 +6763,11 @@ var $author$project$Evaluation$forceThunk = function (thunkId) {
 						var env = thunk.a.env;
 						var body = thunk.a.body;
 						return A2(
-							$author$project$StatefulReaderWithErr$andThen,
+							$author$project$Lib$State$StatefulReaderWithErr$andThen,
 							function (thunkVal) {
 								return A2(
-									$author$project$StatefulReaderWithErr$second,
-									$author$project$StatefulReaderWithErr$update0(
+									$author$project$Lib$State$StatefulReaderWithErr$second,
+									$author$project$Lib$State$StatefulReaderWithErr$update0(
 										F2(
 											function (_v6, state) {
 												return _Utils_update(
@@ -6445,39 +6781,37 @@ var $author$project$Evaluation$forceThunk = function (thunkId) {
 																	thunks: A3(
 																		$elm$core$Dict$insert,
 																		thunkId,
-																		$author$project$Value$ForcedThunk(thunkVal),
+																		$author$project$Calculus$Evaluation$Value$ForcedThunk(thunkVal),
 																		thunkContext1.thunks)
 																});
 														}()
 													});
 											})),
-									$author$project$StatefulReaderWithErr$return(thunkVal));
+									$author$project$Lib$State$StatefulReaderWithErr$return(thunkVal));
 							},
 							A2(
-								$author$project$StatefulReaderWithErr$withReadOnly,
+								$author$project$Lib$State$StatefulReaderWithErr$withReadOnly,
 								F2(
 									function (_v4, _v5) {
 										return env;
 									}),
-								$author$project$Evaluation$eval(body)));
+								$author$project$Calculus$Evaluation$Evaluation$eval(body)));
 					} else {
 						var val = thunk.a;
-						return $author$project$StatefulReaderWithErr$return(val);
+						return $author$project$Lib$State$StatefulReaderWithErr$return(val);
 					}
 				} else {
-					return $author$project$Evaluation$throwEvalError(
+					return $author$project$Calculus$Evaluation$Evaluation$throwEvalError(
 						_List_fromArray(
 							[
-								$author$project$Evaluation$FailedToForceThunk(thunkId)
+								$author$project$Calculus$Evaluation$Evaluation$FailedToForceThunk(thunkId)
 							]));
 				}
 			}));
 };
-var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
-var $author$project$Evaluation$emptyThunkContext = {nextThunkId: 0, thunks: $elm$core$Dict$empty};
-var $author$project$Evaluation$initMutState = {thunkContext: $author$project$Evaluation$emptyThunkContext};
-var $author$project$Value$emptyTermEnvironment = $elm$core$Dict$empty;
-var $author$project$Evaluation$initReadOnlyState = $author$project$Value$emptyTermEnvironment;
+var $author$project$Calculus$Evaluation$Evaluation$emptyThunkContext = {nextThunkId: 0, thunks: $elm$core$Dict$empty};
+var $author$project$Calculus$Evaluation$Evaluation$initMutState = {thunkContext: $author$project$Calculus$Evaluation$Evaluation$emptyThunkContext};
+var $author$project$Calculus$Evaluation$Evaluation$initReadOnlyState = $author$project$Calculus$Evaluation$Value$emptyEnvironment;
 var $elm$core$Result$map = F2(
 	function (func, ra) {
 		if (ra.$ === 'Ok') {
@@ -6489,440 +6823,543 @@ var $elm$core$Result$map = F2(
 			return $elm$core$Result$Err(e);
 		}
 	});
-var $author$project$StatefulReaderWithErr$run = function (stateful_a0) {
+var $author$project$Lib$State$StatefulReaderWithErr$run = function (stateful_a0) {
 	return stateful_a0;
 };
-var $author$project$Evaluation$eval0 = function (term) {
+var $author$project$Calculus$Evaluation$Evaluation$evalModule0 = function (module0) {
 	return A2(
 		$elm$core$Result$map,
 		function (_v0) {
-			var thunkContext = _v0.a.thunkContext;
 			var value = _v0.b;
-			return _Utils_Tuple2(thunkContext, value);
+			return value;
 		},
 		A3(
-			$author$project$StatefulReaderWithErr$run,
-			$author$project$Evaluation$eval(term),
-			$author$project$Evaluation$initReadOnlyState,
-			$author$project$Evaluation$initMutState));
+			$author$project$Lib$State$StatefulReaderWithErr$run,
+			$author$project$Calculus$Evaluation$Evaluation$evalModule(module0),
+			$author$project$Calculus$Evaluation$Evaluation$initReadOnlyState,
+			$author$project$Calculus$Evaluation$Evaluation$initMutState));
 };
-var $author$project$Inference$emptyContext = $elm$core$Dict$empty;
-var $author$project$TypeVarContext$emptyEquations = $elm$core$Dict$empty;
-var $elm$core$Set$Set_elm_builtin = function (a) {
-	return {$: 'Set_elm_builtin', a: a};
-};
-var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
-var $mgold$elm_nonempty_list$List$Nonempty$Nonempty = F2(
-	function (a, b) {
-		return {$: 'Nonempty', a: a, b: b};
-	});
-var $mgold$elm_nonempty_list$List$Nonempty$singleton = function (x) {
-	return A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, x, _List_Nil);
-};
-var $author$project$StackedSet$empty = $mgold$elm_nonempty_list$List$Nonempty$singleton($elm$core$Set$empty);
-var $author$project$TypeVarContext$emptyTypeVarStack = $author$project$StackedSet$empty;
-var $author$project$TypeVarContext$emptyContext = {equations: $author$project$TypeVarContext$emptyEquations, nextTypeVar: 0, typeVarStack: $author$project$TypeVarContext$emptyTypeVarStack};
-var $author$project$Inference$emptyState = {context: $author$project$Inference$emptyContext, typeVarContext: $author$project$TypeVarContext$emptyContext};
-var $author$project$LambdaBasics$Arrow = F2(
-	function (a, b) {
-		return {$: 'Arrow', a: a, b: b};
-	});
-var $author$project$TypeVarContext$ExpectedArrowType = {$: 'ExpectedArrowType'};
-var $author$project$TypeVarContext$ExpectedFrozenType = {$: 'ExpectedFrozenType'};
-var $author$project$TypeVarContext$ExpectedListType = {$: 'ExpectedListType'};
-var $author$project$TypeVarContext$ExpectedSumType = {$: 'ExpectedSumType'};
-var $author$project$LambdaBasics$ForAll = F2(
-	function (a, b) {
-		return {$: 'ForAll', a: a, b: b};
-	});
-var $author$project$LambdaBasics$Frozen = function (a) {
-	return {$: 'Frozen', a: a};
-};
-var $author$project$LambdaBasics$LambdaBool = {$: 'LambdaBool'};
-var $author$project$LambdaBasics$LambdaList = function (a) {
-	return {$: 'LambdaList', a: a};
-};
-var $author$project$LambdaBasics$LambdaNat = {$: 'LambdaNat'};
-var $author$project$LambdaBasics$Product = F2(
-	function (a, b) {
-		return {$: 'Product', a: a, b: b};
-	});
-var $author$project$LambdaBasics$Sum = F2(
-	function (a, b) {
-		return {$: 'Sum', a: a, b: b};
-	});
-var $author$project$StatefulWithErr$andThen = F2(
-	function (f, stateful_a) {
-		return function (state0) {
-			var _v0 = stateful_a(state0);
-			if (_v0.$ === 'Ok') {
-				var _v1 = _v0.a;
-				var state1 = _v1.a;
-				var a = _v1.b;
-				return A2(f, a, state1);
-			} else {
-				var err = _v0.a;
-				return $elm$core$Result$Err(err);
-			}
-		};
-	});
-var $author$project$StatefulWithErr$join = function (stateful_stateful_a) {
-	return A2(
-		$author$project$StatefulWithErr$andThen,
-		function (x) {
-			return x;
-		},
-		stateful_stateful_a);
-};
-var $author$project$StatefulWithErr$map = F2(
-	function (f, stateful_a0) {
-		return function (state0) {
-			var _v0 = stateful_a0(state0);
-			if (_v0.$ === 'Ok') {
-				var _v1 = _v0.a;
-				var state1 = _v1.a;
-				var a = _v1.b;
-				return $elm$core$Result$Ok(
-					_Utils_Tuple2(
-						state1,
-						f(a)));
-			} else {
-				var err = _v0.a;
-				return $elm$core$Result$Err(err);
-			}
-		};
-	});
-var $author$project$StatefulWithErr$pair = F2(
-	function (stateful_a, stateful_b) {
-		return function (state0) {
-			var _v0 = stateful_a(state0);
-			if (_v0.$ === 'Ok') {
-				var _v1 = _v0.a;
-				var state1 = _v1.a;
-				var a = _v1.b;
-				var _v2 = stateful_b(state1);
-				if (_v2.$ === 'Ok') {
-					var _v3 = _v2.a;
-					var state2 = _v3.a;
-					var b = _v3.b;
-					return $elm$core$Result$Ok(
-						_Utils_Tuple2(
-							state2,
-							_Utils_Tuple2(a, b)));
+var $author$project$Ui$Tab$Module$evalModule = function (model) {
+	return _Utils_update(
+		model,
+		{
+			evaledModule: function () {
+				var _v0 = model.parsedModule;
+				if (_v0.$ === 'Just') {
+					var parsedModule = _v0.a;
+					if (parsedModule.$ === 'Ok') {
+						var moduleTerm = parsedModule.a;
+						return $elm$core$Maybe$Just(
+							$author$project$Calculus$Evaluation$Evaluation$evalModule0(moduleTerm));
+					} else {
+						return $elm$core$Maybe$Nothing;
+					}
 				} else {
-					var err = _v2.a;
-					return $elm$core$Result$Err(err);
+					return $elm$core$Maybe$Nothing;
 				}
-			} else {
-				var err = _v0.a;
-				return $elm$core$Result$Err(err);
+			}()
+		});
+};
+var $author$project$Calculus$Evaluation$Evaluation$openModule = function (moduleValue0) {
+	var f = F2(
+		function (assignments0, env) {
+			f:
+			while (true) {
+				if (!assignments0.b) {
+					return env;
+				} else {
+					var assignment = assignments0.a;
+					var assignments1 = assignments0.b;
+					switch (assignment.$) {
+						case 'AssignValue':
+							var varName = assignment.a;
+							var value = assignment.b;
+							var $temp$assignments0 = assignments1,
+								$temp$env = A3($author$project$Calculus$Evaluation$Value$extendTermEnvironment, varName, value, env);
+							assignments0 = $temp$assignments0;
+							env = $temp$env;
+							continue f;
+						case 'AssignType':
+							var typeVar = assignment.a;
+							var type0 = assignment.b;
+							var $temp$assignments0 = assignments1,
+								$temp$env = env;
+							assignments0 = $temp$assignments0;
+							env = $temp$env;
+							continue f;
+						case 'AssignModuleValue':
+							var moduleName = assignment.a;
+							var moduleValue1 = assignment.b;
+							var $temp$assignments0 = assignments1,
+								$temp$env = A3($author$project$Calculus$Evaluation$Value$extendModuleEnvironment, moduleName, moduleValue1, env);
+							assignments0 = $temp$assignments0;
+							env = $temp$env;
+							continue f;
+						default:
+							var functorName = assignment.a;
+							var functorLiteral = assignment.b;
+							var $temp$assignments0 = assignments1,
+								$temp$env = A3($author$project$Calculus$Evaluation$Value$extendFunctorEnvironment, functorName, functorLiteral, env);
+							assignments0 = $temp$assignments0;
+							env = $temp$env;
+							continue f;
+					}
+				}
 			}
-		};
-	});
-var $author$project$StatefulWithErr$map2 = F3(
-	function (f, stateful_a0, stateful_a1) {
-		return A2(
-			$author$project$StatefulWithErr$map,
-			function (_v0) {
-				var a0 = _v0.a;
-				var a1 = _v0.b;
-				return A2(f, a0, a1);
-			},
-			A2($author$project$StatefulWithErr$pair, stateful_a0, stateful_a1));
-	});
-var $author$project$StatefulWithErr$andThen2 = F3(
-	function (f, stateful_a0, stateful_a1) {
-		return $author$project$StatefulWithErr$join(
-			A3($author$project$StatefulWithErr$map2, f, stateful_a0, stateful_a1));
-	});
-var $author$project$StatefulWithErr$map3 = F4(
-	function (f, stateful_a0, stateful_a1, stateful_a2) {
-		return A2(
-			$author$project$StatefulWithErr$map,
-			function (_v0) {
-				var a0 = _v0.a;
-				var _v1 = _v0.b;
-				var a1 = _v1.a;
-				var a2 = _v1.b;
-				return A3(f, a0, a1, a2);
-			},
-			A2(
-				$author$project$StatefulWithErr$pair,
-				stateful_a0,
-				A2($author$project$StatefulWithErr$pair, stateful_a1, stateful_a2)));
-	});
-var $author$project$StatefulWithErr$andThen3 = F4(
-	function (f, stateful_a0, stateful_a1, stateful_a2) {
-		return $author$project$StatefulWithErr$join(
-			A4($author$project$StatefulWithErr$map3, f, stateful_a0, stateful_a1, stateful_a2));
-	});
-var $author$project$StatefulWithErr$map4 = F5(
-	function (f, stateful_a0, stateful_a1, stateful_a2, stateful_a3) {
-		return A2(
-			$author$project$StatefulWithErr$map,
-			function (_v0) {
-				var a0 = _v0.a;
-				var _v1 = _v0.b;
-				var a1 = _v1.a;
-				var _v2 = _v1.b;
-				var a2 = _v2.a;
-				var a3 = _v2.b;
-				return A4(f, a0, a1, a2, a3);
-			},
-			A2(
-				$author$project$StatefulWithErr$pair,
-				stateful_a0,
-				A2(
-					$author$project$StatefulWithErr$pair,
-					stateful_a1,
-					A2($author$project$StatefulWithErr$pair, stateful_a2, stateful_a3))));
-	});
-var $author$project$StatefulWithErr$andThen4 = F5(
-	function (f, stateful_a0, stateful_a1, stateful_a2, stateful_a3) {
-		return $author$project$StatefulWithErr$join(
-			A5($author$project$StatefulWithErr$map4, f, stateful_a0, stateful_a1, stateful_a2, stateful_a3));
-	});
-var $author$project$StatefulWithErr$create = $elm$core$Basics$identity;
-var $author$project$LambdaBasics$VarType = function (a) {
-	return {$: 'VarType', a: a};
+		});
+	return f(moduleValue0.assignments);
 };
-var $author$project$TypeVarContext$newTypeVar = function (n) {
-	return _Utils_Tuple2(
-		n + 1,
-		$author$project$LambdaBasics$VarType(n));
-};
-var $elm$core$Set$insert = F2(
-	function (key, _v0) {
-		var dict = _v0.a;
-		return $elm$core$Set$Set_elm_builtin(
-			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
-	});
-var $mgold$elm_nonempty_list$List$Nonempty$head = function (_v0) {
-	var x = _v0.a;
-	var xs = _v0.b;
-	return x;
-};
-var $mgold$elm_nonempty_list$List$Nonempty$tail = function (_v0) {
-	var x = _v0.a;
-	var xs = _v0.b;
-	return xs;
-};
-var $author$project$StackedSet$mapTop = F2(
-	function (f, stack) {
-		return A2(
-			$mgold$elm_nonempty_list$List$Nonempty$Nonempty,
-			f(
-				$mgold$elm_nonempty_list$List$Nonempty$head(stack)),
-			$mgold$elm_nonempty_list$List$Nonempty$tail(stack));
-	});
-var $author$project$StackedSet$pushElement = F2(
-	function (x, stackedSet) {
-		return A2(
-			$author$project$StackedSet$mapTop,
-			function (set) {
-				return A2($elm$core$Set$insert, x, set);
-			},
-			stackedSet);
-	});
-var $author$project$TypeVarContext$pushTypeVar = $author$project$StackedSet$pushElement;
-var $author$project$TypeVarContext$generateFreshVar = $author$project$StatefulWithErr$create(
-	function (state0) {
-		var nextTypeVar = state0.nextTypeVar;
-		var typeVarStack = state0.typeVarStack;
-		var _v0 = $author$project$TypeVarContext$newTypeVar(nextTypeVar);
-		var nextTypeVar1 = _v0.a;
-		var type1 = _v0.b;
-		return $elm$core$Result$Ok(
-			_Utils_Tuple2(
-				_Utils_update(
-					state0,
-					{
-						nextTypeVar: nextTypeVar1,
-						typeVarStack: A2($author$project$TypeVarContext$pushTypeVar, nextTypeVar, typeVarStack)
-					}),
-				type1));
-	});
-var $author$project$StatefulWithErr$run = function (stateful_a0) {
-	return stateful_a0;
-};
-var $author$project$Inference$liftUnification = function (unificationStateful) {
-	return $author$project$StatefulWithErr$create(
-		function (state) {
-			var typeVarContext = state.typeVarContext;
-			return A2(
-				$elm$core$Result$map,
-				function (_v0) {
-					var typeVarContext1 = _v0.a;
-					var a = _v0.b;
-					return _Utils_Tuple2(
-						_Utils_update(
-							state,
-							{typeVarContext: typeVarContext1}),
-						a);
-				},
-				A2($author$project$StatefulWithErr$run, unificationStateful, typeVarContext));
+var $author$project$Ui$Tab$Module$openModule = function (model) {
+	return _Utils_update(
+		model,
+		{
+			env: function () {
+				var _v0 = model.parsedModule;
+				if (_v0.$ === 'Just') {
+					var parsedModule = _v0.a;
+					if (parsedModule.$ === 'Ok') {
+						var moduleTerm = parsedModule.a;
+						var evaledModuleResult = $author$project$Calculus$Evaluation$Evaluation$evalModule0(moduleTerm);
+						if (evaledModuleResult.$ === 'Ok') {
+							var moduleVal = evaledModuleResult.a;
+							return A2($author$project$Calculus$Evaluation$Evaluation$openModule, moduleVal, $author$project$Calculus$Evaluation$Value$emptyEnvironment);
+						} else {
+							return $author$project$Calculus$Evaluation$Value$emptyEnvironment;
+						}
+					} else {
+						return $author$project$Calculus$Evaluation$Value$emptyEnvironment;
+					}
+				} else {
+					return $author$project$Calculus$Evaluation$Value$emptyEnvironment;
+				}
+			}()
 		});
 };
-var $author$project$Inference$generateFreshVar = $author$project$Inference$liftUnification($author$project$TypeVarContext$generateFreshVar);
-var $author$project$StatefulWithErr$get0 = function (f) {
-	return function (state0) {
-		return A2(f, state0, state0);
-	};
+var $author$project$Calculus$Base$Abstraction = function (a) {
+	return {$: 'Abstraction', a: a};
 };
-var $author$project$Inference$getContext = function (f) {
-	return $author$project$StatefulWithErr$get0(
-		function (_v0) {
-			var context = _v0.context;
-			return f(context);
-		});
-};
-var $author$project$TypeVarContext$generateFreshVarName = $author$project$StatefulWithErr$create(
-	function (state0) {
-		var nextTypeVar = state0.nextTypeVar;
-		var typeVarStack = state0.typeVarStack;
-		var _v0 = $author$project$TypeVarContext$newTypeVar(nextTypeVar);
-		var nextTypeVar1 = _v0.a;
-		return $elm$core$Result$Ok(
-			_Utils_Tuple2(
-				_Utils_update(
-					state0,
-					{
-						nextTypeVar: nextTypeVar1,
-						typeVarStack: A2($author$project$TypeVarContext$pushTypeVar, nextTypeVar, typeVarStack)
-					}),
-				nextTypeVar));
+var $author$project$Calculus$Base$Application = F2(
+	function (a, b) {
+		return {$: 'Application', a: a, b: b};
 	});
-var $author$project$Inference$generateFreshVarName = $author$project$Inference$liftUnification($author$project$TypeVarContext$generateFreshVarName);
-var $author$project$StatefulWithErr$return = function (a) {
-	return function (state0) {
-		return $elm$core$Result$Ok(
-			_Utils_Tuple2(state0, a));
-	};
+var $author$project$Calculus$Base$Cons = F2(
+	function (a, b) {
+		return {$: 'Cons', a: a, b: b};
+	});
+var $author$project$Calculus$Parser$Cons = {$: 'Cons'};
+var $author$project$Calculus$Base$ConstEmpty = {$: 'ConstEmpty'};
+var $author$project$Calculus$Parser$ConstEmpty = {$: 'ConstEmpty'};
+var $author$project$Calculus$Base$ConstFalse = {$: 'ConstFalse'};
+var $author$project$Calculus$Parser$ConstFalse = {$: 'ConstFalse'};
+var $author$project$Calculus$Base$ConstTrue = {$: 'ConstTrue'};
+var $author$project$Calculus$Parser$ConstTrue = {$: 'ConstTrue'};
+var $author$project$Calculus$Base$ConstZero = {$: 'ConstZero'};
+var $author$project$Calculus$Base$Delay = function (a) {
+	return {$: 'Delay', a: a};
 };
-var $author$project$Inference$replaceTypeVarWithFreshVar = F3(
-	function (var0, freshVar, type0) {
-		switch (type0.$) {
-			case 'VarType':
-				var _var = type0.a;
-				return _Utils_eq(_var, var0) ? $author$project$StatefulWithErr$return(
-					$author$project$LambdaBasics$VarType(freshVar)) : $author$project$StatefulWithErr$return(
-					$author$project$LambdaBasics$VarType(_var));
-			case 'Product':
-				var type1 = type0.a;
-				var type2 = type0.b;
-				return A3(
-					$author$project$StatefulWithErr$map2,
-					$author$project$LambdaBasics$Product,
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1),
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type2));
-			case 'Sum':
-				var type1 = type0.a;
-				var type2 = type0.b;
-				return A3(
-					$author$project$StatefulWithErr$map2,
-					$author$project$LambdaBasics$Sum,
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1),
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type2));
-			case 'Arrow':
-				var type1 = type0.a;
-				var type2 = type0.b;
-				return A3(
-					$author$project$StatefulWithErr$map2,
-					$author$project$LambdaBasics$Arrow,
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1),
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type2));
-			case 'LambdaBool':
-				return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaBool);
-			case 'LambdaNat':
-				return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaNat);
-			case 'LambdaList':
-				var type1 = type0.a;
-				return A2(
-					$author$project$StatefulWithErr$map,
-					$author$project$LambdaBasics$LambdaList,
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1));
-			case 'Frozen':
-				var type1 = type0.a;
-				return A2(
-					$author$project$StatefulWithErr$map,
-					$author$project$LambdaBasics$Frozen,
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1));
-			default:
-				var _var = type0.a;
-				var type1 = type0.b;
-				return _Utils_eq(_var, var0) ? $author$project$StatefulWithErr$return(
-					A2($author$project$LambdaBasics$ForAll, _var, type1)) : A2(
-					$author$project$StatefulWithErr$map,
-					$author$project$LambdaBasics$ForAll(_var),
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1));
+var $author$project$Calculus$Parser$ExpectedAtleastOneParameterToAbstraction = function (a) {
+	return {$: 'ExpectedAtleastOneParameterToAbstraction', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedAtleastTwoArgumentsToApplication = function (a) {
+	return {$: 'ExpectedAtleastTwoArgumentsToApplication', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedClosingBracketsInFunctorApplication = function (a) {
+	return {$: 'ExpectedClosingBracketsInFunctorApplication', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedClosingOfApplication = function (a) {
+	return {$: 'ExpectedClosingOfApplication', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedDotAfterFunctorParameters = function (a) {
+	return {$: 'ExpectedDotAfterFunctorParameters', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedEqualsInModuleLetBinding = function (a) {
+	return {$: 'ExpectedEqualsInModuleLetBinding', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedFunctorIdentifier = function (a) {
+	return {$: 'ExpectedFunctorIdentifier', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedFunctorLiteral = function (a) {
+	return {$: 'ExpectedFunctorLiteral', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedFunctorLiteralClosingBraces = function (a) {
+	return {$: 'ExpectedFunctorLiteralClosingBraces', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedFunctorLiteralOpenBraces = function (a) {
+	return {$: 'ExpectedFunctorLiteralOpenBraces', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedFunctorTermInApplication = function (a) {
+	return {$: 'ExpectedFunctorTermInApplication', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedGapAfterPatternKeyword = function (a) {
+	return {$: 'ExpectedGapAfterPatternKeyword', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleClosingBraces = function (a) {
+	return {$: 'ExpectedModuleClosingBraces', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleIdentifier = function (a) {
+	return {$: 'ExpectedModuleIdentifier', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleIdentifierInModuleLetBinding = function (a) {
+	return {$: 'ExpectedModuleIdentifierInModuleLetBinding', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleLetBinding = function (a) {
+	return {$: 'ExpectedModuleLetBinding', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleOpenBraces = function (a) {
+	return {$: 'ExpectedModuleOpenBraces', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleTermInFunctorBody = function (a) {
+	return {$: 'ExpectedModuleTermInFunctorBody', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleTermInModuleAccess = function (a) {
+	return {$: 'ExpectedModuleTermInModuleAccess', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleTermInModuleLetBinding = function (a) {
+	return {$: 'ExpectedModuleTermInModuleLetBinding', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedNatConstant = function (a) {
+	return {$: 'ExpectedNatConstant', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedOperator = function (a) {
+	return {$: 'ExpectedOperator', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedPattern = function (a) {
+	return {$: 'ExpectedPattern', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedPatternKeyword = function (a) {
+	return {$: 'ExpectedPatternKeyword', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedSemicolonAfterModuleLetBinding = function (a) {
+	return {$: 'ExpectedSemicolonAfterModuleLetBinding', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedTermIdentifier = function (a) {
+	return {$: 'ExpectedTermIdentifier', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedTermIdentifierInModuleLetBinding = function (a) {
+	return {$: 'ExpectedTermIdentifierInModuleLetBinding', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedTermInModuleLetBinding = function (a) {
+	return {$: 'ExpectedTermInModuleLetBinding', a: a};
+};
+var $author$project$Calculus$Base$FoldList = F2(
+	function (a, b) {
+		return {$: 'FoldList', a: a, b: b};
+	});
+var $author$project$Calculus$Base$FoldNat = F2(
+	function (a, b) {
+		return {$: 'FoldNat', a: a, b: b};
+	});
+var $author$project$Calculus$Parser$FoldNat = {$: 'FoldNat'};
+var $author$project$Calculus$Base$Force = function (a) {
+	return {$: 'Force', a: a};
+};
+var $author$project$Calculus$Base$FunctorApplication = F2(
+	function (a, b) {
+		return {$: 'FunctorApplication', a: a, b: b};
+	});
+var $author$project$Calculus$Base$FunctorLiteral = F2(
+	function (parameters, body) {
+		return {body: body, parameters: parameters};
+	});
+var $author$project$Calculus$Base$FunctorLiteralTerm = function (a) {
+	return {$: 'FunctorLiteralTerm', a: a};
+};
+var $author$project$Calculus$Base$FunctorVarUse = function (a) {
+	return {$: 'FunctorVarUse', a: a};
+};
+var $author$project$Calculus$Base$Left = function (a) {
+	return {$: 'Left', a: a};
+};
+var $author$project$Calculus$Parser$Left = {$: 'Left'};
+var $author$project$Calculus$Base$LetBe = F2(
+	function (a, b) {
+		return {$: 'LetBe', a: a, b: b};
+	});
+var $author$project$Calculus$Base$LetModule = F2(
+	function (a, b) {
+		return {$: 'LetModule', a: a, b: b};
+	});
+var $author$project$Calculus$Base$LetTerm = F2(
+	function (a, b) {
+		return {$: 'LetTerm', a: a, b: b};
+	});
+var $author$project$Calculus$Base$MatchBool = F2(
+	function (a, b) {
+		return {$: 'MatchBool', a: a, b: b};
+	});
+var $author$project$Calculus$Base$MatchPair = F2(
+	function (a, b) {
+		return {$: 'MatchPair', a: a, b: b};
+	});
+var $author$project$Calculus$Base$MatchSum = F2(
+	function (a, b) {
+		return {$: 'MatchSum', a: a, b: b};
+	});
+var $author$project$Calculus$Base$ModuleAccess = F2(
+	function (a, b) {
+		return {$: 'ModuleAccess', a: a, b: b};
+	});
+var $author$project$Calculus$Base$ModuleLiteral = function (bindings) {
+	return {bindings: bindings};
+};
+var $author$project$Calculus$Base$ModuleLiteralTerm = function (a) {
+	return {$: 'ModuleLiteralTerm', a: a};
+};
+var $author$project$Calculus$Base$ModuleVarUse = function (a) {
+	return {$: 'ModuleVarUse', a: a};
+};
+var $author$project$Calculus$Base$Pair = F2(
+	function (a, b) {
+		return {$: 'Pair', a: a, b: b};
+	});
+var $author$project$Calculus$Parser$Pair = {$: 'Pair'};
+var $author$project$Calculus$Base$Right = function (a) {
+	return {$: 'Right', a: a};
+};
+var $author$project$Calculus$Parser$Right = {$: 'Right'};
+var $author$project$Calculus$Base$Succ = function (a) {
+	return {$: 'Succ', a: a};
+};
+var $author$project$Calculus$Parser$Succ = {$: 'Succ'};
+var $author$project$Calculus$Base$VarUse = function (a) {
+	return {$: 'VarUse', a: a};
+};
+var $elm$core$Result$andThen = F2(
+	function (callback, result) {
+		if (result.$ === 'Ok') {
+			var value = result.a;
+			return callback(value);
+		} else {
+			var msg = result.a;
+			return $elm$core$Result$Err(msg);
 		}
 	});
-var $author$project$Inference$instantiateForAll = function (type0) {
-	if (type0.$ === 'ForAll') {
-		var _var = type0.a;
-		var type1 = type0.b;
-		return A2(
-			$author$project$StatefulWithErr$andThen,
-			function (freshVarName) {
-				return A2(
-					$author$project$StatefulWithErr$andThen,
-					function (type2) {
-						return $author$project$Inference$instantiateForAll(type2);
-					},
-					A3($author$project$Inference$replaceTypeVarWithFreshVar, _var, freshVarName, type1));
-			},
-			$author$project$Inference$generateFreshVarName);
-	} else {
-		return $author$project$StatefulWithErr$return(type0);
-	}
+var $author$project$Lib$Parser$Parser$make = function (f) {
+	return f;
 };
-var $elm$core$List$head = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(x);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
+var $author$project$Lib$Parser$Parser$run = function (parser) {
+	return parser;
 };
-var $author$project$Inference$lookupType = F2(
-	function (varName, context0) {
-		return A2(
-			$elm$core$Maybe$andThen,
-			$elm$core$List$head,
-			A2($elm$core$Dict$get, varName, context0));
+var $author$project$Lib$Parser$Parser$andThen = F2(
+	function (f, parser) {
+		return $author$project$Lib$Parser$Parser$make(
+			F2(
+				function (r, s0) {
+					return A2(
+						$elm$core$Result$andThen,
+						function (_v0) {
+							var s1 = _v0.a;
+							var a = _v0.b;
+							return A3(
+								$author$project$Lib$Parser$Parser$run,
+								f(a),
+								r,
+								s1);
+						},
+						A3($author$project$Lib$Parser$Parser$run, parser, r, s0));
+				}));
 	});
-var $author$project$StatefulWithErr$first = F2(
-	function (stateful_a, stateful_b_ignored) {
+var $author$project$Calculus$Parser$ExpectedBindingTerm = function (a) {
+	return {$: 'ExpectedBindingTerm', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedClosingBraces = function (a) {
+	return {$: 'ExpectedClosingBraces', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedDot = function (a) {
+	return {$: 'ExpectedDot', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedOpenBraces = function (a) {
+	return {$: 'ExpectedOpenBraces', a: a};
+};
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$Result$mapError = F2(
+	function (f, result) {
+		if (result.$ === 'Ok') {
+			var v = result.a;
+			return $elm$core$Result$Ok(v);
+		} else {
+			var e = result.a;
+			return $elm$core$Result$Err(
+				f(e));
+		}
+	});
+var $author$project$Lib$Parser$Error$mapMsg = F2(
+	function (f, error) {
+		return {
+			msg: f(error.msg),
+			position: error.position
+		};
+	});
+var $author$project$Lib$Parser$Parser$mapError = F2(
+	function (f, parser0) {
+		return $author$project$Lib$Parser$Parser$make(
+			F2(
+				function (r, s) {
+					return A2(
+						$elm$core$Result$mapError,
+						$author$project$Lib$Parser$Error$mapMsg(f),
+						A3($author$project$Lib$Parser$Parser$run, parser0, r, s));
+				}));
+	});
+var $author$project$Lib$Parser$Parser$map = F2(
+	function (f, parser) {
+		return $author$project$Lib$Parser$Parser$make(
+			F2(
+				function (r, s0) {
+					return A2(
+						$elm$core$Result$map,
+						function (_v0) {
+							var s1 = _v0.a;
+							var a = _v0.b;
+							return _Utils_Tuple2(
+								s1,
+								f(a));
+						},
+						A3($author$project$Lib$Parser$Parser$run, parser, r, s0));
+				}));
+	});
+var $author$project$Lib$Parser$Parser$pair = F2(
+	function (parser0, parser1) {
+		return $author$project$Lib$Parser$Parser$make(
+			F2(
+				function (r, s0) {
+					return A2(
+						$elm$core$Result$andThen,
+						function (_v0) {
+							var s1 = _v0.a;
+							var a = _v0.b;
+							return A2(
+								$elm$core$Result$map,
+								function (_v1) {
+									var s2 = _v1.a;
+									var b = _v1.b;
+									return _Utils_Tuple2(
+										s2,
+										_Utils_Tuple2(a, b));
+								},
+								A3($author$project$Lib$Parser$Parser$run, parser1, r, s1));
+						},
+						A3($author$project$Lib$Parser$Parser$run, parser0, r, s0));
+				}));
+	});
+var $author$project$Lib$Parser$Parser$first = F2(
+	function (parser0, parser1) {
 		return A2(
-			$author$project$StatefulWithErr$map,
+			$author$project$Lib$Parser$Parser$map,
 			function (_v0) {
 				var a = _v0.a;
 				return a;
 			},
-			A2($author$project$StatefulWithErr$pair, stateful_a, stateful_b_ignored));
+			A2($author$project$Lib$Parser$Parser$pair, parser0, parser1));
 	});
-var $author$project$StatefulWithErr$second = F2(
-	function (stateful_a_ignored, stateful_b) {
+var $author$project$Lib$Parser$Parser$o = F2(
+	function (parser1, parser0) {
+		return A2($author$project$Lib$Parser$Parser$first, parser0, parser1);
+	});
+var $author$project$Lib$Parser$Parser$ooo = F2(
+	function (parser_a, parser_f) {
 		return A2(
-			$author$project$StatefulWithErr$map,
+			$author$project$Lib$Parser$Parser$map,
 			function (_v0) {
-				var b = _v0.b;
-				return b;
+				var f = _v0.a;
+				var a = _v0.b;
+				return f(a);
 			},
-			A2($author$project$StatefulWithErr$pair, stateful_a_ignored, stateful_b));
+			A2($author$project$Lib$Parser$Parser$pair, parser_f, parser_a));
 	});
-var $author$project$StatefulWithErr$mid = F3(
-	function (stateful_a_ignored, stateful_b, stateful_c_ignored) {
-		return A2(
-			$author$project$StatefulWithErr$second,
-			stateful_a_ignored,
-			A2($author$project$StatefulWithErr$first, stateful_b, stateful_c_ignored));
-	});
-var $author$project$TypeVarContext$InfiniteType = function (a) {
-	return {$: 'InfiniteType', a: a};
+var $author$project$Lib$Parser$Parser$return = function (a) {
+	return $author$project$Lib$Parser$Parser$make(
+		F2(
+			function (r, s) {
+				return $elm$core$Result$Ok(
+					_Utils_Tuple2(s, a));
+			}));
 };
-var $author$project$TypeVarContext$lookupEquations = $elm$core$Dict$get;
+var $elm$core$String$cons = _String_cons;
+var $author$project$Lib$Parser$State$updatePosition = F2(
+	function (f, s) {
+		return _Utils_update(
+			s,
+			{
+				position: f(s.position)
+			});
+	});
+var $author$project$Lib$Parser$State$moveBy = function (n) {
+	return $author$project$Lib$Parser$State$updatePosition(
+		function (position) {
+			return {col: position.col + n, line: position.line};
+		});
+};
+var $author$project$Lib$Parser$State$newLine = $author$project$Lib$Parser$State$updatePosition(
+	function (position) {
+		return {col: 0, line: position.line + 1};
+	});
+var $author$project$Lib$Parser$State$moveByCharacter = function (c) {
+	return _Utils_eq(
+		c,
+		_Utils_chr('\n')) ? $author$project$Lib$Parser$State$newLine : $author$project$Lib$Parser$State$moveBy(1);
+};
+var $elm$core$String$reverse = _String_reverse;
+var $author$project$Lib$Parser$State$setInput = F2(
+	function (newInput, s) {
+		return _Utils_update(
+			s,
+			{input: newInput});
+	});
+var $author$project$Lib$Parser$State$consumeWhileTrue = F2(
+	function (test, init_s) {
+		var loop = F2(
+			function (s, reversed_strConsumedSoFar) {
+				loop:
+				while (true) {
+					var _v0 = $elm$core$String$uncons(s.input);
+					if (_v0.$ === 'Just') {
+						var _v1 = _v0.a;
+						var c = _v1.a;
+						var inputRemaining = _v1.b;
+						if (test(c)) {
+							var $temp$s = A2(
+								$author$project$Lib$Parser$State$moveByCharacter,
+								c,
+								A2($author$project$Lib$Parser$State$setInput, inputRemaining, s)),
+								$temp$reversed_strConsumedSoFar = A2($elm$core$String$cons, c, reversed_strConsumedSoFar);
+							s = $temp$s;
+							reversed_strConsumedSoFar = $temp$reversed_strConsumedSoFar;
+							continue loop;
+						} else {
+							return _Utils_Tuple2(
+								s,
+								$elm$core$String$reverse(reversed_strConsumedSoFar));
+						}
+					} else {
+						return _Utils_Tuple2(
+							s,
+							$elm$core$String$reverse(reversed_strConsumedSoFar));
+					}
+				}
+			});
+		return A2(loop, init_s, '');
+	});
+var $author$project$Lib$Parser$Parser$allWhileTrue = function (test) {
+	return $author$project$Lib$Parser$Parser$make(
+		F2(
+			function (_v0, s) {
+				return $elm$core$Result$Ok(
+					A2($author$project$Lib$Parser$State$consumeWhileTrue, test, s));
+			}));
+};
+var $author$project$Lib$Parser$Parser$discard = function (parser) {
+	return A2(
+		$author$project$Lib$Parser$Parser$map,
+		function (_v0) {
+			return _Utils_Tuple0;
+		},
+		parser);
+};
 var $elm$core$Dict$member = F2(
 	function (key, dict) {
 		var _v0 = A2($elm$core$Dict$get, key, dict);
@@ -6937,266 +7374,278 @@ var $elm$core$Set$member = F2(
 		var dict = _v0.a;
 		return A2($elm$core$Dict$member, key, dict);
 	});
-var $author$project$StatefulWithErr$error = function (err) {
-	return function (_v0) {
-		return $elm$core$Result$Err(err);
-	};
+var $elm$core$Set$Set_elm_builtin = function (a) {
+	return {$: 'Set_elm_builtin', a: a};
 };
-var $author$project$TypeVarContext$throwTypeError = $author$project$StatefulWithErr$error;
-var $elm$core$Debug$todo = _Debug_todo;
-var $author$project$TypeVarContext$expandTypeWithCycleDetection = F2(
-	function (type0, seenVars) {
-		switch (type0.$) {
-			case 'VarType':
-				var n = type0.a;
-				return A2($elm$core$Set$member, n, seenVars) ? $author$project$TypeVarContext$throwTypeError(
-					_List_fromArray(
-						[
-							$author$project$TypeVarContext$InfiniteType(n)
-						])) : $author$project$StatefulWithErr$get0(
-					function (_v1) {
-						var equations = _v1.equations;
-						var _v2 = A2($author$project$TypeVarContext$lookupEquations, n, equations);
-						if (_v2.$ === 'Just') {
-							var type1 = _v2.a;
-							return A2(
-								$author$project$TypeVarContext$expandTypeWithCycleDetection,
-								type1,
-								A2($elm$core$Set$insert, n, seenVars));
+var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
+var $elm$core$Set$insert = F2(
+	function (key, _v0) {
+		var dict = _v0.a;
+		return $elm$core$Set$Set_elm_builtin(
+			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
+	});
+var $elm$core$Set$fromList = function (list) {
+	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
+};
+var $author$project$Calculus$Parser$whitespaceChars = $elm$core$Set$fromList(
+	_List_fromArray(
+		[
+			_Utils_chr(' '),
+			_Utils_chr('\n'),
+			_Utils_chr('\u000D'),
+			_Utils_chr('\t'),
+			_Utils_chr(',')
+		]));
+var $author$project$Calculus$Parser$isWhitespaceChar = function (c) {
+	return A2($elm$core$Set$member, c, $author$project$Calculus$Parser$whitespaceChars);
+};
+var $author$project$Calculus$Parser$spaces = $author$project$Lib$Parser$Parser$discard(
+	$author$project$Lib$Parser$Parser$allWhileTrue($author$project$Calculus$Parser$isWhitespaceChar));
+var $author$project$Lib$Parser$Error$ExpectedString = F3(
+	function (expected, consumedSuccessfully, failedAtChar) {
+		return {consumedSuccessfully: consumedSuccessfully, expected: expected, failedAtChar: failedAtChar};
+	});
+var $author$project$Lib$Parser$State$throw = F2(
+	function (msg, s) {
+		return {msg: msg, position: s.position};
+	});
+var $author$project$Lib$Parser$State$consumeString = F2(
+	function (strToBeMatched, init_s) {
+		var loop = F3(
+			function (strToBeMatched0, s, reversed_strConsumedSoFar) {
+				loop:
+				while (true) {
+					var _v0 = _Utils_Tuple2(
+						$elm$core$String$uncons(strToBeMatched0),
+						$elm$core$String$uncons(s.input));
+					if (_v0.a.$ === 'Just') {
+						if (_v0.b.$ === 'Just') {
+							var _v1 = _v0.a.a;
+							var cToBeMatched = _v1.a;
+							var strToBeMatched1 = _v1.b;
+							var _v2 = _v0.b.a;
+							var c = _v2.a;
+							var inputRemaining = _v2.b;
+							if (_Utils_eq(cToBeMatched, c)) {
+								var $temp$strToBeMatched0 = strToBeMatched1,
+									$temp$s = A2(
+									$author$project$Lib$Parser$State$moveByCharacter,
+									cToBeMatched,
+									A2($author$project$Lib$Parser$State$setInput, inputRemaining, s)),
+									$temp$reversed_strConsumedSoFar = A2($elm$core$String$cons, c, reversed_strConsumedSoFar);
+								strToBeMatched0 = $temp$strToBeMatched0;
+								s = $temp$s;
+								reversed_strConsumedSoFar = $temp$reversed_strConsumedSoFar;
+								continue loop;
+							} else {
+								return $elm$core$Result$Err(
+									A2(
+										$author$project$Lib$Parser$State$throw,
+										A3(
+											$author$project$Lib$Parser$Error$ExpectedString,
+											strToBeMatched,
+											$elm$core$String$reverse(reversed_strConsumedSoFar),
+											$elm$core$Maybe$Just(c)),
+										s));
+							}
 						} else {
-							return $author$project$StatefulWithErr$return(
-								$author$project$LambdaBasics$VarType(n));
+							var _v3 = _v0.b;
+							return $elm$core$Result$Err(
+								A2(
+									$author$project$Lib$Parser$State$throw,
+									A3(
+										$author$project$Lib$Parser$Error$ExpectedString,
+										strToBeMatched,
+										$elm$core$String$reverse(reversed_strConsumedSoFar),
+										$elm$core$Maybe$Nothing),
+									s));
 						}
-					});
-			case 'Product':
-				var type1 = type0.a;
-				var type2 = type0.b;
-				return A3(
-					$author$project$StatefulWithErr$map2,
-					$author$project$LambdaBasics$Product,
-					A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars),
-					A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type2, seenVars));
-			case 'Sum':
-				var type1 = type0.a;
-				var type2 = type0.b;
-				return A3(
-					$author$project$StatefulWithErr$map2,
-					$author$project$LambdaBasics$Sum,
-					A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars),
-					A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type2, seenVars));
-			case 'Arrow':
-				var type1 = type0.a;
-				var type2 = type0.b;
-				return A3(
-					$author$project$StatefulWithErr$map2,
-					$author$project$LambdaBasics$Arrow,
-					A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars),
-					A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type2, seenVars));
-			case 'LambdaBool':
-				return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaBool);
-			case 'LambdaNat':
-				return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaNat);
-			case 'LambdaList':
-				var type1 = type0.a;
-				return A2(
-					$author$project$StatefulWithErr$map,
-					$author$project$LambdaBasics$LambdaList,
-					A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars));
-			case 'Frozen':
-				var type1 = type0.a;
-				return A2(
-					$author$project$StatefulWithErr$map,
-					$author$project$LambdaBasics$Frozen,
-					A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars));
-			default:
-				var typeVar = type0.a;
-				var type1 = type0.b;
-				return _Debug_todo(
-					'TypeVarContext',
-					{
-						start: {line: 350, column: 13},
-						end: {line: 350, column: 23}
-					})('');
-		}
+					} else {
+						var _v4 = _v0.a;
+						return $elm$core$Result$Ok(s);
+					}
+				}
+			});
+		return A3(loop, strToBeMatched, init_s, '');
 	});
-var $author$project$TypeVarContext$expandType = function (type0) {
-	return A2($author$project$TypeVarContext$expandTypeWithCycleDetection, type0, $elm$core$Set$empty);
+var $author$project$Lib$Parser$Parser$string = function (strToBeMatched) {
+	return $author$project$Lib$Parser$Parser$make(
+		F2(
+			function (_v0, s0) {
+				return A2(
+					$elm$core$Result$map,
+					function (s1) {
+						return _Utils_Tuple2(s1, _Utils_Tuple0);
+					},
+					A2($author$project$Lib$Parser$State$consumeString, strToBeMatched, s0));
+			}));
 };
-var $author$project$TypeVarContext$CantPopEmptyTypeVarContext = {$: 'CantPopEmptyTypeVarContext'};
-var $mgold$elm_nonempty_list$List$Nonempty$fromList = function (ys) {
-	if (ys.b) {
-		var x = ys.a;
-		var xs = ys.b;
-		return $elm$core$Maybe$Just(
-			A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, x, xs));
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $elm$core$Maybe$map = F2(
-	function (f, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return $elm$core$Maybe$Just(
-				f(value));
-		} else {
-			return $elm$core$Maybe$Nothing;
-		}
-	});
-var $author$project$StackedSet$destroyTop = function (stack0) {
+var $author$project$Lib$Parser$Parser$unit = $author$project$Lib$Parser$Parser$return(_Utils_Tuple0);
+var $author$project$Calculus$Parser$symbol = function (symbol0) {
 	return A2(
-		$elm$core$Maybe$map,
-		function (stack1) {
-			return _Utils_Tuple2(
-				$mgold$elm_nonempty_list$List$Nonempty$head(stack0),
-				stack1);
-		},
-		$mgold$elm_nonempty_list$List$Nonempty$fromList(
-			$mgold$elm_nonempty_list$List$Nonempty$tail(stack0)));
+		$author$project$Lib$Parser$Parser$o,
+		$author$project$Calculus$Parser$spaces,
+		A2(
+			$author$project$Lib$Parser$Parser$o,
+			$author$project$Lib$Parser$Parser$string(symbol0),
+			$author$project$Lib$Parser$Parser$unit));
 };
-var $author$project$StackedSet$popFrame = $author$project$StackedSet$destroyTop;
-var $author$project$TypeVarContext$popTypeVarStackFrame = $author$project$StatefulWithErr$create(
-	function (state) {
-		var typeVarStack = state.typeVarStack;
-		var _v0 = $author$project$StackedSet$popFrame(typeVarStack);
+var $author$project$Calculus$Parser$binding = F2(
+	function (patternParser, bodyParser) {
+		return A2(
+			$author$project$Lib$Parser$Parser$o,
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				A2($elm$core$Basics$composeL, $author$project$Calculus$Parser$ExpectedBindingTerm, $author$project$Calculus$Parser$ExpectedClosingBraces),
+				$author$project$Calculus$Parser$symbol('}')),
+			A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				bodyParser,
+				A2(
+					$author$project$Lib$Parser$Parser$o,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						A2($elm$core$Basics$composeL, $author$project$Calculus$Parser$ExpectedBindingTerm, $author$project$Calculus$Parser$ExpectedDot),
+						$author$project$Calculus$Parser$symbol('.')),
+					A2(
+						$author$project$Lib$Parser$Parser$ooo,
+						patternParser,
+						A2(
+							$author$project$Lib$Parser$Parser$o,
+							A2(
+								$author$project$Lib$Parser$Parser$mapError,
+								A2($elm$core$Basics$composeL, $author$project$Calculus$Parser$ExpectedBindingTerm, $author$project$Calculus$Parser$ExpectedOpenBraces),
+								$author$project$Calculus$Parser$symbol('{')),
+							$author$project$Lib$Parser$Parser$return(
+								F2(
+									function (vars, body) {
+										return _Utils_Tuple2(vars, body);
+									})))))));
+	});
+var $author$project$Calculus$Parser$ExpectedDefEquals = function (a) {
+	return {$: 'ExpectedDefEquals', a: a};
+};
+var $author$project$Calculus$Parser$defEquals = $author$project$Calculus$Parser$symbol('=');
+var $author$project$Calculus$Parser$defEqualsTerm = A2(
+	$author$project$Lib$Parser$Parser$mapError,
+	A2($elm$core$Basics$composeL, $author$project$Calculus$Parser$ExpectedBindingTerm, $author$project$Calculus$Parser$ExpectedDefEquals),
+	$author$project$Calculus$Parser$defEquals);
+var $author$project$Calculus$Parser$emptySequence = $author$project$Calculus$Parser$spaces;
+var $author$project$Lib$Parser$State$getPosition = function (state) {
+	return state.position;
+};
+var $author$project$Lib$Parser$Error$Error = F2(
+	function (position, msg) {
+		return {msg: msg, position: position};
+	});
+var $author$project$Lib$Parser$Error$make = F2(
+	function (position, msg) {
+		return A2($author$project$Lib$Parser$Error$Error, position, msg);
+	});
+var $author$project$Lib$Parser$Parser$fail = function (error) {
+	return $author$project$Lib$Parser$Parser$make(
+		F2(
+			function (_v0, s) {
+				return $elm$core$Result$Err(
+					A2(
+						$author$project$Lib$Parser$Error$make,
+						$author$project$Lib$Parser$State$getPosition(s),
+						error));
+			}));
+};
+var $author$project$Calculus$Parser$ExpectedFunctorOperator = function (a) {
+	return {$: 'ExpectedFunctorOperator', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedGapAfterFunctorOperator = function (a) {
+	return {$: 'ExpectedGapAfterFunctorOperator', a: a};
+};
+var $author$project$Calculus$Parser$FunctorLiteral = {$: 'FunctorLiteral'};
+var $author$project$Calculus$Parser$FunctorVarUse = {$: 'FunctorVarUse'};
+var $author$project$Lib$Parser$Error$CharFailedTest = function (failedAtChar) {
+	return {failedAtChar: failedAtChar};
+};
+var $author$project$Lib$Parser$State$consumeAnyCharSatisfying = F2(
+	function (test, s) {
+		var _v0 = $elm$core$String$uncons(s.input);
 		if (_v0.$ === 'Just') {
 			var _v1 = _v0.a;
-			var vars = _v1.a;
-			var newTypeVarStack = _v1.b;
-			return $elm$core$Result$Ok(
+			var c = _v1.a;
+			var inputRemaining = _v1.b;
+			return test(c) ? $elm$core$Result$Ok(
 				_Utils_Tuple2(
-					_Utils_update(
-						state,
-						{typeVarStack: newTypeVarStack}),
-					vars));
+					A2(
+						$author$project$Lib$Parser$State$moveByCharacter,
+						c,
+						A2($author$project$Lib$Parser$State$setInput, inputRemaining, s)),
+					c)) : $elm$core$Result$Err(
+				A2(
+					$author$project$Lib$Parser$State$throw,
+					$author$project$Lib$Parser$Error$CharFailedTest(
+						$elm$core$Maybe$Just(c)),
+					s));
 		} else {
 			return $elm$core$Result$Err(
-				_List_fromArray(
-					[$author$project$TypeVarContext$CantPopEmptyTypeVarContext]));
+				A2(
+					$author$project$Lib$Parser$State$throw,
+					$author$project$Lib$Parser$Error$CharFailedTest($elm$core$Maybe$Nothing),
+					s));
 		}
 	});
-var $author$project$TypeVarContext$popTypeVarStackFrameAndExpand = function (type0) {
-	return A2(
-		$author$project$StatefulWithErr$andThen,
-		function (typeVars) {
-			return A2(
-				$author$project$StatefulWithErr$map,
-				function (expandedType0) {
-					return _Utils_Tuple2(typeVars, expandedType0);
-				},
-				$author$project$TypeVarContext$expandType(type0));
-		},
-		$author$project$TypeVarContext$popTypeVarStackFrame);
+var $author$project$Lib$Parser$Parser$anyCharSatisfying = function (test) {
+	return $author$project$Lib$Parser$Parser$make(
+		F2(
+			function (_v0, s0) {
+				return A2($author$project$Lib$Parser$State$consumeAnyCharSatisfying, test, s0);
+			}));
 };
-var $author$project$Inference$popTypeVarStackFrameAndExpand = function (type0) {
-	return $author$project$Inference$liftUnification(
-		$author$project$TypeVarContext$popTypeVarStackFrameAndExpand(type0));
-};
-var $elm$core$List$tail = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(xs);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $author$project$Inference$popVarFromContext = F2(
-	function (varName, context0) {
-		return A3(
-			$elm$core$Dict$update,
-			varName,
-			$elm$core$Maybe$andThen($elm$core$List$tail),
-			context0);
-	});
-var $mgold$elm_nonempty_list$List$Nonempty$cons = F2(
-	function (y, _v0) {
-		var x = _v0.a;
-		var xs = _v0.b;
-		return A2(
-			$mgold$elm_nonempty_list$List$Nonempty$Nonempty,
-			y,
-			A2($elm$core$List$cons, x, xs));
-	});
-var $author$project$StackedSet$pushFrame = function (stackedSet) {
-	return A2($mgold$elm_nonempty_list$List$Nonempty$cons, $elm$core$Set$empty, stackedSet);
-};
-var $author$project$StatefulWithErr$update0 = function (f) {
-	return function (state0) {
-		return $elm$core$Result$Ok(
-			_Utils_Tuple2(
-				f(state0),
-				_Utils_Tuple0));
-	};
-};
-var $author$project$TypeVarContext$pushTypeVarStackFrame0 = $author$project$StatefulWithErr$update0(
-	function (state) {
-		var typeVarStack = state.typeVarStack;
-		return _Utils_update(
-			state,
-			{
-				typeVarStack: $author$project$StackedSet$pushFrame(typeVarStack)
-			});
-	});
-var $author$project$Inference$pushTypeVarStackFrame0 = $author$project$Inference$liftUnification($author$project$TypeVarContext$pushTypeVarStackFrame0);
-var $author$project$Inference$pushVarToContext = F3(
-	function (varName, type0, context0) {
-		return A3(
-			$elm$core$Dict$update,
-			varName,
-			function (maybeBinding) {
-				if (maybeBinding.$ === 'Just') {
-					var types0 = maybeBinding.a;
-					return $elm$core$Maybe$Just(
-						A2($elm$core$List$cons, type0, types0));
+var $author$project$Lib$Parser$Parser$check = function (parser) {
+	return $author$project$Lib$Parser$Parser$make(
+		F2(
+			function (r, s0) {
+				var _v0 = A3($author$project$Lib$Parser$Parser$run, parser, r, s0);
+				if (_v0.$ === 'Ok') {
+					var _v1 = _v0.a;
+					return $elm$core$Result$Ok(
+						_Utils_Tuple2(s0, _Utils_Tuple0));
 				} else {
-					return $elm$core$Maybe$Just(
-						_List_fromArray(
-							[type0]));
+					var error = _v0.a;
+					return $elm$core$Result$Err(error);
 				}
-			},
-			context0);
-	});
-var $author$project$Inference$throwTypeError = $author$project$StatefulWithErr$error;
-var $author$project$TypeVarContext$ExpectedBoolType = {$: 'ExpectedBoolType'};
-var $author$project$TypeVarContext$ExpectedNatType = {$: 'ExpectedNatType'};
-var $author$project$TypeVarContext$ExpectedProductType = {$: 'ExpectedProductType'};
-var $author$project$TypeVarContext$expandTypeAtTypeVarName = function (typeVarName) {
-	return $author$project$StatefulWithErr$get0(
-		function (state0) {
-			var _v0 = A2($author$project$TypeVarContext$lookupEquations, typeVarName, state0.equations);
-			if (_v0.$ === 'Just') {
-				var type0 = _v0.a;
-				return A2(
-					$author$project$StatefulWithErr$andThen,
-					function (expandedType0) {
-						return A2(
-							$author$project$StatefulWithErr$second,
-							$author$project$StatefulWithErr$update0(
-								function (state1) {
-									return _Utils_update(
-										state1,
-										{
-											equations: A3($elm$core$Dict$insert, typeVarName, expandedType0, state1.equations)
-										});
-								}),
-							$author$project$StatefulWithErr$return(
-								$elm$core$Maybe$Just(expandedType0)));
-					},
-					$author$project$TypeVarContext$expandType(type0));
-			} else {
-				return $author$project$StatefulWithErr$return($elm$core$Maybe$Nothing);
-			}
-		});
+			}));
 };
-var $elm$core$Dict$singleton = F2(
-	function (key, value) {
-		return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
-	});
-var $elm$core$Set$singleton = function (key) {
-	return $elm$core$Set$Set_elm_builtin(
-		A2($elm$core$Dict$singleton, key, _Utils_Tuple0));
+var $author$project$Lib$Parser$Error$getMsg = function (error) {
+	return error.msg;
 };
+var $author$project$Lib$Parser$Parser$ifSuccessIfError = F3(
+	function (handleSuccess, handleError, parser) {
+		return $author$project$Lib$Parser$Parser$make(
+			F2(
+				function (r, s0) {
+					var _v0 = A3($author$project$Lib$Parser$Parser$run, parser, r, s0);
+					if (_v0.$ === 'Ok') {
+						var _v1 = _v0.a;
+						var s1 = _v1.a;
+						var a = _v1.b;
+						return A3(
+							$author$project$Lib$Parser$Parser$run,
+							handleSuccess(a),
+							r,
+							s1);
+					} else {
+						var error = _v0.a;
+						return A3(
+							$author$project$Lib$Parser$Parser$run,
+							handleError(
+								$author$project$Lib$Parser$Error$getMsg(error)),
+							r,
+							s0);
+					}
+				}));
+	});
+var $author$project$Lib$Parser$Parser$ifError = F2(
+	function (handleError, parser) {
+		return A3($author$project$Lib$Parser$Parser$ifSuccessIfError, $author$project$Lib$Parser$Parser$return, handleError, parser);
+	});
 var $elm$core$Dict$foldl = F3(
 	function (func, acc, dict) {
 		foldl:
@@ -7233,11 +7682,2709 @@ var $elm$core$Set$union = F2(
 		return $elm$core$Set$Set_elm_builtin(
 			A2($elm$core$Dict$union, dict1, dict2));
 	});
-var $author$project$LambdaBasics$getTypeVars = function (type0) {
+var $author$project$Calculus$Parser$gapChars = A2(
+	$elm$core$Set$union,
+	$author$project$Calculus$Parser$whitespaceChars,
+	$elm$core$Set$fromList(
+		_List_fromArray(
+			[
+				_Utils_chr('('),
+				_Utils_chr(')'),
+				_Utils_chr('{'),
+				_Utils_chr('}'),
+				_Utils_chr('.'),
+				_Utils_chr('$'),
+				_Utils_chr('\''),
+				_Utils_chr('\"'),
+				_Utils_chr('%'),
+				_Utils_chr('/'),
+				_Utils_chr('='),
+				_Utils_chr(';'),
+				_Utils_chr('\\'),
+				_Utils_chr('['),
+				_Utils_chr(']')
+			])));
+var $author$project$Calculus$Parser$isGapChar = function (c) {
+	return A2($elm$core$Set$member, c, $author$project$Calculus$Parser$gapChars);
+};
+var $author$project$Calculus$Parser$keywordGap = A2(
+	$author$project$Lib$Parser$Parser$o,
+	$author$project$Calculus$Parser$spaces,
+	A2(
+		$author$project$Lib$Parser$Parser$ifError,
+		function (failedAtCharErr) {
+			var _v0 = failedAtCharErr.failedAtChar;
+			if (_v0.$ === 'Just') {
+				var c = _v0.a;
+				return $author$project$Lib$Parser$Parser$fail(
+					{failedAtChar: c});
+			} else {
+				return $author$project$Lib$Parser$Parser$unit;
+			}
+		},
+		$author$project$Lib$Parser$Parser$check(
+			$author$project$Lib$Parser$Parser$anyCharSatisfying($author$project$Calculus$Parser$isGapChar))));
+var $author$project$Lib$Parser$Error$ExpectedStringIn = F2(
+	function (consumedSuccessfully, failedAtChar) {
+		return {consumedSuccessfully: consumedSuccessfully, failedAtChar: failedAtChar};
+	});
+var $author$project$Lib$Parser$Forest$Continue = function (a) {
+	return {$: 'Continue', a: a};
+};
+var $author$project$Lib$Parser$Forest$ContinueWithValue = F2(
+	function (a, b) {
+		return {$: 'ContinueWithValue', a: a, b: b};
+	});
+var $author$project$Lib$Parser$Forest$Empty = {$: 'Empty'};
+var $author$project$Lib$Parser$Forest$EndWithValue = function (a) {
+	return {$: 'EndWithValue', a: a};
+};
+var $author$project$Lib$Parser$Forest$Root = function (a) {
+	return {$: 'Root', a: a};
+};
+var $author$project$Lib$Parser$Forest$derive = F2(
+	function (k, forest) {
+		var dict0 = forest.a;
+		var _v1 = A2($elm$core$Dict$get, k, dict0);
+		if (_v1.$ === 'Just') {
+			var edge = _v1.a;
+			if (edge.$ === 'Leaf') {
+				var v = edge.a;
+				return $author$project$Lib$Parser$Forest$EndWithValue(v);
+			} else {
+				var maybev = edge.a;
+				var dict1 = edge.b;
+				if (maybev.$ === 'Just') {
+					var v = maybev.a;
+					return A2(
+						$author$project$Lib$Parser$Forest$ContinueWithValue,
+						v,
+						$author$project$Lib$Parser$Forest$Root(dict1));
+				} else {
+					return $author$project$Lib$Parser$Forest$Continue(
+						$author$project$Lib$Parser$Forest$Root(dict1));
+				}
+			}
+		} else {
+			return $author$project$Lib$Parser$Forest$Empty;
+		}
+	});
+var $author$project$Lib$Parser$State$consumeForest = F2(
+	function (forestToBeMatched, init_s) {
+		var loop2 = F4(
+			function (forest0, s, lastSuccessful_s, lastValue) {
+				loop2:
+				while (true) {
+					var _v0 = $elm$core$String$uncons(s.input);
+					if (_v0.$ === 'Just') {
+						var _v1 = _v0.a;
+						var c = _v1.a;
+						var inputRemaining = _v1.b;
+						var _v2 = A2($author$project$Lib$Parser$Forest$derive, c, forest0);
+						switch (_v2.$) {
+							case 'EndWithValue':
+								var v = _v2.a;
+								return $elm$core$Result$Ok(
+									_Utils_Tuple2(
+										A2(
+											$author$project$Lib$Parser$State$moveByCharacter,
+											c,
+											A2($author$project$Lib$Parser$State$setInput, inputRemaining, s)),
+										v));
+							case 'Continue':
+								var forest1 = _v2.a;
+								var $temp$forest0 = forest1,
+									$temp$s = A2(
+									$author$project$Lib$Parser$State$moveByCharacter,
+									c,
+									A2($author$project$Lib$Parser$State$setInput, inputRemaining, s)),
+									$temp$lastSuccessful_s = lastSuccessful_s,
+									$temp$lastValue = lastValue;
+								forest0 = $temp$forest0;
+								s = $temp$s;
+								lastSuccessful_s = $temp$lastSuccessful_s;
+								lastValue = $temp$lastValue;
+								continue loop2;
+							case 'ContinueWithValue':
+								var v = _v2.a;
+								var forest1 = _v2.b;
+								var new_s = A2(
+									$author$project$Lib$Parser$State$moveByCharacter,
+									c,
+									A2($author$project$Lib$Parser$State$setInput, inputRemaining, s));
+								var $temp$forest0 = forest1,
+									$temp$s = new_s,
+									$temp$lastSuccessful_s = new_s,
+									$temp$lastValue = v;
+								forest0 = $temp$forest0;
+								s = $temp$s;
+								lastSuccessful_s = $temp$lastSuccessful_s;
+								lastValue = $temp$lastValue;
+								continue loop2;
+							default:
+								return $elm$core$Result$Ok(
+									_Utils_Tuple2(lastSuccessful_s, lastValue));
+						}
+					} else {
+						return $elm$core$Result$Ok(
+							_Utils_Tuple2(lastSuccessful_s, lastValue));
+					}
+				}
+			});
+		var loop1 = F3(
+			function (forest0, s, reversed_strConsumedSoFar) {
+				loop1:
+				while (true) {
+					var _v3 = $elm$core$String$uncons(s.input);
+					if (_v3.$ === 'Just') {
+						var _v4 = _v3.a;
+						var c = _v4.a;
+						var inputRemaining = _v4.b;
+						var _v5 = A2($author$project$Lib$Parser$Forest$derive, c, forest0);
+						switch (_v5.$) {
+							case 'EndWithValue':
+								var v = _v5.a;
+								return $elm$core$Result$Ok(
+									_Utils_Tuple2(
+										A2(
+											$author$project$Lib$Parser$State$moveByCharacter,
+											c,
+											A2($author$project$Lib$Parser$State$setInput, inputRemaining, s)),
+										v));
+							case 'Continue':
+								var forest1 = _v5.a;
+								var $temp$forest0 = forest1,
+									$temp$s = A2(
+									$author$project$Lib$Parser$State$moveByCharacter,
+									c,
+									A2($author$project$Lib$Parser$State$setInput, inputRemaining, s)),
+									$temp$reversed_strConsumedSoFar = A2($elm$core$String$cons, c, reversed_strConsumedSoFar);
+								forest0 = $temp$forest0;
+								s = $temp$s;
+								reversed_strConsumedSoFar = $temp$reversed_strConsumedSoFar;
+								continue loop1;
+							case 'ContinueWithValue':
+								var v = _v5.a;
+								var forest1 = _v5.b;
+								var new_s = A2(
+									$author$project$Lib$Parser$State$moveByCharacter,
+									c,
+									A2($author$project$Lib$Parser$State$setInput, inputRemaining, s));
+								return A4(loop2, forest1, new_s, new_s, v);
+							default:
+								return $elm$core$Result$Err(
+									A2(
+										$author$project$Lib$Parser$State$throw,
+										A2(
+											$author$project$Lib$Parser$Error$ExpectedStringIn,
+											$elm$core$String$reverse(reversed_strConsumedSoFar),
+											$elm$core$Maybe$Just(c)),
+										s));
+						}
+					} else {
+						return $elm$core$Result$Err(
+							A2(
+								$author$project$Lib$Parser$State$throw,
+								A2(
+									$author$project$Lib$Parser$Error$ExpectedStringIn,
+									$elm$core$String$reverse(reversed_strConsumedSoFar),
+									$elm$core$Maybe$Nothing),
+								s));
+					}
+				}
+			});
+		return A3(loop1, forestToBeMatched, init_s, '');
+	});
+var $author$project$Lib$Parser$Forest$empty = $author$project$Lib$Parser$Forest$Root($elm$core$Dict$empty);
+var $author$project$Lib$Parser$Forest$Branch = F2(
+	function (a, b) {
+		return {$: 'Branch', a: a, b: b};
+	});
+var $author$project$Lib$Parser$Forest$Leaf = function (a) {
+	return {$: 'Leaf', a: a};
+};
+var $elm$core$Dict$singleton = F2(
+	function (key, value) {
+		return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
+	});
+var $author$project$Lib$Parser$Forest$edgeChain = F2(
+	function (keys0, v) {
+		if (!keys0.b) {
+			return $author$project$Lib$Parser$Forest$Leaf(v);
+		} else {
+			var k0 = keys0.a;
+			var keys1 = keys0.b;
+			return A2(
+				$author$project$Lib$Parser$Forest$Branch,
+				$elm$core$Maybe$Nothing,
+				A2(
+					$elm$core$Dict$singleton,
+					k0,
+					A2($author$project$Lib$Parser$Forest$edgeChain, keys1, v)));
+		}
+	});
+var $author$project$Lib$Parser$Forest$insertEdge = F3(
+	function (keys0, v0, edge0) {
+		if (edge0.$ === 'Leaf') {
+			var v = edge0.a;
+			if (!keys0.b) {
+				return $author$project$Lib$Parser$Forest$Leaf(v0);
+			} else {
+				var k0 = keys0.a;
+				var keys1 = keys0.b;
+				return A2(
+					$author$project$Lib$Parser$Forest$Branch,
+					$elm$core$Maybe$Just(v),
+					A2(
+						$elm$core$Dict$singleton,
+						k0,
+						A2($author$project$Lib$Parser$Forest$edgeChain, keys1, v0)));
+			}
+		} else {
+			var maybe_v = edge0.a;
+			var dict = edge0.b;
+			if (!keys0.b) {
+				return A2(
+					$author$project$Lib$Parser$Forest$Branch,
+					$elm$core$Maybe$Just(v0),
+					dict);
+			} else {
+				var k0 = keys0.a;
+				var keys1 = keys0.b;
+				return A2(
+					$author$project$Lib$Parser$Forest$Branch,
+					maybe_v,
+					A3(
+						$elm$core$Dict$update,
+						k0,
+						function (maybe_k) {
+							if (maybe_k.$ === 'Just') {
+								var edge1 = maybe_k.a;
+								return $elm$core$Maybe$Just(
+									A3($author$project$Lib$Parser$Forest$insertEdge, keys1, v0, edge1));
+							} else {
+								return $elm$core$Maybe$Just(
+									A2($author$project$Lib$Parser$Forest$edgeChain, keys1, v0));
+							}
+						},
+						dict));
+			}
+		}
+	});
+var $author$project$Lib$Parser$Forest$insert = F4(
+	function (k0, keys0, v0, forest) {
+		var dict = forest.a;
+		return $author$project$Lib$Parser$Forest$Root(
+			A3(
+				$elm$core$Dict$update,
+				k0,
+				function (maybe_k) {
+					if (maybe_k.$ === 'Just') {
+						var edge = maybe_k.a;
+						return $elm$core$Maybe$Just(
+							A3($author$project$Lib$Parser$Forest$insertEdge, keys0, v0, edge));
+					} else {
+						return $elm$core$Maybe$Just(
+							A2($author$project$Lib$Parser$Forest$edgeChain, keys0, v0));
+					}
+				},
+				dict));
+	});
+var $author$project$Lib$Parser$Forest$fromList = function (xs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, forest) {
+				var ks = _v0.a;
+				var v = _v0.b;
+				if (!ks.b) {
+					return forest;
+				} else {
+					var k = ks.a;
+					var ks1 = ks.b;
+					return A4($author$project$Lib$Parser$Forest$insert, k, ks1, v, forest);
+				}
+			}),
+		$author$project$Lib$Parser$Forest$empty,
+		xs);
+};
+var $elm$core$String$foldr = _String_foldr;
+var $elm$core$String$toList = function (string) {
+	return A3($elm$core$String$foldr, $elm$core$List$cons, _List_Nil, string);
+};
+var $author$project$Lib$Parser$Forest$fromStringList = function (xs) {
+	return $author$project$Lib$Parser$Forest$fromList(
+		A2(
+			$elm$core$List$map,
+			function (_v0) {
+				var str = _v0.a;
+				var v = _v0.b;
+				return _Utils_Tuple2(
+					$elm$core$String$toList(str),
+					v);
+			},
+			xs));
+};
+var $author$project$Lib$Parser$Parser$stringIn = function (forest) {
+	return $author$project$Lib$Parser$Parser$make(
+		F2(
+			function (_v0, s0) {
+				return A2(
+					$author$project$Lib$Parser$State$consumeForest,
+					$author$project$Lib$Parser$Forest$fromStringList(forest),
+					s0);
+			}));
+};
+var $author$project$Calculus$Parser$functorOperatorKeyword = function () {
+	var handleGap = F2(
+		function (keyword0, gapError) {
+			return $author$project$Calculus$Parser$ExpectedGapAfterFunctorOperator(
+				{failedAtChar: gapError.failedAtChar, operatorKeyword: keyword0});
+		});
+	return A2(
+		$author$project$Lib$Parser$Parser$o,
+		$author$project$Calculus$Parser$spaces,
+		A2(
+			$author$project$Lib$Parser$Parser$andThen,
+			function (keyword0) {
+				if (keyword0.$ === 'FunctorVarUse') {
+					return $author$project$Lib$Parser$Parser$return($author$project$Calculus$Parser$FunctorVarUse);
+				} else {
+					return A2(
+						$author$project$Lib$Parser$Parser$o,
+						A2(
+							$author$project$Lib$Parser$Parser$mapError,
+							handleGap(keyword0),
+							$author$project$Calculus$Parser$keywordGap),
+						$author$project$Lib$Parser$Parser$return(keyword0));
+				}
+			},
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$author$project$Calculus$Parser$ExpectedFunctorOperator,
+				$author$project$Lib$Parser$Parser$stringIn(
+					_List_fromArray(
+						[
+							_Utils_Tuple2('$', $author$project$Calculus$Parser$FunctorVarUse),
+							_Utils_Tuple2('functor', $author$project$Calculus$Parser$FunctorLiteral)
+						])))));
+}();
+var $author$project$Calculus$Parser$ExpectedFunctorIdentifierInFunctorParameter = function (a) {
+	return {$: 'ExpectedFunctorIdentifierInFunctorParameter', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedInterfaceInFunctorParameter = function (a) {
+	return {$: 'ExpectedInterfaceInFunctorParameter', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedTypingSymbolInFunctorParameter = function (a) {
+	return {$: 'ExpectedTypingSymbolInFunctorParameter', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedIdentifierCharacters = function (a) {
+	return {$: 'ExpectedIdentifierCharacters', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedIdentifierToStartWithNonDigit = function (a) {
+	return {$: 'ExpectedIdentifierToStartWithNonDigit', a: a};
+};
+var $elm$core$Basics$not = _Basics_not;
+var $author$project$Calculus$Parser$identifier = function () {
+	var isPrintableChar = function (c) {
+		var charCode = $elm$core$Char$toCode(c);
+		return (32 <= charCode) && (charCode <= 126);
+	};
+	var excludedChars = A2(
+		$elm$core$Set$union,
+		$elm$core$Set$fromList(
+			_List_fromArray(
+				[
+					_Utils_chr('$'),
+					_Utils_chr('.'),
+					_Utils_chr('('),
+					_Utils_chr(')'),
+					_Utils_chr('{'),
+					_Utils_chr('}'),
+					_Utils_chr('\''),
+					_Utils_chr('\"'),
+					_Utils_chr('/'),
+					_Utils_chr('%'),
+					_Utils_chr('='),
+					_Utils_chr(';'),
+					_Utils_chr('['),
+					_Utils_chr(']')
+				])),
+		$author$project$Calculus$Parser$whitespaceChars);
+	var isExcludedChar = function (c) {
+		return A2($elm$core$Set$member, c, excludedChars);
+	};
+	var isInnerVarChar = function (c) {
+		return (!isExcludedChar(c)) && isPrintableChar(c);
+	};
+	return A2(
+		$author$project$Lib$Parser$Parser$o,
+		$author$project$Calculus$Parser$spaces,
+		A2(
+			$author$project$Lib$Parser$Parser$andThen,
+			function (c) {
+				return $elm$core$Char$isDigit(c) ? $author$project$Lib$Parser$Parser$fail(
+					$author$project$Calculus$Parser$ExpectedIdentifierToStartWithNonDigit(
+						{failedAtChar: c})) : A2(
+					$author$project$Lib$Parser$Parser$map,
+					function (str) {
+						return A2($elm$core$String$cons, c, str);
+					},
+					$author$project$Lib$Parser$Parser$allWhileTrue(isInnerVarChar));
+			},
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$author$project$Calculus$Parser$ExpectedIdentifierCharacters,
+				$author$project$Lib$Parser$Parser$anyCharSatisfying(isInnerVarChar))));
+}();
+var $author$project$Calculus$Parser$functorVarIntro = $author$project$Calculus$Parser$identifier;
+var $author$project$Calculus$Parser$ExpectedGapAfterInterfaceKeyword = function (a) {
+	return {$: 'ExpectedGapAfterInterfaceKeyword', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedInterfaceKeyword = function (a) {
+	return {$: 'ExpectedInterfaceKeyword', a: a};
+};
+var $author$project$Lib$Parser$Parser$identity = $author$project$Lib$Parser$Parser$return(
+	function (x) {
+		return x;
+	});
+var $author$project$Calculus$Base$AssumeModule = F2(
+	function (a, b) {
+		return {$: 'AssumeModule', a: a, b: b};
+	});
+var $author$project$Calculus$Base$AssumeTerm = F2(
+	function (a, b) {
+		return {$: 'AssumeTerm', a: a, b: b};
+	});
+var $author$project$Calculus$Parser$ExpectedInterfaceAssumption = function (a) {
+	return {$: 'ExpectedInterfaceAssumption', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedInterfaceLiteralInInterfaceAssumption = function (a) {
+	return {$: 'ExpectedInterfaceLiteralInInterfaceAssumption', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedInterfaceOpenBraces = function (a) {
+	return {$: 'ExpectedInterfaceOpenBraces', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleIdentifierInInterfaceAssumption = function (a) {
+	return {$: 'ExpectedModuleIdentifierInInterfaceAssumption', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedSemicolonAfterInterfaceAssumption = function (a) {
+	return {$: 'ExpectedSemicolonAfterInterfaceAssumption', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedTermIdentifierInInterfaceAssumption = function (a) {
+	return {$: 'ExpectedTermIdentifierInInterfaceAssumption', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedTypeInInterfaceAssumption = function (a) {
+	return {$: 'ExpectedTypeInInterfaceAssumption', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedTypingSymbolInInterfaceAssumption = function (a) {
+	return {$: 'ExpectedTypingSymbolInInterfaceAssumption', a: a};
+};
+var $author$project$Calculus$Base$Interface = function (assumptions) {
+	return {assumptions: assumptions};
+};
+var $author$project$Calculus$Parser$AssumeFunctor = {$: 'AssumeFunctor'};
+var $author$project$Calculus$Parser$AssumeModule = {$: 'AssumeModule'};
+var $author$project$Calculus$Parser$AssumeTerm = {$: 'AssumeTerm'};
+var $author$project$Calculus$Parser$AssumeType = {$: 'AssumeType'};
+var $author$project$Calculus$Parser$ExpectedGapAfterInterfaceAssumptionKeyword = function (a) {
+	return {$: 'ExpectedGapAfterInterfaceAssumptionKeyword', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedInterfaceAssumptionKeyword = function (a) {
+	return {$: 'ExpectedInterfaceAssumptionKeyword', a: a};
+};
+var $author$project$Calculus$Parser$interfaceAssumptionKeyword = A2(
+	$author$project$Lib$Parser$Parser$o,
+	$author$project$Calculus$Parser$spaces,
+	A2(
+		$author$project$Lib$Parser$Parser$o,
+		A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedGapAfterInterfaceAssumptionKeyword, $author$project$Calculus$Parser$keywordGap),
+		A2(
+			$author$project$Lib$Parser$Parser$mapError,
+			$author$project$Calculus$Parser$ExpectedInterfaceAssumptionKeyword,
+			$author$project$Lib$Parser$Parser$stringIn(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('assume-term', $author$project$Calculus$Parser$AssumeTerm),
+						_Utils_Tuple2('assume-type', $author$project$Calculus$Parser$AssumeType),
+						_Utils_Tuple2('assume-module', $author$project$Calculus$Parser$AssumeModule),
+						_Utils_Tuple2('assume-functor', $author$project$Calculus$Parser$AssumeFunctor)
+					])))));
+var $author$project$Calculus$Parser$moduleVarIntro = $author$project$Calculus$Parser$identifier;
+var $author$project$Lib$Parser$Parser$Done = function (a) {
+	return {$: 'Done', a: a};
+};
+var $author$project$Lib$Parser$Parser$Loop = function (a) {
+	return {$: 'Loop', a: a};
+};
+var $author$project$Lib$Parser$Parser$loop = F2(
+	function (x0, f) {
+		return $author$project$Lib$Parser$Parser$make(
+			F2(
+				function (r, s0) {
+					var _v0 = A3(
+						$author$project$Lib$Parser$Parser$run,
+						f(x0),
+						r,
+						s0);
+					if (_v0.$ === 'Ok') {
+						var _v1 = _v0.a;
+						var s1 = _v1.a;
+						var loopValue = _v1.b;
+						if (loopValue.$ === 'Done') {
+							var x1 = loopValue.a;
+							return $elm$core$Result$Ok(
+								_Utils_Tuple2(s1, x1));
+						} else {
+							var x1 = loopValue.a;
+							return A3(
+								$author$project$Lib$Parser$Parser$run,
+								A2($author$project$Lib$Parser$Parser$loop, x1, f),
+								r,
+								s1);
+						}
+					} else {
+						var error = _v0.a;
+						return $elm$core$Result$Err(error);
+					}
+				}));
+	});
+var $author$project$Lib$Parser$Parser$repeatUntil = F2(
+	function (toBeRepeatedParser, conditionParser) {
+		return A2(
+			$author$project$Lib$Parser$Parser$loop,
+			_List_Nil,
+			function (reversed_xs) {
+				return A3(
+					$author$project$Lib$Parser$Parser$ifSuccessIfError,
+					function (_v0) {
+						return $author$project$Lib$Parser$Parser$return(
+							$author$project$Lib$Parser$Parser$Done(
+								$elm$core$List$reverse(reversed_xs)));
+					},
+					function (_v1) {
+						return A2(
+							$author$project$Lib$Parser$Parser$map,
+							function (x) {
+								return $author$project$Lib$Parser$Parser$Loop(
+									A2($elm$core$List$cons, x, reversed_xs));
+							},
+							toBeRepeatedParser);
+					},
+					conditionParser);
+			});
+	});
+var $author$project$Calculus$Parser$semicolon = $author$project$Calculus$Parser$symbol(';');
+var $elm$core$Debug$todo = _Debug_todo;
+var $author$project$Calculus$Base$Arrow = F2(
+	function (a, b) {
+		return {$: 'Arrow', a: a, b: b};
+	});
+var $author$project$Calculus$Base$ConstBool = {$: 'ConstBool'};
+var $author$project$Calculus$Base$ConstNat = {$: 'ConstNat'};
+var $author$project$Calculus$Parser$ExpectedTypeOperator = function (a) {
+	return {$: 'ExpectedTypeOperator', a: a};
+};
+var $author$project$Calculus$Base$Frozen = function (a) {
+	return {$: 'Frozen', a: a};
+};
+var $author$project$Calculus$Base$List = function (a) {
+	return {$: 'List', a: a};
+};
+var $author$project$Calculus$Base$Product = F2(
+	function (a, b) {
+		return {$: 'Product', a: a, b: b};
+	});
+var $author$project$Calculus$Base$Sum = F2(
+	function (a, b) {
+		return {$: 'Sum', a: a, b: b};
+	});
+var $author$project$Calculus$Base$TypeVarUse = function (a) {
+	return {$: 'TypeVarUse', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedTypeParens = function (a) {
+	return {$: 'ExpectedTypeParens', a: a};
+};
+var $toastal$either$Either$Left = function (a) {
+	return {$: 'Left', a: a};
+};
+var $toastal$either$Either$Right = function (a) {
+	return {$: 'Right', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedOpenParens = function (a) {
+	return {$: 'ExpectedOpenParens', a: a};
+};
+var $author$project$Lib$Parser$Parser$DoneAndRevertChar = function (a) {
+	return {$: 'DoneAndRevertChar', a: a};
+};
+var $author$project$Lib$Parser$Parser$NextChar = function (a) {
+	return {$: 'NextChar', a: a};
+};
+var $author$project$Lib$Parser$Error$ExpectedNonEmptyInput = {};
+var $author$project$Lib$Parser$State$consumeAnyChar = function (s) {
+	var _v0 = $elm$core$String$uncons(s.input);
+	if (_v0.$ === 'Just') {
+		var _v1 = _v0.a;
+		var c = _v1.a;
+		var inputRemaining = _v1.b;
+		return $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				A2(
+					$author$project$Lib$Parser$State$moveByCharacter,
+					c,
+					A2($author$project$Lib$Parser$State$setInput, inputRemaining, s)),
+				c));
+	} else {
+		return $elm$core$Result$Err(
+			A2($author$project$Lib$Parser$State$throw, $author$project$Lib$Parser$Error$ExpectedNonEmptyInput, s));
+	}
+};
+var $author$project$Lib$Parser$Parser$loopChars = F3(
+	function (init_x, onChar, onEmptyInput) {
+		return $author$project$Lib$Parser$Parser$make(
+			F2(
+				function (r, init_s) {
+					var loop0 = F2(
+						function (s0, x0) {
+							loop0:
+							while (true) {
+								var _v0 = $author$project$Lib$Parser$State$consumeAnyChar(s0);
+								if (_v0.$ === 'Ok') {
+									var _v1 = _v0.a;
+									var s1 = _v1.a;
+									var c = _v1.b;
+									var _v2 = A2(onChar, c, x0);
+									switch (_v2.$) {
+										case 'DoneAndConsumeChar':
+											var x1 = _v2.a;
+											return $elm$core$Result$Ok(
+												_Utils_Tuple2(s1, x1));
+										case 'DoneAndRevertChar':
+											var x1 = _v2.a;
+											return $elm$core$Result$Ok(
+												_Utils_Tuple2(s0, x1));
+										case 'NextChar':
+											var x1 = _v2.a;
+											var $temp$s0 = s1,
+												$temp$x0 = x1;
+											s0 = $temp$s0;
+											x0 = $temp$x0;
+											continue loop0;
+										default:
+											var error = _v2.a;
+											return $elm$core$Result$Err(
+												A2(
+													$author$project$Lib$Parser$Error$make,
+													$author$project$Lib$Parser$State$getPosition(s1),
+													error));
+									}
+								} else {
+									var emptyInputError = _v0.a;
+									var _v3 = onEmptyInput(x0);
+									if (_v3.$ === 'Ok') {
+										var x1 = _v3.a;
+										return $elm$core$Result$Ok(
+											_Utils_Tuple2(s0, x1));
+									} else {
+										var error = _v3.a;
+										return $elm$core$Result$Err(
+											A2(
+												$author$project$Lib$Parser$Error$make,
+												$author$project$Lib$Parser$State$getPosition(s0),
+												error));
+									}
+								}
+							}
+						});
+					return A2(loop0, init_s, init_x);
+				}));
+	});
+var $author$project$Calculus$Parser$zeroOrMoreOpenParens = A3(
+	$author$project$Lib$Parser$Parser$loopChars,
+	0,
+	F2(
+		function (c, numOfOpenParens) {
+			return $author$project$Calculus$Parser$isWhitespaceChar(c) ? $author$project$Lib$Parser$Parser$NextChar(numOfOpenParens) : (_Utils_eq(
+				c,
+				_Utils_chr('(')) ? $author$project$Lib$Parser$Parser$NextChar(numOfOpenParens + 1) : $author$project$Lib$Parser$Parser$DoneAndRevertChar(numOfOpenParens));
+		}),
+	$elm$core$Result$Ok);
+var $author$project$Calculus$Parser$atleastOneOpenParens = function () {
+	var handleFirstOpenParen = function (_v0) {
+		var expected = _v0.expected;
+		var consumedSuccessfully = _v0.consumedSuccessfully;
+		var failedAtChar = _v0.failedAtChar;
+		return $author$project$Calculus$Parser$ExpectedOpenParens(
+			{failedAtChar: failedAtChar});
+	};
+	return A2(
+		$author$project$Lib$Parser$Parser$map,
+		function (numOfOpenParens) {
+			return numOfOpenParens + 1;
+		},
+		A2(
+			$author$project$Lib$Parser$Parser$ooo,
+			$author$project$Calculus$Parser$zeroOrMoreOpenParens,
+			A2(
+				$author$project$Lib$Parser$Parser$o,
+				$author$project$Calculus$Parser$spaces,
+				A2(
+					$author$project$Lib$Parser$Parser$o,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						handleFirstOpenParen,
+						$author$project$Lib$Parser$Parser$string('(')),
+					$author$project$Lib$Parser$Parser$identity))));
+}();
+var $author$project$Calculus$Parser$ExpectedClosingParens = function (a) {
+	return {$: 'ExpectedClosingParens', a: a};
+};
+var $author$project$Lib$Parser$Parser$Fail = function (a) {
+	return {$: 'Fail', a: a};
+};
+var $elm$core$Basics$ge = _Utils_ge;
+var $author$project$Calculus$Parser$closingParens = function (numOfExpectedClosingParens) {
+	var handleFirstClosingParen = function (_v0) {
+		var expected = _v0.expected;
+		var consumedSuccessfully = _v0.consumedSuccessfully;
+		var failedAtChar = _v0.failedAtChar;
+		return $author$project$Calculus$Parser$ExpectedClosingParens(
+			{failedAtChar: failedAtChar});
+	};
+	return (!numOfExpectedClosingParens) ? $author$project$Calculus$Parser$spaces : A2(
+		$author$project$Lib$Parser$Parser$o,
+		$author$project$Calculus$Parser$spaces,
+		A2(
+			$author$project$Lib$Parser$Parser$o,
+			A3(
+				$author$project$Lib$Parser$Parser$loopChars,
+				1,
+				F2(
+					function (c, numOfClosingParens) {
+						return (_Utils_cmp(numOfClosingParens, numOfExpectedClosingParens) > -1) ? $author$project$Lib$Parser$Parser$DoneAndRevertChar(numOfExpectedClosingParens) : ($author$project$Calculus$Parser$isWhitespaceChar(c) ? $author$project$Lib$Parser$Parser$NextChar(numOfClosingParens) : (_Utils_eq(
+							c,
+							_Utils_chr(')')) ? $author$project$Lib$Parser$Parser$NextChar(numOfClosingParens + 1) : $author$project$Lib$Parser$Parser$Fail(
+							$author$project$Calculus$Parser$ExpectedClosingParens(
+								{
+									failedAtChar: $elm$core$Maybe$Just(c)
+								}))));
+					}),
+				function (numOfClosingParens) {
+					return (_Utils_cmp(numOfClosingParens, numOfExpectedClosingParens) > -1) ? $elm$core$Result$Ok(numOfClosingParens) : $elm$core$Result$Err(
+						$author$project$Calculus$Parser$ExpectedClosingParens(
+							{failedAtChar: $elm$core$Maybe$Nothing}));
+				}),
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				handleFirstClosingParen,
+				$author$project$Lib$Parser$Parser$string(')'))));
+};
+var $author$project$Calculus$Parser$mandatoryParens = function (parser) {
+	return A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (numOfOpenParens) {
+			return A2(
+				$author$project$Lib$Parser$Parser$o,
+				A2(
+					$author$project$Lib$Parser$Parser$mapError,
+					$toastal$either$Either$Left,
+					$author$project$Calculus$Parser$closingParens(numOfOpenParens)),
+				A2($author$project$Lib$Parser$Parser$mapError, $toastal$either$Either$Right, parser));
+		},
+		A2($author$project$Lib$Parser$Parser$mapError, $toastal$either$Either$Left, $author$project$Calculus$Parser$atleastOneOpenParens));
+};
+var $author$project$Calculus$Parser$mandatoryTypeTermParens = function (parser) {
+	return A2(
+		$author$project$Lib$Parser$Parser$mapError,
+		function (eitherMsg) {
+			if (eitherMsg.$ === 'Left') {
+				var msg = eitherMsg.a;
+				return $author$project$Calculus$Parser$ExpectedTypeParens(msg);
+			} else {
+				var msg = eitherMsg.a;
+				return msg;
+			}
+		},
+		$author$project$Calculus$Parser$mandatoryParens(parser));
+};
+var $author$project$Calculus$Parser$optionalParens = function (parser) {
+	return A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (numOfOpenParens) {
+			return A2(
+				$author$project$Lib$Parser$Parser$o,
+				A2(
+					$author$project$Lib$Parser$Parser$mapError,
+					$toastal$either$Either$Left,
+					$author$project$Calculus$Parser$closingParens(numOfOpenParens)),
+				A2($author$project$Lib$Parser$Parser$mapError, $toastal$either$Either$Right, parser));
+		},
+		$author$project$Calculus$Parser$zeroOrMoreOpenParens);
+};
+var $author$project$Calculus$Parser$optionalTypeTermParens = function (parser) {
+	return A2(
+		$author$project$Lib$Parser$Parser$mapError,
+		function (eitherMsg) {
+			if (eitherMsg.$ === 'Left') {
+				var msg = eitherMsg.a;
+				return $author$project$Calculus$Parser$ExpectedTypeParens(msg);
+			} else {
+				var msg = eitherMsg.a;
+				return msg;
+			}
+		},
+		$author$project$Calculus$Parser$optionalParens(parser));
+};
+var $author$project$Calculus$Parser$Arrow = {$: 'Arrow'};
+var $author$project$Calculus$Parser$ConstBool = {$: 'ConstBool'};
+var $author$project$Calculus$Parser$ConstNat = {$: 'ConstNat'};
+var $author$project$Calculus$Parser$ExpectedOperatorKeyword = function (a) {
+	return {$: 'ExpectedOperatorKeyword', a: a};
+};
+var $author$project$Calculus$Parser$Frozen = {$: 'Frozen'};
+var $author$project$Calculus$Parser$List = {$: 'List'};
+var $author$project$Calculus$Parser$Product = {$: 'Product'};
+var $author$project$Calculus$Parser$Sum = {$: 'Sum'};
+var $author$project$Calculus$Parser$TypeVarUse = {$: 'TypeVarUse'};
+var $author$project$Calculus$Parser$ExpectedGapAfterOperatorKeyword = function (a) {
+	return {$: 'ExpectedGapAfterOperatorKeyword', a: a};
+};
+var $author$project$Calculus$Parser$handleKeywordGapError = F2(
+	function (operatorKeyword0, gapError) {
+		return $author$project$Calculus$Parser$ExpectedGapAfterOperatorKeyword(
+			{failedAtChar: gapError.failedAtChar, operatorKeyword: operatorKeyword0});
+	});
+var $author$project$Calculus$Parser$typeOperatorKeyword = A2(
+	$author$project$Lib$Parser$Parser$o,
+	$author$project$Calculus$Parser$spaces,
+	A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (typeOperatorKeyword0) {
+			if (typeOperatorKeyword0.$ === 'TypeVarUse') {
+				return $author$project$Lib$Parser$Parser$return($author$project$Calculus$Parser$TypeVarUse);
+			} else {
+				return A2(
+					$author$project$Lib$Parser$Parser$o,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						$author$project$Calculus$Parser$handleKeywordGapError(typeOperatorKeyword0),
+						$author$project$Calculus$Parser$keywordGap),
+					$author$project$Lib$Parser$Parser$return(typeOperatorKeyword0));
+			}
+		},
+		A2(
+			$author$project$Lib$Parser$Parser$mapError,
+			$author$project$Calculus$Parser$ExpectedOperatorKeyword,
+			$author$project$Lib$Parser$Parser$stringIn(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('$', $author$project$Calculus$Parser$TypeVarUse),
+						_Utils_Tuple2('Product', $author$project$Calculus$Parser$Product),
+						_Utils_Tuple2('Sum', $author$project$Calculus$Parser$Sum),
+						_Utils_Tuple2('Arrow', $author$project$Calculus$Parser$Arrow),
+						_Utils_Tuple2('Bool', $author$project$Calculus$Parser$ConstBool),
+						_Utils_Tuple2('Nat', $author$project$Calculus$Parser$ConstNat),
+						_Utils_Tuple2('List', $author$project$Calculus$Parser$List),
+						_Utils_Tuple2('Frozen', $author$project$Calculus$Parser$Frozen)
+					])))));
+var $author$project$Calculus$Parser$ExpectedTypeIdentifier = function (a) {
+	return {$: 'ExpectedTypeIdentifier', a: a};
+};
+var $author$project$Calculus$Parser$typeVarIntro = A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTypeIdentifier, $author$project$Calculus$Parser$identifier);
+function $author$project$Calculus$Parser$cyclic$typeTerm() {
+	var operator2 = function (f) {
+		return $author$project$Calculus$Parser$mandatoryTypeTermParens(
+			A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				$author$project$Calculus$Parser$cyclic$typeTerm(),
+				A2(
+					$author$project$Lib$Parser$Parser$ooo,
+					$author$project$Calculus$Parser$cyclic$typeTerm(),
+					$author$project$Lib$Parser$Parser$return(f))));
+	};
+	var operator1 = function (f) {
+		return $author$project$Calculus$Parser$mandatoryTypeTermParens(
+			A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				$author$project$Calculus$Parser$cyclic$typeTerm(),
+				$author$project$Lib$Parser$Parser$return(f)));
+	};
+	var constant = function (c) {
+		return A2(
+			$author$project$Lib$Parser$Parser$map,
+			function (_v1) {
+				return c;
+			},
+			$author$project$Calculus$Parser$optionalTypeTermParens($author$project$Calculus$Parser$emptySequence));
+	};
+	return A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (typeOperatorKeyword0) {
+			switch (typeOperatorKeyword0.$) {
+				case 'TypeVarUse':
+					return A2($author$project$Lib$Parser$Parser$map, $author$project$Calculus$Base$TypeVarUse, $author$project$Calculus$Parser$typeVarIntro);
+				case 'Product':
+					return operator2($author$project$Calculus$Base$Product);
+				case 'Sum':
+					return operator2($author$project$Calculus$Base$Sum);
+				case 'Arrow':
+					return operator2($author$project$Calculus$Base$Arrow);
+				case 'ConstBool':
+					return constant($author$project$Calculus$Base$ConstBool);
+				case 'ConstNat':
+					return constant($author$project$Calculus$Base$ConstNat);
+				case 'List':
+					return operator1($author$project$Calculus$Base$List);
+				default:
+					return operator1($author$project$Calculus$Base$Frozen);
+			}
+		},
+		A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTypeOperator, $author$project$Calculus$Parser$typeOperatorKeyword));
+}
+try {
+	var $author$project$Calculus$Parser$typeTerm = $author$project$Calculus$Parser$cyclic$typeTerm();
+	$author$project$Calculus$Parser$cyclic$typeTerm = function () {
+		return $author$project$Calculus$Parser$typeTerm;
+	};
+} catch ($) {
+	throw 'Some top-level definitions from `Calculus.Parser` are causing infinite recursion:\n\n  ┌─────┐\n  │    typeTerm\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.1/bad-recursion to learn how to fix it!';}
+var $author$project$Calculus$Parser$varIntro = $author$project$Calculus$Parser$identifier;
+function $author$project$Calculus$Parser$cyclic$interfaceLiteral() {
+	return A2(
+		$author$project$Lib$Parser$Parser$ooo,
+		A2(
+			$author$project$Lib$Parser$Parser$repeatUntil,
+			A2(
+				$author$project$Lib$Parser$Parser$o,
+				A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedSemicolonAfterInterfaceAssumption, $author$project$Calculus$Parser$semicolon),
+				A2(
+					$author$project$Lib$Parser$Parser$mapError,
+					$author$project$Calculus$Parser$ExpectedInterfaceAssumption,
+					$author$project$Calculus$Parser$cyclic$interfaceAssumption())),
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$author$project$Calculus$Parser$ExpectedModuleClosingBraces,
+				$author$project$Calculus$Parser$symbol('}'))),
+		A2(
+			$author$project$Lib$Parser$Parser$o,
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$author$project$Calculus$Parser$ExpectedInterfaceOpenBraces,
+				$author$project$Calculus$Parser$symbol('{')),
+			$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$Interface)));
+}
+function $author$project$Calculus$Parser$cyclic$interfaceAssumption() {
+	return A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (keyword0) {
+			switch (keyword0.$) {
+				case 'AssumeTerm':
+					return A2(
+						$author$project$Lib$Parser$Parser$ooo,
+						A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTypeInInterfaceAssumption, $author$project$Calculus$Parser$typeTerm),
+						A2(
+							$author$project$Lib$Parser$Parser$o,
+							A2(
+								$author$project$Lib$Parser$Parser$mapError,
+								$author$project$Calculus$Parser$ExpectedTypingSymbolInInterfaceAssumption,
+								$author$project$Calculus$Parser$symbol(':')),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifierInInterfaceAssumption, $author$project$Calculus$Parser$varIntro),
+								$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$AssumeTerm))));
+				case 'AssumeType':
+					return _Debug_todo(
+						'Calculus.Parser',
+						{
+							start: {line: 1766, column: 25},
+							end: {line: 1766, column: 35}
+						})('');
+				case 'AssumeModule':
+					return A2(
+						$author$project$Lib$Parser$Parser$ooo,
+						A2(
+							$author$project$Lib$Parser$Parser$mapError,
+							$author$project$Calculus$Parser$ExpectedInterfaceLiteralInInterfaceAssumption,
+							$author$project$Calculus$Parser$cyclic$interfaceLiteral()),
+						A2(
+							$author$project$Lib$Parser$Parser$o,
+							A2(
+								$author$project$Lib$Parser$Parser$mapError,
+								$author$project$Calculus$Parser$ExpectedTypingSymbolInInterfaceAssumption,
+								$author$project$Calculus$Parser$symbol(':')),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedModuleIdentifierInInterfaceAssumption, $author$project$Calculus$Parser$moduleVarIntro),
+								$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$AssumeModule))));
+				default:
+					return _Debug_todo(
+						'Calculus.Parser',
+						{
+							start: {line: 1775, column: 25},
+							end: {line: 1775, column: 35}
+						})('');
+			}
+		},
+		$author$project$Calculus$Parser$interfaceAssumptionKeyword);
+}
+try {
+	var $author$project$Calculus$Parser$interfaceLiteral = $author$project$Calculus$Parser$cyclic$interfaceLiteral();
+	$author$project$Calculus$Parser$cyclic$interfaceLiteral = function () {
+		return $author$project$Calculus$Parser$interfaceLiteral;
+	};
+	var $author$project$Calculus$Parser$interfaceAssumption = $author$project$Calculus$Parser$cyclic$interfaceAssumption();
+	$author$project$Calculus$Parser$cyclic$interfaceAssumption = function () {
+		return $author$project$Calculus$Parser$interfaceAssumption;
+	};
+} catch ($) {
+	throw 'Some top-level definitions from `Calculus.Parser` are causing infinite recursion:\n\n  ┌─────┐\n  │    interfaceLiteral\n  │     ↓\n  │    interfaceAssumption\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.1/bad-recursion to learn how to fix it!';}
+var $author$project$Calculus$Parser$keyword = function (string0) {
+	return A2(
+		$author$project$Lib$Parser$Parser$o,
+		A2($author$project$Lib$Parser$Parser$mapError, $toastal$either$Either$Right, $author$project$Calculus$Parser$keywordGap),
+		A2(
+			$author$project$Lib$Parser$Parser$o,
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$toastal$either$Either$Left,
+				$author$project$Lib$Parser$Parser$string(string0)),
+			$author$project$Lib$Parser$Parser$unit));
+};
+var $author$project$Calculus$Parser$interface = function () {
+	var handleKeyword = function (msg) {
+		if (msg.$ === 'Left') {
+			var expectedStringErr = msg.a;
+			return $author$project$Calculus$Parser$ExpectedInterfaceKeyword(expectedStringErr);
+		} else {
+			var gapErr = msg.a;
+			return $author$project$Calculus$Parser$ExpectedGapAfterInterfaceKeyword(gapErr);
+		}
+	};
+	return A2(
+		$author$project$Lib$Parser$Parser$ooo,
+		$author$project$Calculus$Parser$interfaceLiteral,
+		A2(
+			$author$project$Lib$Parser$Parser$o,
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				handleKeyword,
+				$author$project$Calculus$Parser$keyword('interface')),
+			$author$project$Lib$Parser$Parser$identity));
+}();
+var $elm$core$Tuple$pair = F2(
+	function (a, b) {
+		return _Utils_Tuple2(a, b);
+	});
+var $author$project$Calculus$Parser$functorParameter = A2(
+	$author$project$Lib$Parser$Parser$ooo,
+	A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedInterfaceInFunctorParameter, $author$project$Calculus$Parser$interface),
+	A2(
+		$author$project$Lib$Parser$Parser$o,
+		A2(
+			$author$project$Lib$Parser$Parser$mapError,
+			$author$project$Calculus$Parser$ExpectedTypingSymbolInFunctorParameter,
+			$author$project$Calculus$Parser$symbol(':')),
+		A2(
+			$author$project$Lib$Parser$Parser$mapError,
+			$author$project$Calculus$Parser$ExpectedFunctorIdentifierInFunctorParameter,
+			A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				$author$project$Calculus$Parser$functorVarIntro,
+				$author$project$Lib$Parser$Parser$return($elm$core$Tuple$pair)))));
+var $author$project$Calculus$Base$intToNatTerm = function (n) {
+	return (!n) ? $author$project$Calculus$Base$ConstZero : $author$project$Calculus$Base$Succ(
+		$author$project$Calculus$Base$intToNatTerm(n - 1));
+};
+var $author$project$Calculus$Parser$ExpectedParens = function (a) {
+	return {$: 'ExpectedParens', a: a};
+};
+var $author$project$Calculus$Parser$mandatoryTermParens = function (parser) {
+	return A2(
+		$author$project$Lib$Parser$Parser$mapError,
+		function (eitherMsg) {
+			if (eitherMsg.$ === 'Left') {
+				var msg = eitherMsg.a;
+				return $author$project$Calculus$Parser$ExpectedParens(msg);
+			} else {
+				var msg = eitherMsg.a;
+				return msg;
+			}
+		},
+		$author$project$Calculus$Parser$mandatoryParens(parser));
+};
+var $author$project$Calculus$Parser$ExpectedGapAfterModuleLetBindingKeyword = function (a) {
+	return {$: 'ExpectedGapAfterModuleLetBindingKeyword', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleLetBindingKeyword = function (a) {
+	return {$: 'ExpectedModuleLetBindingKeyword', a: a};
+};
+var $author$project$Calculus$Parser$LetFunctor = {$: 'LetFunctor'};
+var $author$project$Calculus$Parser$LetModule = {$: 'LetModule'};
+var $author$project$Calculus$Parser$LetTerm = {$: 'LetTerm'};
+var $author$project$Calculus$Parser$LetType = {$: 'LetType'};
+var $author$project$Calculus$Parser$moduleLetBindingKeyword = A2(
+	$author$project$Lib$Parser$Parser$o,
+	$author$project$Calculus$Parser$spaces,
+	A2(
+		$author$project$Lib$Parser$Parser$o,
+		A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedGapAfterModuleLetBindingKeyword, $author$project$Calculus$Parser$keywordGap),
+		A2(
+			$author$project$Lib$Parser$Parser$mapError,
+			$author$project$Calculus$Parser$ExpectedModuleLetBindingKeyword,
+			$author$project$Lib$Parser$Parser$stringIn(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('let-term', $author$project$Calculus$Parser$LetTerm),
+						_Utils_Tuple2('let-type', $author$project$Calculus$Parser$LetType),
+						_Utils_Tuple2('let-module', $author$project$Calculus$Parser$LetModule),
+						_Utils_Tuple2('let-functor', $author$project$Calculus$Parser$LetFunctor)
+					])))));
+var $author$project$Calculus$Parser$ExpectedGapAfterModuleOperator = function (a) {
+	return {$: 'ExpectedGapAfterModuleOperator', a: a};
+};
+var $author$project$Calculus$Parser$ExpectedModuleOperator = function (a) {
+	return {$: 'ExpectedModuleOperator', a: a};
+};
+var $author$project$Calculus$Parser$FunctorApplication = {$: 'FunctorApplication'};
+var $author$project$Calculus$Parser$ModuleLiteralTerm = {$: 'ModuleLiteralTerm'};
+var $author$project$Calculus$Parser$ModuleVarUse = {$: 'ModuleVarUse'};
+var $author$project$Calculus$Parser$moduleOperatorKeyword = function () {
+	var handleGap = F2(
+		function (keyword0, gapError) {
+			return $author$project$Calculus$Parser$ExpectedGapAfterModuleOperator(
+				{failedAtChar: gapError.failedAtChar, operatorKeyword: keyword0});
+		});
+	return A2(
+		$author$project$Lib$Parser$Parser$o,
+		$author$project$Calculus$Parser$spaces,
+		A2(
+			$author$project$Lib$Parser$Parser$andThen,
+			function (keyword0) {
+				switch (keyword0.$) {
+					case 'ModuleVarUse':
+						return $author$project$Lib$Parser$Parser$return($author$project$Calculus$Parser$ModuleVarUse);
+					case 'FunctorApplication':
+						return $author$project$Lib$Parser$Parser$return($author$project$Calculus$Parser$FunctorApplication);
+					default:
+						return A2(
+							$author$project$Lib$Parser$Parser$o,
+							A2(
+								$author$project$Lib$Parser$Parser$mapError,
+								handleGap(keyword0),
+								$author$project$Calculus$Parser$keywordGap),
+							$author$project$Lib$Parser$Parser$return(keyword0));
+				}
+			},
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$author$project$Calculus$Parser$ExpectedModuleOperator,
+				$author$project$Lib$Parser$Parser$stringIn(
+					_List_fromArray(
+						[
+							_Utils_Tuple2('$', $author$project$Calculus$Parser$ModuleVarUse),
+							_Utils_Tuple2('module', $author$project$Calculus$Parser$ModuleLiteralTerm),
+							_Utils_Tuple2('[', $author$project$Calculus$Parser$FunctorApplication)
+						])))));
+}();
+var $elm$core$String$fromChar = function (_char) {
+	return A2($elm$core$String$cons, _char, '');
+};
+var $elm$core$Basics$pow = _Basics_pow;
+var $author$project$Lib$Parser$Parser$second = F2(
+	function (parser0, parser1) {
+		return A2(
+			$author$project$Lib$Parser$Parser$map,
+			function (_v0) {
+				var b = _v0.b;
+				return b;
+			},
+			A2($author$project$Lib$Parser$Parser$pair, parser0, parser1));
+	});
+var $author$project$Lib$Parser$Parser$naturalNumber = function () {
+	var charToInt = function (c) {
+		return $elm$core$Char$toCode(c) - 48;
+	};
+	var digitStringToInt = function (str) {
+		return A3(
+			$elm$core$String$foldr,
+			F2(
+				function (c, _v0) {
+					var x = _v0.a;
+					var exponent = _v0.b;
+					return _Utils_Tuple2(
+						(A2($elm$core$Basics$pow, 10, exponent) * charToInt(c)) + x,
+						exponent + 1);
+				}),
+			_Utils_Tuple2(0, 0),
+			str).a;
+	};
+	return A2(
+		$author$project$Lib$Parser$Parser$map,
+		digitStringToInt,
+		A2(
+			$author$project$Lib$Parser$Parser$andThen,
+			function (c) {
+				return _Utils_eq(
+					c,
+					_Utils_chr('0')) ? A2(
+					$author$project$Lib$Parser$Parser$second,
+					$author$project$Lib$Parser$Parser$allWhileTrue(
+						function (d) {
+							return _Utils_eq(
+								d,
+								_Utils_chr('0'));
+						}),
+					$author$project$Lib$Parser$Parser$allWhileTrue($elm$core$Char$isDigit)) : A2(
+					$author$project$Lib$Parser$Parser$map,
+					function (digits) {
+						return _Utils_ap(
+							digits,
+							$elm$core$String$fromChar(c));
+					},
+					$author$project$Lib$Parser$Parser$allWhileTrue($elm$core$Char$isDigit));
+			},
+			$author$project$Lib$Parser$Parser$anyCharSatisfying($elm$core$Char$isDigit)));
+}();
+var $author$project$Calculus$Parser$Abstraction = {$: 'Abstraction'};
+var $author$project$Calculus$Parser$Application = {$: 'Application'};
+var $author$project$Calculus$Parser$ConstZero = {$: 'ConstZero'};
+var $author$project$Calculus$Parser$Delay = {$: 'Delay'};
+var $author$project$Calculus$Parser$FoldList = {$: 'FoldList'};
+var $author$project$Calculus$Parser$Force = {$: 'Force'};
+var $author$project$Calculus$Parser$Let = {$: 'Let'};
+var $author$project$Calculus$Parser$LetBe = {$: 'LetBe'};
+var $author$project$Calculus$Parser$MatchBool = {$: 'MatchBool'};
+var $author$project$Calculus$Parser$MatchPair = {$: 'MatchPair'};
+var $author$project$Calculus$Parser$MatchSum = {$: 'MatchSum'};
+var $author$project$Calculus$Parser$ModuleAccess = {$: 'ModuleAccess'};
+var $author$project$Calculus$Parser$NatLiteral = {$: 'NatLiteral'};
+var $author$project$Calculus$Parser$VarUse = {$: 'VarUse'};
+var $author$project$Calculus$Parser$operatorKeyword = A2(
+	$author$project$Lib$Parser$Parser$o,
+	$author$project$Calculus$Parser$spaces,
+	A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (operatorKeyword0) {
+			switch (operatorKeyword0.$) {
+				case 'VarUse':
+					return $author$project$Lib$Parser$Parser$return($author$project$Calculus$Parser$VarUse);
+				case 'NatLiteral':
+					return $author$project$Lib$Parser$Parser$return($author$project$Calculus$Parser$NatLiteral);
+				case 'Application':
+					return $author$project$Lib$Parser$Parser$return($author$project$Calculus$Parser$Application);
+				default:
+					return A2(
+						$author$project$Lib$Parser$Parser$o,
+						A2(
+							$author$project$Lib$Parser$Parser$mapError,
+							$author$project$Calculus$Parser$handleKeywordGapError(operatorKeyword0),
+							$author$project$Calculus$Parser$keywordGap),
+						$author$project$Lib$Parser$Parser$return(operatorKeyword0));
+			}
+		},
+		A2(
+			$author$project$Lib$Parser$Parser$mapError,
+			$author$project$Calculus$Parser$ExpectedOperatorKeyword,
+			$author$project$Lib$Parser$Parser$stringIn(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('$', $author$project$Calculus$Parser$VarUse),
+						_Utils_Tuple2('true', $author$project$Calculus$Parser$ConstTrue),
+						_Utils_Tuple2('false', $author$project$Calculus$Parser$ConstFalse),
+						_Utils_Tuple2('match-bool', $author$project$Calculus$Parser$MatchBool),
+						_Utils_Tuple2('pair', $author$project$Calculus$Parser$Pair),
+						_Utils_Tuple2('match-pair', $author$project$Calculus$Parser$MatchPair),
+						_Utils_Tuple2('left', $author$project$Calculus$Parser$Left),
+						_Utils_Tuple2('right', $author$project$Calculus$Parser$Right),
+						_Utils_Tuple2('match-sum', $author$project$Calculus$Parser$MatchSum),
+						_Utils_Tuple2('[', $author$project$Calculus$Parser$Application),
+						_Utils_Tuple2('\\', $author$project$Calculus$Parser$Abstraction),
+						_Utils_Tuple2('zero', $author$project$Calculus$Parser$ConstZero),
+						_Utils_Tuple2('0', $author$project$Calculus$Parser$NatLiteral),
+						_Utils_Tuple2('succ', $author$project$Calculus$Parser$Succ),
+						_Utils_Tuple2('fold-nat', $author$project$Calculus$Parser$FoldNat),
+						_Utils_Tuple2('empty', $author$project$Calculus$Parser$ConstEmpty),
+						_Utils_Tuple2('cons', $author$project$Calculus$Parser$Cons),
+						_Utils_Tuple2('fold-list', $author$project$Calculus$Parser$FoldList),
+						_Utils_Tuple2('let-be', $author$project$Calculus$Parser$LetBe),
+						_Utils_Tuple2('let', $author$project$Calculus$Parser$Let),
+						_Utils_Tuple2('delay', $author$project$Calculus$Parser$Delay),
+						_Utils_Tuple2('force', $author$project$Calculus$Parser$Force),
+						_Utils_Tuple2('/', $author$project$Calculus$Parser$ModuleAccess)
+					])))));
+var $author$project$Calculus$Parser$optionalTermParens = function (parser) {
+	return A2(
+		$author$project$Lib$Parser$Parser$mapError,
+		function (eitherMsg) {
+			if (eitherMsg.$ === 'Left') {
+				var msg = eitherMsg.a;
+				return $author$project$Calculus$Parser$ExpectedParens(msg);
+			} else {
+				var msg = eitherMsg.a;
+				return msg;
+			}
+		},
+		$author$project$Calculus$Parser$optionalParens(parser));
+};
+var $author$project$Lib$Parser$Parser$repeat = function (parser) {
+	return A2(
+		$author$project$Lib$Parser$Parser$loop,
+		_List_Nil,
+		function (reversed_xs) {
+			return A3(
+				$author$project$Lib$Parser$Parser$ifSuccessIfError,
+				$author$project$Lib$Parser$Parser$return,
+				function (error) {
+					return $author$project$Lib$Parser$Parser$return(
+						$author$project$Lib$Parser$Parser$Done(
+							$elm$core$List$reverse(reversed_xs)));
+				},
+				A2(
+					$author$project$Lib$Parser$Parser$map,
+					function (x) {
+						return $author$project$Lib$Parser$Parser$Loop(
+							A2($elm$core$List$cons, x, reversed_xs));
+					},
+					parser));
+		});
+};
+var $author$project$Calculus$Parser$ExpectedSemicolon = function (a) {
+	return {$: 'ExpectedSemicolon', a: a};
+};
+var $author$project$Calculus$Parser$semicolonTerm = A2(
+	$author$project$Lib$Parser$Parser$mapError,
+	A2($elm$core$Basics$composeL, $author$project$Calculus$Parser$ExpectedBindingTerm, $author$project$Calculus$Parser$ExpectedSemicolon),
+	$author$project$Calculus$Parser$semicolon);
+function $author$project$Calculus$Parser$cyclic$functorLiteral() {
+	return A2(
+		$author$project$Lib$Parser$Parser$o,
+		A2(
+			$author$project$Lib$Parser$Parser$mapError,
+			$author$project$Calculus$Parser$ExpectedFunctorLiteralClosingBraces,
+			$author$project$Calculus$Parser$symbol('}')),
+		A2(
+			$author$project$Lib$Parser$Parser$ooo,
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$author$project$Calculus$Parser$ExpectedModuleTermInFunctorBody,
+				$author$project$Calculus$Parser$cyclic$moduleTerm()),
+			A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				A2(
+					$author$project$Lib$Parser$Parser$repeatUntil,
+					$author$project$Calculus$Parser$functorParameter,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						$author$project$Calculus$Parser$ExpectedDotAfterFunctorParameters,
+						$author$project$Calculus$Parser$symbol('.'))),
+				A2(
+					$author$project$Lib$Parser$Parser$o,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						$author$project$Calculus$Parser$ExpectedFunctorLiteralOpenBraces,
+						$author$project$Calculus$Parser$symbol('{')),
+					$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$FunctorLiteral)))));
+}
+function $author$project$Calculus$Parser$cyclic$functorTerm() {
+	return A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (keyword0) {
+			if (keyword0.$ === 'FunctorVarUse') {
+				return A2(
+					$author$project$Lib$Parser$Parser$map,
+					$author$project$Calculus$Base$FunctorVarUse,
+					A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedFunctorIdentifier, $author$project$Calculus$Parser$functorVarIntro));
+			} else {
+				return A2(
+					$author$project$Lib$Parser$Parser$map,
+					$author$project$Calculus$Base$FunctorLiteralTerm,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						$author$project$Calculus$Parser$ExpectedFunctorLiteral,
+						$author$project$Calculus$Parser$cyclic$functorLiteral()));
+			}
+		},
+		$author$project$Calculus$Parser$functorOperatorKeyword);
+}
+function $author$project$Calculus$Parser$cyclic$moduleLiteral() {
+	return A2(
+		$author$project$Lib$Parser$Parser$ooo,
+		A2(
+			$author$project$Lib$Parser$Parser$repeatUntil,
+			A2(
+				$author$project$Lib$Parser$Parser$o,
+				A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedSemicolonAfterModuleLetBinding, $author$project$Calculus$Parser$semicolon),
+				A2(
+					$author$project$Lib$Parser$Parser$mapError,
+					$author$project$Calculus$Parser$ExpectedModuleLetBinding,
+					$author$project$Calculus$Parser$cyclic$moduleLetBinding())),
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$author$project$Calculus$Parser$ExpectedModuleClosingBraces,
+				$author$project$Calculus$Parser$symbol('}'))),
+		A2(
+			$author$project$Lib$Parser$Parser$o,
+			A2(
+				$author$project$Lib$Parser$Parser$mapError,
+				$author$project$Calculus$Parser$ExpectedModuleOpenBraces,
+				$author$project$Calculus$Parser$symbol('{')),
+			$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$ModuleLiteral)));
+}
+function $author$project$Calculus$Parser$cyclic$moduleLetBinding() {
+	return A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (keyword0) {
+			switch (keyword0.$) {
+				case 'LetTerm':
+					return A2(
+						$author$project$Lib$Parser$Parser$ooo,
+						A2(
+							$author$project$Lib$Parser$Parser$mapError,
+							$author$project$Calculus$Parser$ExpectedTermInModuleLetBinding,
+							$author$project$Calculus$Parser$cyclic$term()),
+						A2(
+							$author$project$Lib$Parser$Parser$o,
+							A2(
+								$author$project$Lib$Parser$Parser$mapError,
+								$author$project$Calculus$Parser$ExpectedEqualsInModuleLetBinding,
+								$author$project$Calculus$Parser$symbol('=')),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifierInModuleLetBinding, $author$project$Calculus$Parser$varIntro),
+								$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$LetTerm))));
+				case 'LetType':
+					return _Debug_todo(
+						'Calculus.Parser',
+						{
+							start: {line: 1570, column: 25},
+							end: {line: 1570, column: 35}
+						})('');
+				case 'LetModule':
+					return A2(
+						$author$project$Lib$Parser$Parser$ooo,
+						A2(
+							$author$project$Lib$Parser$Parser$mapError,
+							$author$project$Calculus$Parser$ExpectedModuleTermInModuleLetBinding,
+							$author$project$Calculus$Parser$cyclic$moduleTerm()),
+						A2(
+							$author$project$Lib$Parser$Parser$o,
+							A2(
+								$author$project$Lib$Parser$Parser$mapError,
+								$author$project$Calculus$Parser$ExpectedEqualsInModuleLetBinding,
+								$author$project$Calculus$Parser$symbol('=')),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedModuleIdentifierInModuleLetBinding, $author$project$Calculus$Parser$moduleVarIntro),
+								$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$LetModule))));
+				default:
+					return _Debug_todo(
+						'Calculus.Parser',
+						{
+							start: {line: 1579, column: 25},
+							end: {line: 1579, column: 35}
+						})('');
+			}
+		},
+		$author$project$Calculus$Parser$moduleLetBindingKeyword);
+}
+function $author$project$Calculus$Parser$cyclic$moduleTerm() {
+	return A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (keyword0) {
+			switch (keyword0.$) {
+				case 'ModuleVarUse':
+					return A2(
+						$author$project$Lib$Parser$Parser$map,
+						$author$project$Calculus$Base$ModuleVarUse,
+						A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedModuleIdentifier, $author$project$Calculus$Parser$moduleVarIntro));
+				case 'ModuleLiteralTerm':
+					return A2(
+						$author$project$Lib$Parser$Parser$map,
+						$author$project$Calculus$Base$ModuleLiteralTerm,
+						$author$project$Calculus$Parser$cyclic$moduleLiteral());
+				default:
+					return A2(
+						$author$project$Lib$Parser$Parser$ooo,
+						A2(
+							$author$project$Lib$Parser$Parser$repeatUntil,
+							$author$project$Calculus$Parser$cyclic$moduleTerm(),
+							A2(
+								$author$project$Lib$Parser$Parser$mapError,
+								$author$project$Calculus$Parser$ExpectedClosingBracketsInFunctorApplication,
+								$author$project$Calculus$Parser$symbol(']'))),
+						A2(
+							$author$project$Lib$Parser$Parser$ooo,
+							A2(
+								$author$project$Lib$Parser$Parser$mapError,
+								$author$project$Calculus$Parser$ExpectedFunctorTermInApplication,
+								$author$project$Calculus$Parser$cyclic$functorTerm()),
+							$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$FunctorApplication)));
+			}
+		},
+		$author$project$Calculus$Parser$moduleOperatorKeyword);
+}
+function $author$project$Calculus$Parser$cyclic$term() {
+	var varSeq2 = $author$project$Calculus$Parser$mandatoryTermParens(
+		A2(
+			$author$project$Lib$Parser$Parser$pair,
+			A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifier, $author$project$Calculus$Parser$varIntro),
+			A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifier, $author$project$Calculus$Parser$varIntro)));
+	var varSeq1 = $author$project$Calculus$Parser$mandatoryTermParens(
+		A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifier, $author$project$Calculus$Parser$varIntro));
+	var varSeq0 = $author$project$Calculus$Parser$optionalTermParens($author$project$Calculus$Parser$emptySequence);
+	var operator2 = function (f) {
+		return $author$project$Calculus$Parser$mandatoryTermParens(
+			A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				$author$project$Calculus$Parser$cyclic$term(),
+				A2(
+					$author$project$Lib$Parser$Parser$ooo,
+					$author$project$Calculus$Parser$cyclic$term(),
+					$author$project$Lib$Parser$Parser$return(f))));
+	};
+	var operator1 = function (f) {
+		return $author$project$Calculus$Parser$mandatoryTermParens(
+			A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				$author$project$Calculus$Parser$cyclic$term(),
+				$author$project$Lib$Parser$Parser$return(f)));
+	};
+	var naturalNumberLiteral = A2(
+		$author$project$Lib$Parser$Parser$map,
+		$author$project$Calculus$Base$intToNatTerm,
+		A2(
+			$author$project$Lib$Parser$Parser$o,
+			$author$project$Calculus$Parser$spaces,
+			A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedNatConstant, $author$project$Lib$Parser$Parser$naturalNumber)));
+	var handlePatternError = F2(
+		function (patternKeyword, msg) {
+			if (msg.$ === 'Left') {
+				var expected = msg.a.expected;
+				var consumedSuccessfully = msg.a.consumedSuccessfully;
+				var failedAtChar = msg.a.failedAtChar;
+				return $author$project$Calculus$Parser$ExpectedPattern(
+					$author$project$Calculus$Parser$ExpectedPatternKeyword(
+						{consumedSuccessfully: consumedSuccessfully, failedAtChar: failedAtChar, patternKeyword: patternKeyword}));
+			} else {
+				var gapError = msg.a;
+				return $author$project$Calculus$Parser$ExpectedPattern(
+					$author$project$Calculus$Parser$ExpectedGapAfterPatternKeyword(
+						{failedAtChar: gapError.failedAtChar, patternKeyword: patternKeyword}));
+			}
+		});
+	var pattern0 = F2(
+		function (str, op) {
+			return A2(
+				$author$project$Lib$Parser$Parser$o,
+				varSeq0,
+				A2(
+					$author$project$Lib$Parser$Parser$o,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						handlePatternError(op),
+						$author$project$Calculus$Parser$keyword(str)),
+					$author$project$Lib$Parser$Parser$unit));
+		});
+	var pattern1 = F2(
+		function (str, op) {
+			return A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				varSeq1,
+				A2(
+					$author$project$Lib$Parser$Parser$o,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						handlePatternError(op),
+						$author$project$Calculus$Parser$keyword(str)),
+					$author$project$Lib$Parser$Parser$identity));
+		});
+	var pattern2 = F2(
+		function (str, op) {
+			return A2(
+				$author$project$Lib$Parser$Parser$ooo,
+				varSeq2,
+				A2(
+					$author$project$Lib$Parser$Parser$o,
+					A2(
+						$author$project$Lib$Parser$Parser$mapError,
+						handlePatternError(op),
+						$author$project$Calculus$Parser$keyword(str)),
+					$author$project$Lib$Parser$Parser$identity));
+		});
+	var constant = function (c) {
+		return A2(
+			$author$project$Lib$Parser$Parser$map,
+			function (_v20) {
+				return c;
+			},
+			$author$project$Calculus$Parser$optionalTermParens($author$project$Calculus$Parser$emptySequence));
+	};
+	return A2(
+		$author$project$Lib$Parser$Parser$andThen,
+		function (operatorkeyword0) {
+			switch (operatorkeyword0.$) {
+				case 'VarUse':
+					return A2(
+						$author$project$Lib$Parser$Parser$map,
+						$author$project$Calculus$Base$VarUse,
+						A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifier, $author$project$Calculus$Parser$varIntro));
+				case 'ConstTrue':
+					return constant($author$project$Calculus$Base$ConstTrue);
+				case 'ConstFalse':
+					return constant($author$project$Calculus$Base$ConstFalse);
+				case 'MatchBool':
+					return $author$project$Calculus$Parser$optionalTermParens(
+						A2(
+							$author$project$Lib$Parser$Parser$ooo,
+							A2(
+								$author$project$Calculus$Parser$binding,
+								A2(pattern0, 'false', $author$project$Calculus$Parser$ConstFalse),
+								$author$project$Calculus$Parser$cyclic$term()),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2(
+									$author$project$Calculus$Parser$binding,
+									A2(pattern0, 'true', $author$project$Calculus$Parser$ConstTrue),
+									$author$project$Calculus$Parser$cyclic$term()),
+								A2(
+									$author$project$Lib$Parser$Parser$ooo,
+									$author$project$Calculus$Parser$cyclic$term(),
+									$author$project$Lib$Parser$Parser$return(
+										F3(
+											function (arg, _v1, _v2) {
+												var branch0 = _v1.b;
+												var branch1 = _v2.b;
+												return A2(
+													$author$project$Calculus$Base$MatchBool,
+													arg,
+													{
+														falseBranch: {body: branch1},
+														trueBranch: {body: branch0}
+													});
+											}))))));
+				case 'Pair':
+					return operator2($author$project$Calculus$Base$Pair);
+				case 'MatchPair':
+					return $author$project$Calculus$Parser$optionalTermParens(
+						A2(
+							$author$project$Lib$Parser$Parser$ooo,
+							A2(
+								$author$project$Calculus$Parser$binding,
+								A2(pattern2, 'pair', $author$project$Calculus$Parser$Pair),
+								$author$project$Calculus$Parser$cyclic$term()),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								$author$project$Calculus$Parser$cyclic$term(),
+								$author$project$Lib$Parser$Parser$return(
+									F2(
+										function (arg, _v3) {
+											var _v4 = _v3.a;
+											var var0 = _v4.a;
+											var var1 = _v4.b;
+											var body = _v3.b;
+											return A2(
+												$author$project$Calculus$Base$MatchPair,
+												arg,
+												{body: body, var0: var0, var1: var1});
+										})))));
+				case 'Left':
+					return operator1($author$project$Calculus$Base$Left);
+				case 'Right':
+					return operator1($author$project$Calculus$Base$Right);
+				case 'MatchSum':
+					return $author$project$Calculus$Parser$optionalTermParens(
+						A2(
+							$author$project$Lib$Parser$Parser$ooo,
+							A2(
+								$author$project$Calculus$Parser$binding,
+								A2(pattern1, 'right', $author$project$Calculus$Parser$Right),
+								$author$project$Calculus$Parser$cyclic$term()),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2(
+									$author$project$Calculus$Parser$binding,
+									A2(pattern1, 'left', $author$project$Calculus$Parser$Left),
+									$author$project$Calculus$Parser$cyclic$term()),
+								A2(
+									$author$project$Lib$Parser$Parser$ooo,
+									$author$project$Calculus$Parser$cyclic$term(),
+									$author$project$Lib$Parser$Parser$return(
+										F3(
+											function (arg, _v5, _v6) {
+												var leftVar = _v5.a;
+												var leftBody = _v5.b;
+												var rightVar = _v6.a;
+												var rightBody = _v6.b;
+												return A2(
+													$author$project$Calculus$Base$MatchSum,
+													arg,
+													{
+														leftBranch: {body: leftBody, _var: leftVar},
+														rightBranch: {body: rightBody, _var: rightVar}
+													});
+											}))))));
+				case 'Application':
+					return A2(
+						$author$project$Lib$Parser$Parser$o,
+						A2(
+							$author$project$Lib$Parser$Parser$mapError,
+							$author$project$Calculus$Parser$ExpectedClosingOfApplication,
+							$author$project$Calculus$Parser$symbol(']')),
+						A2(
+							$author$project$Lib$Parser$Parser$andThen,
+							function (terms) {
+								if (!terms.b) {
+									return $author$project$Lib$Parser$Parser$fail(
+										$author$project$Calculus$Parser$ExpectedAtleastTwoArgumentsToApplication(
+											{got: 0}));
+								} else {
+									if (!terms.b.b) {
+										return $author$project$Lib$Parser$Parser$fail(
+											$author$project$Calculus$Parser$ExpectedAtleastTwoArgumentsToApplication(
+												{got: 1}));
+									} else {
+										var fn0 = terms.a;
+										var _v8 = terms.b;
+										var arg0 = _v8.a;
+										var args = _v8.b;
+										var applicationWithListOfArgs = F2(
+											function (fn, args0) {
+												applicationWithListOfArgs:
+												while (true) {
+													if (!args0.b) {
+														return fn;
+													} else {
+														var arg = args0.a;
+														var args1 = args0.b;
+														var $temp$fn = A2($author$project$Calculus$Base$Application, fn, arg),
+															$temp$args0 = args1;
+														fn = $temp$fn;
+														args0 = $temp$args0;
+														continue applicationWithListOfArgs;
+													}
+												}
+											});
+										return $author$project$Lib$Parser$Parser$return(
+											A2(
+												applicationWithListOfArgs,
+												A2($author$project$Calculus$Base$Application, fn0, arg0),
+												args));
+									}
+								}
+							},
+							$author$project$Lib$Parser$Parser$repeat(
+								$author$project$Calculus$Parser$cyclic$term())));
+				case 'Abstraction':
+					var abstractionWithListOfVars = F2(
+						function (vars0, body) {
+							if (!vars0.b) {
+								return body;
+							} else {
+								var _var = vars0.a;
+								var vars1 = vars0.b;
+								return $author$project$Calculus$Base$Abstraction(
+									{
+										body: A2(abstractionWithListOfVars, vars1, body),
+										_var: _var
+									});
+							}
+						});
+					return $author$project$Calculus$Parser$optionalTermParens(
+						A2(
+							$author$project$Lib$Parser$Parser$andThen,
+							function (_v11) {
+								var vars = _v11.a;
+								var body = _v11.b;
+								if (!vars.b) {
+									return $author$project$Lib$Parser$Parser$fail(
+										$author$project$Calculus$Parser$ExpectedAtleastOneParameterToAbstraction(
+											{got: 0}));
+								} else {
+									var var0 = vars.a;
+									var vars1 = vars.b;
+									return $author$project$Lib$Parser$Parser$return(
+										$author$project$Calculus$Base$Abstraction(
+											{
+												body: A2(abstractionWithListOfVars, vars1, body),
+												_var: var0
+											}));
+								}
+							},
+							A2(
+								$author$project$Calculus$Parser$binding,
+								A2(
+									$author$project$Lib$Parser$Parser$mapError,
+									$author$project$Calculus$Parser$ExpectedTermIdentifier,
+									$author$project$Lib$Parser$Parser$repeat($author$project$Calculus$Parser$varIntro)),
+								$author$project$Calculus$Parser$cyclic$term())));
+				case 'ConstZero':
+					return constant($author$project$Calculus$Base$ConstZero);
+				case 'NatLiteral':
+					return naturalNumberLiteral;
+				case 'Succ':
+					return operator1($author$project$Calculus$Base$Succ);
+				case 'FoldNat':
+					return $author$project$Calculus$Parser$optionalTermParens(
+						A2(
+							$author$project$Lib$Parser$Parser$ooo,
+							A2(
+								$author$project$Calculus$Parser$binding,
+								A2(pattern1, 'succ', $author$project$Calculus$Parser$Succ),
+								$author$project$Calculus$Parser$cyclic$term()),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2(
+									$author$project$Calculus$Parser$binding,
+									A2(pattern0, 'zero', $author$project$Calculus$Parser$FoldNat),
+									$author$project$Calculus$Parser$cyclic$term()),
+								A2(
+									$author$project$Lib$Parser$Parser$ooo,
+									$author$project$Calculus$Parser$cyclic$term(),
+									$author$project$Lib$Parser$Parser$return(
+										F3(
+											function (arg, _v13, _v14) {
+												var zeroBody = _v13.b;
+												var succVar = _v14.a;
+												var succBody = _v14.b;
+												return A2(
+													$author$project$Calculus$Base$FoldNat,
+													arg,
+													{
+														succBranch: {body: succBody, _var: succVar},
+														zeroBranch: {body: zeroBody}
+													});
+											}))))));
+				case 'ConstEmpty':
+					return constant($author$project$Calculus$Base$ConstEmpty);
+				case 'Cons':
+					return operator2($author$project$Calculus$Base$Cons);
+				case 'FoldList':
+					return $author$project$Calculus$Parser$optionalTermParens(
+						A2(
+							$author$project$Lib$Parser$Parser$ooo,
+							A2(
+								$author$project$Calculus$Parser$binding,
+								A2(pattern2, 'cons', $author$project$Calculus$Parser$Cons),
+								$author$project$Calculus$Parser$cyclic$term()),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2(
+									$author$project$Calculus$Parser$binding,
+									A2(pattern0, 'empty', $author$project$Calculus$Parser$ConstEmpty),
+									$author$project$Calculus$Parser$cyclic$term()),
+								A2(
+									$author$project$Lib$Parser$Parser$ooo,
+									$author$project$Calculus$Parser$cyclic$term(),
+									$author$project$Lib$Parser$Parser$return(
+										F3(
+											function (arg, _v15, _v16) {
+												var emptyBody = _v15.b;
+												var _v17 = _v16.a;
+												var consVar0 = _v17.a;
+												var consVar1 = _v17.b;
+												var consBody = _v16.b;
+												return A2(
+													$author$project$Calculus$Base$FoldList,
+													arg,
+													{
+														consBranch: {body: consBody, var0: consVar0, var1: consVar1},
+														emptyBranch: {body: emptyBody}
+													});
+											}))))));
+				case 'LetBe':
+					return $author$project$Calculus$Parser$optionalTermParens(
+						A2(
+							$author$project$Lib$Parser$Parser$ooo,
+							A2(
+								$author$project$Calculus$Parser$binding,
+								A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifier, $author$project$Calculus$Parser$varIntro),
+								$author$project$Calculus$Parser$cyclic$term()),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								$author$project$Calculus$Parser$cyclic$term(),
+								$author$project$Lib$Parser$Parser$return(
+									F2(
+										function (arg, _v18) {
+											var _var = _v18.a;
+											var body = _v18.b;
+											return A2(
+												$author$project$Calculus$Base$LetBe,
+												arg,
+												{body: body, _var: _var});
+										})))));
+				case 'Let':
+					return A2(
+						$author$project$Lib$Parser$Parser$ooo,
+						$author$project$Calculus$Parser$cyclic$term(),
+						A2(
+							$author$project$Lib$Parser$Parser$o,
+							$author$project$Calculus$Parser$semicolonTerm,
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								$author$project$Calculus$Parser$cyclic$term(),
+								A2(
+									$author$project$Lib$Parser$Parser$o,
+									$author$project$Calculus$Parser$defEqualsTerm,
+									A2(
+										$author$project$Lib$Parser$Parser$ooo,
+										A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifier, $author$project$Calculus$Parser$varIntro),
+										$author$project$Lib$Parser$Parser$return(
+											F3(
+												function (_var, arg, body) {
+													return A2(
+														$author$project$Calculus$Base$LetBe,
+														arg,
+														{body: body, _var: _var});
+												})))))));
+				case 'Delay':
+					return A2(
+						$author$project$Lib$Parser$Parser$map,
+						function (_v19) {
+							var body = _v19.b;
+							return $author$project$Calculus$Base$Delay(
+								{body: body});
+						},
+						A2(
+							$author$project$Calculus$Parser$binding,
+							$author$project$Calculus$Parser$spaces,
+							$author$project$Calculus$Parser$cyclic$term()));
+				case 'Force':
+					return operator1($author$project$Calculus$Base$Force);
+				default:
+					return $author$project$Calculus$Parser$mandatoryTermParens(
+						A2(
+							$author$project$Lib$Parser$Parser$ooo,
+							A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedTermIdentifier, $author$project$Calculus$Parser$varIntro),
+							A2(
+								$author$project$Lib$Parser$Parser$ooo,
+								A2(
+									$author$project$Lib$Parser$Parser$mapError,
+									$author$project$Calculus$Parser$ExpectedModuleTermInModuleAccess,
+									$author$project$Calculus$Parser$cyclic$moduleTerm()),
+								$author$project$Lib$Parser$Parser$return($author$project$Calculus$Base$ModuleAccess))));
+			}
+		},
+		A2($author$project$Lib$Parser$Parser$mapError, $author$project$Calculus$Parser$ExpectedOperator, $author$project$Calculus$Parser$operatorKeyword));
+}
+try {
+	var $author$project$Calculus$Parser$functorLiteral = $author$project$Calculus$Parser$cyclic$functorLiteral();
+	$author$project$Calculus$Parser$cyclic$functorLiteral = function () {
+		return $author$project$Calculus$Parser$functorLiteral;
+	};
+	var $author$project$Calculus$Parser$functorTerm = $author$project$Calculus$Parser$cyclic$functorTerm();
+	$author$project$Calculus$Parser$cyclic$functorTerm = function () {
+		return $author$project$Calculus$Parser$functorTerm;
+	};
+	var $author$project$Calculus$Parser$moduleLiteral = $author$project$Calculus$Parser$cyclic$moduleLiteral();
+	$author$project$Calculus$Parser$cyclic$moduleLiteral = function () {
+		return $author$project$Calculus$Parser$moduleLiteral;
+	};
+	var $author$project$Calculus$Parser$moduleLetBinding = $author$project$Calculus$Parser$cyclic$moduleLetBinding();
+	$author$project$Calculus$Parser$cyclic$moduleLetBinding = function () {
+		return $author$project$Calculus$Parser$moduleLetBinding;
+	};
+	var $author$project$Calculus$Parser$moduleTerm = $author$project$Calculus$Parser$cyclic$moduleTerm();
+	$author$project$Calculus$Parser$cyclic$moduleTerm = function () {
+		return $author$project$Calculus$Parser$moduleTerm;
+	};
+	var $author$project$Calculus$Parser$term = $author$project$Calculus$Parser$cyclic$term();
+	$author$project$Calculus$Parser$cyclic$term = function () {
+		return $author$project$Calculus$Parser$term;
+	};
+} catch ($) {
+	throw 'Some top-level definitions from `Calculus.Parser` are causing infinite recursion:\n\n  ┌─────┐\n  │    functorLiteral\n  │     ↓\n  │    functorTerm\n  │     ↓\n  │    moduleLiteral\n  │     ↓\n  │    moduleLetBinding\n  │     ↓\n  │    moduleTerm\n  │     ↓\n  │    term\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.1/bad-recursion to learn how to fix it!';}
+var $author$project$Lib$Parser$State$return = function (input) {
+	return {
+		input: input,
+		position: {col: 1, line: 1}
+	};
+};
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $author$project$Calculus$Parser$runModuleTerm = function (input) {
+	return A2(
+		$elm$core$Result$map,
+		$elm$core$Tuple$second,
+		A3(
+			$author$project$Lib$Parser$Parser$run,
+			$author$project$Calculus$Parser$moduleTerm,
+			{},
+			$author$project$Lib$Parser$State$return(input)));
+};
+var $author$project$Ui$Tab$Module$parseModule = function (model) {
+	return _Utils_update(
+		model,
+		{
+			parsedModule: $elm$core$Maybe$Just(
+				$author$project$Calculus$Parser$runModuleTerm(model.moduleInput))
+		});
+};
+var $author$project$Ui$Tab$Module$init = function () {
+	var input1 = 'module {\n\n  let-module Nat = module {\n    let-term plus = \\{ x y .\n      fold-nat $x\n        { zero . $y }\n        { succ(state) . succ($state) }\n    };\n\n    let-term multiply = \\{ x y .\n      fold-nat $x\n        { zero . 00 }\n        { succ(state) . [$plus $y $state] }\n    };\n\n    let-term exp = \\{ base exponent .\n      fold-nat $exponent\n        { zero . 01 }\n        { succ(state) . [$multiply $base $state] }\n    };\n\n  };\n\n  let-module List = module {\n    let-term map = \\{ f xs .\n      fold-list $xs\n        { empty . empty }\n        { cons(x state) . cons([$f $x] $state) }\n    };\n\n    let-term concat = \\{ xs ys .\n      fold-list $xs\n        { empty . $ys }\n        { cons(x state) . cons($x $state) }\n    };\n\n    let-term singleton = \\{ x . cons($x empty) };\n\n    let-term and-then = \\{ f xs .\n      fold-list $xs\n        { empty . empty }\n        { cons(x state) . [$concat [$f $x] $state] }\n    };\n  };\n\n  let-term square = \\{ x . [/($Nat multiply) $x $x] };\n}\n';
+	var input = input1;
+	return $author$project$Ui$Control$InitContext$setModelTo(
+		$author$project$Ui$Tab$Module$openModule(
+			$author$project$Ui$Tab$Module$evalModule(
+				$author$project$Ui$Tab$Module$parseModule(
+					{env: $author$project$Calculus$Evaluation$Value$emptyEnvironment, evaledModule: $elm$core$Maybe$Nothing, evaledTerm: $elm$core$Maybe$Nothing, moduleInput: input, parsedModule: $elm$core$Maybe$Nothing, parsedTerm: $elm$core$Maybe$Nothing, replInput: ''}))));
+}();
+var $author$project$Calculus$Evaluation$Evaluation$eval0 = function (term) {
+	return A2(
+		$elm$core$Result$map,
+		function (_v0) {
+			var thunkContext = _v0.a.thunkContext;
+			var value = _v0.b;
+			return _Utils_Tuple2(thunkContext, value);
+		},
+		A3(
+			$author$project$Lib$State$StatefulReaderWithErr$run,
+			$author$project$Calculus$Evaluation$Evaluation$eval(term),
+			$author$project$Calculus$Evaluation$Evaluation$initReadOnlyState,
+			$author$project$Calculus$Evaluation$Evaluation$initMutState));
+};
+var $author$project$Calculus$Type$Inference$emptyContext = $elm$core$Dict$empty;
+var $author$project$Calculus$Type$TypeVarContext$emptyEquations = $elm$core$Dict$empty;
+var $mgold$elm_nonempty_list$List$Nonempty$Nonempty = F2(
+	function (a, b) {
+		return {$: 'Nonempty', a: a, b: b};
+	});
+var $mgold$elm_nonempty_list$List$Nonempty$singleton = function (x) {
+	return A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, x, _List_Nil);
+};
+var $author$project$Lib$StackedSet$empty = $mgold$elm_nonempty_list$List$Nonempty$singleton($elm$core$Set$empty);
+var $author$project$Calculus$Type$TypeVarContext$emptyTypeVarStack = $author$project$Lib$StackedSet$empty;
+var $author$project$Calculus$Type$TypeVarContext$emptyContext = {equations: $author$project$Calculus$Type$TypeVarContext$emptyEquations, nextTypeVar: 0, typeVarStack: $author$project$Calculus$Type$TypeVarContext$emptyTypeVarStack};
+var $author$project$Calculus$Type$Inference$emptyState = {context: $author$project$Calculus$Type$Inference$emptyContext, typeVarContext: $author$project$Calculus$Type$TypeVarContext$emptyContext};
+var $author$project$Calculus$Type$TypeVarContext$ExpectedArrowType = {$: 'ExpectedArrowType'};
+var $author$project$Calculus$Type$TypeVarContext$ExpectedFrozenType = {$: 'ExpectedFrozenType'};
+var $author$project$Calculus$Type$TypeVarContext$ExpectedListType = {$: 'ExpectedListType'};
+var $author$project$Calculus$Type$TypeVarContext$ExpectedSumType = {$: 'ExpectedSumType'};
+var $author$project$Calculus$Base$ForAll = F2(
+	function (a, b) {
+		return {$: 'ForAll', a: a, b: b};
+	});
+var $author$project$Lib$State$StatefulWithErr$andThen = F2(
+	function (f, stateful_a) {
+		return function (state0) {
+			var _v0 = stateful_a(state0);
+			if (_v0.$ === 'Ok') {
+				var _v1 = _v0.a;
+				var state1 = _v1.a;
+				var a = _v1.b;
+				return A2(f, a, state1);
+			} else {
+				var err = _v0.a;
+				return $elm$core$Result$Err(err);
+			}
+		};
+	});
+var $author$project$Lib$State$StatefulWithErr$join = function (stateful_stateful_a) {
+	return A2(
+		$author$project$Lib$State$StatefulWithErr$andThen,
+		function (x) {
+			return x;
+		},
+		stateful_stateful_a);
+};
+var $author$project$Lib$State$StatefulWithErr$map = F2(
+	function (f, stateful_a0) {
+		return function (state0) {
+			var _v0 = stateful_a0(state0);
+			if (_v0.$ === 'Ok') {
+				var _v1 = _v0.a;
+				var state1 = _v1.a;
+				var a = _v1.b;
+				return $elm$core$Result$Ok(
+					_Utils_Tuple2(
+						state1,
+						f(a)));
+			} else {
+				var err = _v0.a;
+				return $elm$core$Result$Err(err);
+			}
+		};
+	});
+var $author$project$Lib$State$StatefulWithErr$pair = F2(
+	function (stateful_a, stateful_b) {
+		return function (state0) {
+			var _v0 = stateful_a(state0);
+			if (_v0.$ === 'Ok') {
+				var _v1 = _v0.a;
+				var state1 = _v1.a;
+				var a = _v1.b;
+				var _v2 = stateful_b(state1);
+				if (_v2.$ === 'Ok') {
+					var _v3 = _v2.a;
+					var state2 = _v3.a;
+					var b = _v3.b;
+					return $elm$core$Result$Ok(
+						_Utils_Tuple2(
+							state2,
+							_Utils_Tuple2(a, b)));
+				} else {
+					var err = _v2.a;
+					return $elm$core$Result$Err(err);
+				}
+			} else {
+				var err = _v0.a;
+				return $elm$core$Result$Err(err);
+			}
+		};
+	});
+var $author$project$Lib$State$StatefulWithErr$map2 = F3(
+	function (f, stateful_a0, stateful_a1) {
+		return A2(
+			$author$project$Lib$State$StatefulWithErr$map,
+			function (_v0) {
+				var a0 = _v0.a;
+				var a1 = _v0.b;
+				return A2(f, a0, a1);
+			},
+			A2($author$project$Lib$State$StatefulWithErr$pair, stateful_a0, stateful_a1));
+	});
+var $author$project$Lib$State$StatefulWithErr$andThen2 = F3(
+	function (f, stateful_a0, stateful_a1) {
+		return $author$project$Lib$State$StatefulWithErr$join(
+			A3($author$project$Lib$State$StatefulWithErr$map2, f, stateful_a0, stateful_a1));
+	});
+var $author$project$Lib$State$StatefulWithErr$map3 = F4(
+	function (f, stateful_a0, stateful_a1, stateful_a2) {
+		return A2(
+			$author$project$Lib$State$StatefulWithErr$map,
+			function (_v0) {
+				var a0 = _v0.a;
+				var _v1 = _v0.b;
+				var a1 = _v1.a;
+				var a2 = _v1.b;
+				return A3(f, a0, a1, a2);
+			},
+			A2(
+				$author$project$Lib$State$StatefulWithErr$pair,
+				stateful_a0,
+				A2($author$project$Lib$State$StatefulWithErr$pair, stateful_a1, stateful_a2)));
+	});
+var $author$project$Lib$State$StatefulWithErr$andThen3 = F4(
+	function (f, stateful_a0, stateful_a1, stateful_a2) {
+		return $author$project$Lib$State$StatefulWithErr$join(
+			A4($author$project$Lib$State$StatefulWithErr$map3, f, stateful_a0, stateful_a1, stateful_a2));
+	});
+var $author$project$Lib$State$StatefulWithErr$map4 = F5(
+	function (f, stateful_a0, stateful_a1, stateful_a2, stateful_a3) {
+		return A2(
+			$author$project$Lib$State$StatefulWithErr$map,
+			function (_v0) {
+				var a0 = _v0.a;
+				var _v1 = _v0.b;
+				var a1 = _v1.a;
+				var _v2 = _v1.b;
+				var a2 = _v2.a;
+				var a3 = _v2.b;
+				return A4(f, a0, a1, a2, a3);
+			},
+			A2(
+				$author$project$Lib$State$StatefulWithErr$pair,
+				stateful_a0,
+				A2(
+					$author$project$Lib$State$StatefulWithErr$pair,
+					stateful_a1,
+					A2($author$project$Lib$State$StatefulWithErr$pair, stateful_a2, stateful_a3))));
+	});
+var $author$project$Lib$State$StatefulWithErr$andThen4 = F5(
+	function (f, stateful_a0, stateful_a1, stateful_a2, stateful_a3) {
+		return $author$project$Lib$State$StatefulWithErr$join(
+			A5($author$project$Lib$State$StatefulWithErr$map4, f, stateful_a0, stateful_a1, stateful_a2, stateful_a3));
+	});
+var $author$project$Lib$State$StatefulWithErr$create = $elm$core$Basics$identity;
+var $author$project$Calculus$Type$TypeVarContext$newTypeVar = function (n) {
+	return _Utils_Tuple2(
+		n + 1,
+		$author$project$Calculus$Base$TypeVarUse(
+			$elm$core$String$fromInt(n)));
+};
+var $mgold$elm_nonempty_list$List$Nonempty$head = function (_v0) {
+	var x = _v0.a;
+	var xs = _v0.b;
+	return x;
+};
+var $mgold$elm_nonempty_list$List$Nonempty$tail = function (_v0) {
+	var x = _v0.a;
+	var xs = _v0.b;
+	return xs;
+};
+var $author$project$Lib$StackedSet$mapTop = F2(
+	function (f, stack) {
+		return A2(
+			$mgold$elm_nonempty_list$List$Nonempty$Nonempty,
+			f(
+				$mgold$elm_nonempty_list$List$Nonempty$head(stack)),
+			$mgold$elm_nonempty_list$List$Nonempty$tail(stack));
+	});
+var $author$project$Lib$StackedSet$pushElement = F2(
+	function (x, stackedSet) {
+		return A2(
+			$author$project$Lib$StackedSet$mapTop,
+			function (set) {
+				return A2($elm$core$Set$insert, x, set);
+			},
+			stackedSet);
+	});
+var $author$project$Calculus$Type$TypeVarContext$pushTypeVar = F2(
+	function (n, stack) {
+		return A2(
+			$author$project$Lib$StackedSet$pushElement,
+			$elm$core$String$fromInt(n),
+			stack);
+	});
+var $author$project$Calculus$Type$TypeVarContext$generateFreshVar = $author$project$Lib$State$StatefulWithErr$create(
+	function (state0) {
+		var nextTypeVar = state0.nextTypeVar;
+		var typeVarStack = state0.typeVarStack;
+		var _v0 = $author$project$Calculus$Type$TypeVarContext$newTypeVar(nextTypeVar);
+		var nextTypeVar1 = _v0.a;
+		var type1 = _v0.b;
+		return $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				_Utils_update(
+					state0,
+					{
+						nextTypeVar: nextTypeVar1,
+						typeVarStack: A2($author$project$Calculus$Type$TypeVarContext$pushTypeVar, nextTypeVar, typeVarStack)
+					}),
+				type1));
+	});
+var $author$project$Lib$State$StatefulWithErr$run = function (stateful_a0) {
+	return stateful_a0;
+};
+var $author$project$Calculus$Type$Inference$liftUnification = function (unificationStateful) {
+	return $author$project$Lib$State$StatefulWithErr$create(
+		function (state) {
+			var typeVarContext = state.typeVarContext;
+			return A2(
+				$elm$core$Result$map,
+				function (_v0) {
+					var typeVarContext1 = _v0.a;
+					var a = _v0.b;
+					return _Utils_Tuple2(
+						_Utils_update(
+							state,
+							{typeVarContext: typeVarContext1}),
+						a);
+				},
+				A2($author$project$Lib$State$StatefulWithErr$run, unificationStateful, typeVarContext));
+		});
+};
+var $author$project$Calculus$Type$Inference$generateFreshVar = $author$project$Calculus$Type$Inference$liftUnification($author$project$Calculus$Type$TypeVarContext$generateFreshVar);
+var $author$project$Lib$State$StatefulWithErr$get0 = function (f) {
+	return function (state0) {
+		return A2(f, state0, state0);
+	};
+};
+var $author$project$Calculus$Type$Inference$getContext = function (f) {
+	return $author$project$Lib$State$StatefulWithErr$get0(
+		function (_v0) {
+			var context = _v0.context;
+			return f(context);
+		});
+};
+var $author$project$Calculus$Type$TypeVarContext$generateFreshVarName = $author$project$Lib$State$StatefulWithErr$create(
+	function (state0) {
+		var nextTypeVar = state0.nextTypeVar;
+		var typeVarStack = state0.typeVarStack;
+		var _v0 = $author$project$Calculus$Type$TypeVarContext$newTypeVar(nextTypeVar);
+		var nextTypeVar1 = _v0.a;
+		return $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				_Utils_update(
+					state0,
+					{
+						nextTypeVar: nextTypeVar1,
+						typeVarStack: A2($author$project$Calculus$Type$TypeVarContext$pushTypeVar, nextTypeVar, typeVarStack)
+					}),
+				$elm$core$String$fromInt(nextTypeVar)));
+	});
+var $author$project$Calculus$Type$Inference$generateFreshVarName = $author$project$Calculus$Type$Inference$liftUnification($author$project$Calculus$Type$TypeVarContext$generateFreshVarName);
+var $author$project$Lib$State$StatefulWithErr$return = function (a) {
+	return function (state0) {
+		return $elm$core$Result$Ok(
+			_Utils_Tuple2(state0, a));
+	};
+};
+var $author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar = F3(
+	function (var0, freshVar, type0) {
+		switch (type0.$) {
+			case 'TypeVarUse':
+				var _var = type0.a;
+				return _Utils_eq(_var, var0) ? $author$project$Lib$State$StatefulWithErr$return(
+					$author$project$Calculus$Base$TypeVarUse(freshVar)) : $author$project$Lib$State$StatefulWithErr$return(
+					$author$project$Calculus$Base$TypeVarUse(_var));
+			case 'Product':
+				var type1 = type0.a;
+				var type2 = type0.b;
+				return A3(
+					$author$project$Lib$State$StatefulWithErr$map2,
+					$author$project$Calculus$Base$Product,
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1),
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type2));
+			case 'Sum':
+				var type1 = type0.a;
+				var type2 = type0.b;
+				return A3(
+					$author$project$Lib$State$StatefulWithErr$map2,
+					$author$project$Calculus$Base$Sum,
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1),
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type2));
+			case 'Arrow':
+				var type1 = type0.a;
+				var type2 = type0.b;
+				return A3(
+					$author$project$Lib$State$StatefulWithErr$map2,
+					$author$project$Calculus$Base$Arrow,
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1),
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type2));
+			case 'ConstBool':
+				return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstBool);
+			case 'ConstNat':
+				return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstNat);
+			case 'List':
+				var type1 = type0.a;
+				return A2(
+					$author$project$Lib$State$StatefulWithErr$map,
+					$author$project$Calculus$Base$List,
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1));
+			case 'Frozen':
+				var type1 = type0.a;
+				return A2(
+					$author$project$Lib$State$StatefulWithErr$map,
+					$author$project$Calculus$Base$Frozen,
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1));
+			default:
+				var _var = type0.a;
+				var type1 = type0.b;
+				return _Utils_eq(_var, var0) ? $author$project$Lib$State$StatefulWithErr$return(
+					A2($author$project$Calculus$Base$ForAll, _var, type1)) : A2(
+					$author$project$Lib$State$StatefulWithErr$map,
+					$author$project$Calculus$Base$ForAll(_var),
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, var0, freshVar, type1));
+		}
+	});
+var $author$project$Calculus$Type$Inference$instantiateForAll = function (type0) {
+	if (type0.$ === 'ForAll') {
+		var _var = type0.a;
+		var type1 = type0.b;
+		return A2(
+			$author$project$Lib$State$StatefulWithErr$andThen,
+			function (freshVarName) {
+				return A2(
+					$author$project$Lib$State$StatefulWithErr$andThen,
+					function (type2) {
+						return $author$project$Calculus$Type$Inference$instantiateForAll(type2);
+					},
+					A3($author$project$Calculus$Type$Inference$replaceTypeVarWithFreshVar, _var, freshVarName, type1));
+			},
+			$author$project$Calculus$Type$Inference$generateFreshVarName);
+	} else {
+		return $author$project$Lib$State$StatefulWithErr$return(type0);
+	}
+};
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Calculus$Type$Inference$lookupType = F2(
+	function (varName, context0) {
+		return A2(
+			$elm$core$Maybe$andThen,
+			$elm$core$List$head,
+			A2($elm$core$Dict$get, varName, context0));
+	});
+var $author$project$Lib$State$StatefulWithErr$first = F2(
+	function (stateful_a, stateful_b_ignored) {
+		return A2(
+			$author$project$Lib$State$StatefulWithErr$map,
+			function (_v0) {
+				var a = _v0.a;
+				return a;
+			},
+			A2($author$project$Lib$State$StatefulWithErr$pair, stateful_a, stateful_b_ignored));
+	});
+var $author$project$Lib$State$StatefulWithErr$second = F2(
+	function (stateful_a_ignored, stateful_b) {
+		return A2(
+			$author$project$Lib$State$StatefulWithErr$map,
+			function (_v0) {
+				var b = _v0.b;
+				return b;
+			},
+			A2($author$project$Lib$State$StatefulWithErr$pair, stateful_a_ignored, stateful_b));
+	});
+var $author$project$Lib$State$StatefulWithErr$mid = F3(
+	function (stateful_a_ignored, stateful_b, stateful_c_ignored) {
+		return A2(
+			$author$project$Lib$State$StatefulWithErr$second,
+			stateful_a_ignored,
+			A2($author$project$Lib$State$StatefulWithErr$first, stateful_b, stateful_c_ignored));
+	});
+var $author$project$Calculus$Type$TypeVarContext$InfiniteType = function (a) {
+	return {$: 'InfiniteType', a: a};
+};
+var $author$project$Calculus$Type$TypeVarContext$lookupEquations = $elm$core$Dict$get;
+var $author$project$Lib$State$StatefulWithErr$error = function (err) {
+	return function (_v0) {
+		return $elm$core$Result$Err(err);
+	};
+};
+var $author$project$Calculus$Type$TypeVarContext$throwTypeError = $author$project$Lib$State$StatefulWithErr$error;
+var $author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection = F2(
+	function (type0, seenVars) {
+		switch (type0.$) {
+			case 'TypeVarUse':
+				var n = type0.a;
+				return A2($elm$core$Set$member, n, seenVars) ? $author$project$Calculus$Type$TypeVarContext$throwTypeError(
+					_List_fromArray(
+						[
+							$author$project$Calculus$Type$TypeVarContext$InfiniteType(n)
+						])) : $author$project$Lib$State$StatefulWithErr$get0(
+					function (_v1) {
+						var equations = _v1.equations;
+						var _v2 = A2($author$project$Calculus$Type$TypeVarContext$lookupEquations, n, equations);
+						if (_v2.$ === 'Just') {
+							var type1 = _v2.a;
+							return A2(
+								$author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection,
+								type1,
+								A2($elm$core$Set$insert, n, seenVars));
+						} else {
+							return $author$project$Lib$State$StatefulWithErr$return(
+								$author$project$Calculus$Base$TypeVarUse(n));
+						}
+					});
+			case 'Product':
+				var type1 = type0.a;
+				var type2 = type0.b;
+				return A3(
+					$author$project$Lib$State$StatefulWithErr$map2,
+					$author$project$Calculus$Base$Product,
+					A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars),
+					A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type2, seenVars));
+			case 'Sum':
+				var type1 = type0.a;
+				var type2 = type0.b;
+				return A3(
+					$author$project$Lib$State$StatefulWithErr$map2,
+					$author$project$Calculus$Base$Sum,
+					A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars),
+					A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type2, seenVars));
+			case 'Arrow':
+				var type1 = type0.a;
+				var type2 = type0.b;
+				return A3(
+					$author$project$Lib$State$StatefulWithErr$map2,
+					$author$project$Calculus$Base$Arrow,
+					A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars),
+					A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type2, seenVars));
+			case 'ConstBool':
+				return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstBool);
+			case 'ConstNat':
+				return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstNat);
+			case 'List':
+				var type1 = type0.a;
+				return A2(
+					$author$project$Lib$State$StatefulWithErr$map,
+					$author$project$Calculus$Base$List,
+					A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars));
+			case 'Frozen':
+				var type1 = type0.a;
+				return A2(
+					$author$project$Lib$State$StatefulWithErr$map,
+					$author$project$Calculus$Base$Frozen,
+					A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type1, seenVars));
+			default:
+				var typeVar = type0.a;
+				var type1 = type0.b;
+				return _Debug_todo(
+					'Calculus.Type.TypeVarContext',
+					{
+						start: {line: 350, column: 13},
+						end: {line: 350, column: 23}
+					})('');
+		}
+	});
+var $author$project$Calculus$Type$TypeVarContext$expandType = function (type0) {
+	return A2($author$project$Calculus$Type$TypeVarContext$expandTypeWithCycleDetection, type0, $elm$core$Set$empty);
+};
+var $author$project$Calculus$Type$TypeVarContext$CantPopEmptyTypeVarContext = {$: 'CantPopEmptyTypeVarContext'};
+var $mgold$elm_nonempty_list$List$Nonempty$fromList = function (ys) {
+	if (ys.b) {
+		var x = ys.a;
+		var xs = ys.b;
+		return $elm$core$Maybe$Just(
+			A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, x, xs));
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Lib$StackedSet$destroyTop = function (stack0) {
+	return A2(
+		$elm$core$Maybe$map,
+		function (stack1) {
+			return _Utils_Tuple2(
+				$mgold$elm_nonempty_list$List$Nonempty$head(stack0),
+				stack1);
+		},
+		$mgold$elm_nonempty_list$List$Nonempty$fromList(
+			$mgold$elm_nonempty_list$List$Nonempty$tail(stack0)));
+};
+var $author$project$Lib$StackedSet$popFrame = $author$project$Lib$StackedSet$destroyTop;
+var $author$project$Calculus$Type$TypeVarContext$popTypeVarStackFrame = $author$project$Lib$State$StatefulWithErr$create(
+	function (state) {
+		var typeVarStack = state.typeVarStack;
+		var _v0 = $author$project$Lib$StackedSet$popFrame(typeVarStack);
+		if (_v0.$ === 'Just') {
+			var _v1 = _v0.a;
+			var vars = _v1.a;
+			var newTypeVarStack = _v1.b;
+			return $elm$core$Result$Ok(
+				_Utils_Tuple2(
+					_Utils_update(
+						state,
+						{typeVarStack: newTypeVarStack}),
+					vars));
+		} else {
+			return $elm$core$Result$Err(
+				_List_fromArray(
+					[$author$project$Calculus$Type$TypeVarContext$CantPopEmptyTypeVarContext]));
+		}
+	});
+var $author$project$Calculus$Type$TypeVarContext$popTypeVarStackFrameAndExpand = function (type0) {
+	return A2(
+		$author$project$Lib$State$StatefulWithErr$andThen,
+		function (typeVars) {
+			return A2(
+				$author$project$Lib$State$StatefulWithErr$map,
+				function (expandedType0) {
+					return _Utils_Tuple2(typeVars, expandedType0);
+				},
+				$author$project$Calculus$Type$TypeVarContext$expandType(type0));
+		},
+		$author$project$Calculus$Type$TypeVarContext$popTypeVarStackFrame);
+};
+var $author$project$Calculus$Type$Inference$popTypeVarStackFrameAndExpand = function (type0) {
+	return $author$project$Calculus$Type$Inference$liftUnification(
+		$author$project$Calculus$Type$TypeVarContext$popTypeVarStackFrameAndExpand(type0));
+};
+var $elm$core$List$tail = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(xs);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Calculus$Type$Inference$popVarFromContext = F2(
+	function (varName, context0) {
+		return A3(
+			$elm$core$Dict$update,
+			varName,
+			$elm$core$Maybe$andThen($elm$core$List$tail),
+			context0);
+	});
+var $mgold$elm_nonempty_list$List$Nonempty$cons = F2(
+	function (y, _v0) {
+		var x = _v0.a;
+		var xs = _v0.b;
+		return A2(
+			$mgold$elm_nonempty_list$List$Nonempty$Nonempty,
+			y,
+			A2($elm$core$List$cons, x, xs));
+	});
+var $author$project$Lib$StackedSet$pushFrame = function (stackedSet) {
+	return A2($mgold$elm_nonempty_list$List$Nonempty$cons, $elm$core$Set$empty, stackedSet);
+};
+var $author$project$Lib$State$StatefulWithErr$update0 = function (f) {
+	return function (state0) {
+		return $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				f(state0),
+				_Utils_Tuple0));
+	};
+};
+var $author$project$Calculus$Type$TypeVarContext$pushTypeVarStackFrame0 = $author$project$Lib$State$StatefulWithErr$update0(
+	function (state) {
+		var typeVarStack = state.typeVarStack;
+		return _Utils_update(
+			state,
+			{
+				typeVarStack: $author$project$Lib$StackedSet$pushFrame(typeVarStack)
+			});
+	});
+var $author$project$Calculus$Type$Inference$pushTypeVarStackFrame0 = $author$project$Calculus$Type$Inference$liftUnification($author$project$Calculus$Type$TypeVarContext$pushTypeVarStackFrame0);
+var $author$project$Calculus$Type$Inference$pushVarToContext = F3(
+	function (varName, type0, context0) {
+		return A3(
+			$elm$core$Dict$update,
+			varName,
+			function (maybeBinding) {
+				if (maybeBinding.$ === 'Just') {
+					var types0 = maybeBinding.a;
+					return $elm$core$Maybe$Just(
+						A2($elm$core$List$cons, type0, types0));
+				} else {
+					return $elm$core$Maybe$Just(
+						_List_fromArray(
+							[type0]));
+				}
+			},
+			context0);
+	});
+var $author$project$Calculus$Type$Inference$throwTypeError = $author$project$Lib$State$StatefulWithErr$error;
+var $author$project$Calculus$Type$TypeVarContext$ExpectedBoolType = {$: 'ExpectedBoolType'};
+var $author$project$Calculus$Type$TypeVarContext$ExpectedNatType = {$: 'ExpectedNatType'};
+var $author$project$Calculus$Type$TypeVarContext$ExpectedProductType = {$: 'ExpectedProductType'};
+var $author$project$Calculus$Type$TypeVarContext$expandTypeAtTypeVarName = function (typeVarName) {
+	return $author$project$Lib$State$StatefulWithErr$get0(
+		function (state0) {
+			var _v0 = A2($author$project$Calculus$Type$TypeVarContext$lookupEquations, typeVarName, state0.equations);
+			if (_v0.$ === 'Just') {
+				var type0 = _v0.a;
+				return A2(
+					$author$project$Lib$State$StatefulWithErr$andThen,
+					function (expandedType0) {
+						return A2(
+							$author$project$Lib$State$StatefulWithErr$second,
+							$author$project$Lib$State$StatefulWithErr$update0(
+								function (state1) {
+									return _Utils_update(
+										state1,
+										{
+											equations: A3($elm$core$Dict$insert, typeVarName, expandedType0, state1.equations)
+										});
+								}),
+							$author$project$Lib$State$StatefulWithErr$return(
+								$elm$core$Maybe$Just(expandedType0)));
+					},
+					$author$project$Calculus$Type$TypeVarContext$expandType(type0));
+			} else {
+				return $author$project$Lib$State$StatefulWithErr$return($elm$core$Maybe$Nothing);
+			}
+		});
+};
+var $elm$core$Set$singleton = function (key) {
+	return $elm$core$Set$Set_elm_builtin(
+		A2($elm$core$Dict$singleton, key, _Utils_Tuple0));
+};
+var $author$project$Calculus$Base$getTypeVars = function (type0) {
 	getTypeVars:
 	while (true) {
 		switch (type0.$) {
-			case 'VarType':
+			case 'TypeVarUse':
 				var _var = type0.a;
 				return $elm$core$Set$singleton(_var);
 			case 'Product':
@@ -7245,27 +10392,27 @@ var $author$project$LambdaBasics$getTypeVars = function (type0) {
 				var type2 = type0.b;
 				return A2(
 					$elm$core$Set$union,
-					$author$project$LambdaBasics$getTypeVars(type1),
-					$author$project$LambdaBasics$getTypeVars(type2));
+					$author$project$Calculus$Base$getTypeVars(type1),
+					$author$project$Calculus$Base$getTypeVars(type2));
 			case 'Sum':
 				var type1 = type0.a;
 				var type2 = type0.b;
 				return A2(
 					$elm$core$Set$union,
-					$author$project$LambdaBasics$getTypeVars(type1),
-					$author$project$LambdaBasics$getTypeVars(type2));
+					$author$project$Calculus$Base$getTypeVars(type1),
+					$author$project$Calculus$Base$getTypeVars(type2));
 			case 'Arrow':
 				var type1 = type0.a;
 				var type2 = type0.b;
 				return A2(
 					$elm$core$Set$union,
-					$author$project$LambdaBasics$getTypeVars(type1),
-					$author$project$LambdaBasics$getTypeVars(type2));
-			case 'LambdaBool':
+					$author$project$Calculus$Base$getTypeVars(type1),
+					$author$project$Calculus$Base$getTypeVars(type2));
+			case 'ConstBool':
 				return $elm$core$Set$empty;
-			case 'LambdaNat':
+			case 'ConstNat':
 				return $elm$core$Set$empty;
-			case 'LambdaList':
+			case 'List':
 				var type1 = type0.a;
 				var $temp$type0 = type1;
 				type0 = $temp$type0;
@@ -7279,23 +10426,18 @@ var $author$project$LambdaBasics$getTypeVars = function (type0) {
 				var _var = type0.a;
 				var type1 = type0.b;
 				return _Debug_todo(
-					'LambdaBasics',
+					'Calculus.Base',
 					{
-						start: {line: 133, column: 13},
-						end: {line: 133, column: 23}
+						start: {line: 148, column: 13},
+						end: {line: 148, column: 23}
 					})('');
 		}
 	}
 };
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
-var $author$project$StackedSet$DeletePhaze1 = function (a) {
+var $author$project$Lib$StackedSet$DeletePhaze1 = function (a) {
 	return {$: 'DeletePhaze1', a: a};
 };
-var $author$project$StackedSet$DeletePhaze2 = function (a) {
+var $author$project$Lib$StackedSet$DeletePhaze2 = function (a) {
 	return {$: 'DeletePhaze2', a: a};
 };
 var $mgold$elm_nonempty_list$List$Nonempty$foldl = F3(
@@ -7314,24 +10456,24 @@ var $elm$core$Set$remove = F2(
 		return $elm$core$Set$Set_elm_builtin(
 			A2($elm$core$Dict$remove, key, dict));
 	});
-var $author$project$StackedSet$removeFromSet = F2(
+var $author$project$Lib$StackedSet$removeFromSet = F2(
 	function (a, set) {
 		return A2($elm$core$Set$member, a, set) ? $elm$core$Maybe$Just(
 			A2($elm$core$Set$remove, a, set)) : $elm$core$Maybe$Nothing;
 	});
-var $author$project$StackedSet$deleteElement = F2(
+var $author$project$Lib$StackedSet$deleteElement = F2(
 	function (a, stackedSet) {
 		var update = F2(
 			function (set0, state) {
 				if (state.$ === 'DeletePhaze1') {
 					var reversedTop = state.a.reversedTop;
-					var _v2 = A2($author$project$StackedSet$removeFromSet, a, set0);
+					var _v2 = A2($author$project$Lib$StackedSet$removeFromSet, a, set0);
 					if (_v2.$ === 'Just') {
 						var set1 = _v2.a;
-						return $author$project$StackedSet$DeletePhaze2(
+						return $author$project$Lib$StackedSet$DeletePhaze2(
 							{mid: set1, reversedBottom: _List_Nil, reversedTop: reversedTop});
 					} else {
-						return $author$project$StackedSet$DeletePhaze1(
+						return $author$project$Lib$StackedSet$DeletePhaze1(
 							{
 								reversedTop: A2($elm$core$List$cons, set0, reversedTop)
 							});
@@ -7340,7 +10482,7 @@ var $author$project$StackedSet$deleteElement = F2(
 					var reversedTop = state.a.reversedTop;
 					var mid = state.a.mid;
 					var reversedBottom = state.a.reversedBottom;
-					return $author$project$StackedSet$DeletePhaze2(
+					return $author$project$Lib$StackedSet$DeletePhaze2(
 						{
 							mid: mid,
 							reversedBottom: A2($elm$core$List$cons, set0, reversedBottom),
@@ -7348,7 +10490,7 @@ var $author$project$StackedSet$deleteElement = F2(
 						});
 				}
 			});
-		var initState = $author$project$StackedSet$DeletePhaze1(
+		var initState = $author$project$Lib$StackedSet$DeletePhaze1(
 			{reversedTop: _List_Nil});
 		var finalState = A3($mgold$elm_nonempty_list$List$Nonempty$foldl, update, initState, stackedSet);
 		if (finalState.$ === 'DeletePhaze1') {
@@ -7365,34 +10507,34 @@ var $author$project$StackedSet$deleteElement = F2(
 				});
 		}
 	});
-var $author$project$StackedSet$MovePhaze1 = function (a) {
+var $author$project$Lib$StackedSet$MovePhaze1 = function (a) {
 	return {$: 'MovePhaze1', a: a};
 };
-var $author$project$StackedSet$MovePhaze2 = function (a) {
+var $author$project$Lib$StackedSet$MovePhaze2 = function (a) {
 	return {$: 'MovePhaze2', a: a};
 };
-var $author$project$StackedSet$moveElement = F2(
+var $author$project$Lib$StackedSet$moveElement = F2(
 	function (a, stackedSetWithHole) {
 		var update = F2(
 			function (set0, state) {
 				if (state.$ === 'MovePhaze1') {
 					var top = state.a;
-					var _v2 = A2($author$project$StackedSet$removeFromSet, a, set0);
+					var _v2 = A2($author$project$Lib$StackedSet$removeFromSet, a, set0);
 					if (_v2.$ === 'Just') {
 						var set1 = _v2.a;
-						return $author$project$StackedSet$MovePhaze2(
+						return $author$project$Lib$StackedSet$MovePhaze2(
 							A2($elm$core$List$cons, set1, top));
 					} else {
-						return $author$project$StackedSet$MovePhaze1(
+						return $author$project$Lib$StackedSet$MovePhaze1(
 							A2($elm$core$List$cons, set0, top));
 					}
 				} else {
 					var top = state.a;
-					return $author$project$StackedSet$MovePhaze2(
+					return $author$project$Lib$StackedSet$MovePhaze2(
 						A2($elm$core$List$cons, set0, top));
 				}
 			});
-		var initState = $author$project$StackedSet$MovePhaze1(_List_Nil);
+		var initState = $author$project$Lib$StackedSet$MovePhaze1(_List_Nil);
 		var finalState = A3($elm$core$List$foldr, update, initState, stackedSetWithHole.top);
 		if (finalState.$ === 'MovePhaze1') {
 			var top = finalState.a;
@@ -7406,11 +10548,11 @@ var $author$project$StackedSet$moveElement = F2(
 			};
 		}
 	});
-var $author$project$StackedSet$moveElements = F2(
+var $author$project$Lib$StackedSet$moveElements = F2(
 	function (elems, stackedSetWithHole) {
 		var update = F2(
 			function (a, state) {
-				return A2($author$project$StackedSet$moveElement, a, state);
+				return A2($author$project$Lib$StackedSet$moveElement, a, state);
 			});
 		var initState = stackedSetWithHole;
 		return A3(
@@ -7441,7 +10583,7 @@ var $mgold$elm_nonempty_list$List$Nonempty$append = F2(
 				xs,
 				A2($elm$core$List$cons, y, ys)));
 	});
-var $author$project$StackedSet$appendWithMid = F3(
+var $author$project$Lib$StackedSet$appendWithMid = F3(
 	function (xs0, a, ys) {
 		if (!xs0.b) {
 			return A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, a, ys);
@@ -7454,13 +10596,13 @@ var $author$project$StackedSet$appendWithMid = F3(
 				A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, a, ys));
 		}
 	});
-var $author$project$StackedSet$zip = function (_v0) {
+var $author$project$Lib$StackedSet$zip = function (_v0) {
 	var top = _v0.top;
 	var mid = _v0.mid;
 	var bottom = _v0.bottom;
-	return A3($author$project$StackedSet$appendWithMid, top, mid, bottom);
+	return A3($author$project$Lib$StackedSet$appendWithMid, top, mid, bottom);
 };
-var $author$project$StackedSet$move = F3(
+var $author$project$Lib$StackedSet$move = F3(
 	function (a, elems, stackedSet) {
 		return A2(
 			$elm$core$Maybe$withDefault,
@@ -7469,14 +10611,14 @@ var $author$project$StackedSet$move = F3(
 				$elm$core$Maybe$map,
 				A2(
 					$elm$core$Basics$composeL,
-					$author$project$StackedSet$zip,
-					$author$project$StackedSet$moveElements(elems)),
-				A2($author$project$StackedSet$deleteElement, a, stackedSet)));
+					$author$project$Lib$StackedSet$zip,
+					$author$project$Lib$StackedSet$moveElements(elems)),
+				A2($author$project$Lib$StackedSet$deleteElement, a, stackedSet)));
 	});
-var $author$project$TypeVarContext$moveTypeVarStackFrame = $author$project$StackedSet$move;
-var $author$project$TypeVarContext$extendEquations = F2(
+var $author$project$Calculus$Type$TypeVarContext$moveTypeVarStackFrame = $author$project$Lib$StackedSet$move;
+var $author$project$Calculus$Type$TypeVarContext$extendEquations = F2(
 	function (typeVarName, type0) {
-		return $author$project$StatefulWithErr$update0(
+		return $author$project$Lib$State$StatefulWithErr$update0(
 			function (state) {
 				var equations = state.equations;
 				var typeVarStack = state.typeVarStack;
@@ -7485,29 +10627,25 @@ var $author$project$TypeVarContext$extendEquations = F2(
 					{
 						equations: A3($elm$core$Dict$insert, typeVarName, type0, equations),
 						typeVarStack: A3(
-							$author$project$TypeVarContext$moveTypeVarStackFrame,
+							$author$project$Calculus$Type$TypeVarContext$moveTypeVarStackFrame,
 							typeVarName,
-							$author$project$LambdaBasics$getTypeVars(type0),
+							$author$project$Calculus$Base$getTypeVars(type0),
 							typeVarStack)
 					});
 			});
 	});
-var $elm$core$Tuple$pair = F2(
-	function (a, b) {
-		return _Utils_Tuple2(a, b);
-	});
-var $author$project$TypeVarContext$unification = F2(
+var $author$project$Calculus$Type$TypeVarContext$unification = F2(
 	function (type0, type1) {
 		var _v0 = _Utils_Tuple2(type0, type1);
 		_v0$2:
 		while (true) {
 			switch (_v0.a.$) {
-				case 'VarType':
-					if (_v0.b.$ === 'VarType') {
+				case 'TypeVarUse':
+					if (_v0.b.$ === 'TypeVarUse') {
 						var id0 = _v0.a.a;
 						var id1 = _v0.b.a;
 						return A2(
-							$author$project$StatefulWithErr$andThen,
+							$author$project$Lib$State$StatefulWithErr$andThen,
 							function (_v1) {
 								var maybeExpandedType0 = _v1.a;
 								var maybeExpandedType1 = _v1.b;
@@ -7516,70 +10654,70 @@ var $author$project$TypeVarContext$unification = F2(
 									if (_v2.b.$ === 'Just') {
 										var expandedType0 = _v2.a.a;
 										var expandedType1 = _v2.b.a;
-										return A2($author$project$TypeVarContext$unification, expandedType0, expandedType1);
+										return A2($author$project$Calculus$Type$TypeVarContext$unification, expandedType0, expandedType1);
 									} else {
 										var expandedType0 = _v2.a.a;
 										var _v3 = _v2.b;
 										return A2(
-											$author$project$StatefulWithErr$second,
-											A2($author$project$TypeVarContext$extendEquations, id1, expandedType0),
-											$author$project$StatefulWithErr$return(expandedType0));
+											$author$project$Lib$State$StatefulWithErr$second,
+											A2($author$project$Calculus$Type$TypeVarContext$extendEquations, id1, expandedType0),
+											$author$project$Lib$State$StatefulWithErr$return(expandedType0));
 									}
 								} else {
 									if (_v2.b.$ === 'Just') {
 										var _v4 = _v2.a;
 										var expandedType1 = _v2.b.a;
 										return A2(
-											$author$project$StatefulWithErr$second,
-											A2($author$project$TypeVarContext$extendEquations, id0, expandedType1),
-											$author$project$StatefulWithErr$return(expandedType1));
+											$author$project$Lib$State$StatefulWithErr$second,
+											A2($author$project$Calculus$Type$TypeVarContext$extendEquations, id0, expandedType1),
+											$author$project$Lib$State$StatefulWithErr$return(expandedType1));
 									} else {
 										var _v5 = _v2.a;
 										var _v6 = _v2.b;
-										return _Utils_eq(id0, id1) ? $author$project$StatefulWithErr$return(
-											$author$project$LambdaBasics$VarType(id0)) : ((_Utils_cmp(id0, id1) < 0) ? A2(
-											$author$project$StatefulWithErr$second,
+										return _Utils_eq(id0, id1) ? $author$project$Lib$State$StatefulWithErr$return(
+											$author$project$Calculus$Base$TypeVarUse(id0)) : ((_Utils_cmp(id0, id1) < 0) ? A2(
+											$author$project$Lib$State$StatefulWithErr$second,
 											A2(
-												$author$project$TypeVarContext$extendEquations,
+												$author$project$Calculus$Type$TypeVarContext$extendEquations,
 												id0,
-												$author$project$LambdaBasics$VarType(id1)),
-											$author$project$StatefulWithErr$return(
-												$author$project$LambdaBasics$VarType(id1))) : A2(
-											$author$project$StatefulWithErr$second,
+												$author$project$Calculus$Base$TypeVarUse(id1)),
+											$author$project$Lib$State$StatefulWithErr$return(
+												$author$project$Calculus$Base$TypeVarUse(id1))) : A2(
+											$author$project$Lib$State$StatefulWithErr$second,
 											A2(
-												$author$project$TypeVarContext$extendEquations,
+												$author$project$Calculus$Type$TypeVarContext$extendEquations,
 												id1,
-												$author$project$LambdaBasics$VarType(id0)),
-											$author$project$StatefulWithErr$return(
-												$author$project$LambdaBasics$VarType(id1))));
+												$author$project$Calculus$Base$TypeVarUse(id0)),
+											$author$project$Lib$State$StatefulWithErr$return(
+												$author$project$Calculus$Base$TypeVarUse(id1))));
 									}
 								}
 							},
 							A3(
-								$author$project$StatefulWithErr$map2,
+								$author$project$Lib$State$StatefulWithErr$map2,
 								$elm$core$Tuple$pair,
-								$author$project$TypeVarContext$expandTypeAtTypeVarName(id0),
-								$author$project$TypeVarContext$expandTypeAtTypeVarName(id1)));
+								$author$project$Calculus$Type$TypeVarContext$expandTypeAtTypeVarName(id0),
+								$author$project$Calculus$Type$TypeVarContext$expandTypeAtTypeVarName(id1)));
 					} else {
 						var id0 = _v0.a.a;
 						return A2(
-							$author$project$StatefulWithErr$andThen,
+							$author$project$Lib$State$StatefulWithErr$andThen,
 							function (maybeExpandedType0) {
 								if (maybeExpandedType0.$ === 'Just') {
 									var expandedType0 = maybeExpandedType0.a;
-									return A2($author$project$TypeVarContext$unification, expandedType0, type1);
+									return A2($author$project$Calculus$Type$TypeVarContext$unification, expandedType0, type1);
 								} else {
 									return A2(
-										$author$project$StatefulWithErr$second,
-										A2($author$project$TypeVarContext$extendEquations, id0, type1),
-										$author$project$StatefulWithErr$return(type1));
+										$author$project$Lib$State$StatefulWithErr$second,
+										A2($author$project$Calculus$Type$TypeVarContext$extendEquations, id0, type1),
+										$author$project$Lib$State$StatefulWithErr$return(type1));
 								}
 							},
-							$author$project$TypeVarContext$expandTypeAtTypeVarName(id0));
+							$author$project$Calculus$Type$TypeVarContext$expandTypeAtTypeVarName(id0));
 					}
 				case 'Product':
 					switch (_v0.b.$) {
-						case 'VarType':
+						case 'TypeVarUse':
 							break _v0$2;
 						case 'Product':
 							var _v9 = _v0.a;
@@ -7589,19 +10727,19 @@ var $author$project$TypeVarContext$unification = F2(
 							var type10 = _v10.a;
 							var type11 = _v10.b;
 							return A3(
-								$author$project$StatefulWithErr$map2,
-								$author$project$LambdaBasics$Product,
-								A2($author$project$TypeVarContext$unification, type00, type10),
-								A2($author$project$TypeVarContext$unification, type01, type11));
+								$author$project$Lib$State$StatefulWithErr$map2,
+								$author$project$Calculus$Base$Product,
+								A2($author$project$Calculus$Type$TypeVarContext$unification, type00, type10),
+								A2($author$project$Calculus$Type$TypeVarContext$unification, type01, type11));
 						default:
 							var _v11 = _v0.a;
-							return $author$project$TypeVarContext$throwTypeError(
+							return $author$project$Calculus$Type$TypeVarContext$throwTypeError(
 								_List_fromArray(
-									[$author$project$TypeVarContext$ExpectedProductType]));
+									[$author$project$Calculus$Type$TypeVarContext$ExpectedProductType]));
 					}
 				case 'Arrow':
 					switch (_v0.b.$) {
-						case 'VarType':
+						case 'TypeVarUse':
 							break _v0$2;
 						case 'Arrow':
 							var _v12 = _v0.a;
@@ -7611,19 +10749,19 @@ var $author$project$TypeVarContext$unification = F2(
 							var type10 = _v13.a;
 							var type11 = _v13.b;
 							return A3(
-								$author$project$StatefulWithErr$map2,
-								$author$project$LambdaBasics$Arrow,
-								A2($author$project$TypeVarContext$unification, type00, type10),
-								A2($author$project$TypeVarContext$unification, type01, type11));
+								$author$project$Lib$State$StatefulWithErr$map2,
+								$author$project$Calculus$Base$Arrow,
+								A2($author$project$Calculus$Type$TypeVarContext$unification, type00, type10),
+								A2($author$project$Calculus$Type$TypeVarContext$unification, type01, type11));
 						default:
 							var _v14 = _v0.a;
-							return $author$project$TypeVarContext$throwTypeError(
+							return $author$project$Calculus$Type$TypeVarContext$throwTypeError(
 								_List_fromArray(
-									[$author$project$TypeVarContext$ExpectedArrowType]));
+									[$author$project$Calculus$Type$TypeVarContext$ExpectedArrowType]));
 					}
 				case 'Sum':
 					switch (_v0.b.$) {
-						case 'VarType':
+						case 'TypeVarUse':
 							break _v0$2;
 						case 'Sum':
 							var _v15 = _v0.a;
@@ -7633,83 +10771,83 @@ var $author$project$TypeVarContext$unification = F2(
 							var type10 = _v16.a;
 							var type11 = _v16.b;
 							return A3(
-								$author$project$StatefulWithErr$map2,
-								$author$project$LambdaBasics$Sum,
-								A2($author$project$TypeVarContext$unification, type00, type10),
-								A2($author$project$TypeVarContext$unification, type01, type11));
+								$author$project$Lib$State$StatefulWithErr$map2,
+								$author$project$Calculus$Base$Sum,
+								A2($author$project$Calculus$Type$TypeVarContext$unification, type00, type10),
+								A2($author$project$Calculus$Type$TypeVarContext$unification, type01, type11));
 						default:
 							var _v17 = _v0.a;
-							return $author$project$TypeVarContext$throwTypeError(
+							return $author$project$Calculus$Type$TypeVarContext$throwTypeError(
 								_List_fromArray(
-									[$author$project$TypeVarContext$ExpectedSumType]));
+									[$author$project$Calculus$Type$TypeVarContext$ExpectedSumType]));
 					}
-				case 'LambdaBool':
+				case 'ConstBool':
 					switch (_v0.b.$) {
-						case 'VarType':
+						case 'TypeVarUse':
 							break _v0$2;
-						case 'LambdaBool':
+						case 'ConstBool':
 							var _v18 = _v0.a;
 							var _v19 = _v0.b;
-							return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaBool);
+							return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstBool);
 						default:
 							var _v20 = _v0.a;
-							return $author$project$TypeVarContext$throwTypeError(
+							return $author$project$Calculus$Type$TypeVarContext$throwTypeError(
 								_List_fromArray(
-									[$author$project$TypeVarContext$ExpectedBoolType]));
+									[$author$project$Calculus$Type$TypeVarContext$ExpectedBoolType]));
 					}
-				case 'LambdaNat':
+				case 'ConstNat':
 					switch (_v0.b.$) {
-						case 'VarType':
+						case 'TypeVarUse':
 							break _v0$2;
-						case 'LambdaNat':
+						case 'ConstNat':
 							var _v21 = _v0.a;
 							var _v22 = _v0.b;
-							return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaNat);
+							return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstNat);
 						default:
 							var _v23 = _v0.a;
-							return $author$project$TypeVarContext$throwTypeError(
+							return $author$project$Calculus$Type$TypeVarContext$throwTypeError(
 								_List_fromArray(
-									[$author$project$TypeVarContext$ExpectedNatType]));
+									[$author$project$Calculus$Type$TypeVarContext$ExpectedNatType]));
 					}
-				case 'LambdaList':
+				case 'List':
 					switch (_v0.b.$) {
-						case 'VarType':
+						case 'TypeVarUse':
 							break _v0$2;
-						case 'LambdaList':
+						case 'List':
 							var type00 = _v0.a.a;
 							var type11 = _v0.b.a;
 							return A2(
-								$author$project$StatefulWithErr$map,
-								$author$project$LambdaBasics$LambdaList,
-								A2($author$project$TypeVarContext$unification, type00, type11));
+								$author$project$Lib$State$StatefulWithErr$map,
+								$author$project$Calculus$Base$List,
+								A2($author$project$Calculus$Type$TypeVarContext$unification, type00, type11));
 						default:
-							return $author$project$TypeVarContext$throwTypeError(
+							return $author$project$Calculus$Type$TypeVarContext$throwTypeError(
 								_List_fromArray(
-									[$author$project$TypeVarContext$ExpectedListType]));
+									[$author$project$Calculus$Type$TypeVarContext$ExpectedListType]));
 					}
 				case 'Frozen':
 					switch (_v0.b.$) {
-						case 'VarType':
+						case 'TypeVarUse':
 							break _v0$2;
 						case 'Frozen':
 							var type00 = _v0.a.a;
 							var type11 = _v0.b.a;
 							return A2(
-								$author$project$StatefulWithErr$map,
-								$author$project$LambdaBasics$Frozen,
-								A2($author$project$TypeVarContext$unification, type00, type11));
+								$author$project$Lib$State$StatefulWithErr$map,
+								$author$project$Calculus$Base$Frozen,
+								A2($author$project$Calculus$Type$TypeVarContext$unification, type00, type11));
 						default:
-							return $author$project$TypeVarContext$throwTypeError(
+							return $author$project$Calculus$Type$TypeVarContext$throwTypeError(
 								_List_fromArray(
-									[$author$project$TypeVarContext$ExpectedFrozenType]));
+									[$author$project$Calculus$Type$TypeVarContext$ExpectedFrozenType]));
 					}
 				default:
-					if (_v0.b.$ === 'VarType') {
+					if (_v0.b.$ === 'TypeVarUse') {
 						break _v0$2;
 					} else {
 						var _v24 = _v0.a;
 						return _Debug_todo(
-							'TypeVarContext',
+							'Calculus.Type.TypeVarContext',
 							{
 								start: {line: 485, column: 13},
 								end: {line: 485, column: 23}
@@ -7719,26 +10857,26 @@ var $author$project$TypeVarContext$unification = F2(
 		}
 		var id1 = _v0.b.a;
 		return A2(
-			$author$project$StatefulWithErr$andThen,
+			$author$project$Lib$State$StatefulWithErr$andThen,
 			function (maybeExpandedType1) {
 				if (maybeExpandedType1.$ === 'Just') {
 					var expandedType1 = maybeExpandedType1.a;
-					return A2($author$project$TypeVarContext$unification, type0, expandedType1);
+					return A2($author$project$Calculus$Type$TypeVarContext$unification, type0, expandedType1);
 				} else {
 					return A2(
-						$author$project$StatefulWithErr$second,
-						A2($author$project$TypeVarContext$extendEquations, id1, type0),
-						$author$project$StatefulWithErr$return(type0));
+						$author$project$Lib$State$StatefulWithErr$second,
+						A2($author$project$Calculus$Type$TypeVarContext$extendEquations, id1, type0),
+						$author$project$Lib$State$StatefulWithErr$return(type0));
 				}
 			},
-			$author$project$TypeVarContext$expandTypeAtTypeVarName(id1));
+			$author$project$Calculus$Type$TypeVarContext$expandTypeAtTypeVarName(id1));
 	});
-var $author$project$Inference$unify = F2(
+var $author$project$Calculus$Type$Inference$unify = F2(
 	function (type0, type1) {
-		return $author$project$Inference$liftUnification(
-			A2($author$project$TypeVarContext$unification, type0, type1));
+		return $author$project$Calculus$Type$Inference$liftUnification(
+			A2($author$project$Calculus$Type$TypeVarContext$unification, type0, type1));
 	});
-var $author$project$StatefulWithErr$update = F2(
+var $author$project$Lib$State$StatefulWithErr$update = F2(
 	function (nextState, stateful_a0) {
 		return function (state0) {
 			var _v0 = stateful_a0(state0);
@@ -7756,8 +10894,8 @@ var $author$project$StatefulWithErr$update = F2(
 			}
 		};
 	});
-var $author$project$Inference$updateContext = function (nextContext) {
-	return $author$project$StatefulWithErr$update(
+var $author$project$Calculus$Type$Inference$updateContext = function (nextContext) {
+	return $author$project$Lib$State$StatefulWithErr$update(
 		function (state) {
 			var context = state.context;
 			return _Utils_update(
@@ -7767,8 +10905,8 @@ var $author$project$Inference$updateContext = function (nextContext) {
 				});
 		});
 };
-var $author$project$Inference$updateContext0 = function (nextContext) {
-	return $author$project$StatefulWithErr$update0(
+var $author$project$Calculus$Type$Inference$updateContext0 = function (nextContext) {
+	return $author$project$Lib$State$StatefulWithErr$update0(
 		function (state) {
 			var context = state.context;
 			return _Utils_update(
@@ -7778,426 +10916,426 @@ var $author$project$Inference$updateContext0 = function (nextContext) {
 				});
 		});
 };
-var $author$project$Inference$infer = function (term) {
+var $author$project$Calculus$Type$Inference$infer = function (term) {
 	switch (term.$) {
 		case 'VarUse':
 			var varName = term.a;
-			return $author$project$Inference$getContext(
+			return $author$project$Calculus$Type$Inference$getContext(
 				function (context0) {
-					var _v2 = A2($author$project$Inference$lookupType, varName, context0);
+					var _v2 = A2($author$project$Calculus$Type$Inference$lookupType, varName, context0);
 					if (_v2.$ === 'Just') {
 						var type0 = _v2.a;
-						return $author$project$Inference$instantiateForAll(type0);
+						return $author$project$Calculus$Type$Inference$instantiateForAll(type0);
 					} else {
 						return A2(
-							$author$project$StatefulWithErr$andThen,
+							$author$project$Lib$State$StatefulWithErr$andThen,
 							function (typeVar) {
 								return A2(
-									$author$project$Inference$updateContext,
+									$author$project$Calculus$Type$Inference$updateContext,
 									function (context1) {
-										return A3($author$project$Inference$pushVarToContext, varName, typeVar, context1);
+										return A3($author$project$Calculus$Type$Inference$pushVarToContext, varName, typeVar, context1);
 									},
-									$author$project$StatefulWithErr$return(typeVar));
+									$author$project$Lib$State$StatefulWithErr$return(typeVar));
 							},
-							$author$project$Inference$generateFreshVar);
+							$author$project$Calculus$Type$Inference$generateFreshVar);
 					}
 				});
 		case 'Pair':
 			var fst = term.a;
 			var snd = term.b;
 			return A3(
-				$author$project$StatefulWithErr$map2,
+				$author$project$Lib$State$StatefulWithErr$map2,
 				F2(
 					function (typeFst, typeSnd) {
-						return A2($author$project$LambdaBasics$Product, typeFst, typeSnd);
+						return A2($author$project$Calculus$Base$Product, typeFst, typeSnd);
 					}),
-				$author$project$Inference$infer(fst),
-				$author$project$Inference$infer(snd));
-		case 'MatchProduct':
-			var arg = term.a.arg;
-			var var0 = term.a.var0;
-			var var1 = term.a.var1;
-			var body = term.a.body;
+				$author$project$Calculus$Type$Inference$infer(fst),
+				$author$project$Calculus$Type$Inference$infer(snd));
+		case 'MatchPair':
+			var arg = term.a;
+			var var0 = term.b.var0;
+			var var1 = term.b.var1;
+			var body = term.b.body;
 			return A4(
-				$author$project$StatefulWithErr$andThen3,
+				$author$project$Lib$State$StatefulWithErr$andThen3,
 				F3(
 					function (argType, varType0, varType1) {
 						return A2(
-							$author$project$StatefulWithErr$second,
+							$author$project$Lib$State$StatefulWithErr$second,
 							A2(
-								$author$project$Inference$unify,
-								A2($author$project$LambdaBasics$Product, varType0, varType1),
+								$author$project$Calculus$Type$Inference$unify,
+								A2($author$project$Calculus$Base$Product, varType0, varType1),
 								argType),
 							A3(
-								$author$project$StatefulWithErr$mid,
-								$author$project$Inference$updateContext0(
+								$author$project$Lib$State$StatefulWithErr$mid,
+								$author$project$Calculus$Type$Inference$updateContext0(
 									function (context) {
 										return A3(
-											$author$project$Inference$pushVarToContext,
+											$author$project$Calculus$Type$Inference$pushVarToContext,
 											var1,
 											varType1,
-											A3($author$project$Inference$pushVarToContext, var0, varType0, context));
+											A3($author$project$Calculus$Type$Inference$pushVarToContext, var0, varType0, context));
 									}),
-								$author$project$Inference$infer(body),
-								$author$project$Inference$updateContext0(
+								$author$project$Calculus$Type$Inference$infer(body),
+								$author$project$Calculus$Type$Inference$updateContext0(
 									function (context) {
 										return A2(
-											$author$project$Inference$popVarFromContext,
+											$author$project$Calculus$Type$Inference$popVarFromContext,
 											var0,
-											A2($author$project$Inference$popVarFromContext, var1, context));
+											A2($author$project$Calculus$Type$Inference$popVarFromContext, var1, context));
 									})));
 					}),
-				$author$project$Inference$infer(arg),
-				$author$project$Inference$generateFreshVar,
-				$author$project$Inference$generateFreshVar);
+				$author$project$Calculus$Type$Inference$infer(arg),
+				$author$project$Calculus$Type$Inference$generateFreshVar,
+				$author$project$Calculus$Type$Inference$generateFreshVar);
 		case 'Abstraction':
-			var _var = term.a;
-			var body = term.b;
+			var _var = term.a._var;
+			var body = term.a.body;
 			return A2(
-				$author$project$StatefulWithErr$andThen,
+				$author$project$Lib$State$StatefulWithErr$andThen,
 				function (typeVar) {
 					return A2(
-						$author$project$StatefulWithErr$map,
+						$author$project$Lib$State$StatefulWithErr$map,
 						function (typeBody) {
-							return A2($author$project$LambdaBasics$Arrow, typeVar, typeBody);
+							return A2($author$project$Calculus$Base$Arrow, typeVar, typeBody);
 						},
 						A3(
-							$author$project$StatefulWithErr$mid,
-							$author$project$Inference$updateContext0(
+							$author$project$Lib$State$StatefulWithErr$mid,
+							$author$project$Calculus$Type$Inference$updateContext0(
 								function (context) {
-									return A3($author$project$Inference$pushVarToContext, _var, typeVar, context);
+									return A3($author$project$Calculus$Type$Inference$pushVarToContext, _var, typeVar, context);
 								}),
-							$author$project$Inference$infer(body),
-							$author$project$Inference$updateContext0(
+							$author$project$Calculus$Type$Inference$infer(body),
+							$author$project$Calculus$Type$Inference$updateContext0(
 								function (context) {
-									return A2($author$project$Inference$popVarFromContext, _var, context);
+									return A2($author$project$Calculus$Type$Inference$popVarFromContext, _var, context);
 								})));
 				},
-				$author$project$Inference$generateFreshVar);
+				$author$project$Calculus$Type$Inference$generateFreshVar);
 		case 'Application':
 			var fn = term.a;
 			var arg = term.b;
 			return A4(
-				$author$project$StatefulWithErr$andThen3,
+				$author$project$Lib$State$StatefulWithErr$andThen3,
 				F3(
 					function (typeFn0, typeArg, resultType0) {
 						return A2(
-							$author$project$StatefulWithErr$andThen,
+							$author$project$Lib$State$StatefulWithErr$andThen,
 							function (typeFn1) {
 								if (typeFn1.$ === 'Arrow') {
 									var resultType1 = typeFn1.b;
-									return $author$project$StatefulWithErr$return(resultType1);
+									return $author$project$Lib$State$StatefulWithErr$return(resultType1);
 								} else {
-									return $author$project$Inference$throwTypeError(
+									return $author$project$Calculus$Type$Inference$throwTypeError(
 										_List_fromArray(
-											[$author$project$TypeVarContext$ExpectedArrowType]));
+											[$author$project$Calculus$Type$TypeVarContext$ExpectedArrowType]));
 								}
 							},
 							A2(
-								$author$project$Inference$unify,
+								$author$project$Calculus$Type$Inference$unify,
 								typeFn0,
-								A2($author$project$LambdaBasics$Arrow, typeArg, resultType0)));
+								A2($author$project$Calculus$Base$Arrow, typeArg, resultType0)));
 					}),
-				$author$project$Inference$infer(fn),
-				$author$project$Inference$infer(arg),
-				$author$project$Inference$generateFreshVar);
+				$author$project$Calculus$Type$Inference$infer(fn),
+				$author$project$Calculus$Type$Inference$infer(arg),
+				$author$project$Calculus$Type$Inference$generateFreshVar);
 		case 'Left':
 			var leftTerm = term.a;
 			return A3(
-				$author$project$StatefulWithErr$map2,
-				$author$project$LambdaBasics$Sum,
-				$author$project$Inference$infer(leftTerm),
-				$author$project$Inference$generateFreshVar);
+				$author$project$Lib$State$StatefulWithErr$map2,
+				$author$project$Calculus$Base$Sum,
+				$author$project$Calculus$Type$Inference$infer(leftTerm),
+				$author$project$Calculus$Type$Inference$generateFreshVar);
 		case 'Right':
 			var rightTerm = term.a;
 			return A3(
-				$author$project$StatefulWithErr$map2,
-				$author$project$LambdaBasics$Sum,
-				$author$project$Inference$generateFreshVar,
-				$author$project$Inference$infer(rightTerm));
-		case 'Case':
-			var arg = term.a.arg;
-			var leftVar = term.a.leftVar;
-			var leftBody = term.a.leftBody;
-			var rightVar = term.a.rightVar;
-			var rightBody = term.a.rightBody;
+				$author$project$Lib$State$StatefulWithErr$map2,
+				$author$project$Calculus$Base$Sum,
+				$author$project$Calculus$Type$Inference$generateFreshVar,
+				$author$project$Calculus$Type$Inference$infer(rightTerm));
+		case 'MatchSum':
+			var arg = term.a;
+			var leftBranch = term.b.leftBranch;
+			var rightBranch = term.b.rightBranch;
 			return A4(
-				$author$project$StatefulWithErr$andThen3,
+				$author$project$Lib$State$StatefulWithErr$andThen3,
 				F3(
 					function (typeArg, leftTypeVar, rightTypeVar) {
 						return A2(
-							$author$project$StatefulWithErr$andThen,
+							$author$project$Lib$State$StatefulWithErr$andThen,
 							function (sumType) {
 								if (sumType.$ === 'Sum') {
 									var leftType = sumType.a;
 									var rightType = sumType.b;
 									return A3(
-										$author$project$StatefulWithErr$andThen2,
+										$author$project$Lib$State$StatefulWithErr$andThen2,
 										F2(
 											function (typeLeftBody, typeRightBody) {
-												return A2($author$project$Inference$unify, typeLeftBody, typeRightBody);
+												return A2($author$project$Calculus$Type$Inference$unify, typeLeftBody, typeRightBody);
 											}),
 										A3(
-											$author$project$StatefulWithErr$mid,
-											$author$project$Inference$updateContext0(
+											$author$project$Lib$State$StatefulWithErr$mid,
+											$author$project$Calculus$Type$Inference$updateContext0(
 												function (context) {
-													return A3($author$project$Inference$pushVarToContext, leftVar, leftType, context);
+													return A3($author$project$Calculus$Type$Inference$pushVarToContext, leftBranch._var, leftType, context);
 												}),
-											$author$project$Inference$infer(leftBody),
-											$author$project$Inference$updateContext0(
+											$author$project$Calculus$Type$Inference$infer(leftBranch.body),
+											$author$project$Calculus$Type$Inference$updateContext0(
 												function (context) {
-													return A2($author$project$Inference$popVarFromContext, leftVar, context);
+													return A2($author$project$Calculus$Type$Inference$popVarFromContext, leftBranch._var, context);
 												})),
 										A3(
-											$author$project$StatefulWithErr$mid,
-											$author$project$Inference$updateContext0(
+											$author$project$Lib$State$StatefulWithErr$mid,
+											$author$project$Calculus$Type$Inference$updateContext0(
 												function (context) {
-													return A3($author$project$Inference$pushVarToContext, rightVar, rightType, context);
+													return A3($author$project$Calculus$Type$Inference$pushVarToContext, rightBranch._var, rightType, context);
 												}),
-											$author$project$Inference$infer(rightBody),
-											$author$project$Inference$updateContext0(
+											$author$project$Calculus$Type$Inference$infer(rightBranch.body),
+											$author$project$Calculus$Type$Inference$updateContext0(
 												function (context) {
-													return A2($author$project$Inference$popVarFromContext, rightVar, context);
+													return A2($author$project$Calculus$Type$Inference$popVarFromContext, rightBranch._var, context);
 												})));
 								} else {
-									return $author$project$Inference$throwTypeError(
+									return $author$project$Calculus$Type$Inference$throwTypeError(
 										_List_fromArray(
-											[$author$project$TypeVarContext$ExpectedSumType]));
+											[$author$project$Calculus$Type$TypeVarContext$ExpectedSumType]));
 								}
 							},
 							A2(
-								$author$project$Inference$unify,
-								A2($author$project$LambdaBasics$Sum, leftTypeVar, rightTypeVar),
+								$author$project$Calculus$Type$Inference$unify,
+								A2($author$project$Calculus$Base$Sum, leftTypeVar, rightTypeVar),
 								typeArg));
 					}),
-				$author$project$Inference$infer(arg),
-				$author$project$Inference$generateFreshVar,
-				$author$project$Inference$generateFreshVar);
-		case 'BoolTrue':
-			return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaBool);
-		case 'BoolFalse':
-			return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaBool);
-		case 'IfThenElse':
+				$author$project$Calculus$Type$Inference$infer(arg),
+				$author$project$Calculus$Type$Inference$generateFreshVar,
+				$author$project$Calculus$Type$Inference$generateFreshVar);
+		case 'ConstTrue':
+			return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstBool);
+		case 'ConstFalse':
+			return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstBool);
+		case 'MatchBool':
 			var arg = term.a;
-			var leftBody = term.b;
-			var rightBody = term.c;
+			var trueBranch = term.b.trueBranch;
+			var falseBranch = term.b.falseBranch;
 			return A2(
-				$author$project$StatefulWithErr$second,
+				$author$project$Lib$State$StatefulWithErr$second,
 				A2(
-					$author$project$StatefulWithErr$andThen,
+					$author$project$Lib$State$StatefulWithErr$andThen,
 					function (argType) {
-						return A2($author$project$Inference$unify, argType, $author$project$LambdaBasics$LambdaBool);
+						return A2($author$project$Calculus$Type$Inference$unify, argType, $author$project$Calculus$Base$ConstBool);
 					},
-					$author$project$Inference$infer(arg)),
+					$author$project$Calculus$Type$Inference$infer(arg)),
 				A3(
-					$author$project$StatefulWithErr$andThen2,
-					$author$project$Inference$unify,
-					$author$project$Inference$infer(leftBody),
-					$author$project$Inference$infer(rightBody)));
-		case 'NatZero':
-			return $author$project$StatefulWithErr$return($author$project$LambdaBasics$LambdaNat);
-		case 'NatSucc':
+					$author$project$Lib$State$StatefulWithErr$andThen2,
+					$author$project$Calculus$Type$Inference$unify,
+					$author$project$Calculus$Type$Inference$infer(trueBranch.body),
+					$author$project$Calculus$Type$Inference$infer(falseBranch.body)));
+		case 'ConstZero':
+			return $author$project$Lib$State$StatefulWithErr$return($author$project$Calculus$Base$ConstNat);
+		case 'Succ':
 			var term1 = term.a;
 			return A2(
-				$author$project$StatefulWithErr$andThen,
+				$author$project$Lib$State$StatefulWithErr$andThen,
 				function (type1) {
-					return A2($author$project$Inference$unify, type1, $author$project$LambdaBasics$LambdaNat);
+					return A2($author$project$Calculus$Type$Inference$unify, type1, $author$project$Calculus$Base$ConstNat);
 				},
-				$author$project$Inference$infer(term1));
-		case 'NatLoop':
-			var base = term.a.base;
-			var loop = term.a.loop;
-			var arg = term.a.arg;
+				$author$project$Calculus$Type$Inference$infer(term1));
+		case 'FoldNat':
+			var arg = term.a;
+			var zeroBranch = term.b.zeroBranch;
+			var succBranch = term.b.succBranch;
 			var argInference = A2(
-				$author$project$StatefulWithErr$andThen,
+				$author$project$Lib$State$StatefulWithErr$andThen,
 				function (argType) {
-					return A2($author$project$Inference$unify, argType, $author$project$LambdaBasics$LambdaNat);
+					return A2($author$project$Calculus$Type$Inference$unify, argType, $author$project$Calculus$Base$ConstNat);
 				},
-				$author$project$Inference$infer(arg));
+				$author$project$Calculus$Type$Inference$infer(arg));
 			return A2(
-				$author$project$StatefulWithErr$second,
+				$author$project$Lib$State$StatefulWithErr$second,
 				argInference,
 				A2(
-					$author$project$StatefulWithErr$andThen,
+					$author$project$Lib$State$StatefulWithErr$andThen,
 					function (baseType) {
 						var loopBodyInference = A3(
-							$author$project$StatefulWithErr$mid,
-							$author$project$Inference$updateContext0(
+							$author$project$Lib$State$StatefulWithErr$mid,
+							$author$project$Calculus$Type$Inference$updateContext0(
 								function (context) {
-									return A3(
-										$author$project$Inference$pushVarToContext,
-										loop.stateVar,
-										baseType,
-										A3($author$project$Inference$pushVarToContext, loop.indexVar, $author$project$LambdaBasics$LambdaNat, context));
+									return A3($author$project$Calculus$Type$Inference$pushVarToContext, succBranch._var, baseType, context);
 								}),
-							$author$project$Inference$infer(loop.body),
-							$author$project$Inference$updateContext0(
+							$author$project$Calculus$Type$Inference$infer(succBranch.body),
+							$author$project$Calculus$Type$Inference$updateContext0(
 								function (context) {
-									return A2(
-										$author$project$Inference$popVarFromContext,
-										loop.indexVar,
-										A2($author$project$Inference$popVarFromContext, loop.stateVar, context));
+									return A2($author$project$Calculus$Type$Inference$popVarFromContext, succBranch._var, context);
 								}));
 						return A2(
-							$author$project$StatefulWithErr$andThen,
+							$author$project$Lib$State$StatefulWithErr$andThen,
 							function (loopBodyType) {
-								return A2($author$project$Inference$unify, loopBodyType, baseType);
+								return A2($author$project$Calculus$Type$Inference$unify, loopBodyType, baseType);
 							},
 							loopBodyInference);
 					},
-					$author$project$Inference$infer(base)));
-		case 'EmptyList':
+					$author$project$Calculus$Type$Inference$infer(zeroBranch.body)));
+		case 'ConstEmpty':
 			return A2(
-				$author$project$StatefulWithErr$map,
+				$author$project$Lib$State$StatefulWithErr$map,
 				function (_var) {
-					return $author$project$LambdaBasics$LambdaList(_var);
+					return $author$project$Calculus$Base$List(_var);
 				},
-				$author$project$Inference$generateFreshVar);
+				$author$project$Calculus$Type$Inference$generateFreshVar);
 		case 'Cons':
 			var headTerm = term.a;
 			var tailTerm = term.b;
 			return A3(
-				$author$project$StatefulWithErr$andThen2,
+				$author$project$Lib$State$StatefulWithErr$andThen2,
 				F2(
 					function (headType, tailType) {
 						return A2(
-							$author$project$Inference$unify,
-							$author$project$LambdaBasics$LambdaList(headType),
+							$author$project$Calculus$Type$Inference$unify,
+							$author$project$Calculus$Base$List(headType),
 							tailType);
 					}),
-				$author$project$Inference$infer(headTerm),
-				$author$project$Inference$infer(tailTerm));
-		case 'ListLoop':
-			var initState = term.a.initState;
-			var loop = term.a.loop;
-			var arg = term.a.arg;
+				$author$project$Calculus$Type$Inference$infer(headTerm),
+				$author$project$Calculus$Type$Inference$infer(tailTerm));
+		case 'FoldList':
+			var arg = term.a;
+			var emptyBranch = term.b.emptyBranch;
+			var consBranch = term.b.consBranch;
 			return A5(
-				$author$project$StatefulWithErr$andThen4,
+				$author$project$Lib$State$StatefulWithErr$andThen4,
 				F4(
 					function (stateType0, argType0, loopVar, stateVar) {
 						return A2(
-							$author$project$StatefulWithErr$andThen,
+							$author$project$Lib$State$StatefulWithErr$andThen,
 							function (innerListVar) {
 								return A2(
-									$author$project$StatefulWithErr$andThen,
+									$author$project$Lib$State$StatefulWithErr$andThen,
 									function (argType1) {
-										if (argType1.$ === 'LambdaList') {
+										if (argType1.$ === 'List') {
 											var innerType0 = argType1.a;
 											return A3(
-												$author$project$StatefulWithErr$andThen2,
+												$author$project$Lib$State$StatefulWithErr$andThen2,
 												F2(
 													function (stateType1, innerType1) {
 														return A2(
-															$author$project$StatefulWithErr$andThen,
+															$author$project$Lib$State$StatefulWithErr$andThen,
 															function (loopBodyType) {
-																return A2($author$project$Inference$unify, loopBodyType, stateType1);
+																return A2($author$project$Calculus$Type$Inference$unify, loopBodyType, stateType1);
 															},
 															A3(
-																$author$project$StatefulWithErr$mid,
-																$author$project$Inference$updateContext0(
+																$author$project$Lib$State$StatefulWithErr$mid,
+																$author$project$Calculus$Type$Inference$updateContext0(
 																	function (context) {
 																		return A3(
-																			$author$project$Inference$pushVarToContext,
-																			loop.stateVar,
+																			$author$project$Calculus$Type$Inference$pushVarToContext,
+																			consBranch.var1,
 																			stateType1,
-																			A3($author$project$Inference$pushVarToContext, loop.listElementVar, innerType1, context));
+																			A3($author$project$Calculus$Type$Inference$pushVarToContext, consBranch.var0, innerType1, context));
 																	}),
-																$author$project$Inference$infer(loop.body),
-																$author$project$Inference$updateContext0(
+																$author$project$Calculus$Type$Inference$infer(consBranch.body),
+																$author$project$Calculus$Type$Inference$updateContext0(
 																	function (context) {
 																		return A2(
-																			$author$project$Inference$popVarFromContext,
-																			loop.stateVar,
-																			A2($author$project$Inference$popVarFromContext, loop.listElementVar, context));
+																			$author$project$Calculus$Type$Inference$popVarFromContext,
+																			consBranch.var0,
+																			A2($author$project$Calculus$Type$Inference$popVarFromContext, consBranch.var1, context));
 																	})));
 													}),
-												A2($author$project$Inference$unify, stateVar, stateType0),
-												A2($author$project$Inference$unify, loopVar, innerType0));
+												A2($author$project$Calculus$Type$Inference$unify, stateVar, stateType0),
+												A2($author$project$Calculus$Type$Inference$unify, loopVar, innerType0));
 										} else {
-											return $author$project$Inference$throwTypeError(
+											return $author$project$Calculus$Type$Inference$throwTypeError(
 												_List_fromArray(
-													[$author$project$TypeVarContext$ExpectedListType]));
+													[$author$project$Calculus$Type$TypeVarContext$ExpectedListType]));
 										}
 									},
 									A2(
-										$author$project$Inference$unify,
-										$author$project$LambdaBasics$LambdaList(innerListVar),
+										$author$project$Calculus$Type$Inference$unify,
+										$author$project$Calculus$Base$List(innerListVar),
 										argType0));
 							},
-							$author$project$Inference$generateFreshVar);
+							$author$project$Calculus$Type$Inference$generateFreshVar);
 					}),
-				$author$project$Inference$infer(initState),
-				$author$project$Inference$infer(arg),
-				$author$project$Inference$generateFreshVar,
-				$author$project$Inference$generateFreshVar);
+				$author$project$Calculus$Type$Inference$infer(emptyBranch.body),
+				$author$project$Calculus$Type$Inference$infer(arg),
+				$author$project$Calculus$Type$Inference$generateFreshVar,
+				$author$project$Calculus$Type$Inference$generateFreshVar);
 		case 'Delay':
-			var body = term.a;
+			var body = term.a.body;
 			return A2(
-				$author$project$StatefulWithErr$map,
-				$author$project$LambdaBasics$Frozen,
-				$author$project$Inference$infer(body));
+				$author$project$Lib$State$StatefulWithErr$map,
+				$author$project$Calculus$Base$Frozen,
+				$author$project$Calculus$Type$Inference$infer(body));
 		case 'Force':
 			var body = term.a;
 			return A3(
-				$author$project$StatefulWithErr$andThen2,
+				$author$project$Lib$State$StatefulWithErr$andThen2,
 				F2(
 					function (bodyType0, freshVar) {
 						return A2(
-							$author$project$StatefulWithErr$andThen,
+							$author$project$Lib$State$StatefulWithErr$andThen,
 							function (bodyType1) {
 								if (bodyType1.$ === 'Frozen') {
 									var innerType = bodyType1.a;
-									return $author$project$StatefulWithErr$return(innerType);
+									return $author$project$Lib$State$StatefulWithErr$return(innerType);
 								} else {
-									return $author$project$Inference$throwTypeError(
+									return $author$project$Calculus$Type$Inference$throwTypeError(
 										_List_fromArray(
-											[$author$project$TypeVarContext$ExpectedFrozenType]));
+											[$author$project$Calculus$Type$TypeVarContext$ExpectedFrozenType]));
 								}
 							},
 							A2(
-								$author$project$Inference$unify,
-								$author$project$LambdaBasics$Frozen(freshVar),
+								$author$project$Calculus$Type$Inference$unify,
+								$author$project$Calculus$Base$Frozen(freshVar),
 								bodyType0));
 					}),
-				$author$project$Inference$infer(body),
-				$author$project$Inference$generateFreshVar);
-		default:
-			var _var = term.a;
-			var exp = term.b;
-			var body = term.c;
+				$author$project$Calculus$Type$Inference$infer(body),
+				$author$project$Calculus$Type$Inference$generateFreshVar);
+		case 'LetBe':
+			var exp = term.a;
+			var _var = term.b._var;
+			var body = term.b.body;
 			return A2(
-				$author$project$StatefulWithErr$andThen,
+				$author$project$Lib$State$StatefulWithErr$andThen,
 				function (closedExpType) {
 					return A3(
-						$author$project$StatefulWithErr$mid,
-						$author$project$Inference$updateContext0(
+						$author$project$Lib$State$StatefulWithErr$mid,
+						$author$project$Calculus$Type$Inference$updateContext0(
 							function (context) {
-								return A3($author$project$Inference$pushVarToContext, _var, closedExpType, context);
+								return A3($author$project$Calculus$Type$Inference$pushVarToContext, _var, closedExpType, context);
 							}),
-						$author$project$Inference$infer(body),
-						$author$project$Inference$updateContext0(
+						$author$project$Calculus$Type$Inference$infer(body),
+						$author$project$Calculus$Type$Inference$updateContext0(
 							function (context) {
-								return A2($author$project$Inference$popVarFromContext, _var, context);
+								return A2($author$project$Calculus$Type$Inference$popVarFromContext, _var, context);
 							}));
 				},
-				$author$project$Inference$inferAndClose(exp));
+				$author$project$Calculus$Type$Inference$inferAndClose(exp));
+		default:
+			var module0 = term.a;
+			var _var = term.b;
+			return _Debug_todo(
+				'Calculus.Type.Inference',
+				{
+					start: {line: 669, column: 13},
+					end: {line: 669, column: 23}
+				})('');
 	}
 };
-var $author$project$Inference$inferAndClose = function (term) {
+var $author$project$Calculus$Type$Inference$inferAndClose = function (term) {
 	return A2(
-		$author$project$StatefulWithErr$second,
-		$author$project$Inference$pushTypeVarStackFrame0,
+		$author$project$Lib$State$StatefulWithErr$second,
+		$author$project$Calculus$Type$Inference$pushTypeVarStackFrame0,
 		A2(
-			$author$project$StatefulWithErr$andThen,
+			$author$project$Lib$State$StatefulWithErr$andThen,
 			function (type0) {
 				return A2(
-					$author$project$StatefulWithErr$andThen,
+					$author$project$Lib$State$StatefulWithErr$andThen,
 					function (_v0) {
 						var varsToBeClosed = _v0.a;
 						var expandedType0 = _v0.b;
 						var update = F2(
 							function (typeVar, t) {
-								return A2($author$project$LambdaBasics$ForAll, typeVar, t);
+								return A2($author$project$Calculus$Base$ForAll, typeVar, t);
 							});
 						var initType = expandedType0;
 						var finalType = A3(
@@ -8205,13 +11343,13 @@ var $author$project$Inference$inferAndClose = function (term) {
 							update,
 							initType,
 							$elm$core$Set$toList(varsToBeClosed));
-						return $author$project$StatefulWithErr$return(finalType);
+						return $author$project$Lib$State$StatefulWithErr$return(finalType);
 					},
-					$author$project$Inference$popTypeVarStackFrameAndExpand(type0));
+					$author$project$Calculus$Type$Inference$popTypeVarStackFrameAndExpand(type0));
 			},
-			$author$project$Inference$infer(term)));
+			$author$project$Calculus$Type$Inference$infer(term)));
 };
-var $author$project$Inference$infer0 = function (term) {
+var $author$project$Calculus$Type$Inference$infer0 = function (term) {
 	return A2(
 		$elm$core$Result$map,
 		function (_v0) {
@@ -8220,1435 +11358,36 @@ var $author$project$Inference$infer0 = function (term) {
 			return _Utils_Tuple3(state.context, state.typeVarContext, type0);
 		},
 		A2(
-			$author$project$StatefulWithErr$run,
-			$author$project$Inference$infer(term),
-			$author$project$Inference$emptyState));
+			$author$project$Lib$State$StatefulWithErr$run,
+			$author$project$Calculus$Type$Inference$infer(term),
+			$author$project$Calculus$Type$Inference$emptyState));
 };
-var $elm$parser$Parser$DeadEnd = F3(
-	function (row, col, problem) {
-		return {col: col, problem: problem, row: row};
-	});
-var $elm$parser$Parser$problemToDeadEnd = function (p) {
-	return A3($elm$parser$Parser$DeadEnd, p.row, p.col, p.problem);
-};
-var $elm$parser$Parser$Advanced$bagToList = F2(
-	function (bag, list) {
-		bagToList:
-		while (true) {
-			switch (bag.$) {
-				case 'Empty':
-					return list;
-				case 'AddRight':
-					var bag1 = bag.a;
-					var x = bag.b;
-					var $temp$bag = bag1,
-						$temp$list = A2($elm$core$List$cons, x, list);
-					bag = $temp$bag;
-					list = $temp$list;
-					continue bagToList;
-				default:
-					var bag1 = bag.a;
-					var bag2 = bag.b;
-					var $temp$bag = bag1,
-						$temp$list = A2($elm$parser$Parser$Advanced$bagToList, bag2, list);
-					bag = $temp$bag;
-					list = $temp$list;
-					continue bagToList;
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$run = F2(
-	function (_v0, src) {
-		var parse = _v0.a;
-		var _v1 = parse(
-			{col: 1, context: _List_Nil, indent: 1, offset: 0, row: 1, src: src});
-		if (_v1.$ === 'Good') {
-			var value = _v1.b;
-			return $elm$core$Result$Ok(value);
-		} else {
-			var bag = _v1.b;
-			return $elm$core$Result$Err(
-				A2($elm$parser$Parser$Advanced$bagToList, bag, _List_Nil));
-		}
-	});
-var $elm$parser$Parser$run = F2(
-	function (parser, source) {
-		var _v0 = A2($elm$parser$Parser$Advanced$run, parser, source);
-		if (_v0.$ === 'Ok') {
-			var a = _v0.a;
-			return $elm$core$Result$Ok(a);
-		} else {
-			var problems = _v0.a;
-			return $elm$core$Result$Err(
-				A2($elm$core$List$map, $elm$parser$Parser$problemToDeadEnd, problems));
-		}
-	});
-var $author$project$LambdaBasics$Abstraction = F2(
-	function (a, b) {
-		return {$: 'Abstraction', a: a, b: b};
-	});
-var $author$project$LambdaBasics$Application = F2(
-	function (a, b) {
-		return {$: 'Application', a: a, b: b};
-	});
-var $author$project$LambdaBasics$Case = function (a) {
-	return {$: 'Case', a: a};
-};
-var $author$project$LambdaBasics$Cons = F2(
-	function (a, b) {
-		return {$: 'Cons', a: a, b: b};
-	});
-var $author$project$LambdaBasics$Delay = function (a) {
-	return {$: 'Delay', a: a};
-};
-var $author$project$LambdaBasics$Force = function (a) {
-	return {$: 'Force', a: a};
-};
-var $author$project$LambdaBasics$IfThenElse = F3(
-	function (a, b, c) {
-		return {$: 'IfThenElse', a: a, b: b, c: c};
-	});
-var $author$project$LambdaBasics$Left = function (a) {
-	return {$: 'Left', a: a};
-};
-var $author$project$LambdaBasics$Let = F3(
-	function (a, b, c) {
-		return {$: 'Let', a: a, b: b, c: c};
-	});
-var $author$project$LambdaBasics$ListLoop = function (a) {
-	return {$: 'ListLoop', a: a};
-};
-var $author$project$LambdaBasics$MatchProduct = function (a) {
-	return {$: 'MatchProduct', a: a};
-};
-var $author$project$LambdaBasics$NatLoop = function (a) {
-	return {$: 'NatLoop', a: a};
-};
-var $author$project$LambdaBasics$NatSucc = function (a) {
-	return {$: 'NatSucc', a: a};
-};
-var $author$project$LambdaBasics$Pair = F2(
-	function (a, b) {
-		return {$: 'Pair', a: a, b: b};
-	});
-var $author$project$LambdaBasics$Right = function (a) {
-	return {$: 'Right', a: a};
-};
-var $elm$core$Basics$always = F2(
-	function (a, _v0) {
-		return a;
-	});
-var $elm$parser$Parser$Advanced$Bad = F2(
-	function (a, b) {
-		return {$: 'Bad', a: a, b: b};
-	});
-var $elm$parser$Parser$Advanced$Good = F3(
-	function (a, b, c) {
-		return {$: 'Good', a: a, b: b, c: c};
-	});
-var $elm$parser$Parser$Advanced$Parser = function (a) {
-	return {$: 'Parser', a: a};
-};
-var $elm$parser$Parser$Advanced$map2 = F3(
-	function (func, _v0, _v1) {
-		var parseA = _v0.a;
-		var parseB = _v1.a;
-		return $elm$parser$Parser$Advanced$Parser(
-			function (s0) {
-				var _v2 = parseA(s0);
-				if (_v2.$ === 'Bad') {
-					var p = _v2.a;
-					var x = _v2.b;
-					return A2($elm$parser$Parser$Advanced$Bad, p, x);
-				} else {
-					var p1 = _v2.a;
-					var a = _v2.b;
-					var s1 = _v2.c;
-					var _v3 = parseB(s1);
-					if (_v3.$ === 'Bad') {
-						var p2 = _v3.a;
-						var x = _v3.b;
-						return A2($elm$parser$Parser$Advanced$Bad, p1 || p2, x);
-					} else {
-						var p2 = _v3.a;
-						var b = _v3.b;
-						var s2 = _v3.c;
-						return A3(
-							$elm$parser$Parser$Advanced$Good,
-							p1 || p2,
-							A2(func, a, b),
-							s2);
-					}
-				}
-			});
-	});
-var $elm$parser$Parser$Advanced$ignorer = F2(
-	function (keepParser, ignoreParser) {
-		return A3($elm$parser$Parser$Advanced$map2, $elm$core$Basics$always, keepParser, ignoreParser);
-	});
-var $elm$parser$Parser$ignorer = $elm$parser$Parser$Advanced$ignorer;
-var $elm$parser$Parser$Advanced$keeper = F2(
-	function (parseFunc, parseArg) {
-		return A3($elm$parser$Parser$Advanced$map2, $elm$core$Basics$apL, parseFunc, parseArg);
-	});
-var $elm$parser$Parser$keeper = $elm$parser$Parser$Advanced$keeper;
-var $elm$parser$Parser$Advanced$succeed = function (a) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			return A3($elm$parser$Parser$Advanced$Good, false, a, s);
-		});
-};
-var $elm$parser$Parser$succeed = $elm$parser$Parser$Advanced$succeed;
-var $elm$parser$Parser$Advanced$isSubChar = _Parser_isSubChar;
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
-var $elm$parser$Parser$Advanced$chompWhileHelp = F5(
-	function (isGood, offset, row, col, s0) {
-		chompWhileHelp:
-		while (true) {
-			var newOffset = A3($elm$parser$Parser$Advanced$isSubChar, isGood, offset, s0.src);
-			if (_Utils_eq(newOffset, -1)) {
-				return A3(
-					$elm$parser$Parser$Advanced$Good,
-					_Utils_cmp(s0.offset, offset) < 0,
-					_Utils_Tuple0,
-					{col: col, context: s0.context, indent: s0.indent, offset: offset, row: row, src: s0.src});
-			} else {
-				if (_Utils_eq(newOffset, -2)) {
-					var $temp$isGood = isGood,
-						$temp$offset = offset + 1,
-						$temp$row = row + 1,
-						$temp$col = 1,
-						$temp$s0 = s0;
-					isGood = $temp$isGood;
-					offset = $temp$offset;
-					row = $temp$row;
-					col = $temp$col;
-					s0 = $temp$s0;
-					continue chompWhileHelp;
-				} else {
-					var $temp$isGood = isGood,
-						$temp$offset = newOffset,
-						$temp$row = row,
-						$temp$col = col + 1,
-						$temp$s0 = s0;
-					isGood = $temp$isGood;
-					offset = $temp$offset;
-					row = $temp$row;
-					col = $temp$col;
-					s0 = $temp$s0;
-					continue chompWhileHelp;
-				}
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$chompWhile = function (isGood) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			return A5($elm$parser$Parser$Advanced$chompWhileHelp, isGood, s.offset, s.row, s.col, s);
-		});
-};
-var $elm$parser$Parser$chompWhile = $elm$parser$Parser$Advanced$chompWhile;
-var $elm$core$Set$fromList = function (list) {
-	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
-};
-var $author$project$TermParser$whitespaceChars = $elm$core$Set$fromList(
-	_List_fromArray(
-		[
-			_Utils_chr(' '),
-			_Utils_chr('\n'),
-			_Utils_chr('\u000D'),
-			_Utils_chr('\t')
-		]));
-var $author$project$TermParser$spaces = $elm$parser$Parser$chompWhile(
-	function (c) {
-		return A2($elm$core$Set$member, c, $author$project$TermParser$whitespaceChars);
-	});
-var $elm$parser$Parser$ExpectingSymbol = function (a) {
-	return {$: 'ExpectingSymbol', a: a};
-};
-var $elm$parser$Parser$Advanced$Token = F2(
-	function (a, b) {
-		return {$: 'Token', a: a, b: b};
-	});
-var $elm$parser$Parser$Advanced$AddRight = F2(
-	function (a, b) {
-		return {$: 'AddRight', a: a, b: b};
-	});
-var $elm$parser$Parser$Advanced$DeadEnd = F4(
-	function (row, col, problem, contextStack) {
-		return {col: col, contextStack: contextStack, problem: problem, row: row};
-	});
-var $elm$parser$Parser$Advanced$Empty = {$: 'Empty'};
-var $elm$parser$Parser$Advanced$fromState = F2(
-	function (s, x) {
-		return A2(
-			$elm$parser$Parser$Advanced$AddRight,
-			$elm$parser$Parser$Advanced$Empty,
-			A4($elm$parser$Parser$Advanced$DeadEnd, s.row, s.col, x, s.context));
-	});
-var $elm$parser$Parser$Advanced$isSubString = _Parser_isSubString;
-var $elm$core$Basics$not = _Basics_not;
-var $elm$parser$Parser$Advanced$token = function (_v0) {
-	var str = _v0.a;
-	var expecting = _v0.b;
-	var progress = !$elm$core$String$isEmpty(str);
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			var _v1 = A5($elm$parser$Parser$Advanced$isSubString, str, s.offset, s.row, s.col, s.src);
-			var newOffset = _v1.a;
-			var newRow = _v1.b;
-			var newCol = _v1.c;
-			return _Utils_eq(newOffset, -1) ? A2(
-				$elm$parser$Parser$Advanced$Bad,
-				false,
-				A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : A3(
-				$elm$parser$Parser$Advanced$Good,
-				progress,
-				_Utils_Tuple0,
-				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
-		});
-};
-var $elm$parser$Parser$Advanced$symbol = $elm$parser$Parser$Advanced$token;
-var $elm$parser$Parser$symbol = function (str) {
-	return $elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			str,
-			$elm$parser$Parser$ExpectingSymbol(str)));
-};
-var $author$project$TermParser$symbol = function (str) {
+var $author$project$Calculus$Parser$runTerm = function (input) {
 	return A2(
-		$elm$parser$Parser$ignorer,
-		$elm$parser$Parser$symbol(str),
-		$author$project$TermParser$spaces);
+		$elm$core$Result$map,
+		$elm$core$Tuple$second,
+		A3(
+			$author$project$Lib$Parser$Parser$run,
+			$author$project$Calculus$Parser$term,
+			{},
+			$author$project$Lib$Parser$State$return(input)));
 };
-var $author$project$TermParser$binding = F2(
-	function (varsParser, bodyParser) {
-		return A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$keeper,
-				A2(
-					$elm$parser$Parser$ignorer,
-					$elm$parser$Parser$succeed(
-						F2(
-							function (vars, body) {
-								return _Utils_Tuple2(vars, body);
-							})),
-					$author$project$TermParser$symbol('{')),
-				A2(
-					$elm$parser$Parser$ignorer,
-					varsParser,
-					$author$project$TermParser$symbol('.'))),
-			A2(
-				$elm$parser$Parser$ignorer,
-				bodyParser,
-				$author$project$TermParser$symbol('}')));
-	});
-var $author$project$LambdaBasics$BoolFalse = {$: 'BoolFalse'};
-var $author$project$TermParser$falseKeyword = 'false';
-var $elm$parser$Parser$ExpectingKeyword = function (a) {
-	return {$: 'ExpectingKeyword', a: a};
-};
-var $elm$parser$Parser$Advanced$keyword = function (_v0) {
-	var kwd = _v0.a;
-	var expecting = _v0.b;
-	var progress = !$elm$core$String$isEmpty(kwd);
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			var _v1 = A5($elm$parser$Parser$Advanced$isSubString, kwd, s.offset, s.row, s.col, s.src);
-			var newOffset = _v1.a;
-			var newRow = _v1.b;
-			var newCol = _v1.c;
-			return (_Utils_eq(newOffset, -1) || (0 <= A3(
-				$elm$parser$Parser$Advanced$isSubChar,
-				function (c) {
-					return $elm$core$Char$isAlphaNum(c) || _Utils_eq(
-						c,
-						_Utils_chr('_'));
-				},
-				newOffset,
-				s.src))) ? A2(
-				$elm$parser$Parser$Advanced$Bad,
-				false,
-				A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : A3(
-				$elm$parser$Parser$Advanced$Good,
-				progress,
-				_Utils_Tuple0,
-				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
-		});
-};
-var $elm$parser$Parser$keyword = function (kwd) {
-	return $elm$parser$Parser$Advanced$keyword(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			kwd,
-			$elm$parser$Parser$ExpectingKeyword(kwd)));
-};
-var $author$project$TermParser$keyword = function (str) {
-	return A2(
-		$elm$parser$Parser$ignorer,
-		$elm$parser$Parser$keyword(str),
-		$author$project$TermParser$spaces);
-};
-var $author$project$TermParser$false = A2(
-	$elm$parser$Parser$ignorer,
-	$elm$parser$Parser$succeed($author$project$LambdaBasics$BoolFalse),
-	$author$project$TermParser$keyword($author$project$TermParser$falseKeyword));
-var $elm$parser$Parser$Advanced$Append = F2(
-	function (a, b) {
-		return {$: 'Append', a: a, b: b};
-	});
-var $elm$parser$Parser$Advanced$oneOfHelp = F3(
-	function (s0, bag, parsers) {
-		oneOfHelp:
-		while (true) {
-			if (!parsers.b) {
-				return A2($elm$parser$Parser$Advanced$Bad, false, bag);
-			} else {
-				var parse = parsers.a.a;
-				var remainingParsers = parsers.b;
-				var _v1 = parse(s0);
-				if (_v1.$ === 'Good') {
-					var step = _v1;
-					return step;
-				} else {
-					var step = _v1;
-					var p = step.a;
-					var x = step.b;
-					if (p) {
-						return step;
-					} else {
-						var $temp$s0 = s0,
-							$temp$bag = A2($elm$parser$Parser$Advanced$Append, bag, x),
-							$temp$parsers = remainingParsers;
-						s0 = $temp$s0;
-						bag = $temp$bag;
-						parsers = $temp$parsers;
-						continue oneOfHelp;
-					}
-				}
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$oneOf = function (parsers) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			return A3($elm$parser$Parser$Advanced$oneOfHelp, s, $elm$parser$Parser$Advanced$Empty, parsers);
-		});
-};
-var $elm$parser$Parser$oneOf = $elm$parser$Parser$Advanced$oneOf;
-var $author$project$LambdaBasics$BoolTrue = {$: 'BoolTrue'};
-var $author$project$TermParser$trueKeyword = 'true';
-var $author$project$TermParser$true = A2(
-	$elm$parser$Parser$ignorer,
-	$elm$parser$Parser$succeed($author$project$LambdaBasics$BoolTrue),
-	$author$project$TermParser$keyword($author$project$TermParser$trueKeyword));
-var $author$project$TermParser$bool = $elm$parser$Parser$oneOf(
-	_List_fromArray(
-		[$author$project$TermParser$true, $author$project$TermParser$false]));
-var $author$project$LambdaBasics$EmptyList = {$: 'EmptyList'};
-var $author$project$TermParser$emptyList = A2(
-	$elm$parser$Parser$ignorer,
-	$elm$parser$Parser$succeed($author$project$LambdaBasics$EmptyList),
-	$author$project$TermParser$keyword('empty-list'));
-var $elm$parser$Parser$Advanced$lazy = function (thunk) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			var _v0 = thunk(_Utils_Tuple0);
-			var parse = _v0.a;
-			return parse(s);
-		});
-};
-var $elm$parser$Parser$lazy = $elm$parser$Parser$Advanced$lazy;
-var $author$project$TermParser$leftKeyword = 'left';
-var $elm$parser$Parser$ExpectingVariable = {$: 'ExpectingVariable'};
-var $elm$parser$Parser$Advanced$varHelp = F7(
-	function (isGood, offset, row, col, src, indent, context) {
-		varHelp:
-		while (true) {
-			var newOffset = A3($elm$parser$Parser$Advanced$isSubChar, isGood, offset, src);
-			if (_Utils_eq(newOffset, -1)) {
-				return {col: col, context: context, indent: indent, offset: offset, row: row, src: src};
-			} else {
-				if (_Utils_eq(newOffset, -2)) {
-					var $temp$isGood = isGood,
-						$temp$offset = offset + 1,
-						$temp$row = row + 1,
-						$temp$col = 1,
-						$temp$src = src,
-						$temp$indent = indent,
-						$temp$context = context;
-					isGood = $temp$isGood;
-					offset = $temp$offset;
-					row = $temp$row;
-					col = $temp$col;
-					src = $temp$src;
-					indent = $temp$indent;
-					context = $temp$context;
-					continue varHelp;
-				} else {
-					var $temp$isGood = isGood,
-						$temp$offset = newOffset,
-						$temp$row = row,
-						$temp$col = col + 1,
-						$temp$src = src,
-						$temp$indent = indent,
-						$temp$context = context;
-					isGood = $temp$isGood;
-					offset = $temp$offset;
-					row = $temp$row;
-					col = $temp$col;
-					src = $temp$src;
-					indent = $temp$indent;
-					context = $temp$context;
-					continue varHelp;
-				}
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$variable = function (i) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			var firstOffset = A3($elm$parser$Parser$Advanced$isSubChar, i.start, s.offset, s.src);
-			if (_Utils_eq(firstOffset, -1)) {
-				return A2(
-					$elm$parser$Parser$Advanced$Bad,
-					false,
-					A2($elm$parser$Parser$Advanced$fromState, s, i.expecting));
-			} else {
-				var s1 = _Utils_eq(firstOffset, -2) ? A7($elm$parser$Parser$Advanced$varHelp, i.inner, s.offset + 1, s.row + 1, 1, s.src, s.indent, s.context) : A7($elm$parser$Parser$Advanced$varHelp, i.inner, firstOffset, s.row, s.col + 1, s.src, s.indent, s.context);
-				var name = A3($elm$core$String$slice, s.offset, s1.offset, s.src);
-				return A2($elm$core$Set$member, name, i.reserved) ? A2(
-					$elm$parser$Parser$Advanced$Bad,
-					false,
-					A2($elm$parser$Parser$Advanced$fromState, s, i.expecting)) : A3($elm$parser$Parser$Advanced$Good, true, name, s1);
-			}
-		});
-};
-var $elm$parser$Parser$variable = function (i) {
-	return $elm$parser$Parser$Advanced$variable(
-		{expecting: $elm$parser$Parser$ExpectingVariable, inner: i.inner, reserved: i.reserved, start: i.start});
-};
-var $author$project$TermParser$varIntro = function () {
-	var isPrintable = function (charCode) {
-		return (32 <= charCode) && (charCode <= 126);
-	};
-	var excludedChars = A2(
-		$elm$core$Set$union,
-		$elm$core$Set$fromList(
-			_List_fromArray(
-				[
-					_Utils_chr('$'),
-					_Utils_chr('.'),
-					_Utils_chr('('),
-					_Utils_chr(')'),
-					_Utils_chr('{'),
-					_Utils_chr('}'),
-					_Utils_chr('\''),
-					_Utils_chr('\"')
-				])),
-		$author$project$TermParser$whitespaceChars);
-	return A2(
-		$elm$parser$Parser$ignorer,
-		$elm$parser$Parser$variable(
-			{
-				inner: function (c) {
-					var charCode = $elm$core$Char$toCode(c);
-					return (!A2($elm$core$Set$member, c, excludedChars)) && isPrintable(charCode);
-				},
-				reserved: $elm$core$Set$empty,
-				start: function (c) {
-					var charCode = $elm$core$Char$toCode(c);
-					return (!A2($elm$core$Set$member, c, excludedChars)) && (isPrintable(charCode) && (!$elm$core$Char$isDigit(c)));
-				}
-			}),
-		$author$project$TermParser$spaces);
-}();
-var $author$project$TermParser$leftPattern = A2(
-	$elm$parser$Parser$keeper,
-	A2(
-		$elm$parser$Parser$ignorer,
-		$elm$parser$Parser$succeed(
-			function (x) {
-				return x;
-			}),
-		$author$project$TermParser$keyword($author$project$TermParser$leftKeyword)),
-	$author$project$TermParser$varIntro);
-var $elm$parser$Parser$ExpectingInt = {$: 'ExpectingInt'};
-var $elm$parser$Parser$Advanced$consumeBase = _Parser_consumeBase;
-var $elm$parser$Parser$Advanced$consumeBase16 = _Parser_consumeBase16;
-var $elm$parser$Parser$Advanced$bumpOffset = F2(
-	function (newOffset, s) {
-		return {col: s.col + (newOffset - s.offset), context: s.context, indent: s.indent, offset: newOffset, row: s.row, src: s.src};
-	});
-var $elm$parser$Parser$Advanced$chompBase10 = _Parser_chompBase10;
-var $elm$parser$Parser$Advanced$isAsciiCode = _Parser_isAsciiCode;
-var $elm$parser$Parser$Advanced$consumeExp = F2(
-	function (offset, src) {
-		if (A3($elm$parser$Parser$Advanced$isAsciiCode, 101, offset, src) || A3($elm$parser$Parser$Advanced$isAsciiCode, 69, offset, src)) {
-			var eOffset = offset + 1;
-			var expOffset = (A3($elm$parser$Parser$Advanced$isAsciiCode, 43, eOffset, src) || A3($elm$parser$Parser$Advanced$isAsciiCode, 45, eOffset, src)) ? (eOffset + 1) : eOffset;
-			var newOffset = A2($elm$parser$Parser$Advanced$chompBase10, expOffset, src);
-			return _Utils_eq(expOffset, newOffset) ? (-newOffset) : newOffset;
-		} else {
-			return offset;
-		}
-	});
-var $elm$parser$Parser$Advanced$consumeDotAndExp = F2(
-	function (offset, src) {
-		return A3($elm$parser$Parser$Advanced$isAsciiCode, 46, offset, src) ? A2(
-			$elm$parser$Parser$Advanced$consumeExp,
-			A2($elm$parser$Parser$Advanced$chompBase10, offset + 1, src),
-			src) : A2($elm$parser$Parser$Advanced$consumeExp, offset, src);
-	});
-var $elm$parser$Parser$Advanced$finalizeInt = F5(
-	function (invalid, handler, startOffset, _v0, s) {
-		var endOffset = _v0.a;
-		var n = _v0.b;
-		if (handler.$ === 'Err') {
-			var x = handler.a;
-			return A2(
-				$elm$parser$Parser$Advanced$Bad,
-				true,
-				A2($elm$parser$Parser$Advanced$fromState, s, x));
-		} else {
-			var toValue = handler.a;
-			return _Utils_eq(startOffset, endOffset) ? A2(
-				$elm$parser$Parser$Advanced$Bad,
-				_Utils_cmp(s.offset, startOffset) < 0,
-				A2($elm$parser$Parser$Advanced$fromState, s, invalid)) : A3(
-				$elm$parser$Parser$Advanced$Good,
-				true,
-				toValue(n),
-				A2($elm$parser$Parser$Advanced$bumpOffset, endOffset, s));
-		}
-	});
-var $elm$parser$Parser$Advanced$fromInfo = F4(
-	function (row, col, x, context) {
-		return A2(
-			$elm$parser$Parser$Advanced$AddRight,
-			$elm$parser$Parser$Advanced$Empty,
-			A4($elm$parser$Parser$Advanced$DeadEnd, row, col, x, context));
-	});
-var $elm$core$String$toFloat = _String_toFloat;
-var $elm$parser$Parser$Advanced$finalizeFloat = F6(
-	function (invalid, expecting, intSettings, floatSettings, intPair, s) {
-		var intOffset = intPair.a;
-		var floatOffset = A2($elm$parser$Parser$Advanced$consumeDotAndExp, intOffset, s.src);
-		if (floatOffset < 0) {
-			return A2(
-				$elm$parser$Parser$Advanced$Bad,
-				true,
-				A4($elm$parser$Parser$Advanced$fromInfo, s.row, s.col - (floatOffset + s.offset), invalid, s.context));
-		} else {
-			if (_Utils_eq(s.offset, floatOffset)) {
-				return A2(
-					$elm$parser$Parser$Advanced$Bad,
-					false,
-					A2($elm$parser$Parser$Advanced$fromState, s, expecting));
-			} else {
-				if (_Utils_eq(intOffset, floatOffset)) {
-					return A5($elm$parser$Parser$Advanced$finalizeInt, invalid, intSettings, s.offset, intPair, s);
-				} else {
-					if (floatSettings.$ === 'Err') {
-						var x = floatSettings.a;
-						return A2(
-							$elm$parser$Parser$Advanced$Bad,
-							true,
-							A2($elm$parser$Parser$Advanced$fromState, s, invalid));
-					} else {
-						var toValue = floatSettings.a;
-						var _v1 = $elm$core$String$toFloat(
-							A3($elm$core$String$slice, s.offset, floatOffset, s.src));
-						if (_v1.$ === 'Nothing') {
-							return A2(
-								$elm$parser$Parser$Advanced$Bad,
-								true,
-								A2($elm$parser$Parser$Advanced$fromState, s, invalid));
-						} else {
-							var n = _v1.a;
-							return A3(
-								$elm$parser$Parser$Advanced$Good,
-								true,
-								toValue(n),
-								A2($elm$parser$Parser$Advanced$bumpOffset, floatOffset, s));
-						}
-					}
-				}
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$number = function (c) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			if (A3($elm$parser$Parser$Advanced$isAsciiCode, 48, s.offset, s.src)) {
-				var zeroOffset = s.offset + 1;
-				var baseOffset = zeroOffset + 1;
-				return A3($elm$parser$Parser$Advanced$isAsciiCode, 120, zeroOffset, s.src) ? A5(
-					$elm$parser$Parser$Advanced$finalizeInt,
-					c.invalid,
-					c.hex,
-					baseOffset,
-					A2($elm$parser$Parser$Advanced$consumeBase16, baseOffset, s.src),
-					s) : (A3($elm$parser$Parser$Advanced$isAsciiCode, 111, zeroOffset, s.src) ? A5(
-					$elm$parser$Parser$Advanced$finalizeInt,
-					c.invalid,
-					c.octal,
-					baseOffset,
-					A3($elm$parser$Parser$Advanced$consumeBase, 8, baseOffset, s.src),
-					s) : (A3($elm$parser$Parser$Advanced$isAsciiCode, 98, zeroOffset, s.src) ? A5(
-					$elm$parser$Parser$Advanced$finalizeInt,
-					c.invalid,
-					c.binary,
-					baseOffset,
-					A3($elm$parser$Parser$Advanced$consumeBase, 2, baseOffset, s.src),
-					s) : A6(
-					$elm$parser$Parser$Advanced$finalizeFloat,
-					c.invalid,
-					c.expecting,
-					c._int,
-					c._float,
-					_Utils_Tuple2(zeroOffset, 0),
-					s)));
-			} else {
-				return A6(
-					$elm$parser$Parser$Advanced$finalizeFloat,
-					c.invalid,
-					c.expecting,
-					c._int,
-					c._float,
-					A3($elm$parser$Parser$Advanced$consumeBase, 10, s.offset, s.src),
-					s);
-			}
-		});
-};
-var $elm$parser$Parser$Advanced$int = F2(
-	function (expecting, invalid) {
-		return $elm$parser$Parser$Advanced$number(
-			{
-				binary: $elm$core$Result$Err(invalid),
-				expecting: expecting,
-				_float: $elm$core$Result$Err(invalid),
-				hex: $elm$core$Result$Err(invalid),
-				_int: $elm$core$Result$Ok($elm$core$Basics$identity),
-				invalid: invalid,
-				octal: $elm$core$Result$Err(invalid)
-			});
-	});
-var $elm$parser$Parser$int = A2($elm$parser$Parser$Advanced$int, $elm$parser$Parser$ExpectingInt, $elm$parser$Parser$ExpectingInt);
-var $author$project$LambdaBasics$NatZero = {$: 'NatZero'};
-var $author$project$LambdaBasics$intToNatTerm = function (n) {
-	return (!n) ? $author$project$LambdaBasics$NatZero : $author$project$LambdaBasics$NatSucc(
-		$author$project$LambdaBasics$intToNatTerm(n - 1));
-};
-var $author$project$TermParser$natConstant = A2(
-	$elm$parser$Parser$keeper,
-	A2(
-		$elm$parser$Parser$ignorer,
-		$elm$parser$Parser$succeed($author$project$LambdaBasics$intToNatTerm),
-		$elm$parser$Parser$symbol('0n')),
-	A2($elm$parser$Parser$ignorer, $elm$parser$Parser$int, $author$project$TermParser$spaces));
-var $author$project$TermParser$optionalBinding = function (bodyParser) {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$ignorer,
-			A2(
-				$elm$parser$Parser$ignorer,
-				$elm$parser$Parser$succeed(
-					function (x) {
-						return x;
-					}),
-				$author$project$TermParser$symbol('{')),
-			$elm$parser$Parser$oneOf(
-				_List_fromArray(
-					[
-						$author$project$TermParser$symbol('.'),
-						$elm$parser$Parser$succeed(_Utils_Tuple0)
-					]))),
-		A2(
-			$elm$parser$Parser$ignorer,
-			bodyParser,
-			$author$project$TermParser$symbol('}')));
-};
-var $author$project$TermParser$pairKeyword = 'pair';
-var $author$project$TermParser$pairPattern = A2(
-	$elm$parser$Parser$keeper,
-	A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$ignorer,
-			$elm$parser$Parser$succeed(
-				F2(
-					function (x, y) {
-						return _Utils_Tuple2(x, y);
-					})),
-			$author$project$TermParser$keyword($author$project$TermParser$pairKeyword)),
-		$author$project$TermParser$varIntro),
-	$author$project$TermParser$varIntro);
-var $author$project$TermParser$paren = function (p) {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$ignorer,
-			$elm$parser$Parser$succeed(
-				function (x) {
-					return x;
-				}),
-			$author$project$TermParser$symbol('(')),
-		A2(
-			$elm$parser$Parser$ignorer,
-			p,
-			$author$project$TermParser$symbol(')')));
-};
-var $author$project$TermParser$rightKeyword = 'right';
-var $author$project$TermParser$rightPattern = A2(
-	$elm$parser$Parser$keeper,
-	A2(
-		$elm$parser$Parser$ignorer,
-		$elm$parser$Parser$succeed(
-			function (x) {
-				return x;
-			}),
-		$author$project$TermParser$keyword($author$project$TermParser$rightKeyword)),
-	$author$project$TermParser$varIntro);
-var $elm$parser$Parser$Done = function (a) {
-	return {$: 'Done', a: a};
-};
-var $elm$parser$Parser$Loop = function (a) {
-	return {$: 'Loop', a: a};
-};
-var $elm$parser$Parser$Advanced$loopHelp = F4(
-	function (p, state, callback, s0) {
-		loopHelp:
-		while (true) {
-			var _v0 = callback(state);
-			var parse = _v0.a;
-			var _v1 = parse(s0);
-			if (_v1.$ === 'Good') {
-				var p1 = _v1.a;
-				var step = _v1.b;
-				var s1 = _v1.c;
-				if (step.$ === 'Loop') {
-					var newState = step.a;
-					var $temp$p = p || p1,
-						$temp$state = newState,
-						$temp$callback = callback,
-						$temp$s0 = s1;
-					p = $temp$p;
-					state = $temp$state;
-					callback = $temp$callback;
-					s0 = $temp$s0;
-					continue loopHelp;
-				} else {
-					var result = step.a;
-					return A3($elm$parser$Parser$Advanced$Good, p || p1, result, s1);
-				}
-			} else {
-				var p1 = _v1.a;
-				var x = _v1.b;
-				return A2($elm$parser$Parser$Advanced$Bad, p || p1, x);
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$loop = F2(
-	function (state, callback) {
-		return $elm$parser$Parser$Advanced$Parser(
-			function (s) {
-				return A4($elm$parser$Parser$Advanced$loopHelp, false, state, callback, s);
-			});
-	});
-var $elm$parser$Parser$Advanced$map = F2(
-	function (func, _v0) {
-		var parse = _v0.a;
-		return $elm$parser$Parser$Advanced$Parser(
-			function (s0) {
-				var _v1 = parse(s0);
-				if (_v1.$ === 'Good') {
-					var p = _v1.a;
-					var a = _v1.b;
-					var s1 = _v1.c;
-					return A3(
-						$elm$parser$Parser$Advanced$Good,
-						p,
-						func(a),
-						s1);
-				} else {
-					var p = _v1.a;
-					var x = _v1.b;
-					return A2($elm$parser$Parser$Advanced$Bad, p, x);
-				}
-			});
-	});
-var $elm$parser$Parser$map = $elm$parser$Parser$Advanced$map;
-var $elm$parser$Parser$Advanced$Done = function (a) {
-	return {$: 'Done', a: a};
-};
-var $elm$parser$Parser$Advanced$Loop = function (a) {
-	return {$: 'Loop', a: a};
-};
-var $elm$parser$Parser$toAdvancedStep = function (step) {
-	if (step.$ === 'Loop') {
-		var s = step.a;
-		return $elm$parser$Parser$Advanced$Loop(s);
-	} else {
-		var a = step.a;
-		return $elm$parser$Parser$Advanced$Done(a);
-	}
-};
-var $elm$parser$Parser$loop = F2(
-	function (state, callback) {
-		return A2(
-			$elm$parser$Parser$Advanced$loop,
-			state,
-			function (s) {
-				return A2(
-					$elm$parser$Parser$map,
-					$elm$parser$Parser$toAdvancedStep,
-					callback(s));
-			});
-	});
-var $author$project$TermParser$seq = function (p) {
-	return A2(
-		$elm$parser$Parser$loop,
-		_List_Nil,
-		function (xs) {
-			return $elm$parser$Parser$oneOf(
-				_List_fromArray(
-					[
-						A2(
-						$elm$parser$Parser$keeper,
-						$elm$parser$Parser$succeed(
-							function (x) {
-								return $elm$parser$Parser$Loop(
-									A2($elm$core$List$cons, x, xs));
-							}),
-						p),
-						$elm$parser$Parser$succeed(
-						$elm$parser$Parser$Done(
-							$elm$core$List$reverse(xs)))
-					]));
-		});
-};
-var $author$project$LambdaBasics$VarUse = function (a) {
-	return {$: 'VarUse', a: a};
-};
-var $author$project$TermParser$varUse = A2(
-	$elm$parser$Parser$keeper,
-	A2(
-		$elm$parser$Parser$ignorer,
-		$elm$parser$Parser$succeed($author$project$LambdaBasics$VarUse),
-		$elm$parser$Parser$symbol('$')),
-	$author$project$TermParser$varIntro);
-var $author$project$TermParser$varsIntro = $author$project$TermParser$seq($author$project$TermParser$varIntro);
-function $author$project$TermParser$cyclic$terms() {
-	return $author$project$TermParser$seq(
-		$author$project$TermParser$cyclic$term());
-}
-function $author$project$TermParser$cyclic$term() {
-	return $elm$parser$Parser$oneOf(
-		_List_fromArray(
-			[
-				$author$project$TermParser$varUse,
-				$author$project$TermParser$emptyList,
-				$author$project$TermParser$bool,
-				$author$project$TermParser$natConstant,
-				$author$project$TermParser$cyclic$operatorTerm()
-			]));
-}
-function $author$project$TermParser$cyclic$operatorTerm() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$ignorer,
-			$elm$parser$Parser$succeed(
-				function (x) {
-					return x;
-				}),
-			$author$project$TermParser$symbol('(')),
-		A2(
-			$elm$parser$Parser$ignorer,
-			$elm$parser$Parser$oneOf(
-				_List_fromArray(
-					[
-						$author$project$TermParser$cyclic$abstraction(),
-						$author$project$TermParser$cyclic$application(),
-						$author$project$TermParser$cyclic$ifThenElse(),
-						$author$project$TermParser$cyclic$pair(),
-						$author$project$TermParser$cyclic$matchProduct(),
-						$author$project$TermParser$cyclic$left(),
-						$author$project$TermParser$cyclic$right(),
-						$author$project$TermParser$cyclic$sumCase(),
-						$author$project$TermParser$cyclic$natSucc(),
-						$author$project$TermParser$cyclic$natLoop(),
-						$author$project$TermParser$cyclic$cons(),
-						$author$project$TermParser$cyclic$listLoop(),
-						$author$project$TermParser$cyclic$letExpression()
-					])),
-			$author$project$TermParser$symbol(')')));
-}
-function $author$project$TermParser$cyclic$abstraction() {
-	var abstractionWithListOfVars = F2(
-		function (vars0, body) {
-			if (!vars0.b) {
-				return $author$project$LambdaBasics$Delay(body);
-			} else {
-				if (!vars0.b.b) {
-					var _var = vars0.a;
-					return A2($author$project$LambdaBasics$Abstraction, _var, body);
-				} else {
-					var _var = vars0.a;
-					var vars1 = vars0.b;
-					return A2(
-						$author$project$LambdaBasics$Abstraction,
-						_var,
-						A2(abstractionWithListOfVars, vars1, body));
-				}
-			}
-		});
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$ignorer,
-			$elm$parser$Parser$succeed(
-				function (_v36) {
-					var vars0 = _v36.a;
-					var body = _v36.b;
-					return A2(abstractionWithListOfVars, vars0, body);
-				}),
-			$author$project$TermParser$keyword('fn')),
-		A2(
-			$author$project$TermParser$binding,
-			$author$project$TermParser$varsIntro,
-			$elm$parser$Parser$lazy(
-				function (_v37) {
-					return $author$project$TermParser$cyclic$term();
-				})));
-}
-function $author$project$TermParser$cyclic$application() {
-	var applicationWithListOfArgs = F2(
-		function (fn, args0) {
-			applicationWithListOfArgs:
-			while (true) {
-				if (!args0.b) {
-					return $author$project$LambdaBasics$Force(fn);
-				} else {
-					if (!args0.b.b) {
-						var arg = args0.a;
-						return A2($author$project$LambdaBasics$Application, fn, arg);
-					} else {
-						var arg = args0.a;
-						var args1 = args0.b;
-						var $temp$fn = A2($author$project$LambdaBasics$Application, fn, arg),
-							$temp$args0 = args1;
-						fn = $temp$fn;
-						args0 = $temp$args0;
-						continue applicationWithListOfArgs;
-					}
-				}
-			}
-		});
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$ignorer,
-				$elm$parser$Parser$succeed(applicationWithListOfArgs),
-				$author$project$TermParser$keyword('@')),
-			$elm$parser$Parser$lazy(
-				function (_v33) {
-					return $author$project$TermParser$cyclic$term();
-				})),
-		$elm$parser$Parser$lazy(
-			function (_v34) {
-				return $author$project$TermParser$cyclic$terms();
-			}));
-}
-function $author$project$TermParser$cyclic$cons() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$ignorer,
-				$elm$parser$Parser$succeed($author$project$LambdaBasics$Cons),
-				$author$project$TermParser$keyword('cons')),
-			$elm$parser$Parser$lazy(
-				function (_v30) {
-					return $author$project$TermParser$cyclic$term();
-				})),
-		$elm$parser$Parser$lazy(
-			function (_v31) {
-				return $author$project$TermParser$cyclic$term();
-			}));
-}
-function $author$project$TermParser$cyclic$ifThenElse() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$keeper,
-				A2(
-					$elm$parser$Parser$ignorer,
-					$elm$parser$Parser$succeed($author$project$LambdaBasics$IfThenElse),
-					$author$project$TermParser$keyword('if')),
-				$elm$parser$Parser$lazy(
-					function (_v27) {
-						return $author$project$TermParser$cyclic$term();
-					})),
-			$author$project$TermParser$optionalBinding(
-				$elm$parser$Parser$lazy(
-					function (_v28) {
-						return $author$project$TermParser$cyclic$term();
-					}))),
-		$author$project$TermParser$optionalBinding(
-			$elm$parser$Parser$lazy(
-				function (_v29) {
-					return $author$project$TermParser$cyclic$term();
-				})));
-}
-function $author$project$TermParser$cyclic$left() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$ignorer,
-			$elm$parser$Parser$succeed($author$project$LambdaBasics$Left),
-			$author$project$TermParser$keyword($author$project$TermParser$leftKeyword)),
-		$elm$parser$Parser$lazy(
-			function (_v26) {
-				return $author$project$TermParser$cyclic$term();
-			}));
-}
-function $author$project$TermParser$cyclic$letExpression() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$ignorer,
-				$elm$parser$Parser$succeed(
-					F2(
-						function (arg, _v23) {
-							var _var = _v23.a;
-							var body = _v23.b;
-							return A3($author$project$LambdaBasics$Let, _var, arg, body);
-						})),
-				$author$project$TermParser$keyword('let')),
-			$elm$parser$Parser$lazy(
-				function (_v24) {
-					return $author$project$TermParser$cyclic$term();
-				})),
-		A2(
-			$author$project$TermParser$binding,
-			$author$project$TermParser$varIntro,
-			$elm$parser$Parser$lazy(
-				function (_v25) {
-					return $author$project$TermParser$cyclic$term();
-				})));
-}
-function $author$project$TermParser$cyclic$listLoop() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$keeper,
-				A2(
-					$elm$parser$Parser$ignorer,
-					$elm$parser$Parser$succeed(
-						F3(
-							function (arg, initState, _v18) {
-								var _v19 = _v18.a;
-								var listElementVar = _v19.a;
-								var stateVar = _v19.b;
-								var body = _v18.b;
-								return $author$project$LambdaBasics$ListLoop(
-									{
-										arg: arg,
-										initState: initState,
-										loop: {body: body, listElementVar: listElementVar, stateVar: stateVar}
-									});
-							})),
-					$author$project$TermParser$keyword('list-loop')),
-				$elm$parser$Parser$lazy(
-					function (_v20) {
-						return $author$project$TermParser$cyclic$term();
-					})),
-			$elm$parser$Parser$lazy(
-				function (_v21) {
-					return $author$project$TermParser$cyclic$term();
-				})),
-		A2(
-			$author$project$TermParser$binding,
-			A2(
-				$elm$parser$Parser$keeper,
-				A2(
-					$elm$parser$Parser$keeper,
-					$elm$parser$Parser$succeed(
-						F2(
-							function (listElementVar, stateVar) {
-								return _Utils_Tuple2(listElementVar, stateVar);
-							})),
-					$author$project$TermParser$varIntro),
-				$author$project$TermParser$varIntro),
-			$elm$parser$Parser$lazy(
-				function (_v22) {
-					return $author$project$TermParser$cyclic$term();
-				})));
-}
-function $author$project$TermParser$cyclic$matchProduct() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$ignorer,
-				$elm$parser$Parser$succeed(
-					F2(
-						function (arg, _v14) {
-							var _v15 = _v14.a;
-							var var0 = _v15.a;
-							var var1 = _v15.b;
-							var body = _v14.b;
-							return $author$project$LambdaBasics$MatchProduct(
-								{arg: arg, body: body, var0: var0, var1: var1});
-						})),
-				$author$project$TermParser$keyword('match-pair')),
-			$elm$parser$Parser$lazy(
-				function (_v16) {
-					return $author$project$TermParser$cyclic$term();
-				})),
-		A2(
-			$author$project$TermParser$binding,
-			$author$project$TermParser$paren($author$project$TermParser$pairPattern),
-			$elm$parser$Parser$lazy(
-				function (_v17) {
-					return $author$project$TermParser$cyclic$term();
-				})));
-}
-function $author$project$TermParser$cyclic$natLoop() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$keeper,
-				A2(
-					$elm$parser$Parser$ignorer,
-					$elm$parser$Parser$succeed(
-						F3(
-							function (arg, initState, _v9) {
-								var _v10 = _v9.a;
-								var indexVar = _v10.a;
-								var stateVar = _v10.b;
-								var body = _v9.b;
-								return $author$project$LambdaBasics$NatLoop(
-									{
-										arg: arg,
-										base: initState,
-										loop: {body: body, indexVar: indexVar, stateVar: stateVar}
-									});
-							})),
-					$author$project$TermParser$keyword('nat-loop')),
-				$elm$parser$Parser$lazy(
-					function (_v11) {
-						return $author$project$TermParser$cyclic$term();
-					})),
-			$elm$parser$Parser$lazy(
-				function (_v12) {
-					return $author$project$TermParser$cyclic$term();
-				})),
-		A2(
-			$author$project$TermParser$binding,
-			A2(
-				$elm$parser$Parser$keeper,
-				A2(
-					$elm$parser$Parser$keeper,
-					$elm$parser$Parser$succeed(
-						F2(
-							function (indexVar, stateVar) {
-								return _Utils_Tuple2(indexVar, stateVar);
-							})),
-					$author$project$TermParser$varIntro),
-				$author$project$TermParser$varIntro),
-			$elm$parser$Parser$lazy(
-				function (_v13) {
-					return $author$project$TermParser$cyclic$term();
-				})));
-}
-function $author$project$TermParser$cyclic$natSucc() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$ignorer,
-			$elm$parser$Parser$succeed($author$project$LambdaBasics$NatSucc),
-			$author$project$TermParser$keyword('succ')),
-		$elm$parser$Parser$lazy(
-			function (_v8) {
-				return $author$project$TermParser$cyclic$term();
-			}));
-}
-function $author$project$TermParser$cyclic$pair() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$ignorer,
-				$elm$parser$Parser$succeed($author$project$LambdaBasics$Pair),
-				$author$project$TermParser$keyword($author$project$TermParser$pairKeyword)),
-			$elm$parser$Parser$lazy(
-				function (_v6) {
-					return $author$project$TermParser$cyclic$term();
-				})),
-		$elm$parser$Parser$lazy(
-			function (_v7) {
-				return $author$project$TermParser$cyclic$term();
-			}));
-}
-function $author$project$TermParser$cyclic$right() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$ignorer,
-			$elm$parser$Parser$succeed($author$project$LambdaBasics$Right),
-			$author$project$TermParser$keyword($author$project$TermParser$rightKeyword)),
-		$elm$parser$Parser$lazy(
-			function (_v5) {
-				return $author$project$TermParser$cyclic$term();
-			}));
-}
-function $author$project$TermParser$cyclic$sumCase() {
-	return A2(
-		$elm$parser$Parser$keeper,
-		A2(
-			$elm$parser$Parser$keeper,
-			A2(
-				$elm$parser$Parser$keeper,
-				A2(
-					$elm$parser$Parser$ignorer,
-					$elm$parser$Parser$succeed(
-						F3(
-							function (arg, _v0, _v1) {
-								var leftVar = _v0.a;
-								var leftBody = _v0.b;
-								var rightVar = _v1.a;
-								var rightBody = _v1.b;
-								return $author$project$LambdaBasics$Case(
-									{arg: arg, leftBody: leftBody, leftVar: leftVar, rightBody: rightBody, rightVar: rightVar});
-							})),
-					$author$project$TermParser$keyword('match-sum')),
-				$elm$parser$Parser$lazy(
-					function (_v2) {
-						return $author$project$TermParser$cyclic$term();
-					})),
-			A2(
-				$author$project$TermParser$binding,
-				$author$project$TermParser$paren($author$project$TermParser$leftPattern),
-				$elm$parser$Parser$lazy(
-					function (_v3) {
-						return $author$project$TermParser$cyclic$term();
-					}))),
-		A2(
-			$author$project$TermParser$binding,
-			$author$project$TermParser$paren($author$project$TermParser$rightPattern),
-			$elm$parser$Parser$lazy(
-				function (_v4) {
-					return $author$project$TermParser$cyclic$term();
-				})));
-}
-try {
-	var $author$project$TermParser$terms = $author$project$TermParser$cyclic$terms();
-	$author$project$TermParser$cyclic$terms = function () {
-		return $author$project$TermParser$terms;
-	};
-	var $author$project$TermParser$term = $author$project$TermParser$cyclic$term();
-	$author$project$TermParser$cyclic$term = function () {
-		return $author$project$TermParser$term;
-	};
-	var $author$project$TermParser$operatorTerm = $author$project$TermParser$cyclic$operatorTerm();
-	$author$project$TermParser$cyclic$operatorTerm = function () {
-		return $author$project$TermParser$operatorTerm;
-	};
-	var $author$project$TermParser$abstraction = $author$project$TermParser$cyclic$abstraction();
-	$author$project$TermParser$cyclic$abstraction = function () {
-		return $author$project$TermParser$abstraction;
-	};
-	var $author$project$TermParser$application = $author$project$TermParser$cyclic$application();
-	$author$project$TermParser$cyclic$application = function () {
-		return $author$project$TermParser$application;
-	};
-	var $author$project$TermParser$cons = $author$project$TermParser$cyclic$cons();
-	$author$project$TermParser$cyclic$cons = function () {
-		return $author$project$TermParser$cons;
-	};
-	var $author$project$TermParser$ifThenElse = $author$project$TermParser$cyclic$ifThenElse();
-	$author$project$TermParser$cyclic$ifThenElse = function () {
-		return $author$project$TermParser$ifThenElse;
-	};
-	var $author$project$TermParser$left = $author$project$TermParser$cyclic$left();
-	$author$project$TermParser$cyclic$left = function () {
-		return $author$project$TermParser$left;
-	};
-	var $author$project$TermParser$letExpression = $author$project$TermParser$cyclic$letExpression();
-	$author$project$TermParser$cyclic$letExpression = function () {
-		return $author$project$TermParser$letExpression;
-	};
-	var $author$project$TermParser$listLoop = $author$project$TermParser$cyclic$listLoop();
-	$author$project$TermParser$cyclic$listLoop = function () {
-		return $author$project$TermParser$listLoop;
-	};
-	var $author$project$TermParser$matchProduct = $author$project$TermParser$cyclic$matchProduct();
-	$author$project$TermParser$cyclic$matchProduct = function () {
-		return $author$project$TermParser$matchProduct;
-	};
-	var $author$project$TermParser$natLoop = $author$project$TermParser$cyclic$natLoop();
-	$author$project$TermParser$cyclic$natLoop = function () {
-		return $author$project$TermParser$natLoop;
-	};
-	var $author$project$TermParser$natSucc = $author$project$TermParser$cyclic$natSucc();
-	$author$project$TermParser$cyclic$natSucc = function () {
-		return $author$project$TermParser$natSucc;
-	};
-	var $author$project$TermParser$pair = $author$project$TermParser$cyclic$pair();
-	$author$project$TermParser$cyclic$pair = function () {
-		return $author$project$TermParser$pair;
-	};
-	var $author$project$TermParser$right = $author$project$TermParser$cyclic$right();
-	$author$project$TermParser$cyclic$right = function () {
-		return $author$project$TermParser$right;
-	};
-	var $author$project$TermParser$sumCase = $author$project$TermParser$cyclic$sumCase();
-	$author$project$TermParser$cyclic$sumCase = function () {
-		return $author$project$TermParser$sumCase;
-	};
-} catch ($) {
-	throw 'Some top-level definitions from `TermParser` are causing infinite recursion:\n\n  ┌─────┐\n  │    terms\n  │     ↓\n  │    term\n  │     ↓\n  │    operatorTerm\n  │     ↓\n  │    abstraction\n  │     ↓\n  │    application\n  │     ↓\n  │    cons\n  │     ↓\n  │    ifThenElse\n  │     ↓\n  │    left\n  │     ↓\n  │    letExpression\n  │     ↓\n  │    listLoop\n  │     ↓\n  │    matchProduct\n  │     ↓\n  │    natLoop\n  │     ↓\n  │    natSucc\n  │     ↓\n  │    pair\n  │     ↓\n  │    right\n  │     ↓\n  │    sumCase\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.1/bad-recursion to learn how to fix it!';}
-var $author$project$TermParser$parseTerm = function (input) {
-	return A2($elm$parser$Parser$run, $author$project$TermParser$term, input);
-};
-var $author$project$Main$initModel = function () {
-	var input7 = '(@ (fn {. 0n0}) )';
-	var input6 = '(let\n        (fn {f x . (@ $f (@ $f $x) ) })\n        { twice .\n           (let\n              (fn { x . (succ $x) })\n              { plus-one .\n                 (let (fn { b .  (if $b { false } { true }) })\n                   { not .\n                      (pair $twice $plus-one )\n                   })\n              })\n        })\n        ';
-	var input5 = '(let (fn { x . $x }) { f . $f })';
-	var input4 = '(fn { f p . (match-pair $p { (pair x y) . (@ $f $x $y) }) })';
-	var input3 = '(pair  (pair (if true{0n0}{$a}) (if true{0n1}{$b})) (if true { $a } { $b }) )';
-	var input2 = '(pair (if true { $a } { $b }) (pair  (if true{0n1}{$b}) (if true{0n0}{$a}))  )';
-	var input1 = '(pair (if true { $a } { $b }) (pair (if true{0n0}{$a}) (if true{0n1}{$b}))  )';
-	var input0 = '(let \n    (fn { p .\n        (match-pair $p\n            { (pair x y) . (pair $y $x) }) })\n    { flip .\n       (pair\n           (@ $flip (pair 0n0 0n1) )\n           (@ $flip (pair true false) ) )\n    })';
+var $author$project$Ui$Tab$Program$exampleBinding = function () {
+	var input7 = 'delay {. 00}';
+	var input6 = 'let twice = \\{ f x .\n    [$f [$f $x]]\n};\nlet plus-one = \\{ x . succ($x) };\nlet not = \\{ b . match-bool $b { true . false } { false . true } };\npair($twice $plus-one)\n';
+	var input5 = 'let f = \\{ x . $x };\n$f';
+	var input4 = '\\{ f p .\n    match-pair $p\n        { pair(x y) . [$f $x $y] }\n}\n';
+	var input2 = '[ \\{x . succ($x)} 04 ]\n';
+	var input1 = 'pair(\n    match-bool true { true . $a } { false . $b },\n    pair(\n        match-bool true { true . 00 } { false . $a },\n        match-bool true { true . 01 } { false . $b },\n    )\n)';
+	var input0 = 'let flip = \\{ p .\n    match-pair $p\n        { pair(x y) . pair($y $x) }\n};\npair(\n    [$flip pair(00 01)],\n    [$flip pair(true false)]\n)\n';
 	var input = input0;
-	var termResult = $author$project$TermParser$parseTerm(input);
+	var termResult = $author$project$Calculus$Parser$runTerm(input);
 	return {
 		evaledTerm: function () {
 			if (termResult.$ === 'Ok') {
 				var term = termResult.a;
 				return $elm$core$Maybe$Just(
-					$author$project$Evaluation$eval0(term));
+					$author$project$Calculus$Evaluation$Evaluation$eval0(term));
 			} else {
 				return $elm$core$Maybe$Nothing;
 			}
@@ -9657,7 +11396,7 @@ var $author$project$Main$initModel = function () {
 			if (termResult.$ === 'Ok') {
 				var term = termResult.a;
 				return $elm$core$Maybe$Just(
-					$author$project$Inference$infer0(term));
+					$author$project$Calculus$Type$Inference$infer0(term));
 			} else {
 				return $elm$core$Maybe$Nothing;
 			}
@@ -9665,6 +11404,359 @@ var $author$project$Main$initModel = function () {
 		input: input,
 		parsedTerm: $elm$core$Maybe$Just(termResult)
 	};
+}();
+var $author$project$Ui$Tab$Program$init = $author$project$Ui$Control$InitContext$setModelTo($author$project$Ui$Tab$Program$exampleBinding);
+var $author$project$RegisterMachine$Base$Assign = F2(
+	function (a, b) {
+		return {$: 'Assign', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$AssignOperation = F2(
+	function (a, b) {
+		return {$: 'AssignOperation', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$IsZero = function (a) {
+	return {$: 'IsZero', a: a};
+};
+var $author$project$RegisterMachine$Base$Jump = function (a) {
+	return {$: 'Jump', a: a};
+};
+var $author$project$RegisterMachine$Base$JumpIf = F2(
+	function (a, b) {
+		return {$: 'JumpIf', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$Label = function (a) {
+	return {$: 'Label', a: a};
+};
+var $author$project$RegisterMachine$Base$Perform = function (a) {
+	return {$: 'Perform', a: a};
+};
+var $author$project$RegisterMachine$Base$Remainder = F2(
+	function (a, b) {
+		return {$: 'Remainder', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$controller0 = {
+	instructions: _List_fromArray(
+		[
+			$author$project$RegisterMachine$Base$Label('loop'),
+			$author$project$RegisterMachine$Base$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$AssignOperation,
+				'is-b-zero?',
+				$author$project$RegisterMachine$Base$IsZero('b'))),
+			$author$project$RegisterMachine$Base$Perform(
+			A2($author$project$RegisterMachine$Base$JumpIf, 'is-b-zero?', 'done')),
+			$author$project$RegisterMachine$Base$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$AssignOperation,
+				'tmp',
+				A2($author$project$RegisterMachine$Base$Remainder, 'a', 'b'))),
+			$author$project$RegisterMachine$Base$Perform(
+			A2($author$project$RegisterMachine$Base$Assign, 'a', 'b')),
+			$author$project$RegisterMachine$Base$Perform(
+			A2($author$project$RegisterMachine$Base$Assign, 'b', 'tmp')),
+			$author$project$RegisterMachine$Base$Perform(
+			$author$project$RegisterMachine$Base$Jump('loop')),
+			$author$project$RegisterMachine$Base$Label('done')
+		]),
+	registers: $elm$core$Set$fromList(
+		_List_fromArray(
+			['a', 'b', 'tmp', 'is-b-zero?']))
+};
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $author$project$RegisterMachine$Base$LabelUsedMoreThanOnce = function (a) {
+	return {$: 'LabelUsedMoreThanOnce', a: a};
+};
+var $author$project$RegisterMachine$Base$UnknownRegister = function (a) {
+	return {$: 'UnknownRegister', a: a};
+};
+var $author$project$RegisterMachine$Base$foldlMayFail = F3(
+	function (update, state, actions0) {
+		if (!actions0.b) {
+			return $elm$core$Result$Ok(state);
+		} else {
+			var action = actions0.a;
+			var actions1 = actions0.b;
+			return A2(
+				$elm$core$Result$andThen,
+				function (newState) {
+					return A3($author$project$RegisterMachine$Base$foldlMayFail, update, newState, actions1);
+				},
+				A2(update, action, state));
+		}
+	});
+var $elm$core$Elm$JsArray$push = _JsArray_push;
+var $elm$core$Bitwise$and = _Bitwise_and;
+var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
+var $elm$core$Array$bitMask = 4294967295 >>> (32 - $elm$core$Array$shiftStep);
+var $elm$core$Elm$JsArray$singleton = _JsArray_singleton;
+var $elm$core$Elm$JsArray$unsafeGet = _JsArray_unsafeGet;
+var $elm$core$Elm$JsArray$unsafeSet = _JsArray_unsafeSet;
+var $elm$core$Array$insertTailInTree = F4(
+	function (shift, index, tail, tree) {
+		var pos = $elm$core$Array$bitMask & (index >>> shift);
+		if (_Utils_cmp(
+			pos,
+			$elm$core$Elm$JsArray$length(tree)) > -1) {
+			if (shift === 5) {
+				return A2(
+					$elm$core$Elm$JsArray$push,
+					$elm$core$Array$Leaf(tail),
+					tree);
+			} else {
+				var newSub = $elm$core$Array$SubTree(
+					A4($elm$core$Array$insertTailInTree, shift - $elm$core$Array$shiftStep, index, tail, $elm$core$Elm$JsArray$empty));
+				return A2($elm$core$Elm$JsArray$push, newSub, tree);
+			}
+		} else {
+			var value = A2($elm$core$Elm$JsArray$unsafeGet, pos, tree);
+			if (value.$ === 'SubTree') {
+				var subTree = value.a;
+				var newSub = $elm$core$Array$SubTree(
+					A4($elm$core$Array$insertTailInTree, shift - $elm$core$Array$shiftStep, index, tail, subTree));
+				return A3($elm$core$Elm$JsArray$unsafeSet, pos, newSub, tree);
+			} else {
+				var newSub = $elm$core$Array$SubTree(
+					A4(
+						$elm$core$Array$insertTailInTree,
+						shift - $elm$core$Array$shiftStep,
+						index,
+						tail,
+						$elm$core$Elm$JsArray$singleton(value)));
+				return A3($elm$core$Elm$JsArray$unsafeSet, pos, newSub, tree);
+			}
+		}
+	});
+var $elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
+var $elm$core$Array$unsafeReplaceTail = F2(
+	function (newTail, _v0) {
+		var len = _v0.a;
+		var startShift = _v0.b;
+		var tree = _v0.c;
+		var tail = _v0.d;
+		var originalTailLen = $elm$core$Elm$JsArray$length(tail);
+		var newTailLen = $elm$core$Elm$JsArray$length(newTail);
+		var newArrayLen = len + (newTailLen - originalTailLen);
+		if (_Utils_eq(newTailLen, $elm$core$Array$branchFactor)) {
+			var overflow = _Utils_cmp(newArrayLen >>> $elm$core$Array$shiftStep, 1 << startShift) > 0;
+			if (overflow) {
+				var newShift = startShift + $elm$core$Array$shiftStep;
+				var newTree = A4(
+					$elm$core$Array$insertTailInTree,
+					newShift,
+					len,
+					newTail,
+					$elm$core$Elm$JsArray$singleton(
+						$elm$core$Array$SubTree(tree)));
+				return A4($elm$core$Array$Array_elm_builtin, newArrayLen, newShift, newTree, $elm$core$Elm$JsArray$empty);
+			} else {
+				return A4(
+					$elm$core$Array$Array_elm_builtin,
+					newArrayLen,
+					startShift,
+					A4($elm$core$Array$insertTailInTree, startShift, len, newTail, tree),
+					$elm$core$Elm$JsArray$empty);
+			}
+		} else {
+			return A4($elm$core$Array$Array_elm_builtin, newArrayLen, startShift, tree, newTail);
+		}
+	});
+var $elm$core$Array$push = F2(
+	function (a, array) {
+		var tail = array.d;
+		return A2(
+			$elm$core$Array$unsafeReplaceTail,
+			A2($elm$core$Elm$JsArray$push, a, tail),
+			array);
+	});
+var $author$project$RegisterMachine$Base$parse = function (controller) {
+	var update = F2(
+		function (labelOrInstruction, _v2) {
+			var i = _v2.a;
+			var machineInstructions = _v2.b;
+			if (labelOrInstruction.$ === 'Label') {
+				var label = labelOrInstruction.a;
+				return A2($elm$core$Set$member, label, machineInstructions.labels) ? $elm$core$Result$Err(
+					$author$project$RegisterMachine$Base$LabelUsedMoreThanOnce(label)) : $elm$core$Result$Ok(
+					_Utils_Tuple2(
+						i,
+						_Utils_update(
+							machineInstructions,
+							{
+								labelToPosition: A3($elm$core$Dict$insert, label, i, machineInstructions.labelToPosition),
+								labels: A2($elm$core$Set$insert, label, machineInstructions.labels)
+							})));
+			} else {
+				var instruction = labelOrInstruction.a;
+				return $elm$core$Result$Ok(
+					_Utils_Tuple2(
+						i + 1,
+						_Utils_update(
+							machineInstructions,
+							{
+								instructions: A2($elm$core$Array$push, instruction, machineInstructions.instructions)
+							})));
+			}
+		});
+	var initMachineInstructions = _Utils_Tuple2(
+		0,
+		{instructions: $elm$core$Array$empty, labelToPosition: $elm$core$Dict$empty, labels: $elm$core$Set$empty});
+	var checkRegisterUse = function (instruction) {
+		switch (instruction.$) {
+			case 'Assign':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A2($elm$core$Set$member, target, controller.registers) ? (A2($elm$core$Set$member, source, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
+					$author$project$RegisterMachine$Base$UnknownRegister(source))) : $elm$core$Result$Err(
+					$author$project$RegisterMachine$Base$UnknownRegister(target));
+			case 'AssignOperation':
+				var target = instruction.a;
+				return A2($elm$core$Set$member, target, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
+					$author$project$RegisterMachine$Base$UnknownRegister(target));
+			case 'JumpIf':
+				var source = instruction.a;
+				return A2($elm$core$Set$member, source, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
+					$author$project$RegisterMachine$Base$UnknownRegister(source));
+			case 'Jump':
+				var label = instruction.a;
+				return $elm$core$Result$Ok(_Utils_Tuple0);
+			default:
+				return $elm$core$Result$Ok(_Utils_Tuple0);
+		}
+	};
+	return A2(
+		$elm$core$Result$map,
+		$elm$core$Tuple$second,
+		A3($author$project$RegisterMachine$Base$foldlMayFail, update, initMachineInstructions, controller.instructions));
+};
+var $author$project$RegisterMachine$Base$makeMachine = F2(
+	function (controller, env) {
+		return A2(
+			$elm$core$Result$map,
+			function (instructions) {
+				return {env: env, instructionPointer: 0, instructions: instructions};
+			},
+			$author$project$RegisterMachine$Base$parse(controller));
+	});
+var $author$project$Ui$Tab$RegisterMachine$init = function () {
+	var env = $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2('a', (3 * 5) * 7),
+				_Utils_Tuple2('b', (3 * 5) * 5),
+				_Utils_Tuple2('tmp', 0),
+				_Utils_Tuple2('is-b-zero?', 0)
+			]));
+	var controller = $author$project$RegisterMachine$Base$controller0;
+	var parsedMachine = A2($author$project$RegisterMachine$Base$makeMachine, controller, env);
+	return $author$project$Ui$Control$InitContext$setModelTo(
+		{
+			controller: controller,
+			maybeRuntime: function () {
+				if (parsedMachine.$ === 'Ok') {
+					var machine = parsedMachine.a;
+					return $elm$core$Maybe$Just(
+						$elm$core$Result$Ok(machine));
+				} else {
+					return $elm$core$Maybe$Nothing;
+				}
+			}(),
+			parsedMachine: parsedMachine
+		});
+}();
+var $author$project$Ui$Main$ProgramTab = {$: 'ProgramTab'};
+var $author$project$Ui$Main$initTab = $author$project$Ui$Main$ProgramTab;
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$Ui$Control$InitContext$mapCmd = F2(
+	function (f, initContext0) {
+		return function (config) {
+			var _v0 = initContext0(config);
+			var initState = _v0.a;
+			var initCmd = _v0.b;
+			return _Utils_Tuple2(
+				initState,
+				A2($elm$core$Platform$Cmd$map, f, initCmd));
+		};
+	});
+var $author$project$Ui$Control$InitContext$mapModel = F2(
+	function (f, initContext0) {
+		return function (config) {
+			var _v0 = initContext0(config);
+			var initState = _v0.a;
+			var initCmd = _v0.b;
+			return _Utils_Tuple2(
+				{
+					model: f(initState.model),
+					notifications: initState.notifications
+				},
+				initCmd);
+		};
+	});
+var $author$project$Ui$Control$InitContext$tuple2 = F2(
+	function (initContext0, initContext1) {
+		return function (config) {
+			var _v0 = initContext1(config);
+			var initState1 = _v0.a;
+			var initCmd1 = _v0.b;
+			var _v1 = initContext0(config);
+			var initState0 = _v1.a;
+			var initCmd0 = _v1.b;
+			return _Utils_Tuple2(
+				{
+					model: _Utils_Tuple2(initState0.model, initState1.model),
+					notifications: {}
+				},
+				$elm$core$Platform$Cmd$batch(
+					_List_fromArray(
+						[initCmd0, initCmd1])));
+		};
+	});
+var $author$project$Ui$Control$InitContext$ooo = F2(
+	function (initContext_a, initContext_f) {
+		return A2(
+			$author$project$Ui$Control$InitContext$mapModel,
+			function (_v0) {
+				var model_f = _v0.a;
+				var model_a = _v0.b;
+				return model_f(model_a);
+			},
+			A2($author$project$Ui$Control$InitContext$tuple2, initContext_f, initContext_a));
+	});
+var $author$project$Ui$Main$init = A2(
+	$author$project$Ui$Control$InitContext$ooo,
+	A2($author$project$Ui$Control$InitContext$mapCmd, $author$project$Ui$Main$RegisterMachineMsg, $author$project$Ui$Tab$RegisterMachine$init),
+	A2(
+		$author$project$Ui$Control$InitContext$ooo,
+		A2($author$project$Ui$Control$InitContext$mapCmd, $author$project$Ui$Main$HelpMsg, $author$project$Ui$Tab$Help$init),
+		A2(
+			$author$project$Ui$Control$InitContext$ooo,
+			A2($author$project$Ui$Control$InitContext$mapCmd, $author$project$Ui$Main$ModuleMsg, $author$project$Ui$Tab$Module$init),
+			A2(
+				$author$project$Ui$Control$InitContext$ooo,
+				A2($author$project$Ui$Control$InitContext$mapCmd, $author$project$Ui$Main$ProgramMsg, $author$project$Ui$Tab$Program$init),
+				$author$project$Ui$Control$InitContext$setModelTo(
+					F4(
+						function (programModel, moduleModel, helpModel, registerMachineModel) {
+							return {helpModel: helpModel, moduleModel: moduleModel, programModel: programModel, registerMachineModel: registerMachineModel, tab: $author$project$Ui$Main$initTab};
+						}))))));
+var $author$project$Ui$Control$Context$initConfig = {};
+var $author$project$Main$initModel = function () {
+	var _v0 = $author$project$Ui$Main$init($author$project$Ui$Control$Context$initConfig);
+	var lambdaUiState = _v0.a;
+	var lambdaUiCmd = _v0.b;
+	return _Utils_Tuple2(
+		{lambdaUiState: lambdaUiState},
+		A2($elm$core$Platform$Cmd$map, $author$project$Main$LambdaUiMsg, lambdaUiCmd));
 }();
 var $mdgriffith$elm_ui$Internal$Style$classes = {above: 'a', active: 'atv', alignBottom: 'ab', alignCenterX: 'cx', alignCenterY: 'cy', alignContainerBottom: 'acb', alignContainerCenterX: 'accx', alignContainerCenterY: 'accy', alignContainerRight: 'acr', alignLeft: 'al', alignRight: 'ar', alignTop: 'at', alignedHorizontally: 'ah', alignedVertically: 'av', any: 's', behind: 'bh', below: 'b', bold: 'w7', borderDashed: 'bd', borderDotted: 'bdt', borderNone: 'bn', borderSolid: 'bs', capturePointerEvents: 'cpe', clip: 'cp', clipX: 'cpx', clipY: 'cpy', column: 'c', container: 'ctr', contentBottom: 'cb', contentCenterX: 'ccx', contentCenterY: 'ccy', contentLeft: 'cl', contentRight: 'cr', contentTop: 'ct', cursorPointer: 'cptr', cursorText: 'ctxt', focus: 'fcs', focusedWithin: 'focus-within', fullSize: 'fs', grid: 'g', hasBehind: 'hbh', heightContent: 'hc', heightExact: 'he', heightFill: 'hf', heightFillPortion: 'hfp', hover: 'hv', imageContainer: 'ic', inFront: 'fr', inputLabel: 'lbl', inputMultiline: 'iml', inputMultilineFiller: 'imlf', inputMultilineParent: 'imlp', inputMultilineWrapper: 'implw', inputText: 'it', italic: 'i', link: 'lnk', nearby: 'nb', noTextSelection: 'notxt', onLeft: 'ol', onRight: 'or', opaque: 'oq', overflowHidden: 'oh', page: 'pg', paragraph: 'p', passPointerEvents: 'ppe', root: 'ui', row: 'r', scrollbars: 'sb', scrollbarsX: 'sbx', scrollbarsY: 'sby', seButton: 'sbt', single: 'e', sizeByCapital: 'cap', spaceEvenly: 'sev', strike: 'sk', text: 't', textCenter: 'tc', textExtraBold: 'w8', textExtraLight: 'w2', textHeavy: 'w9', textJustify: 'tj', textJustifyAll: 'tja', textLeft: 'tl', textLight: 'w3', textMedium: 'w5', textNormalWeight: 'w4', textRight: 'tr', textSemiBold: 'w6', textThin: 'w1', textUnitalicized: 'tun', transition: 'ts', transparent: 'clr', underline: 'u', widthContent: 'wc', widthExact: 'we', widthFill: 'wf', widthFillPortion: 'wfp', wrapped: 'wrp'};
 var $mdgriffith$elm_ui$Internal$Model$Attr = function (a) {
@@ -9803,7 +11895,6 @@ var $mdgriffith$elm_ui$Internal$Flag$Flag = function (a) {
 var $mdgriffith$elm_ui$Internal$Flag$Second = function (a) {
 	return {$: 'Second', a: a};
 };
-var $elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
 var $mdgriffith$elm_ui$Internal$Flag$flag = function (i) {
 	return (i > 31) ? $mdgriffith$elm_ui$Internal$Flag$Second(1 << (i - 32)) : $mdgriffith$elm_ui$Internal$Flag$Flag(1 << i);
 };
@@ -9831,10 +11922,6 @@ var $mdgriffith$elm_ui$Internal$Model$lengthClassName = function (x) {
 			var len = x.b;
 			return 'max' + ($elm$core$String$fromInt(max) + $mdgriffith$elm_ui$Internal$Model$lengthClassName(len));
 	}
-};
-var $elm$core$Tuple$second = function (_v0) {
-	var y = _v0.b;
-	return y;
 };
 var $elm$core$Basics$round = _Basics_round;
 var $mdgriffith$elm_ui$Internal$Model$floatClass = function (x) {
@@ -12319,6 +14406,9 @@ var $elm$core$Basics$min = F2(
 	function (x, y) {
 		return (_Utils_cmp(x, y) < 0) ? x : y;
 	});
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
 var $mdgriffith$elm_ui$Internal$Model$renderProps = F3(
 	function (force, _v0, existing) {
 		var key = _v0.a;
@@ -13320,7 +15410,6 @@ var $elm$virtual_dom$VirtualDom$keyedNode = function (tag) {
 		_VirtualDom_noScript(tag));
 };
 var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$core$Bitwise$and = _Bitwise_and;
 var $mdgriffith$elm_ui$Internal$Flag$present = F2(
 	function (myFlag, _v0) {
 		var fieldOne = _v0.a;
@@ -14168,7 +16257,6 @@ var $mdgriffith$elm_ui$Internal$Model$renderWidth = function (w) {
 	}
 };
 var $mdgriffith$elm_ui$Internal$Flag$borderWidth = $mdgriffith$elm_ui$Internal$Flag$flag(27);
-var $elm$core$Basics$ge = _Utils_ge;
 var $mdgriffith$elm_ui$Internal$Model$skippable = F2(
 	function (flag, style) {
 		if (_Utils_eq(flag, $mdgriffith$elm_ui$Internal$Flag$borderWidth)) {
@@ -15371,71 +17459,556 @@ var $mdgriffith$elm_ui$Element$layoutWith = F3(
 	});
 var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $Fresheyeball$elm_return$Return$singleton = function (a) {
-	return _Utils_Tuple2(a, $elm$core$Platform$Cmd$none);
-};
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$subscriptions = function (model) {
 	return $elm$core$Platform$Sub$none;
 };
-var $author$project$Main$update = F2(
-	function (msg, model) {
-		switch (msg.$) {
-			case 'InputChanged':
-				var input = msg.a;
-				return $Fresheyeball$elm_return$Return$singleton(
+var $author$project$Lib$State$StatefulReader$run = function (stateful_a) {
+	return stateful_a;
+};
+var $author$project$Lib$State$StatefulReader$make = function (f) {
+	return f;
+};
+var $author$project$Ui$Control$Context$mapModelInState = F2(
+	function (f, state1) {
+		return {
+			model: f(state1.model),
+			notifications: state1.notifications
+		};
+	});
+var $author$project$Ui$Control$Context$embed = F3(
+	function (projectParentToChild, embedChildIntoParent, child_context) {
+		return $author$project$Lib$State$StatefulReader$make(
+			F2(
+				function (config, state) {
+					var _v0 = A3(
+						$author$project$Lib$State$StatefulReader$run,
+						child_context,
+						config,
+						A2($author$project$Ui$Control$Context$mapModelInState, projectParentToChild, state));
+					var fullSubModel = _v0.a;
+					var subCmd = _v0.b;
+					return _Utils_Tuple2(
+						A2(
+							$author$project$Ui$Control$Context$mapModelInState,
+							embedChildIntoParent(state.model),
+							fullSubModel),
+						subCmd);
+				}));
+	});
+var $author$project$Ui$Control$Context$update = function (nextModel) {
+	return $author$project$Lib$State$StatefulReader$make(
+		F2(
+			function (_v0, state) {
+				return _Utils_Tuple2(
 					_Utils_update(
+						state,
+						{
+							model: nextModel(state.model)
+						}),
+					$elm$core$Platform$Cmd$none);
+			}));
+};
+var $author$project$Ui$Control$Context$none = $author$project$Lib$State$StatefulReader$make(
+	F2(
+		function (_v0, state) {
+			return _Utils_Tuple2(state, $elm$core$Platform$Cmd$none);
+		}));
+var $author$project$Ui$Tab$Help$update = function (msg) {
+	return $author$project$Ui$Control$Context$none;
+};
+var $author$project$Calculus$Evaluation$Evaluation$eval1 = F2(
+	function (env, term) {
+		return A2(
+			$elm$core$Result$map,
+			function (_v0) {
+				var thunkContext = _v0.a.thunkContext;
+				var value = _v0.b;
+				return _Utils_Tuple2(thunkContext, value);
+			},
+			A3(
+				$author$project$Lib$State$StatefulReaderWithErr$run,
+				$author$project$Calculus$Evaluation$Evaluation$eval(term),
+				env,
+				$author$project$Calculus$Evaluation$Evaluation$initMutState));
+	});
+var $author$project$Ui$Tab$Module$update = function (msg) {
+	switch (msg.$) {
+		case 'ModuleInputChanged':
+			var input = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					return _Utils_update(
+						model,
+						{
+							env: $author$project$Calculus$Evaluation$Value$emptyEnvironment,
+							evaledTerm: $elm$core$Maybe$Nothing,
+							moduleInput: input,
+							parsedModule: $elm$core$Maybe$Just(
+								$author$project$Calculus$Parser$runModuleTerm(input))
+						});
+				});
+		case 'ModuleRunButtonClicked':
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					return $author$project$Ui$Tab$Module$openModule(
+						$author$project$Ui$Tab$Module$evalModule(
+							_Utils_update(
+								model,
+								{env: $author$project$Calculus$Evaluation$Value$emptyEnvironment, evaledTerm: $elm$core$Maybe$Nothing})));
+				});
+		case 'ReplInputChanged':
+			var input = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var parsedTerm = $elm$core$Maybe$Just(
+						$author$project$Calculus$Parser$runTerm(input));
+					return _Utils_update(
+						model,
+						{evaledTerm: $elm$core$Maybe$Nothing, parsedTerm: parsedTerm, replInput: input});
+				});
+		default:
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var _v1 = model.parsedTerm;
+					if ((_v1.$ === 'Just') && (_v1.a.$ === 'Ok')) {
+						var term = _v1.a.a;
+						return _Utils_update(
+							model,
+							{
+								evaledTerm: $elm$core$Maybe$Just(
+									A2($author$project$Calculus$Evaluation$Evaluation$eval1, model.env, term))
+							});
+					} else {
+						return model;
+					}
+				});
+	}
+};
+var $author$project$Ui$Tab$Program$update = function (msg) {
+	switch (msg.$) {
+		case 'InputChanged':
+			var input = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					return _Utils_update(
 						model,
 						{
 							evaledTerm: $elm$core$Maybe$Nothing,
 							inferedType: $elm$core$Maybe$Nothing,
 							input: input,
 							parsedTerm: $elm$core$Maybe$Just(
-								$author$project$TermParser$parseTerm(input))
-						}));
-			case 'RunButtonClicked':
-				var _v1 = model.parsedTerm;
-				if ((_v1.$ === 'Just') && (_v1.a.$ === 'Ok')) {
-					var term = _v1.a.a;
-					return $Fresheyeball$elm_return$Return$singleton(
-						_Utils_update(
+								$author$project$Calculus$Parser$runTerm(input))
+						});
+				});
+		case 'RunButtonClicked':
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var _v1 = model.parsedTerm;
+					if ((_v1.$ === 'Just') && (_v1.a.$ === 'Ok')) {
+						var term = _v1.a.a;
+						return _Utils_update(
 							model,
 							{
 								evaledTerm: $elm$core$Maybe$Just(
-									$author$project$Evaluation$eval0(term))
-							}));
-				} else {
-					return $Fresheyeball$elm_return$Return$singleton(model);
-				}
-			default:
-				var _v2 = model.parsedTerm;
-				if ((_v2.$ === 'Just') && (_v2.a.$ === 'Ok')) {
-					var term = _v2.a.a;
-					return $Fresheyeball$elm_return$Return$singleton(
-						_Utils_update(
+									$author$project$Calculus$Evaluation$Evaluation$eval0(term))
+							});
+					} else {
+						return model;
+					}
+				});
+		default:
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var _v2 = model.parsedTerm;
+					if ((_v2.$ === 'Just') && (_v2.a.$ === 'Ok')) {
+						var term = _v2.a.a;
+						return _Utils_update(
 							model,
 							{
 								inferedType: $elm$core$Maybe$Just(
-									$author$project$Inference$infer0(term))
-							}));
+									$author$project$Calculus$Type$Inference$infer0(term))
+							});
+					} else {
+						return model;
+					}
+				});
+	}
+};
+var $author$project$Ui$Tab$RegisterMachine$resetRuntime = function (model) {
+	return _Utils_update(
+		model,
+		{
+			maybeRuntime: function () {
+				var _v0 = model.parsedMachine;
+				if (_v0.$ === 'Ok') {
+					var machine = _v0.a;
+					return $elm$core$Maybe$Just(
+						$elm$core$Result$Ok(machine));
 				} else {
-					return $Fresheyeball$elm_return$Return$singleton(model);
+					return $elm$core$Maybe$Nothing;
 				}
+			}()
+		});
+};
+var $author$project$RegisterMachine$Base$advanceInstructionPointer = function (machine) {
+	return _Utils_update(
+		machine,
+		{instructionPointer: machine.instructionPointer + 1});
+};
+var $elm$core$Array$getHelp = F3(
+	function (shift, index, tree) {
+		getHelp:
+		while (true) {
+			var pos = $elm$core$Array$bitMask & (index >>> shift);
+			var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, pos, tree);
+			if (_v0.$ === 'SubTree') {
+				var subTree = _v0.a;
+				var $temp$shift = shift - $elm$core$Array$shiftStep,
+					$temp$index = index,
+					$temp$tree = subTree;
+				shift = $temp$shift;
+				index = $temp$index;
+				tree = $temp$tree;
+				continue getHelp;
+			} else {
+				var values = _v0.a;
+				return A2($elm$core$Elm$JsArray$unsafeGet, $elm$core$Array$bitMask & index, values);
+			}
 		}
 	});
-var $author$project$Main$InferButtonClicked = {$: 'InferButtonClicked'};
-var $author$project$Main$InputChanged = function (a) {
-	return {$: 'InputChanged', a: a};
+var $elm$core$Array$tailIndex = function (len) {
+	return (len >>> 5) << 5;
 };
-var $author$project$Main$RunButtonClicked = {$: 'RunButtonClicked'};
-var $mdgriffith$elm_ui$Element$rgb255 = F3(
-	function (red, green, blue) {
-		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
+var $elm$core$Array$get = F2(
+	function (index, _v0) {
+		var len = _v0.a;
+		var startShift = _v0.b;
+		var tree = _v0.c;
+		var tail = _v0.d;
+		return ((index < 0) || (_Utils_cmp(index, len) > -1)) ? $elm$core$Maybe$Nothing : ((_Utils_cmp(
+			index,
+			$elm$core$Array$tailIndex(len)) > -1) ? $elm$core$Maybe$Just(
+			A2($elm$core$Elm$JsArray$unsafeGet, $elm$core$Array$bitMask & index, tail)) : $elm$core$Maybe$Just(
+			A3($elm$core$Array$getHelp, startShift, index, tree)));
 	});
-var $author$project$Main$blue = A3($mdgriffith$elm_ui$Element$rgb255, 142, 207, 245);
+var $author$project$RegisterMachine$Base$getInstruction = function (machine) {
+	return A2($elm$core$Array$get, machine.instructionPointer, machine.instructions.instructions);
+};
+var $author$project$RegisterMachine$Base$UndefinedRegister = function (a) {
+	return {$: 'UndefinedRegister', a: a};
+};
+var $author$project$RegisterMachine$Base$getRegister = F2(
+	function (register, machine) {
+		var _v0 = A2($elm$core$Dict$get, register, machine.env);
+		if (_v0.$ === 'Just') {
+			var val = _v0.a;
+			return $elm$core$Result$Ok(val);
+		} else {
+			return $elm$core$Result$Err(
+				$author$project$RegisterMachine$Base$UndefinedRegister(register));
+		}
+	});
+var $author$project$RegisterMachine$Base$halt = function (machine) {
+	return {isFinished: true, machine: machine};
+};
+var $author$project$RegisterMachine$Base$jump = F2(
+	function (label, machine) {
+		var _v0 = A2($elm$core$Dict$get, label, machine.instructions.labelToPosition);
+		if (_v0.$ === 'Just') {
+			var i = _v0.a;
+			return _Utils_update(
+				machine,
+				{instructionPointer: i});
+		} else {
+			return machine;
+		}
+	});
+var $elm$core$Basics$modBy = _Basics_modBy;
+var $author$project$Lib$Result$tuple2 = F2(
+	function (result_a, result_b) {
+		if (result_a.$ === 'Ok') {
+			var a = result_a.a;
+			if (result_b.$ === 'Ok') {
+				var b = result_b.a;
+				return $elm$core$Result$Ok(
+					_Utils_Tuple2(a, b));
+			} else {
+				var e = result_b.a;
+				return $elm$core$Result$Err(e);
+			}
+		} else {
+			var e = result_a.a;
+			return $elm$core$Result$Err(e);
+		}
+	});
+var $author$project$RegisterMachine$Base$updateRegister = F3(
+	function (register, val, machine) {
+		return _Utils_update(
+			machine,
+			{
+				env: A3($elm$core$Dict$insert, register, val, machine.env)
+			});
+	});
+var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
+	var _v0 = $author$project$RegisterMachine$Base$getInstruction(machine);
+	if (_v0.$ === 'Just') {
+		var instruction = _v0.a;
+		switch (instruction.$) {
+			case 'Assign':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A2(
+					$elm$core$Result$map,
+					function (val) {
+						return {
+							isFinished: false,
+							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+								A3($author$project$RegisterMachine$Base$updateRegister, target, val, machine))
+						};
+					},
+					A2($author$project$RegisterMachine$Base$getRegister, source, machine));
+			case 'AssignOperation':
+				var target = instruction.a;
+				var operationApplication = instruction.b;
+				if (operationApplication.$ === 'Remainder') {
+					var reg_a = operationApplication.a;
+					var reg_b = operationApplication.b;
+					return A2(
+						$elm$core$Result$map,
+						function (_v3) {
+							var a = _v3.a;
+							var b = _v3.b;
+							return {
+								isFinished: false,
+								machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+									A3(
+										$author$project$RegisterMachine$Base$updateRegister,
+										target,
+										A2($elm$core$Basics$modBy, b, a),
+										machine))
+							};
+						},
+						A2(
+							$author$project$Lib$Result$tuple2,
+							A2($author$project$RegisterMachine$Base$getRegister, reg_a, machine),
+							A2($author$project$RegisterMachine$Base$getRegister, reg_b, machine)));
+				} else {
+					var reg_a = operationApplication.a;
+					return A2(
+						$elm$core$Result$map,
+						function (a) {
+							return {
+								isFinished: false,
+								machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+									A3(
+										$author$project$RegisterMachine$Base$updateRegister,
+										target,
+										(!a) ? 1 : 0,
+										machine))
+							};
+						},
+						A2($author$project$RegisterMachine$Base$getRegister, reg_a, machine));
+				}
+			case 'JumpIf':
+				var source = instruction.a;
+				var label = instruction.b;
+				return A2(
+					$elm$core$Result$map,
+					function (val) {
+						return {
+							isFinished: false,
+							machine: (val === 1) ? A2($author$project$RegisterMachine$Base$jump, label, machine) : $author$project$RegisterMachine$Base$advanceInstructionPointer(machine)
+						};
+					},
+					A2($author$project$RegisterMachine$Base$getRegister, source, machine));
+			case 'Jump':
+				var label = instruction.a;
+				return $elm$core$Result$Ok(
+					{
+						isFinished: false,
+						machine: A2($author$project$RegisterMachine$Base$jump, label, machine)
+					});
+			default:
+				return $elm$core$Result$Ok(
+					$author$project$RegisterMachine$Base$halt(machine));
+		}
+	} else {
+		return $elm$core$Result$Ok(
+			$author$project$RegisterMachine$Base$halt(machine));
+	}
+};
+var $author$project$RegisterMachine$Base$start = function (machine0) {
+	return A2(
+		$elm$core$Result$andThen,
+		function (_v0) {
+			var isFinished = _v0.isFinished;
+			var machine = _v0.machine;
+			return isFinished ? $elm$core$Result$Ok(machine) : $author$project$RegisterMachine$Base$start(machine);
+		},
+		$author$project$RegisterMachine$Base$runOneStep(machine0));
+};
+var $author$project$Ui$Tab$RegisterMachine$update = function (msg) {
+	switch (msg.$) {
+		case 'Reset':
+			return $author$project$Ui$Control$Context$update($author$project$Ui$Tab$RegisterMachine$resetRuntime);
+		case 'Start':
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					return _Utils_update(
+						model,
+						{
+							maybeRuntime: A2(
+								$elm$core$Maybe$map,
+								$elm$core$Result$andThen($author$project$RegisterMachine$Base$start),
+								model.maybeRuntime)
+						});
+				});
+		default:
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					return _Utils_update(
+						model,
+						{
+							maybeRuntime: A2(
+								$elm$core$Maybe$map,
+								function (resultMachine) {
+									return A2(
+										$elm$core$Result$map,
+										function ($) {
+											return $.machine;
+										},
+										A2($elm$core$Result$andThen, $author$project$RegisterMachine$Base$runOneStep, resultMachine));
+								},
+								model.maybeRuntime)
+						});
+				});
+	}
+};
+var $author$project$Ui$Main$update = function (msg) {
+	switch (msg.$) {
+		case 'ChangeTab':
+			var tab = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					return _Utils_update(
+						model,
+						{tab: tab});
+				});
+		case 'HelpMsg':
+			var helpMsg = msg.a;
+			return A3(
+				$author$project$Ui$Control$Context$embed,
+				function ($) {
+					return $.helpModel;
+				},
+				F2(
+					function (model, helpModel) {
+						return _Utils_update(
+							model,
+							{helpModel: helpModel});
+					}),
+				$author$project$Ui$Tab$Help$update(helpMsg));
+		case 'ModuleMsg':
+			var moduleMsg = msg.a;
+			return A3(
+				$author$project$Ui$Control$Context$embed,
+				function ($) {
+					return $.moduleModel;
+				},
+				F2(
+					function (model, moduleModel) {
+						return _Utils_update(
+							model,
+							{moduleModel: moduleModel});
+					}),
+				$author$project$Ui$Tab$Module$update(moduleMsg));
+		case 'ProgramMsg':
+			var programMsg = msg.a;
+			return A3(
+				$author$project$Ui$Control$Context$embed,
+				function ($) {
+					return $.programModel;
+				},
+				F2(
+					function (model, programModel) {
+						return _Utils_update(
+							model,
+							{programModel: programModel});
+					}),
+				$author$project$Ui$Tab$Program$update(programMsg));
+		default:
+			var registerMachineMsg = msg.a;
+			return A3(
+				$author$project$Ui$Control$Context$embed,
+				function ($) {
+					return $.registerMachineModel;
+				},
+				F2(
+					function (model, registerMachineModel) {
+						return _Utils_update(
+							model,
+							{registerMachineModel: registerMachineModel});
+					}),
+				$author$project$Ui$Tab$RegisterMachine$update(registerMachineMsg));
+	}
+};
+var $author$project$Main$update = F2(
+	function (msg, model) {
+		var lambdaUiMsg = msg.a;
+		var _v1 = A3(
+			$author$project$Lib$State$StatefulReader$run,
+			$author$project$Ui$Main$update(lambdaUiMsg),
+			$author$project$Ui$Control$Context$initConfig,
+			model.lambdaUiState);
+		var lambdaUiState = _v1.a;
+		var cmd = _v1.b;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{lambdaUiState: lambdaUiState}),
+			cmd);
+	});
+var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
+var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
+	return {$: 'Text', a: a};
+};
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $mdgriffith$elm_ui$Internal$Model$map = F2(
+	function (fn, el) {
+		switch (el.$) {
+			case 'Styled':
+				var styled = el.a;
+				return $mdgriffith$elm_ui$Internal$Model$Styled(
+					{
+						html: F2(
+							function (add, context) {
+								return A2(
+									$elm$virtual_dom$VirtualDom$map,
+									fn,
+									A2(styled.html, add, context));
+							}),
+						styles: styled.styles
+					});
+			case 'Unstyled':
+				var html = el.a;
+				return $mdgriffith$elm_ui$Internal$Model$Unstyled(
+					A2(
+						$elm$core$Basics$composeL,
+						$elm$virtual_dom$VirtualDom$map(fn),
+						html));
+			case 'Text':
+				var str = el.a;
+				return $mdgriffith$elm_ui$Internal$Model$Text(str);
+			default:
+				return $mdgriffith$elm_ui$Internal$Model$Empty;
+		}
+	});
+var $mdgriffith$elm_ui$Element$map = $mdgriffith$elm_ui$Internal$Model$map;
+var $author$project$Ui$Main$ChangeTab = function (a) {
+	return {$: 'ChangeTab', a: a};
+};
 var $mdgriffith$elm_ui$Internal$Model$Button = {$: 'Button'};
 var $mdgriffith$elm_ui$Internal$Model$Describe = function (a) {
 	return {$: 'Describe', a: a};
@@ -15598,6 +18171,11 @@ var $mdgriffith$elm_ui$Element$Input$button = F2(
 				_List_fromArray(
 					[label])));
 	});
+var $mdgriffith$elm_ui$Element$rgb255 = F3(
+	function (red, green, blue) {
+		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
+	});
+var $author$project$Ui$Style$Button$blue = A3($mdgriffith$elm_ui$Element$rgb255, 142, 207, 245);
 var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
 	return A2(
 		$mdgriffith$elm_ui$Internal$Model$StyleClass,
@@ -15608,6 +18186,57 @@ var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
 			'background-color',
 			clr));
 };
+var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
+	function (a, b, c, d, e) {
+		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$padding = $mdgriffith$elm_ui$Internal$Flag$flag(2);
+var $mdgriffith$elm_ui$Element$paddingXY = F2(
+	function (x, y) {
+		if (_Utils_eq(x, y)) {
+			var f = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + $elm$core$String$fromInt(x),
+					f,
+					f,
+					f,
+					f));
+		} else {
+			var yFloat = y;
+			var xFloat = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+					yFloat,
+					xFloat,
+					yFloat,
+					xFloat));
+		}
+	});
+var $mdgriffith$elm_ui$Internal$Flag$borderRound = $mdgriffith$elm_ui$Internal$Flag$flag(17);
+var $mdgriffith$elm_ui$Element$Border$rounded = function (radius) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderRound,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Single,
+			'br-' + $elm$core$String$fromInt(radius),
+			'border-radius',
+			$elm$core$String$fromInt(radius) + 'px'));
+};
+var $author$project$Ui$Style$Button$buttonStyle = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$Background$color($author$project$Ui$Style$Button$blue),
+		A2($mdgriffith$elm_ui$Element$paddingXY, 9, 4),
+		$mdgriffith$elm_ui$Element$Border$rounded(2)
+	]);
 var $mdgriffith$elm_ui$Internal$Model$AsColumn = {$: 'AsColumn'};
 var $mdgriffith$elm_ui$Internal$Model$asColumn = $mdgriffith$elm_ui$Internal$Model$AsColumn;
 var $mdgriffith$elm_ui$Element$column = F2(
@@ -15628,6 +18257,126 @@ var $mdgriffith$elm_ui$Element$column = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
+var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
+	return {$: 'Fill', a: a};
+};
+var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
+var $mdgriffith$elm_ui$Element$padding = function (x) {
+	var f = x;
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$padding,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+			'p-' + $elm$core$String$fromInt(x),
+			f,
+			f,
+			f,
+			f));
+};
+var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
+var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
+var $mdgriffith$elm_ui$Element$row = F2(
+	function (attrs, children) {
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asRow,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentLeft + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.contentCenterY)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+						attrs))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
+	});
+var $author$project$Ui$Main$tabToString = function (tab) {
+	switch (tab.$) {
+		case 'ProgramTab':
+			return 'Program';
+		case 'ModuleTab':
+			return 'Module';
+		case 'HelpTab':
+			return 'Help';
+		default:
+			return 'Register Machine';
+	}
+};
+var $author$project$Ui$Main$HelpTab = {$: 'HelpTab'};
+var $author$project$Ui$Main$ModuleTab = {$: 'ModuleTab'};
+var $author$project$Ui$Main$RegisterMachineTab = {$: 'RegisterMachineTab'};
+var $author$project$Ui$Main$tabs = _List_fromArray(
+	[$author$project$Ui$Main$ProgramTab, $author$project$Ui$Main$ModuleTab, $author$project$Ui$Main$HelpTab, $author$project$Ui$Main$RegisterMachineTab]);
+var $mdgriffith$elm_ui$Element$text = function (content) {
+	return $mdgriffith$elm_ui$Internal$Model$Text(content);
+};
+var $author$project$Ui$Tab$Help$view = F2(
+	function (config, model) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('example: `\\{ p . match-pair $p { pair(x y) . pair($y $x) } }`'),
+					$mdgriffith$elm_ui$Element$text('which in more standard lambda notation would be something like: `\\p. case p of (x, y) -> (y, x)`'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('SYNTAX'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('Constants'),
+					$mdgriffith$elm_ui$Element$text('  true, false'),
+					$mdgriffith$elm_ui$Element$text('  zero'),
+					$mdgriffith$elm_ui$Element$text('  00, 01, 02, 03, ... // nat literals have to start with 0 digit (`zero` is the same as `00`)'),
+					$mdgriffith$elm_ui$Element$text('  empty // empty list'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('Variable Use'),
+					$mdgriffith$elm_ui$Element$text('  $foo // when using a variable, you have to prepend a dollar sign to it'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('Simple Operators'),
+					$mdgriffith$elm_ui$Element$text('  pair($e1 $e2)'),
+					$mdgriffith$elm_ui$Element$text('  [$f $x] // function application'),
+					$mdgriffith$elm_ui$Element$text('  [$f $x $y]'),
+					$mdgriffith$elm_ui$Element$text('  left($e1)'),
+					$mdgriffith$elm_ui$Element$text('  right($e2)'),
+					$mdgriffith$elm_ui$Element$text('  succ($n)      // natural numbers successor function'),
+					$mdgriffith$elm_ui$Element$text('  cons($x $xs) // consing of an element to a list'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('Bindings Operators'),
+					$mdgriffith$elm_ui$Element$text('  \\{ x . $body }'),
+					$mdgriffith$elm_ui$Element$text('  \\{ x y . $body }'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('  match-pair $pair-exp { pair(x y) . $body }'),
+					$mdgriffith$elm_ui$Element$text('  match-bool $test-exp { true . $e1 } { false . $e2 } // if expression'),
+					$mdgriffith$elm_ui$Element$text('  match-sum $sum-exp { left(x) . $e1 } { right(y) . $e2 }'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('  fold-nat $n { zero . $init-state } { succ(prev-state) . $next-state } // for-loop over natural numbers'),
+					$mdgriffith$elm_ui$Element$text('  fold-list $xs { empty . $init-state } { cons(x prev-state) . $next-state } // for-loop over lists'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('  let-be $exp { x . $body }) // standard syntax `let x = exp in body`'),
+					$mdgriffith$elm_ui$Element$text('  let x = $exp; $body // syntactic sugar for `let-be`'),
+					$mdgriffith$elm_ui$Element$text(''),
+					$mdgriffith$elm_ui$Element$text('  delay {. $body } // freezes computation'),
+					$mdgriffith$elm_ui$Element$text('  force($thunk) // forces computation')
+				]));
+	});
+var $author$project$Ui$Tab$Module$ModuleInputChanged = function (a) {
+	return {$: 'ModuleInputChanged', a: a};
+};
+var $author$project$Ui$Tab$Module$ModuleRunButtonClicked = {$: 'ModuleRunButtonClicked'};
+var $author$project$Ui$Tab$Module$ReplInputChanged = function (a) {
+	return {$: 'ReplInputChanged', a: a};
+};
+var $author$project$Ui$Tab$Module$ReplRunButtonClicked = {$: 'ReplRunButtonClicked'};
 var $mdgriffith$elm_ui$Element$el = F2(
 	function (attrs, child) {
 		return A4(
@@ -15645,28 +18394,763 @@ var $mdgriffith$elm_ui$Element$el = F2(
 				_List_fromArray(
 					[child])));
 	});
-var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
-	return {$: 'Fill', a: a};
-};
-var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
-var $author$project$Main$isParsedSuccesfully = function (model) {
-	var _v0 = model.parsedTerm;
-	if ((_v0.$ === 'Just') && (_v0.a.$ === 'Ok')) {
-		var term = _v0.a.a;
-		return true;
-	} else {
-		return false;
-	}
-};
 var $mdgriffith$elm_ui$Element$Input$HiddenLabel = function (a) {
 	return {$: 'HiddenLabel', a: a};
 };
 var $mdgriffith$elm_ui$Element$Input$labelHidden = $mdgriffith$elm_ui$Element$Input$HiddenLabel;
+var $author$project$Calculus$Parser$allModuleLetBindingKeywords = _List_fromArray(
+	[$author$project$Calculus$Parser$LetTerm, $author$project$Calculus$Parser$LetType, $author$project$Calculus$Parser$LetModule, $author$project$Calculus$Parser$LetFunctor]);
+var $author$project$Calculus$Parser$consumedSuccessfullyToString = function (_v0) {
+	var consumedSuccessfully = _v0.consumedSuccessfully;
+	return $elm$core$String$concat(
+		_List_fromArray(
+			['consumed successfully: ', consumedSuccessfully]));
+};
+var $author$project$Calculus$Parser$failedAtCharToStringHelper = function (c) {
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				'failed at char \'',
+				_Utils_eq(
+				c,
+				_Utils_chr('\n')) ? '<new-line>' : (_Utils_eq(
+				c,
+				_Utils_chr(' ')) ? '<space>' : (_Utils_eq(
+				c,
+				_Utils_chr('\t')) ? '<tab>' : $elm$core$String$fromChar(c))),
+				'`'
+			]));
+};
+var $author$project$Calculus$Parser$failedAtMaybeCharToString = function (_v0) {
+	var failedAtChar = _v0.failedAtChar;
+	if (failedAtChar.$ === 'Just') {
+		var c = failedAtChar.a;
+		return $author$project$Calculus$Parser$failedAtCharToStringHelper(c);
+	} else {
+		return 'failed at <empty-input>';
+	}
+};
+var $author$project$Calculus$Parser$expectedBindingTermToString = function (msg) {
+	switch (msg.$) {
+		case 'ExpectedOpenBraces':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected open braces (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedDot':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected dot (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedClosingBraces':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected closing braces (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedDefEquals':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected def. equals symbol in let binding (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		default:
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected semicolon after let binding (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+	}
+};
+var $author$project$Calculus$Parser$failedAtCharToString = function (_v0) {
+	var failedAtChar = _v0.failedAtChar;
+	return $author$project$Calculus$Parser$failedAtCharToStringHelper(failedAtChar);
+};
+var $author$project$Calculus$Parser$expectedIdentifierIntroductionToString = F2(
+	function (identifierKind, msg) {
+		if (msg.$ === 'ExpectedIdentifierCharacters') {
+			var expIden = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected to see ',
+						identifierKind,
+						' identifier character but ',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(expIden)
+					]));
+		} else {
+			var failedAtCharError = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected ',
+						identifierKind,
+						' identifier to start with non-digit (',
+						$author$project$Calculus$Parser$failedAtCharToString(failedAtCharError),
+						')'
+					]));
+		}
+	});
+var $author$project$Calculus$Parser$expectedTypeToString = function (expectedType) {
+	switch (expectedType.$) {
+		case 'ExpectedTypeIdentifier':
+			var expectedDecimalNaturalNumber = expectedType.a;
+			return _Debug_todo(
+				'Calculus.Parser',
+				{
+					start: {line: 1118, column: 13},
+					end: {line: 1118, column: 23}
+				})('');
+		case 'ExpectedTypeVarUseToStartWithQuote':
+			var expectedString = expectedType.a;
+			return _Debug_todo(
+				'Calculus.Parser',
+				{
+					start: {line: 1121, column: 13},
+					end: {line: 1121, column: 23}
+				})('');
+		case 'ExpectedTypeOperator':
+			var opKeyword = expectedType.a;
+			return _Debug_todo(
+				'Calculus.Parser',
+				{
+					start: {line: 1124, column: 13},
+					end: {line: 1124, column: 23}
+				})('');
+		default:
+			var expectedParens = expectedType.a;
+			return _Debug_todo(
+				'Calculus.Parser',
+				{
+					start: {line: 1127, column: 13},
+					end: {line: 1127, column: 23}
+				})('');
+	}
+};
+var $author$project$Calculus$Parser$expectedInterfaceAssumptionToString = function (msg) {
+	switch (msg.$) {
+		case 'ExpectedInterfaceAssumptionKeyword':
+			var opKeyword = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected interface-assumption keyword (',
+						$author$project$Calculus$Parser$consumedSuccessfullyToString(opKeyword),
+						', ',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(opKeyword),
+						')'
+					]));
+		case 'ExpectedGapAfterInterfaceAssumptionKeyword':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Failed to see a gap following it (',
+						$author$project$Calculus$Parser$failedAtCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedTypingSymbolInInterfaceAssumption':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected typing symbol `:` after the identifier (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedTermIdentifierInInterfaceAssumption':
+			var expectedIdentifierIntroduction = msg.a;
+			return A2($author$project$Calculus$Parser$expectedIdentifierIntroductionToString, 'term', expectedIdentifierIntroduction);
+		case 'ExpectedTypeInInterfaceAssumption':
+			var expectedType = msg.a;
+			return $author$project$Calculus$Parser$expectedTypeToString(expectedType);
+		case 'ExpectedModuleIdentifierInInterfaceAssumption':
+			var expectedIdentifierIntroduction = msg.a;
+			return A2($author$project$Calculus$Parser$expectedIdentifierIntroductionToString, 'module', expectedIdentifierIntroduction);
+		default:
+			var expectedInterface = msg.a;
+			return $author$project$Calculus$Parser$expectedInterfaceToString(expectedInterface);
+	}
+};
+var $author$project$Calculus$Parser$expectedInterfaceToString = function (msg) {
+	switch (msg.$) {
+		case 'ExpectedInterfaceKeyword':
+			var opKeyword = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected interface keyword (',
+						$author$project$Calculus$Parser$consumedSuccessfullyToString(opKeyword),
+						', ',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(opKeyword),
+						')'
+					]));
+		case 'ExpectedGapAfterInterfaceKeyword':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Succesfully parsed interface keyword `interface`, but failed to see a gap following it (',
+						$author$project$Calculus$Parser$failedAtCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedInterfaceOpenBraces':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected open brace `{` (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedInterfaceAssumption':
+			var expectedInterfaceAssumption = msg.a;
+			return $author$project$Calculus$Parser$expectedInterfaceAssumptionToString(expectedInterfaceAssumption);
+		case 'ExpectedSemicolonAfterInterfaceAssumption':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected semicolon after let binding (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		default:
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected closing brace `}` (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+	}
+};
+var $author$project$Calculus$Parser$operatorKeywordToString = function (op) {
+	switch (op.$) {
+		case 'VarUse':
+			return '$';
+		case 'ConstTrue':
+			return 'true';
+		case 'ConstFalse':
+			return 'false';
+		case 'MatchBool':
+			return 'match-bool';
+		case 'Pair':
+			return 'pair';
+		case 'MatchPair':
+			return 'match-pair';
+		case 'Left':
+			return 'left';
+		case 'Right':
+			return 'right';
+		case 'MatchSum':
+			return 'match-sum';
+		case 'Application':
+			return '[';
+		case 'Abstraction':
+			return '\\';
+		case 'ConstZero':
+			return 'zero';
+		case 'NatLiteral':
+			return '0nat-literal';
+		case 'Succ':
+			return 'succ';
+		case 'FoldNat':
+			return 'fold-nat';
+		case 'ConstEmpty':
+			return 'empty';
+		case 'Cons':
+			return 'cons';
+		case 'FoldList':
+			return 'fold-list';
+		case 'LetBe':
+			return 'let-be';
+		case 'Let':
+			return 'let';
+		case 'Delay':
+			return 'delay';
+		case 'Force':
+			return 'force';
+		default:
+			return '@';
+	}
+};
+var $author$project$Calculus$Parser$expectedOperatorKeywordToString = function (msg) {
+	if (msg.$ === 'ExpectedOperatorKeyword') {
+		var opKeyword = msg.a;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'Expected operator keyword (',
+					$author$project$Calculus$Parser$consumedSuccessfullyToString(opKeyword),
+					', ',
+					$author$project$Calculus$Parser$failedAtMaybeCharToString(opKeyword),
+					')'
+				]));
+	} else {
+		var gapAfter = msg.a;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'Succesfully parsed operator keyword `',
+					$author$project$Calculus$Parser$operatorKeywordToString(gapAfter.operatorKeyword),
+					'`, but failed to see a gap following it (',
+					$author$project$Calculus$Parser$failedAtCharToString(
+					{failedAtChar: gapAfter.failedAtChar}),
+					')'
+				]));
+	}
+};
+var $author$project$Calculus$Parser$expectedParensToString = function (msg) {
+	if (msg.$ === 'ExpectedOpenParens') {
+		var msg0 = msg.a;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'Expected open parentheses (',
+					$author$project$Calculus$Parser$failedAtMaybeCharToString(msg0),
+					')'
+				]));
+	} else {
+		var msg0 = msg.a;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'Expected closing parentheses (',
+					$author$project$Calculus$Parser$failedAtMaybeCharToString(msg0),
+					')'
+				]));
+	}
+};
+var $author$project$Calculus$Parser$expectedPatternToString = function (msg) {
+	if (msg.$ === 'ExpectedPatternKeyword') {
+		var msg0 = msg.a;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'Expected the pattern keyword `',
+					$author$project$Calculus$Parser$operatorKeywordToString(msg0.patternKeyword),
+					'` (',
+					$author$project$Calculus$Parser$consumedSuccessfullyToString(msg0),
+					', ',
+					$author$project$Calculus$Parser$failedAtMaybeCharToString(msg0),
+					')'
+				]));
+	} else {
+		var msg0 = msg.a;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'Expected a gap after the pattern keyword `',
+					$author$project$Calculus$Parser$operatorKeywordToString(msg0.patternKeyword),
+					'` (',
+					$author$project$Calculus$Parser$failedAtMaybeCharToString(
+					{
+						failedAtChar: $elm$core$Maybe$Just(msg0.failedAtChar)
+					}),
+					')'
+				]));
+	}
+};
+var $author$project$Calculus$Parser$functorOperatorKeywordToString = function (opKeyword) {
+	if (opKeyword.$ === 'FunctorVarUse') {
+		return '$';
+	} else {
+		return 'functor';
+	}
+};
+var $author$project$Calculus$Parser$moduleLetBindingKeywordToString = function (keyword0) {
+	switch (keyword0.$) {
+		case 'LetTerm':
+			return 'let-term';
+		case 'LetType':
+			return 'let-type';
+		case 'LetModule':
+			return 'let-module';
+		default:
+			return 'let-functor';
+	}
+};
+var $author$project$Calculus$Parser$moduleOperatorKeywordToString = function (keyword0) {
+	switch (keyword0.$) {
+		case 'ModuleVarUse':
+			return '$';
+		case 'ModuleLiteralTerm':
+			return 'module';
+		default:
+			return '[';
+	}
+};
+var $author$project$Calculus$Parser$expectedFunctorLiteralToString = function (msg) {
+	switch (msg.$) {
+		case 'ExpectedFunctorLiteralOpenBraces':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected open brace `{` (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedFunctorIdentifierInFunctorParameter':
+			var expectedIdentifierIntroduction = msg.a;
+			return A2($author$project$Calculus$Parser$expectedIdentifierIntroductionToString, 'functor', expectedIdentifierIntroduction);
+		case 'ExpectedTypingSymbolInFunctorParameter':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected typing symbol `:` between functor variable and its interface (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedInterfaceInFunctorParameter':
+			var expectedInterface = msg.a;
+			return $author$project$Calculus$Parser$expectedInterfaceToString(expectedInterface);
+		case 'ExpectedDotAfterFunctorParameters':
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected a dot `.` after functor paramters (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+		case 'ExpectedModuleTermInFunctorBody':
+			var expectedModuleTerm = msg.a;
+			return $author$project$Calculus$Parser$expectedModuleTermToString(expectedModuleTerm);
+		default:
+			var failedAtChar = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected closing brace `}` (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtChar),
+						')'
+					]));
+	}
+};
+var $author$project$Calculus$Parser$expectedFunctorTermToString = function (msg) {
+	switch (msg.$) {
+		case 'ExpectedFunctorOperator':
+			var opKeyword = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected functor operator keyword (',
+						$author$project$Calculus$Parser$consumedSuccessfullyToString(opKeyword),
+						', ',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(opKeyword),
+						')'
+					]));
+		case 'ExpectedGapAfterFunctorOperator':
+			var gapAfter = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Succesfully parsed functor operator keyword `',
+						$author$project$Calculus$Parser$functorOperatorKeywordToString(gapAfter.operatorKeyword),
+						'`, but failed to see a gap following it (',
+						$author$project$Calculus$Parser$failedAtCharToString(
+						{failedAtChar: gapAfter.failedAtChar}),
+						')'
+					]));
+		case 'ExpectedFunctorIdentifier':
+			var expectedIdentifierIntroduction = msg.a;
+			return A2($author$project$Calculus$Parser$expectedIdentifierIntroductionToString, 'functor', expectedIdentifierIntroduction);
+		default:
+			var expectedFunctorLiteral = msg.a;
+			return $author$project$Calculus$Parser$expectedFunctorLiteralToString(expectedFunctorLiteral);
+	}
+};
+var $author$project$Calculus$Parser$expectedModuleLetBindingToString = function (msg) {
+	switch (msg.$) {
+		case 'ExpectedModuleLetBindingKeyword':
+			var err = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected module let binding keyword ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(such as ',
+								A2(
+								$elm$core$String$join,
+								', ',
+								A2(
+									$elm$core$List$map,
+									function (keyword0) {
+										return $elm$core$String$concat(
+											_List_fromArray(
+												[
+													'`',
+													$author$project$Calculus$Parser$moduleLetBindingKeywordToString(keyword0),
+													'`'
+												]));
+									},
+									$author$project$Calculus$Parser$allModuleLetBindingKeywords)),
+								')'
+							])),
+						' ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(',
+								$author$project$Calculus$Parser$failedAtMaybeCharToString(err),
+								')'
+							]))
+					]));
+		case 'ExpectedGapAfterModuleLetBindingKeyword':
+			var failedAtCharError = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected a gap after the let-binding keyword ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(',
+								$author$project$Calculus$Parser$failedAtCharToString(failedAtCharError),
+								')'
+							]))
+					]));
+		case 'ExpectedEqualsInModuleLetBinding':
+			var err = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected equals `=` symbol ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(',
+								$author$project$Calculus$Parser$failedAtMaybeCharToString(err),
+								')'
+							]))
+					]));
+		case 'ExpectedTermIdentifierInModuleLetBinding':
+			var expectedIdentifierIntroduction = msg.a;
+			return A2($author$project$Calculus$Parser$expectedIdentifierIntroductionToString, 'term', expectedIdentifierIntroduction);
+		case 'ExpectedTermInModuleLetBinding':
+			var expectedTerm = msg.a;
+			return $author$project$Calculus$Parser$expectedTermToString(expectedTerm);
+		case 'ExpectedModuleIdentifierInModuleLetBinding':
+			var expectedIdentifierIntroduction = msg.a;
+			return A2($author$project$Calculus$Parser$expectedIdentifierIntroductionToString, 'module', expectedIdentifierIntroduction);
+		default:
+			var expectedModuleTerm = msg.a;
+			return $author$project$Calculus$Parser$expectedModuleTermToString(expectedModuleTerm);
+	}
+};
+var $author$project$Calculus$Parser$expectedModuleTermToString = function (msg) {
+	switch (msg.$) {
+		case 'ExpectedModuleOperator':
+			var err = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected module operator keyword (',
+						$author$project$Calculus$Parser$consumedSuccessfullyToString(err),
+						', ',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(err),
+						')'
+					]));
+		case 'ExpectedGapAfterModuleOperator':
+			var err = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Succesfully parsed module operator keyword `',
+						$author$project$Calculus$Parser$moduleOperatorKeywordToString(err.operatorKeyword),
+						'`, but failed to see a gap following it (',
+						$author$project$Calculus$Parser$failedAtCharToString(err),
+						')'
+					]));
+		case 'ExpectedModuleIdentifier':
+			var err = msg.a;
+			return A2($author$project$Calculus$Parser$expectedIdentifierIntroductionToString, 'module', err);
+		case 'ExpectedGapAfterModuleKeyword':
+			var failedAtCharError = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected a gap after the `module` keyword ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(',
+								$author$project$Calculus$Parser$failedAtCharToString(failedAtCharError),
+								')'
+							]))
+					]));
+		case 'ExpectedModuleOpenBraces':
+			var failedAtCharError = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected an open brace `{` after the `module` keyword ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(',
+								$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtCharError),
+								')'
+							]))
+					]));
+		case 'ExpectedModuleLetBinding':
+			var expectedModuleLetBinding = msg.a;
+			return $author$project$Calculus$Parser$expectedModuleLetBindingToString(expectedModuleLetBinding);
+		case 'ExpectedSemicolonAfterModuleLetBinding':
+			var failedAtCharError = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected a semicolon `;` to separate the module let-bindings ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(',
+								$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtCharError),
+								')'
+							]))
+					]));
+		case 'ExpectedModuleClosingBraces':
+			var failedAtCharError = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected a closing brace `}` to end the module expression ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(',
+								$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtCharError),
+								')'
+							]))
+					]));
+		case 'ExpectedFunctorTermInApplication':
+			var expectedFunctorTerm = msg.a;
+			return $author$project$Calculus$Parser$expectedFunctorTermToString(expectedFunctorTerm);
+		default:
+			var failedAtCharError = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected a closing bracket `]` to end the functor application ',
+						$elm$core$String$concat(
+						_List_fromArray(
+							[
+								'(',
+								$author$project$Calculus$Parser$failedAtMaybeCharToString(failedAtCharError),
+								')'
+							]))
+					]));
+	}
+};
+var $author$project$Calculus$Parser$expectedTermToString = function (msg) {
+	switch (msg.$) {
+		case 'ExpectedOperator':
+			var expectedOperatorKeyword = msg.a;
+			return $author$project$Calculus$Parser$expectedOperatorKeywordToString(expectedOperatorKeyword);
+		case 'ExpectedTermIdentifier':
+			var expectedIdentifierIntroduction = msg.a;
+			return A2($author$project$Calculus$Parser$expectedIdentifierIntroductionToString, 'term', expectedIdentifierIntroduction);
+		case 'ExpectedParens':
+			var expectedParens = msg.a;
+			return $author$project$Calculus$Parser$expectedParensToString(expectedParens);
+		case 'ExpectedBindingTerm':
+			var expectedBindingTerm = msg.a;
+			return $author$project$Calculus$Parser$expectedBindingTermToString(expectedBindingTerm);
+		case 'ExpectedPattern':
+			var expectedPattern = msg.a;
+			return $author$project$Calculus$Parser$expectedPatternToString(expectedPattern);
+		case 'ExpectedAtleastTwoArgumentsToApplication':
+			var got = msg.a.got;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected atleast two arguments to application, instead got ',
+						$elm$core$String$fromInt(got)
+					]));
+		case 'ExpectedAtleastOneParameterToAbstraction':
+			var got = msg.a.got;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected atleast one parameter to abstraction, instead got ',
+						$elm$core$String$fromInt(got)
+					]));
+		case 'ExpectedNatConstant':
+			var msg0 = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected natural number literal (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(msg0),
+						')'
+					]));
+		case 'ExpectedClosingOfApplication':
+			var msg0 = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected closing of application (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(msg0),
+						')'
+					]));
+		case 'ExpectedModuleTermInModuleAccess':
+			var err = msg.a;
+			return $author$project$Calculus$Parser$expectedModuleTermToString(err);
+		default:
+			var msg0 = msg.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Expected module access symbol `.` (',
+						$author$project$Calculus$Parser$failedAtMaybeCharToString(msg0),
+						')'
+					]));
+	}
+};
+var $author$project$Lib$Parser$Error$getPosition = function (error) {
+	return error.position;
+};
+var $author$project$Calculus$Parser$moduleTermErrorToString = function (error) {
+	var position = $author$project$Lib$Parser$Error$getPosition(error);
+	var msg = $author$project$Lib$Parser$Error$getMsg(error);
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				$author$project$Calculus$Parser$expectedModuleTermToString(msg),
+				' at (line=',
+				$elm$core$String$fromInt(position.line),
+				', col=',
+				$elm$core$String$fromInt(position.col),
+				')'
+			]));
+};
 var $mdgriffith$elm_ui$Element$Input$TextArea = {$: 'TextArea'};
 var $mdgriffith$elm_ui$Internal$Model$LivePolite = {$: 'LivePolite'};
 var $mdgriffith$elm_ui$Element$Region$announce = $mdgriffith$elm_ui$Internal$Model$Describe($mdgriffith$elm_ui$Internal$Model$LivePolite);
-var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
-var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
 var $mdgriffith$elm_ui$Element$Input$applyLabel = F3(
 	function (attrs, label, input) {
 		if (label.$ === 'HiddenLabel') {
@@ -15821,52 +19305,7 @@ var $mdgriffith$elm_ui$Element$rgb = F3(
 		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, r, g, b, 1);
 	});
 var $mdgriffith$elm_ui$Element$Input$darkGrey = A3($mdgriffith$elm_ui$Element$rgb, 186 / 255, 189 / 255, 182 / 255);
-var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
-	function (a, b, c, d, e) {
-		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$padding = $mdgriffith$elm_ui$Internal$Flag$flag(2);
-var $mdgriffith$elm_ui$Element$paddingXY = F2(
-	function (x, y) {
-		if (_Utils_eq(x, y)) {
-			var f = x;
-			return A2(
-				$mdgriffith$elm_ui$Internal$Model$StyleClass,
-				$mdgriffith$elm_ui$Internal$Flag$padding,
-				A5(
-					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-					'p-' + $elm$core$String$fromInt(x),
-					f,
-					f,
-					f,
-					f));
-		} else {
-			var yFloat = y;
-			var xFloat = x;
-			return A2(
-				$mdgriffith$elm_ui$Internal$Model$StyleClass,
-				$mdgriffith$elm_ui$Internal$Flag$padding,
-				A5(
-					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
-					yFloat,
-					xFloat,
-					yFloat,
-					xFloat));
-		}
-	});
 var $mdgriffith$elm_ui$Element$Input$defaultTextPadding = A2($mdgriffith$elm_ui$Element$paddingXY, 12, 12);
-var $mdgriffith$elm_ui$Internal$Flag$borderRound = $mdgriffith$elm_ui$Internal$Flag$flag(17);
-var $mdgriffith$elm_ui$Element$Border$rounded = function (radius) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$borderRound,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$Single,
-			'br-' + $elm$core$String$fromInt(radius),
-			'border-radius',
-			$elm$core$String$fromInt(radius) + 'px'));
-};
 var $mdgriffith$elm_ui$Internal$Model$SpacingStyle = F3(
 	function (a, b, c) {
 		return {$: 'SpacingStyle', a: a, b: b, c: c};
@@ -16379,13 +19818,11 @@ var $mdgriffith$elm_ui$Element$scrollbarY = A2($mdgriffith$elm_ui$Internal$Model
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$html$Html$Attributes$spellcheck = $elm$html$Html$Attributes$boolProperty('spellcheck');
 var $mdgriffith$elm_ui$Element$Input$spellcheck = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Attributes$spellcheck);
-var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
-	return {$: 'Text', a: a};
-};
-var $mdgriffith$elm_ui$Element$text = function (content) {
-	return $mdgriffith$elm_ui$Internal$Model$Text(content);
-};
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
 var $mdgriffith$elm_ui$Internal$Model$unstyled = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Unstyled, $elm$core$Basics$always);
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
 var $mdgriffith$elm_ui$Element$Input$value = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Attributes$value);
@@ -16642,51 +20079,83 @@ var $mdgriffith$elm_ui$Element$Input$multiline = F2(
 			attrs,
 			{label: multi.label, onChange: multi.onChange, placeholder: multi.placeholder, text: multi.text});
 	});
-var $mdgriffith$elm_ui$Element$padding = function (x) {
-	var f = x;
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$padding,
-		A5(
-			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-			'p-' + $elm$core$String$fromInt(x),
-			f,
-			f,
-			f,
-			f));
-};
 var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
 	return {$: 'Px', a: a};
 };
 var $mdgriffith$elm_ui$Element$px = $mdgriffith$elm_ui$Internal$Model$Px;
-var $mdgriffith$elm_ui$Element$row = F2(
-	function (attrs, children) {
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asRow,
-			$mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentLeft + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.contentCenterY)),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-					A2(
-						$elm$core$List$cons,
-						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-						attrs))),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
-	});
-var $author$project$Show$showType = function (type0) {
-	switch (type0.$) {
-		case 'VarType':
-			var n = type0.a;
+var $author$project$Calculus$Show$showEvaluationError = function (error) {
+	switch (error.$) {
+		case 'UndefinedVar':
+			var termVarName = error.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['Use of undefined variable $', termVarName]));
+		case 'UndefinedModule':
+			var moduleVarName = error.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['Use of undefined module variable $', moduleVarName]));
+		case 'UndefinedFunctor':
+			var functorName = error.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['Use of undefined functor variable $', functorName]));
+		case 'ExpectedPair':
+			return 'Expected Pair';
+		case 'ExpectedFunction':
+			return 'Expected Function';
+		case 'ExpectedLeftRight':
+			return 'Expected Left/Right';
+		case 'ExpectedBoolean':
+			return 'Expected Boolean';
+		case 'ExpectedNat':
+			return 'Expected Number';
+		case 'ExpectedList':
+			return 'Expected List';
+		case 'FailedToForceThunk':
+			var thunkId = error.a;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
-						'\'',
-						$elm$core$String$fromInt(n)
+						'Failed to force thunk with id := ',
+						$elm$core$String$fromInt(thunkId)
 					]));
+		case 'ExpectedThunkClosure':
+			return 'Expected Thunk Closure';
+		case 'UnknownModuleField':
+			var field = error.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['Unknown module-field access := ', field]));
+		default:
+			return 'Functor Application Error: Number of parameters is not equal to the number of arguments';
+	}
+};
+var $author$project$Calculus$Show$showEvaluationErrors = function (errors) {
+	return A2(
+		$elm$core$String$join,
+		', ',
+		A2($elm$core$List$map, $author$project$Calculus$Show$showEvaluationError, errors));
+};
+var $author$project$Calculus$Show$natValToInt = function (natVal) {
+	if (natVal.$ === 'ConstZero') {
+		return 0;
+	} else {
+		var val1 = natVal.a;
+		return 1 + $author$project$Calculus$Show$natValToInt(val1);
+	}
+};
+var $author$project$Calculus$Show$showNatValue = function (natVal) {
+	return $elm$core$String$fromInt(
+		$author$project$Calculus$Show$natValToInt(natVal));
+};
+var $author$project$Calculus$Show$showType = function (type0) {
+	switch (type0.$) {
+		case 'TypeVarUse':
+			var n = type0.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['$', n]));
 		case 'Product':
 			var type1 = type0.a;
 			var type2 = type0.b;
@@ -16694,9 +20163,9 @@ var $author$project$Show$showType = function (type0) {
 				_List_fromArray(
 					[
 						'(',
-						$author$project$Show$showType(type1),
+						$author$project$Calculus$Show$showType(type1),
 						' , ',
-						$author$project$Show$showType(type2),
+						$author$project$Calculus$Show$showType(type2),
 						')'
 					]));
 		case 'Sum':
@@ -16706,9 +20175,9 @@ var $author$project$Show$showType = function (type0) {
 				_List_fromArray(
 					[
 						'[',
-						$author$project$Show$showType(type1),
+						$author$project$Calculus$Show$showType(type1),
 						' + ',
-						$author$project$Show$showType(type2),
+						$author$project$Calculus$Show$showType(type2),
 						']'
 					]));
 		case 'Arrow':
@@ -16718,22 +20187,22 @@ var $author$project$Show$showType = function (type0) {
 				_List_fromArray(
 					[
 						'(',
-						$author$project$Show$showType(type1),
+						$author$project$Calculus$Show$showType(type1),
 						' -> ',
-						$author$project$Show$showType(type2),
+						$author$project$Calculus$Show$showType(type2),
 						')'
 					]));
-		case 'LambdaBool':
+		case 'ConstBool':
 			return 'Bool';
-		case 'LambdaNat':
+		case 'ConstNat':
 			return 'Nat';
-		case 'LambdaList':
+		case 'List':
 			var type1 = type0.a;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'List(',
-						$author$project$Show$showType(type1),
+						$author$project$Calculus$Show$showType(type1),
 						')'
 					]));
 		case 'Frozen':
@@ -16742,7 +20211,7 @@ var $author$project$Show$showType = function (type0) {
 				_List_fromArray(
 					[
 						'Frozen(',
-						$author$project$Show$showType(type1),
+						$author$project$Calculus$Show$showType(type1),
 						')'
 					]));
 		default:
@@ -16751,33 +20220,202 @@ var $author$project$Show$showType = function (type0) {
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
-						'Forall ',
-						'\'' + $elm$core$String$fromInt(typeVar),
+						'Forall {',
+						typeVar,
 						' . ',
-						$author$project$Show$showType(type1)
+						$author$project$Calculus$Show$showType(type1),
+						'}'
 					]));
 	}
 };
-var $author$project$Show$showEquations = function (equations) {
-	return A2(
-		$elm$core$String$join,
-		'; ',
-		A2(
-			$elm$core$List$map,
-			function (_v0) {
-				var typeVarName = _v0.a;
-				var type0 = _v0.b;
+var $author$project$Calculus$Show$showFunctorType = function (_v1) {
+	var inputInterfaces = _v1.a;
+	var outputInterface = _v1.b;
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				'(-> [',
+				A2(
+				$elm$core$String$join,
+				' ',
+				A2($elm$core$List$map, $author$project$Calculus$Show$showInterface, inputInterfaces)),
+				'] ',
+				$author$project$Calculus$Show$showInterface(outputInterface),
+				')'
+			]));
+};
+var $author$project$Calculus$Show$showInterface = function (_interface) {
+	var assumptions = _interface.assumptions;
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				'(interface ',
+				A2(
+				$elm$core$String$join,
+				' ',
+				A2($elm$core$List$map, $author$project$Calculus$Show$showInterfaceAssumption, assumptions)),
+				')'
+			]));
+};
+var $author$project$Calculus$Show$showInterfaceAssumption = function (assumption) {
+	switch (assumption.$) {
+		case 'AssumeTerm':
+			var termVarName = assumption.a;
+			var type0 = assumption.b;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(assume-term ',
+						termVarName,
+						' ',
+						$author$project$Calculus$Show$showType(type0),
+						')'
+					]));
+		case 'AssumeType':
+			var typeVarName = assumption.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['(assume-type ', typeVarName, ')']));
+		case 'AssumeModule':
+			var moduleVarName = assumption.a;
+			var _interface = assumption.b;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(assume-module ',
+						moduleVarName,
+						' ',
+						$author$project$Calculus$Show$showInterface(_interface),
+						')'
+					]));
+		default:
+			var functorName = assumption.a;
+			var functorType = assumption.b;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(assume-functor ',
+						functorName,
+						' ',
+						$author$project$Calculus$Show$showFunctorType(functorType),
+						')'
+					]));
+	}
+};
+var $author$project$Calculus$Show$showFunctorTerm = function (functorTerm) {
+	if (functorTerm.$ === 'FunctorVarUse') {
+		var functorName = functorTerm.a;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				['$', functorName]));
+	} else {
+		var functorLiteral = functorTerm.a;
+		var parameters = functorLiteral.parameters;
+		var body = functorLiteral.body;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'(functor { ',
+					A2(
+					$elm$core$String$join,
+					' ',
+					A2(
+						$elm$core$List$map,
+						function (_v4) {
+							var moduleName = _v4.a;
+							var _interface = _v4.b;
+							return $elm$core$String$concat(
+								_List_fromArray(
+									[
+										'(: ',
+										moduleName,
+										' ',
+										$author$project$Calculus$Show$showInterface(_interface),
+										')'
+									]));
+						},
+						parameters)),
+					' . ',
+					$author$project$Calculus$Show$showModuleTerm(body),
+					' })'
+				]));
+	}
+};
+var $author$project$Calculus$Show$showModuleLiteral = function (module0) {
+	var showModuleLetBinding = function (binding) {
+		switch (binding.$) {
+			case 'LetTerm':
+				var _var = binding.a;
+				var term = binding.b;
 				return $elm$core$String$concat(
 					_List_fromArray(
 						[
-							'\'' + $elm$core$String$fromInt(typeVarName),
-							' := ',
-							$author$project$Show$showType(type0)
+							'(',
+							_var,
+							' ',
+							$author$project$Calculus$Show$showTerm(term),
+							')'
 						]));
-			},
-			$elm$core$Dict$toList(equations)));
+			case 'LetModule':
+				var _var = binding.a;
+				var module1 = binding.b;
+				return $elm$core$String$concat(
+					_List_fromArray(
+						[
+							'(',
+							_var,
+							' ',
+							$author$project$Calculus$Show$showModuleTerm(module1),
+							')'
+						]));
+			default:
+				return _Debug_todo(
+					'Calculus.Show',
+					{
+						start: {line: 745, column: 21},
+						end: {line: 745, column: 31}
+					})('');
+		}
+	};
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				'(module ',
+				A2(
+				$elm$core$String$join,
+				' ',
+				A2($elm$core$List$map, showModuleLetBinding, module0.bindings)),
+				')'
+			]));
 };
-var $author$project$Show$showTerm = function (term) {
+var $author$project$Calculus$Show$showModuleTerm = function (moduleTerm) {
+	switch (moduleTerm.$) {
+		case 'ModuleLiteralTerm':
+			var module0 = moduleTerm.a;
+			return $author$project$Calculus$Show$showModuleLiteral(module0);
+		case 'ModuleVarUse':
+			var moduleName = moduleTerm.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['$', moduleName]));
+		default:
+			var functorTerm = moduleTerm.a;
+			var modules = moduleTerm.b;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(@ ',
+						$author$project$Calculus$Show$showFunctorTerm(functorTerm),
+						' ',
+						A2(
+						$elm$core$String$join,
+						' ',
+						A2($elm$core$List$map, $author$project$Calculus$Show$showModuleTerm, modules)),
+						')'
+					]));
+	}
+};
+var $author$project$Calculus$Show$showTerm = function (term) {
 	switch (term.$) {
 		case 'VarUse':
 			var varname = term.a;
@@ -16791,39 +20429,39 @@ var $author$project$Show$showTerm = function (term) {
 				_List_fromArray(
 					[
 						'(pair ',
-						$author$project$Show$showTerm(fst),
+						$author$project$Calculus$Show$showTerm(fst),
 						' ',
-						$author$project$Show$showTerm(snd),
+						$author$project$Calculus$Show$showTerm(snd),
 						')'
 					]));
-		case 'MatchProduct':
-			var arg = term.a.arg;
-			var var0 = term.a.var0;
-			var var1 = term.a.var1;
-			var body = term.a.body;
+		case 'MatchPair':
+			var arg = term.a;
+			var var0 = term.b.var0;
+			var var1 = term.b.var1;
+			var body = term.b.body;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(match-pair ',
-						$author$project$Show$showTerm(arg),
+						$author$project$Calculus$Show$showTerm(arg),
 						' { (pair ',
 						var0,
 						' ',
 						var1,
 						') . ',
-						$author$project$Show$showTerm(body),
+						$author$project$Calculus$Show$showTerm(body),
 						' })'
 					]));
 		case 'Abstraction':
-			var _var = term.a;
-			var body = term.b;
+			var _var = term.a._var;
+			var body = term.a.body;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(fn { ',
 						_var,
 						' . ',
-						$author$project$Show$showTerm(body),
+						$author$project$Calculus$Show$showTerm(body),
 						' })'
 					]));
 		case 'Application':
@@ -16833,9 +20471,9 @@ var $author$project$Show$showTerm = function (term) {
 				_List_fromArray(
 					[
 						'(@ ',
-						$author$project$Show$showTerm(fn),
+						$author$project$Calculus$Show$showTerm(fn),
 						' ',
-						$author$project$Show$showTerm(arg),
+						$author$project$Calculus$Show$showTerm(arg),
 						')'
 					]));
 		case 'Left':
@@ -16844,7 +20482,7 @@ var $author$project$Show$showTerm = function (term) {
 				_List_fromArray(
 					[
 						'(left ',
-						$author$project$Show$showTerm(term1),
+						$author$project$Calculus$Show$showTerm(term1),
 						')'
 					]));
 		case 'Right':
@@ -16853,80 +20491,76 @@ var $author$project$Show$showTerm = function (term) {
 				_List_fromArray(
 					[
 						'(right ',
-						$author$project$Show$showTerm(term1),
+						$author$project$Calculus$Show$showTerm(term1),
 						')'
 					]));
-		case 'Case':
-			var arg = term.a.arg;
-			var leftVar = term.a.leftVar;
-			var leftBody = term.a.leftBody;
-			var rightVar = term.a.rightVar;
-			var rightBody = term.a.rightBody;
+		case 'MatchSum':
+			var arg = term.a;
+			var leftBranch = term.b.leftBranch;
+			var rightBranch = term.b.rightBranch;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(match-sum ',
-						$author$project$Show$showTerm(arg),
+						$author$project$Calculus$Show$showTerm(arg),
 						' { (left ',
-						leftVar,
+						leftBranch._var,
 						') . ',
-						$author$project$Show$showTerm(leftBody),
+						$author$project$Calculus$Show$showTerm(leftBranch.body),
 						' } { (right ',
-						rightVar,
+						rightBranch._var,
 						') . ',
-						$author$project$Show$showTerm(rightBody),
+						$author$project$Calculus$Show$showTerm(rightBranch.body),
 						' })'
 					]));
-		case 'BoolTrue':
+		case 'ConstTrue':
 			return 'true';
-		case 'BoolFalse':
+		case 'ConstFalse':
 			return 'false';
-		case 'IfThenElse':
+		case 'MatchBool':
 			var arg = term.a;
-			var leftBody = term.b;
-			var rightBody = term.c;
+			var trueBranch = term.b.trueBranch;
+			var falseBranch = term.b.falseBranch;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(if ',
-						$author$project$Show$showTerm(arg),
+						$author$project$Calculus$Show$showTerm(arg),
 						' { ',
-						$author$project$Show$showTerm(leftBody),
+						$author$project$Calculus$Show$showTerm(trueBranch.body),
 						' } { ',
-						$author$project$Show$showTerm(rightBody),
+						$author$project$Calculus$Show$showTerm(falseBranch.body),
 						' })'
 					]));
-		case 'NatZero':
+		case 'ConstZero':
 			return '0';
-		case 'NatSucc':
+		case 'Succ':
 			var term1 = term.a;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(succ ',
-						$author$project$Show$showTerm(term1),
+						$author$project$Calculus$Show$showTerm(term1),
 						')'
 					]));
-		case 'NatLoop':
-			var base = term.a.base;
-			var loop = term.a.loop;
-			var arg = term.a.arg;
+		case 'FoldNat':
+			var arg = term.a;
+			var zeroBranch = term.b.zeroBranch;
+			var succBranch = term.b.succBranch;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(loop-nat ',
-						$author$project$Show$showTerm(arg),
+						$author$project$Calculus$Show$showTerm(arg),
 						' ',
-						$author$project$Show$showTerm(base),
+						$author$project$Calculus$Show$showTerm(zeroBranch.body),
 						' { ',
-						loop.indexVar,
-						' ',
-						loop.stateVar,
+						succBranch._var,
 						' . ',
-						$author$project$Show$showTerm(loop.body),
+						$author$project$Calculus$Show$showTerm(succBranch.body),
 						' })'
 					]));
-		case 'EmptyList':
+		case 'ConstEmpty':
 			return 'empty-list';
 		case 'Cons':
 			var headTerm = term.a;
@@ -16935,37 +20569,37 @@ var $author$project$Show$showTerm = function (term) {
 				_List_fromArray(
 					[
 						'(cons ',
-						$author$project$Show$showTerm(headTerm),
+						$author$project$Calculus$Show$showTerm(headTerm),
 						' ',
-						$author$project$Show$showTerm(tailTerm),
+						$author$project$Calculus$Show$showTerm(tailTerm),
 						')'
 					]));
-		case 'ListLoop':
-			var initState = term.a.initState;
-			var loop = term.a.loop;
-			var arg = term.a.arg;
+		case 'FoldList':
+			var arg = term.a;
+			var emptyBranch = term.b.emptyBranch;
+			var consBranch = term.b.consBranch;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(list-loop ',
-						$author$project$Show$showTerm(arg),
+						$author$project$Calculus$Show$showTerm(arg),
 						' ',
-						$author$project$Show$showTerm(initState),
+						$author$project$Calculus$Show$showTerm(emptyBranch.body),
 						' { ',
-						loop.listElementVar,
+						consBranch.var0,
 						' ',
-						loop.stateVar,
+						consBranch.var1,
 						' . ',
-						$author$project$Show$showTerm(loop.body),
+						$author$project$Calculus$Show$showTerm(consBranch.body),
 						' })'
 					]));
 		case 'Delay':
-			var body = term.a;
+			var body = term.a.body;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(fn { ',
-						$author$project$Show$showTerm(body),
+						$author$project$Calculus$Show$showTerm(body),
 						' })'
 					]));
 		case 'Force':
@@ -16974,27 +20608,304 @@ var $author$project$Show$showTerm = function (term) {
 				_List_fromArray(
 					[
 						'(@ ',
-						$author$project$Show$showTerm(term1),
+						$author$project$Calculus$Show$showTerm(term1),
 						')'
 					]));
-		default:
-			var _var = term.a;
-			var exp = term.b;
-			var body = term.c;
+		case 'LetBe':
+			var exp = term.a;
+			var _var = term.b._var;
+			var body = term.b.body;
 			return $elm$core$String$concat(
 				_List_fromArray(
 					[
 						'(let ',
-						$author$project$Show$showTerm(exp),
+						$author$project$Calculus$Show$showTerm(exp),
 						' { ',
 						_var,
 						' . ',
-						$author$project$Show$showTerm(body),
+						$author$project$Calculus$Show$showTerm(body),
 						' })'
+					]));
+		default:
+			var module0 = term.a;
+			var field = term.b;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(-> ',
+						$author$project$Calculus$Show$showModuleTerm(module0),
+						' ',
+						field,
+						')'
 					]));
 	}
 };
-var $author$project$Show$showTermVarContext = function (termVarContext) {
+var $author$project$Calculus$Show$showListValue = function (listValue) {
+	if (listValue.$ === 'ConstEmpty') {
+		return 'empty-list';
+	} else {
+		var headValue = listValue.a;
+		var tailValue = listValue.b;
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'(cons ',
+					$author$project$Calculus$Show$showValue(headValue),
+					' ',
+					$author$project$Calculus$Show$showValue(tailValue),
+					')'
+				]));
+	}
+};
+var $author$project$Calculus$Show$showValue = function (val) {
+	switch (val.$) {
+		case 'Pair':
+			var fst = val.a;
+			var snd = val.b;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(pair ',
+						$author$project$Calculus$Show$showValue(fst),
+						' ',
+						$author$project$Calculus$Show$showValue(snd),
+						')'
+					]));
+		case 'Left':
+			var val1 = val.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(left ',
+						$author$project$Calculus$Show$showValue(val1),
+						')'
+					]));
+		case 'Right':
+			var val1 = val.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(right ',
+						$author$project$Calculus$Show$showValue(val1),
+						')'
+					]));
+		case 'Closure':
+			var env = val.a.env;
+			var _var = val.a._var;
+			var body = val.a.body;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'(fn ',
+						'[...]',
+						' { ',
+						_var,
+						' . ',
+						$author$project$Calculus$Show$showTerm(body),
+						' })'
+					]));
+		case 'ConstTrue':
+			return 'true';
+		case 'ConstFalse':
+			return 'false';
+		case 'NatValue':
+			var natVal = val.a;
+			return $author$project$Calculus$Show$showNatValue(natVal);
+		case 'ListValue':
+			var listValue = val.a;
+			return $author$project$Calculus$Show$showListValue(listValue);
+		default:
+			var thunkId = val.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'<thunk-id := ',
+						$elm$core$String$fromInt(thunkId),
+						'>'
+					]));
+	}
+};
+var $author$project$Calculus$Parser$termErrorToString = function (error) {
+	var position = $author$project$Lib$Parser$Error$getPosition(error);
+	var msg = $author$project$Lib$Parser$Error$getMsg(error);
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				$author$project$Calculus$Parser$expectedTermToString(msg),
+				' at (line=',
+				$elm$core$String$fromInt(position.line),
+				', col=',
+				$elm$core$String$fromInt(position.col),
+				')'
+			]));
+};
+var $author$project$Ui$Tab$Module$view = F2(
+	function (config, model) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$Input$button,
+							$author$project$Ui$Style$Button$buttonStyle,
+							{
+								label: $mdgriffith$elm_ui$Element$text('Run'),
+								onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$Module$ModuleRunButtonClicked)
+							}),
+							A2(
+							$mdgriffith$elm_ui$Element$Input$multiline,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$height(
+									$mdgriffith$elm_ui$Element$px(500)),
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+								]),
+							{
+								label: $mdgriffith$elm_ui$Element$Input$labelHidden('what is this?'),
+								onChange: $author$project$Ui$Tab$Module$ModuleInputChanged,
+								placeholder: $elm$core$Maybe$Nothing,
+								spellcheck: false,
+								text: model.moduleInput
+							})
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					function () {
+						var _v0 = model.parsedModule;
+						if (_v0.$ === 'Just') {
+							var parsingModuleResult = _v0.a;
+							if (parsingModuleResult.$ === 'Ok') {
+								var module0 = parsingModuleResult.a;
+								return A2(
+									$mdgriffith$elm_ui$Element$column,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$mdgriffith$elm_ui$Element$Input$button,
+											$author$project$Ui$Style$Button$buttonStyle,
+											{
+												label: $mdgriffith$elm_ui$Element$text('Run'),
+												onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$Module$ReplRunButtonClicked)
+											}),
+											A2(
+											$mdgriffith$elm_ui$Element$Input$multiline,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$height(
+													$mdgriffith$elm_ui$Element$px(45)),
+													$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+												]),
+											{
+												label: $mdgriffith$elm_ui$Element$Input$labelHidden('what is this?'),
+												onChange: $author$project$Ui$Tab$Module$ReplInputChanged,
+												placeholder: $elm$core$Maybe$Nothing,
+												spellcheck: false,
+												text: model.replInput
+											}),
+											function () {
+											var _v2 = model.parsedTerm;
+											if (_v2.$ === 'Just') {
+												var parsingResult = _v2.a;
+												if (parsingResult.$ === 'Ok') {
+													var term = parsingResult.a;
+													var _v4 = model.evaledTerm;
+													if (_v4.$ === 'Just') {
+														var evaledResult = _v4.a;
+														if (evaledResult.$ === 'Ok') {
+															var _v6 = evaledResult.a;
+															var thunkContext = _v6.a;
+															var val = _v6.b;
+															return A2(
+																$mdgriffith$elm_ui$Element$column,
+																_List_Nil,
+																_List_fromArray(
+																	[
+																		$mdgriffith$elm_ui$Element$text(
+																		$author$project$Calculus$Show$showValue(val))
+																	]));
+														} else {
+															var errors = evaledResult.a;
+															return $mdgriffith$elm_ui$Element$text(
+																$author$project$Calculus$Show$showEvaluationErrors(errors));
+														}
+													} else {
+														return $mdgriffith$elm_ui$Element$text('');
+													}
+												} else {
+													var err = parsingResult.a;
+													return $mdgriffith$elm_ui$Element$text(
+														$author$project$Calculus$Parser$termErrorToString(err));
+												}
+											} else {
+												return $mdgriffith$elm_ui$Element$text('');
+											}
+										}()
+										]));
+							} else {
+								var err = parsingModuleResult.a;
+								return $mdgriffith$elm_ui$Element$text(
+									$author$project$Calculus$Parser$moduleTermErrorToString(err));
+							}
+						} else {
+							return $mdgriffith$elm_ui$Element$text('');
+						}
+					}())
+				]));
+	});
+var $author$project$Ui$Tab$Program$InferButtonClicked = {$: 'InferButtonClicked'};
+var $author$project$Ui$Tab$Program$InputChanged = function (a) {
+	return {$: 'InputChanged', a: a};
+};
+var $author$project$Ui$Tab$Program$RunButtonClicked = {$: 'RunButtonClicked'};
+var $author$project$Ui$Tab$Program$isParsedSuccesfully = function (model) {
+	var _v0 = model.parsedTerm;
+	if ((_v0.$ === 'Just') && (_v0.a.$ === 'Ok')) {
+		var term = _v0.a.a;
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$Calculus$Show$showEquations = function (equations) {
+	return A2(
+		$elm$core$String$join,
+		'; ',
+		A2(
+			$elm$core$List$map,
+			function (_v0) {
+				var typeVarName = _v0.a;
+				var type0 = _v0.b;
+				return $elm$core$String$concat(
+					_List_fromArray(
+						[
+							typeVarName,
+							' := ',
+							$author$project$Calculus$Show$showType(type0)
+						]));
+			},
+			$elm$core$Dict$toList(equations)));
+};
+var $author$project$Calculus$Show$showTermVarContext = function (termVarContext) {
 	return A2(
 		$elm$core$String$join,
 		', ',
@@ -17013,7 +20924,7 @@ var $author$project$Show$showTermVarContext = function (termVarContext) {
 								[
 									varname,
 									' := ',
-									$author$project$Show$showType(type0)
+									$author$project$Calculus$Show$showType(type0)
 								]))
 						]);
 				} else {
@@ -17029,55 +20940,73 @@ var $elm$core$Dict$isEmpty = function (dict) {
 		return false;
 	}
 };
-var $author$project$Show$natValToInt = function (natVal) {
-	if (natVal.$ === 'NatZeroValue') {
-		return 0;
-	} else {
-		var val1 = natVal.a;
-		return 1 + $author$project$Show$natValToInt(val1);
-	}
+var $author$project$Calculus$Show$showModuleValue = function (moduleValue) {
+	var showModuleValueAssignment = function (binding) {
+		switch (binding.$) {
+			case 'AssignValue':
+				var _var = binding.a;
+				var value = binding.b;
+				return $elm$core$String$concat(
+					_List_fromArray(
+						[
+							'(',
+							_var,
+							' ',
+							$author$project$Calculus$Show$showValue(value),
+							')'
+						]));
+			case 'AssignModuleValue':
+				var _var = binding.a;
+				var moduleValue1 = binding.b;
+				return $elm$core$String$concat(
+					_List_fromArray(
+						[
+							'(',
+							_var,
+							' ',
+							$author$project$Calculus$Show$showModuleValue(moduleValue1),
+							')'
+						]));
+			default:
+				return _Debug_todo(
+					'Calculus.Show',
+					{
+						start: {line: 781, column: 21},
+						end: {line: 781, column: 31}
+					})('');
+		}
+	};
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				'(module ',
+				A2(
+				$elm$core$String$join,
+				' ',
+				A2($elm$core$List$map, showModuleValueAssignment, moduleValue.assignments)),
+				')'
+			]));
 };
-var $author$project$Show$showNatValue = function (natVal) {
-	return $elm$core$String$fromInt(
-		$author$project$Show$natValToInt(natVal));
-};
-var $author$project$Show$showListValue = function (listValue) {
-	if (listValue.$ === 'EmptyListValue') {
-		return 'empty-list';
-	} else {
-		var headValue = listValue.a;
-		var tailValue = listValue.b;
-		return $elm$core$String$concat(
-			_List_fromArray(
-				[
-					'(cons ',
-					$author$project$Show$showValue(headValue),
-					' ',
-					$author$project$Show$showValue(tailValue),
-					')'
-				]));
-	}
-};
-var $author$project$Show$showTermEnvironment = function (env) {
+var $author$project$Calculus$Show$showModuleEnvironment = function (env) {
 	return A2(
 		$elm$core$String$join,
 		', ',
 		A2(
 			$elm$core$List$concatMap,
-			function (_v1) {
-				var varname = _v1.a;
-				var vals = _v1.b;
-				var _v2 = $elm$core$List$head(vals);
-				if (_v2.$ === 'Just') {
-					var val = _v2.a;
+			function (_v0) {
+				var moduleName = _v0.a;
+				var modules = _v0.b;
+				var _v1 = $elm$core$List$head(modules);
+				if (_v1.$ === 'Just') {
+					var moduleValue = _v1.a;
 					return _List_fromArray(
 						[
 							$elm$core$String$concat(
 							_List_fromArray(
 								[
-									varname,
+									moduleName,
 									' := ',
-									$author$project$Show$showValue(val)
+									$author$project$Calculus$Show$showModuleValue(moduleValue)
 								]))
 						]);
 				} else {
@@ -17086,75 +21015,55 @@ var $author$project$Show$showTermEnvironment = function (env) {
 			},
 			$elm$core$Dict$toList(env)));
 };
-var $author$project$Show$showValue = function (val) {
-	switch (val.$) {
-		case 'PairValue':
-			var fst = val.a;
-			var snd = val.b;
-			return $elm$core$String$concat(
-				_List_fromArray(
-					[
-						'(pair ',
-						$author$project$Show$showValue(fst),
-						' ',
-						$author$project$Show$showValue(snd),
-						')'
-					]));
-		case 'LeftValue':
-			var val1 = val.a;
-			return $elm$core$String$concat(
-				_List_fromArray(
-					[
-						'(left ',
-						$author$project$Show$showValue(val1),
-						')'
-					]));
-		case 'RightValue':
-			var val1 = val.a;
-			return $elm$core$String$concat(
-				_List_fromArray(
-					[
-						'(right ',
-						$author$project$Show$showValue(val1),
-						')'
-					]));
-		case 'Closure':
-			var env = val.a.env;
-			var _var = val.a._var;
-			var body = val.a.body;
-			return $elm$core$String$concat(
-				_List_fromArray(
-					[
-						'<',
-						$author$project$Show$showTermEnvironment(env),
-						$elm$core$Dict$isEmpty(env) ? '(fn { ' : ' |- (fn { ',
-						_var,
-						' . ',
-						$author$project$Show$showTerm(body),
-						' })>'
-					]));
-		case 'TrueValue':
-			return 'true';
-		case 'FalseValue':
-			return 'false';
-		case 'NatValue':
-			var natVal = val.a;
-			return $author$project$Show$showNatValue(natVal);
-		case 'ListValue':
-			var listValue = val.a;
-			return $author$project$Show$showListValue(listValue);
-		default:
-			var thunkId = val.a;
-			return $elm$core$String$concat(
-				_List_fromArray(
-					[
-						'<thunk-id := ',
-						$elm$core$String$fromInt(thunkId),
-						'>'
-					]));
-	}
+var $author$project$Calculus$Show$showTermEnvironment = function (env) {
+	return A2(
+		$elm$core$String$join,
+		', ',
+		A2(
+			$elm$core$List$concatMap,
+			function (_v0) {
+				var varname = _v0.a;
+				var vals = _v0.b;
+				var _v1 = $elm$core$List$head(vals);
+				if (_v1.$ === 'Just') {
+					var val = _v1.a;
+					return _List_fromArray(
+						[
+							$elm$core$String$concat(
+							_List_fromArray(
+								[
+									varname,
+									' := ',
+									$author$project$Calculus$Show$showValue(val)
+								]))
+						]);
+				} else {
+					return _List_Nil;
+				}
+			},
+			$elm$core$Dict$toList(env)));
 };
-var $author$project$Show$showThunks = function (_v0) {
+var $author$project$Calculus$Show$showEnvironment = function (env) {
+	return $elm$core$String$concat(
+		_List_fromArray(
+			[
+				(!$elm$core$Dict$isEmpty(env.moduleEnv)) ? $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'[',
+						$author$project$Calculus$Show$showModuleEnvironment(env.moduleEnv),
+						']'
+					])) : '',
+				(!$elm$core$Dict$isEmpty(env.termEnv)) ? $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'[',
+						$author$project$Calculus$Show$showTermEnvironment(env.termEnv),
+						']'
+					])) : ''
+			]));
+};
+var $author$project$Calculus$Show$showThunks = function (_v0) {
 	var thunks = _v0.thunks;
 	return A2(
 		$elm$core$String$join,
@@ -17173,9 +21082,9 @@ var $author$project$Show$showThunks = function (_v0) {
 								'<thunk-id(frozen) := ',
 								$elm$core$String$fromInt(thunkId),
 								'; ',
-								$author$project$Show$showTermEnvironment(env),
+								$author$project$Calculus$Show$showEnvironment(env),
 								' | ',
-								$author$project$Show$showTerm(body),
+								$author$project$Calculus$Show$showTerm(body),
 								'>'
 							]));
 				} else {
@@ -17186,14 +21095,14 @@ var $author$project$Show$showThunks = function (_v0) {
 								'<thunk-id(forced) := ',
 								$elm$core$String$fromInt(thunkId),
 								' | ',
-								$author$project$Show$showValue(val),
+								$author$project$Calculus$Show$showValue(val),
 								'>'
 							]));
 				}
 			},
 			$elm$core$Dict$toList(thunks)));
 };
-var $author$project$Show$showTypeError = function (typeError) {
+var $author$project$Calculus$Show$showTypeError = function (typeError) {
 	switch (typeError.$) {
 		case 'ExpectedProductType':
 			return 'Expected Produc Type';
@@ -17217,7 +21126,9 @@ var $author$project$Show$showTypeError = function (typeError) {
 			return 'Expected Frozen Type';
 		case 'InfiniteType':
 			var typeVarName = typeError.a;
-			return 'Infinite Type detected: the type var ' + ('\'' + $elm$core$String$fromInt(typeVarName));
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['Infinite Type detected: the type var ', '`', typeVarName, '`']));
 		default:
 			return 'Cant Pop Empty Type-Var-Context';
 	}
@@ -17236,7 +21147,7 @@ var $mgold$elm_nonempty_list$List$Nonempty$toList = function (_v0) {
 	var xs = _v0.b;
 	return A2($elm$core$List$cons, x, xs);
 };
-var $author$project$StackedSet$show = F2(
+var $author$project$Lib$StackedSet$show = F2(
 	function (toString, stackedSet) {
 		var setToString = function (set) {
 			return A2(
@@ -17259,288 +21170,672 @@ var $author$project$StackedSet$show = F2(
 							A2($mgold$elm_nonempty_list$List$Nonempty$map, setToString, stackedSet))))
 				]));
 	});
-var $author$project$Show$showTypeVarStack = $author$project$StackedSet$show($elm$core$String$fromInt);
-var $author$project$Main$view = function (model) {
-	var heightPx = 450;
-	var buttonStyle = _List_fromArray(
-		[
-			$mdgriffith$elm_ui$Element$Background$color($author$project$Main$blue),
-			A2($mdgriffith$elm_ui$Element$paddingXY, 9, 4),
-			$mdgriffith$elm_ui$Element$Border$rounded(2)
-		]);
-	return A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-				$mdgriffith$elm_ui$Element$padding(10)
-			]),
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$text('example: `(fn { p . (match-pair $p { (pair x y) . (pair $y $x) }) })`'),
-				$mdgriffith$elm_ui$Element$text('which in more standard lambda notation would be something like: `\\p. case p of (x, y) -> (y, x)`'),
-				A2(
-				$mdgriffith$elm_ui$Element$row,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$mdgriffith$elm_ui$Element$Input$button,
-						buttonStyle,
-						{
-							label: $mdgriffith$elm_ui$Element$text('Run'),
-							onPress: $author$project$Main$isParsedSuccesfully(model) ? $elm$core$Maybe$Just($author$project$Main$RunButtonClicked) : $elm$core$Maybe$Nothing
-						}),
-						A2(
-						$mdgriffith$elm_ui$Element$Input$button,
-						buttonStyle,
-						{
-							label: $mdgriffith$elm_ui$Element$text('Infer'),
-							onPress: $author$project$Main$isParsedSuccesfully(model) ? $elm$core$Maybe$Just($author$project$Main$InferButtonClicked) : $elm$core$Maybe$Nothing
-						})
-					])),
-				A2(
-				$mdgriffith$elm_ui$Element$row,
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-						$mdgriffith$elm_ui$Element$paddingEach(
-						{bottom: 0, left: 0, right: 0, top: 5})
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$mdgriffith$elm_ui$Element$Input$multiline,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$height(
-								$mdgriffith$elm_ui$Element$px(heightPx)),
-								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
-							]),
-						{
-							label: $mdgriffith$elm_ui$Element$Input$labelHidden('what is this?'),
-							onChange: $author$project$Main$InputChanged,
-							placeholder: $elm$core$Maybe$Nothing,
-							spellcheck: false,
-							text: model.input
-						}),
-						A2(
-						$mdgriffith$elm_ui$Element$el,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$height(
-								$mdgriffith$elm_ui$Element$px(heightPx)),
-								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-								$mdgriffith$elm_ui$Element$paddingEach(
-								{bottom: 0, left: 10, right: 0, top: 0})
-							]),
-						A2(
-							$mdgriffith$elm_ui$Element$column,
-							_List_Nil,
+var $author$project$Calculus$Show$showTypeVarStack = $author$project$Lib$StackedSet$show($elm$core$Basics$identity);
+var $author$project$Ui$Tab$Program$view = F2(
+	function (config, model) {
+		var heightPx = 300;
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$Input$button,
+							$author$project$Ui$Style$Button$buttonStyle,
+							{
+								label: $mdgriffith$elm_ui$Element$text('Run'),
+								onPress: $author$project$Ui$Tab$Program$isParsedSuccesfully(model) ? $elm$core$Maybe$Just($author$project$Ui$Tab$Program$RunButtonClicked) : $elm$core$Maybe$Nothing
+							}),
+							A2(
+							$mdgriffith$elm_ui$Element$Input$button,
+							$author$project$Ui$Style$Button$buttonStyle,
+							{
+								label: $mdgriffith$elm_ui$Element$text('Infer'),
+								onPress: $author$project$Ui$Tab$Program$isParsedSuccesfully(model) ? $elm$core$Maybe$Just($author$project$Ui$Tab$Program$InferButtonClicked) : $elm$core$Maybe$Nothing
+							})
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$paddingEach(
+							{bottom: 0, left: 0, right: 0, top: 5})
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$Input$multiline,
 							_List_fromArray(
 								[
-									$mdgriffith$elm_ui$Element$text('TERMS & VALUES'),
-									$mdgriffith$elm_ui$Element$text(
-									$elm$core$String$concat(
-										_List_fromArray(
-											[
-												'term = ',
-												function () {
-												var _v0 = model.parsedTerm;
-												if (_v0.$ === 'Nothing') {
-													return '';
-												} else {
-													var result = _v0.a;
-													if (result.$ === 'Ok') {
-														var term = result.a;
-														return $author$project$Show$showTerm(term);
+									$mdgriffith$elm_ui$Element$height(
+									$mdgriffith$elm_ui$Element$px(heightPx)),
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+								]),
+							{
+								label: $mdgriffith$elm_ui$Element$Input$labelHidden('what is this?'),
+								onChange: $author$project$Ui$Tab$Program$InputChanged,
+								placeholder: $elm$core$Maybe$Nothing,
+								spellcheck: false,
+								text: model.input
+							}),
+							A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$height(
+									$mdgriffith$elm_ui$Element$px(heightPx)),
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+									$mdgriffith$elm_ui$Element$paddingEach(
+									{bottom: 0, left: 10, right: 0, top: 0})
+								]),
+							A2(
+								$mdgriffith$elm_ui$Element$column,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$text('TERMS & VALUES'),
+										$mdgriffith$elm_ui$Element$text(
+										$elm$core$String$concat(
+											_List_fromArray(
+												[
+													'term = ',
+													function () {
+													var _v0 = model.parsedTerm;
+													if (_v0.$ === 'Nothing') {
+														return '';
 													} else {
-														var err = result.a;
-														return 'Parsing Error';
+														var result = _v0.a;
+														if (result.$ === 'Ok') {
+															var term = result.a;
+															return $author$project$Calculus$Show$showTerm(term);
+														} else {
+															var err = result.a;
+															return $author$project$Calculus$Parser$termErrorToString(err);
+														}
 													}
+												}()
+												]))),
+										A2(
+										$mdgriffith$elm_ui$Element$el,
+										_List_Nil,
+										function () {
+											var _v2 = model.evaledTerm;
+											if (_v2.$ === 'Nothing') {
+												return $mdgriffith$elm_ui$Element$text('');
+											} else {
+												var result = _v2.a;
+												if (result.$ === 'Ok') {
+													var _v4 = result.a;
+													var thunkContext = _v4.a;
+													var val = _v4.b;
+													return A2(
+														$mdgriffith$elm_ui$Element$column,
+														_List_Nil,
+														_List_fromArray(
+															[
+																$mdgriffith$elm_ui$Element$text(
+																$elm$core$String$concat(
+																	_List_fromArray(
+																		[
+																			'next-thunk-id = ',
+																			$elm$core$String$fromInt(thunkContext.nextThunkId)
+																		]))),
+																$mdgriffith$elm_ui$Element$text(
+																$elm$core$String$concat(
+																	_List_fromArray(
+																		[
+																			'thunk-context = ',
+																			$author$project$Calculus$Show$showThunks(thunkContext)
+																		]))),
+																$mdgriffith$elm_ui$Element$text(
+																$elm$core$String$concat(
+																	_List_fromArray(
+																		[
+																			'value = ',
+																			$author$project$Calculus$Show$showValue(val)
+																		])))
+															]));
+												} else {
+													var errors = result.a;
+													return $mdgriffith$elm_ui$Element$text(
+														$author$project$Calculus$Show$showEvaluationErrors(errors));
 												}
-											}()
-											]))),
-									A2(
-									$mdgriffith$elm_ui$Element$el,
-									_List_Nil,
-									function () {
-										var _v2 = model.evaledTerm;
-										if (_v2.$ === 'Nothing') {
-											return $mdgriffith$elm_ui$Element$text('');
-										} else {
-											var result = _v2.a;
-											if (result.$ === 'Ok') {
-												var _v4 = result.a;
-												var thunkContext = _v4.a;
-												var val = _v4.b;
-												return A2(
-													$mdgriffith$elm_ui$Element$column,
-													_List_Nil,
-													_List_fromArray(
+											}
+										}()),
+										$mdgriffith$elm_ui$Element$text('TYPE INFERENCE'),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_Nil,
+										function () {
+											var _v5 = model.inferedType;
+											if (_v5.$ === 'Nothing') {
+												return _List_Nil;
+											} else {
+												var result = _v5.a;
+												if (result.$ === 'Ok') {
+													var _v7 = result.a;
+													var termVarContext = _v7.a;
+													var typeVarContext = _v7.b;
+													var nextTypeVar = typeVarContext.nextTypeVar;
+													var typeVarStack = typeVarContext.typeVarStack;
+													var equations = typeVarContext.equations;
+													var type0 = _v7.c;
+													return _List_fromArray(
 														[
 															$mdgriffith$elm_ui$Element$text(
 															$elm$core$String$concat(
 																_List_fromArray(
 																	[
-																		'next-thunk-id = ',
-																		$elm$core$String$fromInt(thunkContext.nextThunkId)
+																		'term-var-context = ',
+																		$author$project$Calculus$Show$showTermVarContext(termVarContext)
 																	]))),
 															$mdgriffith$elm_ui$Element$text(
 															$elm$core$String$concat(
 																_List_fromArray(
 																	[
-																		'thunk-context = ',
-																		$author$project$Show$showThunks(thunkContext)
+																		'next-type-var = ',
+																		'\'' + $elm$core$String$fromInt(nextTypeVar)
 																	]))),
 															$mdgriffith$elm_ui$Element$text(
 															$elm$core$String$concat(
 																_List_fromArray(
 																	[
-																		'value = ',
-																		$author$project$Show$showValue(val)
+																		'stack = ',
+																		$author$project$Calculus$Show$showTypeVarStack(typeVarStack)
+																	]))),
+															$mdgriffith$elm_ui$Element$text(
+															$elm$core$String$concat(
+																_List_fromArray(
+																	[
+																		'equations = ',
+																		$author$project$Calculus$Show$showEquations(equations)
+																	]))),
+															$mdgriffith$elm_ui$Element$text(
+															$elm$core$String$concat(
+																_List_fromArray(
+																	[
+																		'type = ',
+																		$author$project$Calculus$Show$showType(type0)
+																	]))),
+															$mdgriffith$elm_ui$Element$text(
+															$elm$core$String$concat(
+																_List_fromArray(
+																	[
+																		'expanded-type = ',
+																		function () {
+																		var _v8 = A2(
+																			$author$project$Lib$State$StatefulWithErr$run,
+																			$author$project$Calculus$Type$TypeVarContext$expandType(type0),
+																			typeVarContext);
+																		if (_v8.$ === 'Ok') {
+																			var _v9 = _v8.a;
+																			var type1 = _v9.b;
+																			return $author$project$Calculus$Show$showType(type1);
+																		} else {
+																			var typeErrors = _v8.a;
+																			return A2(
+																				$elm$core$String$join,
+																				', ',
+																				A2($elm$core$List$map, $author$project$Calculus$Show$showTypeError, typeErrors));
+																		}
+																	}()
 																	])))
-														]));
-											} else {
-												var err = result.a;
-												return $mdgriffith$elm_ui$Element$text('Evaluation Error');
+														]);
+												} else {
+													var typeErrors = result.a;
+													return _List_fromArray(
+														[
+															$mdgriffith$elm_ui$Element$text(
+															$elm$core$String$concat(
+																_List_fromArray(
+																	[
+																		'type-error = ',
+																		A2(
+																		$elm$core$String$join,
+																		', ',
+																		A2($elm$core$List$map, $author$project$Calculus$Show$showTypeError, typeErrors))
+																	])))
+														]);
+												}
 											}
-										}
-									}()),
-									$mdgriffith$elm_ui$Element$text('TYPE INFERENCE'),
-									A2(
-									$mdgriffith$elm_ui$Element$column,
-									_List_Nil,
-									function () {
-										var _v5 = model.inferedType;
-										if (_v5.$ === 'Nothing') {
-											return _List_Nil;
-										} else {
-											var result = _v5.a;
-											if (result.$ === 'Ok') {
-												var _v7 = result.a;
-												var termVarContext = _v7.a;
-												var typeVarContext = _v7.b;
-												var nextTypeVar = typeVarContext.nextTypeVar;
-												var typeVarStack = typeVarContext.typeVarStack;
-												var equations = typeVarContext.equations;
-												var type0 = _v7.c;
-												return _List_fromArray(
-													[
-														$mdgriffith$elm_ui$Element$text(
-														$elm$core$String$concat(
-															_List_fromArray(
-																[
-																	'term-var-context = ',
-																	$author$project$Show$showTermVarContext(termVarContext)
-																]))),
-														$mdgriffith$elm_ui$Element$text(
-														$elm$core$String$concat(
-															_List_fromArray(
-																[
-																	'next-type-var = ',
-																	'\'' + $elm$core$String$fromInt(nextTypeVar)
-																]))),
-														$mdgriffith$elm_ui$Element$text(
-														$elm$core$String$concat(
-															_List_fromArray(
-																[
-																	'stack = ',
-																	$author$project$Show$showTypeVarStack(typeVarStack)
-																]))),
-														$mdgriffith$elm_ui$Element$text(
-														$elm$core$String$concat(
-															_List_fromArray(
-																[
-																	'equations = ',
-																	$author$project$Show$showEquations(equations)
-																]))),
-														$mdgriffith$elm_ui$Element$text(
-														$elm$core$String$concat(
-															_List_fromArray(
-																[
-																	'type = ',
-																	$author$project$Show$showType(type0)
-																]))),
-														$mdgriffith$elm_ui$Element$text(
-														$elm$core$String$concat(
-															_List_fromArray(
-																[
-																	'expanded-type = ',
-																	function () {
-																	var _v8 = A2(
-																		$author$project$StatefulWithErr$run,
-																		$author$project$TypeVarContext$expandType(type0),
-																		typeVarContext);
-																	if (_v8.$ === 'Ok') {
-																		var _v9 = _v8.a;
-																		var type1 = _v9.b;
-																		return $author$project$Show$showType(type1);
-																	} else {
-																		var typeErrors = _v8.a;
-																		return A2(
-																			$elm$core$String$join,
-																			', ',
-																			A2($elm$core$List$map, $author$project$Show$showTypeError, typeErrors));
-																	}
-																}()
-																])))
-													]);
-											} else {
-												var typeErrors = result.a;
-												return _List_fromArray(
-													[
-														$mdgriffith$elm_ui$Element$text(
-														$elm$core$String$concat(
-															_List_fromArray(
-																[
-																	'type-error = ',
-																	A2(
-																	$elm$core$String$join,
-																	', ',
-																	A2($elm$core$List$map, $author$project$Show$showTypeError, typeErrors))
-																])))
-													]);
-											}
-										}
-									}())
-								])))
-					])),
-				$mdgriffith$elm_ui$Element$text('SYNTAX'),
-				$mdgriffith$elm_ui$Element$text('Constants'),
-				$mdgriffith$elm_ui$Element$text('  true, false'),
-				$mdgriffith$elm_ui$Element$text('  0n0, 0n1, 0n2, 0n3, ...'),
-				$mdgriffith$elm_ui$Element$text('  empty-list'),
-				$mdgriffith$elm_ui$Element$text(''),
-				$mdgriffith$elm_ui$Element$text('Variable Use'),
-				$mdgriffith$elm_ui$Element$text('  $foo // when using a variable, you have to prepend a dollar sign to it'),
-				$mdgriffith$elm_ui$Element$text(''),
-				$mdgriffith$elm_ui$Element$text('Simple Operators'),
-				$mdgriffith$elm_ui$Element$text('  (pair e e\')'),
-				$mdgriffith$elm_ui$Element$text('  (@ f x) // this is function application'),
-				$mdgriffith$elm_ui$Element$text('  (@ f x y)'),
-				$mdgriffith$elm_ui$Element$text('  (left e)'),
-				$mdgriffith$elm_ui$Element$text('  (right e)'),
-				$mdgriffith$elm_ui$Element$text('  (succ n)      // this is the natural numbers successor function'),
-				$mdgriffith$elm_ui$Element$text('  (cons x xs) // this is consing of an element to a list'),
-				$mdgriffith$elm_ui$Element$text(''),
-				$mdgriffith$elm_ui$Element$text('Bindings Operators'),
-				$mdgriffith$elm_ui$Element$text('  (fn { x . body })'),
-				$mdgriffith$elm_ui$Element$text('  (fn { x y . body })'),
-				$mdgriffith$elm_ui$Element$text('  (match-pair pairExp { (pair x y) . body })'),
-				$mdgriffith$elm_ui$Element$text('  (if e { e1 } { e2 })'),
-				$mdgriffith$elm_ui$Element$text('  (sum-case e { (left x) . e1 } { (right y) . e2 })'),
-				$mdgriffith$elm_ui$Element$text('  (nat-loop   n initState { i s . body })'),
-				$mdgriffith$elm_ui$Element$text('  (list-loop xs initState { x s . body })'),
-				$mdgriffith$elm_ui$Element$text('  (let exp { x . body }) // standard syntax `let x = exp in body`'),
-				$mdgriffith$elm_ui$Element$text('  (fn {. body }) // freezes computation'),
-				$mdgriffith$elm_ui$Element$text('  (@ thunk) // forces computation')
-			]));
+										}())
+									])))
+						]))
+				]));
+	});
+var $author$project$Ui$Tab$RegisterMachine$Reset = {$: 'Reset'};
+var $author$project$Ui$Tab$RegisterMachine$RunOneStep = {$: 'RunOneStep'};
+var $author$project$Ui$Tab$RegisterMachine$Start = {$: 'Start'};
+var $author$project$Ui$Tab$RegisterMachine$Label = function (a) {
+	return {$: 'Label', a: a};
+};
+var $author$project$Ui$Tab$RegisterMachine$Perform = F2(
+	function (a, b) {
+		return {$: 'Perform', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$fontWeight = $mdgriffith$elm_ui$Internal$Flag$flag(13);
+var $mdgriffith$elm_ui$Element$Font$heavy = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.textHeavy);
+var $elm$core$List$intersperse = F2(
+	function (sep, xs) {
+		if (!xs.b) {
+			return _List_Nil;
+		} else {
+			var hd = xs.a;
+			var tl = xs.b;
+			var step = F2(
+				function (x, rest) {
+					return A2(
+						$elm$core$List$cons,
+						sep,
+						A2($elm$core$List$cons, x, rest));
+				});
+			var spersed = A3($elm$core$List$foldr, step, _List_Nil, tl);
+			return A2($elm$core$List$cons, hd, spersed);
+		}
+	});
+var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
+	function (instructionPointer, instructionBlock) {
+		var viewRegisterName = function (name) {
+			return A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$color(
+						A3($mdgriffith$elm_ui$Element$rgb255, 0, 56, 186))
+					]),
+				$mdgriffith$elm_ui$Element$text(name));
+		};
+		var viewOperationUse = F2(
+			function (name, args) {
+				return A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_Nil,
+							$mdgriffith$elm_ui$Element$text(name)),
+							$mdgriffith$elm_ui$Element$text('('),
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_Nil,
+							A2(
+								$elm$core$List$intersperse,
+								$mdgriffith$elm_ui$Element$text(', '),
+								args)),
+							$mdgriffith$elm_ui$Element$text(')')
+						]));
+			});
+		var viewOperationApplication = function (operationApplication) {
+			if (operationApplication.$ === 'Remainder') {
+				var a = operationApplication.a;
+				var b = operationApplication.b;
+				return A2(
+					viewOperationUse,
+					'remainder',
+					_List_fromArray(
+						[
+							viewRegisterName(a),
+							viewRegisterName(b)
+						]));
+			} else {
+				var a = operationApplication.a;
+				return A2(
+					viewOperationUse,
+					'is-zero?',
+					_List_fromArray(
+						[
+							viewRegisterName(a)
+						]));
+			}
+		};
+		var viewLabelUse = function (label) {
+			return A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$Font$color(
+						A3($mdgriffith$elm_ui$Element$rgb255, 239, 151, 0))
+					]),
+				$mdgriffith$elm_ui$Element$text(label));
+		};
+		var viewLabel = function (label) {
+			return A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$spacing(8)
+					]),
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$text('label '),
+						A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_Nil,
+						_List_fromArray(
+							[
+								viewLabelUse(label),
+								$mdgriffith$elm_ui$Element$text(':')
+							]))
+					]));
+		};
+		var viewInstructionName = function (name) {
+			return A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[$mdgriffith$elm_ui$Element$Font$heavy]),
+				$mdgriffith$elm_ui$Element$text(name));
+		};
+		var paddingLeft = function (px) {
+			return $mdgriffith$elm_ui$Element$paddingEach(
+				{bottom: 0, left: px, right: 0, top: 0});
+		};
+		var viewInstruction = F2(
+			function (isFocused, instruction) {
+				return A2(
+					$mdgriffith$elm_ui$Element$row,
+					$elm$core$List$concat(
+						_List_fromArray(
+							[
+								_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$spacing(8),
+									paddingLeft(20)
+								]),
+								isFocused ? _List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Background$color(
+									A3($mdgriffith$elm_ui$Element$rgb255, 215, 215, 215))
+								]) : _List_Nil
+							])),
+					function () {
+						switch (instruction.$) {
+							case 'Assign':
+								var target = instruction.a;
+								var source = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										viewRegisterName(source)
+									]);
+							case 'AssignOperation':
+								var target = instruction.a;
+								var operationApplication = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										viewOperationApplication(operationApplication)
+									]);
+							case 'JumpIf':
+								var register = instruction.a;
+								var label = instruction.b;
+								return _List_fromArray(
+									[
+										viewInstructionName('jump-if'),
+										viewRegisterName(register),
+										viewLabelUse(label)
+									]);
+							case 'Jump':
+								var label = instruction.a;
+								return _List_fromArray(
+									[
+										viewInstructionName('jump'),
+										viewLabelUse(label)
+									]);
+							default:
+								return _List_fromArray(
+									[
+										viewInstructionName('halt')
+									]);
+						}
+					}());
+			});
+		var convertInstructionBlock = function (instructions) {
+			var update0 = F2(
+				function (labelOrInstruction, _v2) {
+					var position = _v2.a;
+					var newInstructions = _v2.b;
+					if (labelOrInstruction.$ === 'Label') {
+						var label = labelOrInstruction.a;
+						return _Utils_Tuple2(
+							position,
+							A2(
+								$elm$core$List$cons,
+								$author$project$Ui$Tab$RegisterMachine$Label(label),
+								newInstructions));
+					} else {
+						var instruction = labelOrInstruction.a;
+						return _Utils_Tuple2(
+							position + 1,
+							A2(
+								$elm$core$List$cons,
+								A2($author$project$Ui$Tab$RegisterMachine$Perform, position, instruction),
+								newInstructions));
+					}
+				});
+			return $elm$core$List$reverse(
+				A3(
+					$elm$core$List$foldl,
+					update0,
+					_Utils_Tuple2(0, _List_Nil),
+					instructions).b);
+		};
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			A2(
+				$elm$core$List$map,
+				function (labelOrInstruction) {
+					if (labelOrInstruction.$ === 'Label') {
+						var label = labelOrInstruction.a;
+						return viewLabel(label);
+					} else {
+						var position = labelOrInstruction.a;
+						var instruction = labelOrInstruction.b;
+						return A2(
+							viewInstruction,
+							_Utils_eq(instructionPointer, position),
+							instruction);
+					}
+				},
+				convertInstructionBlock(instructionBlock)));
+	});
+var $author$project$Ui$Tab$RegisterMachine$viewRegisters = function (registers) {
+	var registerStyle = _List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$Background$color(
+			A3($mdgriffith$elm_ui$Element$rgb255, 240, 0, 245)),
+			$mdgriffith$elm_ui$Element$padding(20)
+		]);
+	var viewRegister = F2(
+		function (name, val) {
+			return A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$spacing(10)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$el,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width(
+								$mdgriffith$elm_ui$Element$px(100))
+							]),
+						$mdgriffith$elm_ui$Element$text(name)),
+						$mdgriffith$elm_ui$Element$text('<-'),
+						A2(
+						$mdgriffith$elm_ui$Element$el,
+						registerStyle,
+						$mdgriffith$elm_ui$Element$text(
+							$elm$core$String$fromInt(val)))
+					]));
+		});
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$spacing(5)
+			]),
+		A2(
+			$elm$core$List$map,
+			function (_v0) {
+				var name = _v0.a;
+				var val = _v0.b;
+				return A2(viewRegister, name, val);
+			},
+			registers));
+};
+var $author$project$Ui$Tab$RegisterMachine$view = F2(
+	function (config, model) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$Input$button,
+							$author$project$Ui$Style$Button$buttonStyle,
+							{
+								label: $mdgriffith$elm_ui$Element$text('Reset'),
+								onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$Reset)
+							}),
+							A2(
+							$mdgriffith$elm_ui$Element$Input$button,
+							$author$project$Ui$Style$Button$buttonStyle,
+							{
+								label: $mdgriffith$elm_ui$Element$text('Start'),
+								onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$Start)
+							}),
+							A2(
+							$mdgriffith$elm_ui$Element$Input$button,
+							$author$project$Ui$Style$Button$buttonStyle,
+							{
+								label: $mdgriffith$elm_ui$Element$text('Run one step'),
+								onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$RunOneStep)
+							})
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					function () {
+						var _v0 = model.maybeRuntime;
+						if (_v0.$ === 'Nothing') {
+							return _List_Nil;
+						} else {
+							if (_v0.a.$ === 'Err') {
+								var runtimeError = _v0.a.a;
+								return _List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$text('runtime error')
+									]);
+							} else {
+								var machine = _v0.a.a;
+								return _List_fromArray(
+									[
+										$author$project$Ui$Tab$RegisterMachine$viewRegisters(
+										$elm$core$Dict$toList(machine.env)),
+										A2($author$project$Ui$Tab$RegisterMachine$viewInstructions, machine.instructionPointer, model.controller.instructions)
+									]);
+							}
+						}
+					}())
+				]));
+	});
+var $author$project$Ui$Main$view = F2(
+	function (config, model) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+					$mdgriffith$elm_ui$Element$padding(10)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_Nil,
+					A2(
+						$elm$core$List$map,
+						function (tab) {
+							return A2(
+								$mdgriffith$elm_ui$Element$Input$button,
+								$author$project$Ui$Style$Button$buttonStyle,
+								{
+									label: $mdgriffith$elm_ui$Element$text(
+										$author$project$Ui$Main$tabToString(tab)),
+									onPress: $elm$core$Maybe$Just(
+										$author$project$Ui$Main$ChangeTab(tab))
+								});
+						},
+						$author$project$Ui$Main$tabs)),
+					function () {
+					var _v0 = model.tab;
+					switch (_v0.$) {
+						case 'ProgramTab':
+							return A2(
+								$mdgriffith$elm_ui$Element$map,
+								$author$project$Ui$Main$ProgramMsg,
+								A2($author$project$Ui$Tab$Program$view, config, model.programModel));
+						case 'ModuleTab':
+							return A2(
+								$mdgriffith$elm_ui$Element$map,
+								$author$project$Ui$Main$ModuleMsg,
+								A2($author$project$Ui$Tab$Module$view, config, model.moduleModel));
+						case 'HelpTab':
+							return A2(
+								$mdgriffith$elm_ui$Element$map,
+								$author$project$Ui$Main$HelpMsg,
+								A2($author$project$Ui$Tab$Help$view, config, model.helpModel));
+						default:
+							return A2(
+								$mdgriffith$elm_ui$Element$map,
+								$author$project$Ui$Main$RegisterMachineMsg,
+								A2($author$project$Ui$Tab$RegisterMachine$view, config, model.registerMachineModel));
+					}
+				}()
+				]));
+	});
+var $author$project$Main$view = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$map,
+		$author$project$Main$LambdaUiMsg,
+		A2($author$project$Ui$Main$view, $author$project$Ui$Control$Context$initConfig, model.lambdaUiState.model));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{
 		init: function (_v0) {
-			return $Fresheyeball$elm_return$Return$singleton($author$project$Main$initModel);
+			return $author$project$Main$initModel;
 		},
 		subscriptions: $author$project$Main$subscriptions,
 		update: $author$project$Main$update,
