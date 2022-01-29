@@ -11406,61 +11406,101 @@ var $author$project$Ui$Tab$Program$exampleBinding = function () {
 	};
 }();
 var $author$project$Ui$Tab$Program$init = $author$project$Ui$Control$InitContext$setModelTo($author$project$Ui$Tab$Program$exampleBinding);
-var $author$project$RegisterMachine$Base$Assign = F2(
+var $author$project$RegisterMachine$Base$AssignCallAtLabel = F2(
 	function (a, b) {
-		return {$: 'Assign', a: a, b: b};
+		return {$: 'AssignCallAtLabel', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$AssignConstant = F2(
+	function (a, b) {
+		return {$: 'AssignConstant', a: a, b: b};
 	});
 var $author$project$RegisterMachine$Base$AssignOperation = F2(
 	function (a, b) {
 		return {$: 'AssignOperation', a: a, b: b};
 	});
-var $author$project$RegisterMachine$Base$IsZero = function (a) {
-	return {$: 'IsZero', a: a};
+var $author$project$RegisterMachine$Base$JumpToLabelAtRegister = function (a) {
+	return {$: 'JumpToLabelAtRegister', a: a};
 };
-var $author$project$RegisterMachine$Base$Jump = function (a) {
-	return {$: 'Jump', a: a};
-};
-var $author$project$RegisterMachine$Base$JumpIf = F2(
+var $author$project$RegisterMachine$Base$JumpToLabelIf = F2(
 	function (a, b) {
-		return {$: 'JumpIf', a: a, b: b};
+		return {$: 'JumpToLabelIf', a: a, b: b};
 	});
 var $author$project$RegisterMachine$Base$Label = function (a) {
 	return {$: 'Label', a: a};
 };
+var $author$project$RegisterMachine$Base$Operation = F2(
+	function (a, b) {
+		return {$: 'Operation', a: a, b: b};
+	});
 var $author$project$RegisterMachine$Base$Perform = function (a) {
 	return {$: 'Perform', a: a};
 };
-var $author$project$RegisterMachine$Base$Remainder = F2(
-	function (a, b) {
-		return {$: 'Remainder', a: a, b: b};
-	});
-var $author$project$RegisterMachine$Base$controller0 = {
+var $author$project$RegisterMachine$Base$Pop = function (a) {
+	return {$: 'Pop', a: a};
+};
+var $author$project$RegisterMachine$Base$PushRegister = function (a) {
+	return {$: 'PushRegister', a: a};
+};
+var $author$project$RegisterMachine$Controllers$controller6_fct_recursive = {
 	instructions: _List_fromArray(
 		[
-			$author$project$RegisterMachine$Base$Label('loop'),
+			$author$project$RegisterMachine$Base$Perform(
+			A2($author$project$RegisterMachine$Base$AssignConstant, 'n', 5)),
+			$author$project$RegisterMachine$Base$Perform(
+			A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fct')),
+			$author$project$RegisterMachine$Base$Perform(
+			A2($author$project$RegisterMachine$Base$AssignConstant, 'n', 1024)),
+			$author$project$RegisterMachine$Base$Label('fct'),
 			$author$project$RegisterMachine$Base$Perform(
 			A2(
 				$author$project$RegisterMachine$Base$AssignOperation,
-				'is-b-zero?',
-				$author$project$RegisterMachine$Base$IsZero('b'))),
+				'done?',
+				A2(
+					$author$project$RegisterMachine$Base$Operation,
+					'zero?',
+					_List_fromArray(
+						['n'])))),
 			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$JumpIf, 'is-b-zero?', 'done')),
+			A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
+			$author$project$RegisterMachine$Base$Perform(
+			$author$project$RegisterMachine$Base$PushRegister('continue')),
+			$author$project$RegisterMachine$Base$Perform(
+			$author$project$RegisterMachine$Base$PushRegister('n')),
 			$author$project$RegisterMachine$Base$Perform(
 			A2(
 				$author$project$RegisterMachine$Base$AssignOperation,
-				'tmp',
-				A2($author$project$RegisterMachine$Base$Remainder, 'a', 'b'))),
+				'n',
+				A2(
+					$author$project$RegisterMachine$Base$Operation,
+					'decrement',
+					_List_fromArray(
+						['n'])))),
 			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$Assign, 'a', 'b')),
+			A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fct')),
 			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$Assign, 'b', 'tmp')),
+			$author$project$RegisterMachine$Base$Pop('n')),
 			$author$project$RegisterMachine$Base$Perform(
-			$author$project$RegisterMachine$Base$Jump('loop')),
-			$author$project$RegisterMachine$Base$Label('done')
+			$author$project$RegisterMachine$Base$Pop('continue')),
+			$author$project$RegisterMachine$Base$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$AssignOperation,
+				'result',
+				A2(
+					$author$project$RegisterMachine$Base$Operation,
+					'mul',
+					_List_fromArray(
+						['n', 'result'])))),
+			$author$project$RegisterMachine$Base$Perform(
+			$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue')),
+			$author$project$RegisterMachine$Base$Label('done'),
+			$author$project$RegisterMachine$Base$Perform(
+			A2($author$project$RegisterMachine$Base$AssignConstant, 'result', 1)),
+			$author$project$RegisterMachine$Base$Perform(
+			$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue'))
 		]),
 	registers: $elm$core$Set$fromList(
 		_List_fromArray(
-			['a', 'b', 'tmp', 'is-b-zero?']))
+			['n', 'result', 'done?']))
 };
 var $elm$core$Dict$fromList = function (assocs) {
 	return A3(
@@ -11474,12 +11514,18 @@ var $elm$core$Dict$fromList = function (assocs) {
 		$elm$core$Dict$empty,
 		assocs);
 };
+var $author$project$RegisterMachine$Base$emptyStack = _List_Nil;
 var $author$project$RegisterMachine$Base$LabelUsedMoreThanOnce = function (a) {
 	return {$: 'LabelUsedMoreThanOnce', a: a};
 };
 var $author$project$RegisterMachine$Base$UnknownRegister = function (a) {
 	return {$: 'UnknownRegister', a: a};
 };
+var $author$project$RegisterMachine$Base$doesRegisterExist = F2(
+	function (register, controller) {
+		return A2($elm$core$Set$member, register, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
+			$author$project$RegisterMachine$Base$UnknownRegister(register));
+	});
 var $author$project$RegisterMachine$Base$foldlMayFail = F3(
 	function (update, state, actions0) {
 		if (!actions0.b) {
@@ -11495,6 +11541,14 @@ var $author$project$RegisterMachine$Base$foldlMayFail = F3(
 				A2(update, action, state));
 		}
 	});
+var $author$project$Lib$Result$ignore = function (result) {
+	return A2(
+		$elm$core$Result$map,
+		function (_v0) {
+			return _Utils_Tuple0;
+		},
+		result);
+};
 var $elm$core$Elm$JsArray$push = _JsArray_push;
 var $elm$core$Bitwise$and = _Bitwise_and;
 var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
@@ -11579,28 +11633,64 @@ var $elm$core$Array$push = F2(
 			A2($elm$core$Elm$JsArray$push, a, tail),
 			array);
 	});
+var $author$project$Lib$Result$sequence = function (results0) {
+	if (!results0.b) {
+		return $elm$core$Result$Ok(_List_Nil);
+	} else {
+		var result = results0.a;
+		var results1 = results0.b;
+		return A2(
+			$elm$core$Result$andThen,
+			function (x) {
+				return A2(
+					$elm$core$Result$map,
+					function (xs1) {
+						return A2($elm$core$List$cons, x, xs1);
+					},
+					$author$project$Lib$Result$sequence(results1));
+			},
+			result);
+	}
+};
+var $author$project$Lib$Result$tuple2 = F2(
+	function (result_a, result_b) {
+		if (result_a.$ === 'Ok') {
+			var a = result_a.a;
+			if (result_b.$ === 'Ok') {
+				var b = result_b.a;
+				return $elm$core$Result$Ok(
+					_Utils_Tuple2(a, b));
+			} else {
+				var e = result_b.a;
+				return $elm$core$Result$Err(e);
+			}
+		} else {
+			var e = result_a.a;
+			return $elm$core$Result$Err(e);
+		}
+	});
 var $author$project$RegisterMachine$Base$parse = function (controller) {
 	var update = F2(
-		function (labelOrInstruction, _v2) {
-			var i = _v2.a;
-			var machineInstructions = _v2.b;
+		function (labelOrInstruction, _v3) {
+			var pointer = _v3.a;
+			var machineInstructions = _v3.b;
 			if (labelOrInstruction.$ === 'Label') {
 				var label = labelOrInstruction.a;
 				return A2($elm$core$Set$member, label, machineInstructions.labels) ? $elm$core$Result$Err(
 					$author$project$RegisterMachine$Base$LabelUsedMoreThanOnce(label)) : $elm$core$Result$Ok(
 					_Utils_Tuple2(
-						i,
+						pointer,
 						_Utils_update(
 							machineInstructions,
 							{
-								labelToPosition: A3($elm$core$Dict$insert, label, i, machineInstructions.labelToPosition),
+								labelToPosition: A3($elm$core$Dict$insert, label, pointer, machineInstructions.labelToPosition),
 								labels: A2($elm$core$Set$insert, label, machineInstructions.labels)
 							})));
 			} else {
 				var instruction = labelOrInstruction.a;
 				return $elm$core$Result$Ok(
 					_Utils_Tuple2(
-						i + 1,
+						pointer + 1,
 						_Utils_update(
 							machineInstructions,
 							{
@@ -11613,25 +11703,77 @@ var $author$project$RegisterMachine$Base$parse = function (controller) {
 		{instructions: $elm$core$Array$empty, labelToPosition: $elm$core$Dict$empty, labels: $elm$core$Set$empty});
 	var checkRegisterUse = function (instruction) {
 		switch (instruction.$) {
-			case 'Assign':
+			case 'AssignRegister':
 				var target = instruction.a;
 				var source = instruction.b;
-				return A2($elm$core$Set$member, target, controller.registers) ? (A2($elm$core$Set$member, source, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
-					$author$project$RegisterMachine$Base$UnknownRegister(source))) : $elm$core$Result$Err(
-					$author$project$RegisterMachine$Base$UnknownRegister(target));
+				return $author$project$Lib$Result$ignore(
+					A2(
+						$author$project$Lib$Result$tuple2,
+						A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller),
+						A2($author$project$RegisterMachine$Base$doesRegisterExist, source, controller)));
+			case 'AssignLabel':
+				var target = instruction.a;
+				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
 			case 'AssignOperation':
 				var target = instruction.a;
-				return A2($elm$core$Set$member, target, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
-					$author$project$RegisterMachine$Base$UnknownRegister(target));
-			case 'JumpIf':
-				var source = instruction.a;
-				return A2($elm$core$Set$member, source, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
-					$author$project$RegisterMachine$Base$UnknownRegister(source));
-			case 'Jump':
+				var _v1 = instruction.b;
+				var _arguments = _v1.b;
+				return $author$project$Lib$Result$ignore(
+					A2(
+						$author$project$Lib$Result$tuple2,
+						A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller),
+						$author$project$Lib$Result$ignore(
+							$author$project$Lib$Result$sequence(
+								A2(
+									$elm$core$List$map,
+									function (register) {
+										return A2($author$project$RegisterMachine$Base$doesRegisterExist, register, controller);
+									},
+									_arguments)))));
+			case 'AssignConstant':
+				var target = instruction.a;
+				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
+			case 'JumpToLabel':
 				var label = instruction.a;
 				return $elm$core$Result$Ok(_Utils_Tuple0);
-			default:
+			case 'JumpToLabelAtRegister':
+				var target = instruction.a;
+				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
+			case 'JumpToLabelIf':
+				var testRegister = instruction.a;
+				return A2($author$project$RegisterMachine$Base$doesRegisterExist, testRegister, controller);
+			case 'JumpToLabelAtRegisterIf':
+				var testRegister = instruction.a;
+				var target = instruction.b;
+				return $author$project$Lib$Result$ignore(
+					A2(
+						$author$project$Lib$Result$tuple2,
+						A2($author$project$RegisterMachine$Base$doesRegisterExist, testRegister, controller),
+						A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller)));
+			case 'Halt':
 				return $elm$core$Result$Ok(_Utils_Tuple0);
+			case 'PushRegister':
+				var register = instruction.a;
+				return A2($author$project$RegisterMachine$Base$doesRegisterExist, register, controller);
+			case 'PushConstant':
+				return $elm$core$Result$Ok(_Utils_Tuple0);
+			case 'PushLabel':
+				var label = instruction.a;
+				return $elm$core$Result$Ok(_Utils_Tuple0);
+			case 'Pop':
+				var target = instruction.a;
+				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
+			case 'AssignCallAtLabel':
+				var target = instruction.a;
+				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
+			default:
+				var target = instruction.a;
+				var labelRegister = instruction.b;
+				return $author$project$Lib$Result$ignore(
+					A2(
+						$author$project$Lib$Result$tuple2,
+						A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller),
+						A2($author$project$RegisterMachine$Base$doesRegisterExist, labelRegister, controller)));
 		}
 	};
 	return A2(
@@ -11639,26 +11781,124 @@ var $author$project$RegisterMachine$Base$parse = function (controller) {
 		$elm$core$Tuple$second,
 		A3($author$project$RegisterMachine$Base$foldlMayFail, update, initMachineInstructions, controller.instructions));
 };
-var $author$project$RegisterMachine$Base$makeMachine = F2(
-	function (controller, env) {
+var $author$project$RegisterMachine$Base$makeMachine = F3(
+	function (controller, env, operationsEnv) {
 		return A2(
 			$elm$core$Result$map,
 			function (instructions) {
-				return {env: env, instructionPointer: 0, instructions: instructions};
+				return {env: env, instructionPointer: 0, instructions: instructions, operationEnv: operationsEnv, stack: $author$project$RegisterMachine$Base$emptyStack};
 			},
 			$author$project$RegisterMachine$Base$parse(controller));
 	});
+var $author$project$RegisterMachine$Base$WrongNumberOfArgumentsGivenToOperationExpected = function (a) {
+	return {$: 'WrongNumberOfArgumentsGivenToOperationExpected', a: a};
+};
+var $author$project$RegisterMachine$Base$makeOperation1 = function (op) {
+	return function (xs) {
+		if (xs.b && (!xs.b.b)) {
+			var x = xs.a;
+			return $elm$core$Result$Ok(
+				op(x));
+		} else {
+			return $elm$core$Result$Err(
+				$author$project$RegisterMachine$Base$WrongNumberOfArgumentsGivenToOperationExpected(1));
+		}
+	};
+};
+var $author$project$RegisterMachine$Base$makeOperation2 = function (op) {
+	return function (xs) {
+		if ((xs.b && xs.b.b) && (!xs.b.b.b)) {
+			var x = xs.a;
+			var _v1 = xs.b;
+			var y = _v1.a;
+			return $elm$core$Result$Ok(
+				A2(op, x, y));
+		} else {
+			return $elm$core$Result$Err(
+				$author$project$RegisterMachine$Base$WrongNumberOfArgumentsGivenToOperationExpected(2));
+		}
+	};
+};
 var $author$project$Ui$Tab$RegisterMachine$init = function () {
 	var env = $elm$core$Dict$fromList(
 		_List_fromArray(
 			[
-				_Utils_Tuple2('a', (3 * 5) * 7),
-				_Utils_Tuple2('b', (3 * 5) * 5),
-				_Utils_Tuple2('tmp', 0),
-				_Utils_Tuple2('is-b-zero?', 0)
+				_Utils_Tuple2('n', 0),
+				_Utils_Tuple2('result', 0),
+				_Utils_Tuple2('done?', 0),
+				_Utils_Tuple2('continue', 0)
 			]));
-	var controller = $author$project$RegisterMachine$Base$controller0;
-	var parsedMachine = A2($author$project$RegisterMachine$Base$makeMachine, controller, env);
+	var controller = $author$project$RegisterMachine$Controllers$controller6_fct_recursive;
+	var boolToInt = function (b) {
+		return b ? 1 : 0;
+	};
+	var operationEnv = $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'sub',
+				$author$project$RegisterMachine$Base$makeOperation2(
+					F2(
+						function (x, y) {
+							return x - y;
+						}))),
+				_Utils_Tuple2(
+				'less-than?',
+				$author$project$RegisterMachine$Base$makeOperation2(
+					F2(
+						function (x, y) {
+							return boolToInt(
+								_Utils_cmp(x, y) < 0);
+						}))),
+				_Utils_Tuple2(
+				'add',
+				$author$project$RegisterMachine$Base$makeOperation2(
+					F2(
+						function (x, y) {
+							return x + y;
+						}))),
+				_Utils_Tuple2(
+				'mul',
+				$author$project$RegisterMachine$Base$makeOperation2(
+					F2(
+						function (x, y) {
+							return x * y;
+						}))),
+				_Utils_Tuple2(
+				'zero?',
+				$author$project$RegisterMachine$Base$makeOperation1(
+					function (x) {
+						return boolToInt(!x);
+					})),
+				_Utils_Tuple2(
+				'eq?',
+				$author$project$RegisterMachine$Base$makeOperation2(
+					F2(
+						function (x, y) {
+							return boolToInt(
+								_Utils_eq(x, y));
+						}))),
+				_Utils_Tuple2(
+				'decrement',
+				$author$project$RegisterMachine$Base$makeOperation1(
+					function (x) {
+						return x - 1;
+					})),
+				_Utils_Tuple2(
+				'increment',
+				$author$project$RegisterMachine$Base$makeOperation1(
+					function (x) {
+						return x + 1;
+					})),
+				_Utils_Tuple2(
+				'remainder',
+				$author$project$RegisterMachine$Base$makeOperation2(
+					F2(
+						function (x, y) {
+							return x % y;
+						})))
+			]));
+	var parsedMachine = A3($author$project$RegisterMachine$Base$makeMachine, controller, env, operationEnv);
 	return $author$project$Ui$Control$InitContext$setModelTo(
 		{
 			controller: controller,
@@ -11674,8 +11914,8 @@ var $author$project$Ui$Tab$RegisterMachine$init = function () {
 			parsedMachine: parsedMachine
 		});
 }();
-var $author$project$Ui$Main$ProgramTab = {$: 'ProgramTab'};
-var $author$project$Ui$Main$initTab = $author$project$Ui$Main$ProgramTab;
+var $author$project$Ui$Main$RegisterMachineTab = {$: 'RegisterMachineTab'};
+var $author$project$Ui$Main$initTab = $author$project$Ui$Main$RegisterMachineTab;
 var $elm$core$Platform$Cmd$map = _Platform_map;
 var $author$project$Ui$Control$InitContext$mapCmd = F2(
 	function (f, initContext0) {
@@ -17652,6 +17892,9 @@ var $author$project$Ui$Tab$RegisterMachine$resetRuntime = function (model) {
 			}()
 		});
 };
+var $author$project$RegisterMachine$Base$LabelPointsToNothing = function (a) {
+	return {$: 'LabelPointsToNothing', a: a};
+};
 var $author$project$RegisterMachine$Base$advanceInstructionPointer = function (machine) {
 	return _Utils_update(
 		machine,
@@ -17696,6 +17939,24 @@ var $elm$core$Array$get = F2(
 var $author$project$RegisterMachine$Base$getInstruction = function (machine) {
 	return A2($elm$core$Array$get, machine.instructionPointer, machine.instructions.instructions);
 };
+var $author$project$RegisterMachine$Base$getLabelPosition = F2(
+	function (label, machine) {
+		return A2($elm$core$Dict$get, label, machine.instructions.labelToPosition);
+	});
+var $author$project$RegisterMachine$Base$UndefinedOperation = function (a) {
+	return {$: 'UndefinedOperation', a: a};
+};
+var $author$project$RegisterMachine$Base$getOperation = F2(
+	function (operationName, machine) {
+		var _v0 = A2($elm$core$Dict$get, operationName, machine.operationEnv);
+		if (_v0.$ === 'Just') {
+			var op = _v0.a;
+			return $elm$core$Result$Ok(op);
+		} else {
+			return $elm$core$Result$Err(
+				$author$project$RegisterMachine$Base$UndefinedOperation(operationName));
+		}
+	});
 var $author$project$RegisterMachine$Base$UndefinedRegister = function (a) {
 	return {$: 'UndefinedRegister', a: a};
 };
@@ -17713,35 +17974,60 @@ var $author$project$RegisterMachine$Base$getRegister = F2(
 var $author$project$RegisterMachine$Base$halt = function (machine) {
 	return {isFinished: true, machine: machine};
 };
+var $author$project$RegisterMachine$Base$pointerJump = F2(
+	function (pointer, machine) {
+		return _Utils_update(
+			machine,
+			{instructionPointer: pointer});
+	});
 var $author$project$RegisterMachine$Base$jump = F2(
 	function (label, machine) {
-		var _v0 = A2($elm$core$Dict$get, label, machine.instructions.labelToPosition);
+		var _v0 = A2($author$project$RegisterMachine$Base$getLabelPosition, label, machine);
 		if (_v0.$ === 'Just') {
-			var i = _v0.a;
-			return _Utils_update(
-				machine,
-				{instructionPointer: i});
+			var pointer = _v0.a;
+			return A2($author$project$RegisterMachine$Base$pointerJump, pointer, machine);
 		} else {
 			return machine;
 		}
 	});
-var $elm$core$Basics$modBy = _Basics_modBy;
-var $author$project$Lib$Result$tuple2 = F2(
-	function (result_a, result_b) {
-		if (result_a.$ === 'Ok') {
-			var a = result_a.a;
-			if (result_b.$ === 'Ok') {
-				var b = result_b.a;
-				return $elm$core$Result$Ok(
-					_Utils_Tuple2(a, b));
-			} else {
-				var e = result_b.a;
-				return $elm$core$Result$Err(e);
-			}
-		} else {
-			var e = result_a.a;
-			return $elm$core$Result$Err(e);
-		}
+var $author$project$RegisterMachine$Base$PoppingEmptyStack = {$: 'PoppingEmptyStack'};
+var $author$project$RegisterMachine$Base$popStack = function (stack0) {
+	if (!stack0.b) {
+		return $elm$core$Maybe$Nothing;
+	} else {
+		var val = stack0.a;
+		var stack1 = stack0.b;
+		return $elm$core$Maybe$Just(
+			_Utils_Tuple2(val, stack1));
+	}
+};
+var $author$project$RegisterMachine$Base$pop = function (machine) {
+	var _v0 = $author$project$RegisterMachine$Base$popStack(machine.stack);
+	if (_v0.$ === 'Just') {
+		var _v1 = _v0.a;
+		var val = _v1.a;
+		var stack = _v1.b;
+		return $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				val,
+				_Utils_update(
+					machine,
+					{stack: stack})));
+	} else {
+		return $elm$core$Result$Err($author$project$RegisterMachine$Base$PoppingEmptyStack);
+	}
+};
+var $author$project$RegisterMachine$Base$pushStack = F2(
+	function (val, stack) {
+		return A2($elm$core$List$cons, val, stack);
+	});
+var $author$project$RegisterMachine$Base$push = F2(
+	function (val, machine) {
+		return _Utils_update(
+			machine,
+			{
+				stack: A2($author$project$RegisterMachine$Base$pushStack, val, machine.stack)
+			});
 	});
 var $author$project$RegisterMachine$Base$updateRegister = F3(
 	function (register, val, machine) {
@@ -17756,7 +18042,7 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 	if (_v0.$ === 'Just') {
 		var instruction = _v0.a;
 		switch (instruction.$) {
-			case 'Assign':
+			case 'AssignRegister':
 				var target = instruction.a;
 				var source = instruction.b;
 				return A2(
@@ -17769,50 +18055,81 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 						};
 					},
 					A2($author$project$RegisterMachine$Base$getRegister, source, machine));
+			case 'AssignLabel':
+				var target = instruction.a;
+				var label = instruction.b;
+				var _v2 = A2($author$project$RegisterMachine$Base$getLabelPosition, label, machine);
+				if (_v2.$ === 'Just') {
+					var pointer = _v2.a;
+					return $elm$core$Result$Ok(
+						{
+							isFinished: false,
+							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+								A3($author$project$RegisterMachine$Base$updateRegister, target, pointer, machine))
+						});
+				} else {
+					return $elm$core$Result$Err(
+						$author$project$RegisterMachine$Base$LabelPointsToNothing(label));
+				}
 			case 'AssignOperation':
 				var target = instruction.a;
-				var operationApplication = instruction.b;
-				if (operationApplication.$ === 'Remainder') {
-					var reg_a = operationApplication.a;
-					var reg_b = operationApplication.b;
+				var _v3 = instruction.b;
+				var opName = _v3.a;
+				var registers = _v3.b;
+				var applyOp = function (op) {
 					return A2(
 						$elm$core$Result$map,
-						function (_v3) {
-							var a = _v3.a;
-							var b = _v3.b;
+						function (output) {
 							return {
 								isFinished: false,
 								machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-									A3(
-										$author$project$RegisterMachine$Base$updateRegister,
-										target,
-										A2($elm$core$Basics$modBy, b, a),
-										machine))
+									A3($author$project$RegisterMachine$Base$updateRegister, target, output, machine))
 							};
 						},
 						A2(
-							$author$project$Lib$Result$tuple2,
-							A2($author$project$RegisterMachine$Base$getRegister, reg_a, machine),
-							A2($author$project$RegisterMachine$Base$getRegister, reg_b, machine)));
-				} else {
-					var reg_a = operationApplication.a;
-					return A2(
-						$elm$core$Result$map,
-						function (a) {
-							return {
-								isFinished: false,
-								machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-									A3(
-										$author$project$RegisterMachine$Base$updateRegister,
-										target,
-										(!a) ? 1 : 0,
-										machine))
-							};
-						},
-						A2($author$project$RegisterMachine$Base$getRegister, reg_a, machine));
-				}
-			case 'JumpIf':
-				var source = instruction.a;
+							$elm$core$Result$andThen,
+							op,
+							$author$project$Lib$Result$sequence(
+								A2(
+									$elm$core$List$map,
+									function (register) {
+										return A2($author$project$RegisterMachine$Base$getRegister, register, machine);
+									},
+									registers))));
+				};
+				return A2(
+					$elm$core$Result$andThen,
+					applyOp,
+					A2($author$project$RegisterMachine$Base$getOperation, opName, machine));
+			case 'AssignConstant':
+				var target = instruction.a;
+				var x = instruction.b;
+				return $elm$core$Result$Ok(
+					{
+						isFinished: false,
+						machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+							A3($author$project$RegisterMachine$Base$updateRegister, target, x, machine))
+					});
+			case 'JumpToLabel':
+				var label = instruction.a;
+				return $elm$core$Result$Ok(
+					{
+						isFinished: false,
+						machine: A2($author$project$RegisterMachine$Base$jump, label, machine)
+					});
+			case 'JumpToLabelAtRegister':
+				var register = instruction.a;
+				return A2(
+					$elm$core$Result$map,
+					function (pointer) {
+						return {
+							isFinished: false,
+							machine: A2($author$project$RegisterMachine$Base$pointerJump, pointer, machine)
+						};
+					},
+					A2($author$project$RegisterMachine$Base$getRegister, register, machine));
+			case 'JumpToLabelIf':
+				var testRegister = instruction.a;
 				var label = instruction.b;
 				return A2(
 					$elm$core$Result$map,
@@ -17822,17 +18139,106 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 							machine: (val === 1) ? A2($author$project$RegisterMachine$Base$jump, label, machine) : $author$project$RegisterMachine$Base$advanceInstructionPointer(machine)
 						};
 					},
-					A2($author$project$RegisterMachine$Base$getRegister, source, machine));
-			case 'Jump':
-				var label = instruction.a;
+					A2($author$project$RegisterMachine$Base$getRegister, testRegister, machine));
+			case 'JumpToLabelAtRegisterIf':
+				var testRegister = instruction.a;
+				var target = instruction.b;
+				return A2(
+					$elm$core$Result$andThen,
+					function (val) {
+						return (val === 1) ? A2(
+							$elm$core$Result$map,
+							function (pointer) {
+								return {
+									isFinished: false,
+									machine: A2($author$project$RegisterMachine$Base$pointerJump, pointer, machine)
+								};
+							},
+							A2($author$project$RegisterMachine$Base$getRegister, target, machine)) : $elm$core$Result$Ok(
+							{
+								isFinished: false,
+								machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(machine)
+							});
+					},
+					A2($author$project$RegisterMachine$Base$getRegister, testRegister, machine));
+			case 'Halt':
+				return $elm$core$Result$Ok(
+					$author$project$RegisterMachine$Base$halt(machine));
+			case 'PushRegister':
+				var register = instruction.a;
+				return A2(
+					$elm$core$Result$map,
+					function (val) {
+						return {
+							isFinished: false,
+							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+								A2($author$project$RegisterMachine$Base$push, val, machine))
+						};
+					},
+					A2($author$project$RegisterMachine$Base$getRegister, register, machine));
+			case 'PushConstant':
+				var val = instruction.a;
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: A2($author$project$RegisterMachine$Base$jump, label, machine)
+						machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+							A2($author$project$RegisterMachine$Base$push, val, machine))
+					});
+			case 'PushLabel':
+				var label = instruction.a;
+				var _v4 = A2($author$project$RegisterMachine$Base$getLabelPosition, label, machine);
+				if (_v4.$ === 'Just') {
+					var pointer = _v4.a;
+					return $elm$core$Result$Ok(
+						{
+							isFinished: false,
+							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+								A2($author$project$RegisterMachine$Base$push, pointer, machine))
+						});
+				} else {
+					return $elm$core$Result$Err(
+						$author$project$RegisterMachine$Base$LabelPointsToNothing(label));
+				}
+			case 'Pop':
+				var target = instruction.a;
+				return A2(
+					$elm$core$Result$map,
+					function (_v5) {
+						var val = _v5.a;
+						var newMachine = _v5.b;
+						return {
+							isFinished: false,
+							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
+								A3($author$project$RegisterMachine$Base$updateRegister, target, val, newMachine))
+						};
+					},
+					$author$project$RegisterMachine$Base$pop(machine));
+			case 'AssignCallAtLabel':
+				var target = instruction.a;
+				var label = instruction.b;
+				return $elm$core$Result$Ok(
+					{
+						isFinished: false,
+						machine: A2(
+							$author$project$RegisterMachine$Base$jump,
+							label,
+							A3($author$project$RegisterMachine$Base$updateRegister, target, machine.instructionPointer + 1, machine))
 					});
 			default:
-				return $elm$core$Result$Ok(
-					$author$project$RegisterMachine$Base$halt(machine));
+				var target = instruction.a;
+				var labelRegister = instruction.b;
+				return A2(
+					$elm$core$Result$map,
+					function (pointer) {
+						return {
+							isFinished: false,
+							machine: A2(
+								$author$project$RegisterMachine$Base$pointerJump,
+								pointer,
+								A3($author$project$RegisterMachine$Base$updateRegister, target, machine.instructionPointer + 1, machine))
+						};
+					},
+					A2($author$project$RegisterMachine$Base$getRegister, labelRegister, machine));
 		}
 	} else {
 		return $elm$core$Result$Ok(
@@ -18308,7 +18714,7 @@ var $author$project$Ui$Main$tabToString = function (tab) {
 };
 var $author$project$Ui$Main$HelpTab = {$: 'HelpTab'};
 var $author$project$Ui$Main$ModuleTab = {$: 'ModuleTab'};
-var $author$project$Ui$Main$RegisterMachineTab = {$: 'RegisterMachineTab'};
+var $author$project$Ui$Main$ProgramTab = {$: 'ProgramTab'};
 var $author$project$Ui$Main$tabs = _List_fromArray(
 	[$author$project$Ui$Main$ProgramTab, $author$project$Ui$Main$ModuleTab, $author$project$Ui$Main$HelpTab, $author$project$Ui$Main$RegisterMachineTab]);
 var $mdgriffith$elm_ui$Element$text = function (content) {
@@ -21444,6 +21850,16 @@ var $elm$core$List$intersperse = F2(
 	});
 var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 	function (instructionPointer, instructionBlock) {
+		var viewValue = function (x) {
+			return A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$text(
+						$elm$core$String$fromInt(x))
+					]));
+		};
 		var viewRegisterName = function (name) {
 			return A2(
 				$mdgriffith$elm_ui$Element$el,
@@ -21453,6 +21869,9 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 						A3($mdgriffith$elm_ui$Element$rgb255, 0, 56, 186))
 					]),
 				$mdgriffith$elm_ui$Element$text(name));
+		};
+		var viewRegisterUse = function (name) {
+			return viewRegisterName('$' + name);
 		};
 		var viewOperationUse = F2(
 			function (name, args) {
@@ -21476,30 +21895,15 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 							$mdgriffith$elm_ui$Element$text(')')
 						]));
 			});
-		var viewOperationApplication = function (operationApplication) {
-			if (operationApplication.$ === 'Remainder') {
-				var a = operationApplication.a;
-				var b = operationApplication.b;
-				return A2(
-					viewOperationUse,
-					'remainder',
-					_List_fromArray(
-						[
-							viewRegisterName(a),
-							viewRegisterName(b)
-						]));
-			} else {
-				var a = operationApplication.a;
-				return A2(
-					viewOperationUse,
-					'is-zero?',
-					_List_fromArray(
-						[
-							viewRegisterName(a)
-						]));
-			}
+		var viewOperationApplication = function (_v4) {
+			var opName = _v4.a;
+			var registers = _v4.b;
+			return A2(
+				viewOperationUse,
+				opName,
+				A2($elm$core$List$map, viewRegisterUse, registers));
 		};
-		var viewLabelUse = function (label) {
+		var viewLabel = function (label) {
 			return A2(
 				$mdgriffith$elm_ui$Element$el,
 				_List_fromArray(
@@ -21509,7 +21913,7 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 					]),
 				$mdgriffith$elm_ui$Element$text(label));
 		};
-		var viewLabel = function (label) {
+		var viewLabelIntroduction = function (label) {
 			return A2(
 				$mdgriffith$elm_ui$Element$row,
 				_List_fromArray(
@@ -21524,10 +21928,12 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 						_List_Nil,
 						_List_fromArray(
 							[
-								viewLabelUse(label),
-								$mdgriffith$elm_ui$Element$text(':')
+								viewLabel(label)
 							]))
 					]));
+		};
+		var viewLabelUse = function (label) {
+			return viewLabel(':' + label);
 		};
 		var viewInstructionName = function (name) {
 			return A2(
@@ -21560,14 +21966,23 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 							])),
 					function () {
 						switch (instruction.$) {
-							case 'Assign':
+							case 'AssignRegister':
 								var target = instruction.a;
 								var source = instruction.b;
 								return _List_fromArray(
 									[
 										viewRegisterName(target),
 										viewInstructionName('<-'),
-										viewRegisterName(source)
+										viewRegisterUse(source)
+									]);
+							case 'AssignLabel':
+								var target = instruction.a;
+								var label = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										viewLabelUse(label)
 									]);
 							case 'AssignOperation':
 								var target = instruction.a;
@@ -21578,26 +21993,102 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 										viewInstructionName('<-'),
 										viewOperationApplication(operationApplication)
 									]);
-							case 'JumpIf':
-								var register = instruction.a;
-								var label = instruction.b;
+							case 'AssignConstant':
+								var target = instruction.a;
+								var x = instruction.b;
 								return _List_fromArray(
 									[
-										viewInstructionName('jump-if'),
-										viewRegisterName(register),
-										viewLabelUse(label)
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										viewValue(x)
 									]);
-							case 'Jump':
+							case 'JumpToLabel':
 								var label = instruction.a;
 								return _List_fromArray(
 									[
 										viewInstructionName('jump'),
 										viewLabelUse(label)
 									]);
-							default:
+							case 'JumpToLabelAtRegister':
+								var target = instruction.a;
+								return _List_fromArray(
+									[
+										viewInstructionName('jump'),
+										viewRegisterUse(target)
+									]);
+							case 'JumpToLabelIf':
+								var testRegister = instruction.a;
+								var label = instruction.b;
+								return _List_fromArray(
+									[
+										viewInstructionName('if'),
+										viewRegisterUse(testRegister),
+										viewInstructionName('jump'),
+										viewLabelUse(label)
+									]);
+							case 'JumpToLabelAtRegisterIf':
+								var testRegister = instruction.a;
+								var target = instruction.b;
+								return _List_fromArray(
+									[
+										viewInstructionName('if'),
+										viewRegisterUse(testRegister),
+										viewInstructionName('jump'),
+										viewRegisterUse(target)
+									]);
+							case 'Halt':
 								return _List_fromArray(
 									[
 										viewInstructionName('halt')
+									]);
+							case 'PushRegister':
+								var register = instruction.a;
+								return _List_fromArray(
+									[
+										viewInstructionName('push'),
+										viewRegisterUse(register)
+									]);
+							case 'PushConstant':
+								var val = instruction.a;
+								return _List_fromArray(
+									[
+										viewInstructionName('push'),
+										viewValue(val)
+									]);
+							case 'PushLabel':
+								var label = instruction.a;
+								return _List_fromArray(
+									[
+										viewInstructionName('push'),
+										viewLabelUse(label)
+									]);
+							case 'Pop':
+								var target = instruction.a;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										viewInstructionName('pop-stack')
+									]);
+							case 'AssignCallAtLabel':
+								var target = instruction.a;
+								var label = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										viewInstructionName('call'),
+										viewLabelUse(label)
+									]);
+							default:
+								var target = instruction.a;
+								var labelRegister = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										viewInstructionName('call'),
+										viewRegisterUse(labelRegister)
 									]);
 						}
 					}());
@@ -21643,7 +22134,7 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 				function (labelOrInstruction) {
 					if (labelOrInstruction.$ === 'Label') {
 						var label = labelOrInstruction.a;
-						return viewLabel(label);
+						return viewLabelIntroduction(label);
 					} else {
 						var position = labelOrInstruction.a;
 						var instruction = labelOrInstruction.b;
@@ -21703,6 +22194,29 @@ var $author$project$Ui$Tab$RegisterMachine$viewRegisters = function (registers) 
 				return A2(viewRegister, name, val);
 			},
 			registers));
+};
+var $author$project$RegisterMachine$Base$stackToList = function (stack) {
+	return stack;
+};
+var $author$project$Ui$Tab$RegisterMachine$viewStack = function (stack) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$spacing(5)
+			]),
+		A2(
+			$elm$core$List$map,
+			function (val) {
+				return A2(
+					$mdgriffith$elm_ui$Element$el,
+					_List_Nil,
+					$mdgriffith$elm_ui$Element$text(
+						$elm$core$String$fromInt(val)));
+			},
+			$elm$core$List$reverse(
+				$author$project$RegisterMachine$Base$stackToList(stack))));
 };
 var $author$project$Ui$Tab$RegisterMachine$view = F2(
 	function (config, model) {
@@ -21764,6 +22278,7 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 									[
 										$author$project$Ui$Tab$RegisterMachine$viewRegisters(
 										$elm$core$Dict$toList(machine.env)),
+										$author$project$Ui$Tab$RegisterMachine$viewStack(machine.stack),
 										A2($author$project$Ui$Tab$RegisterMachine$viewInstructions, machine.instructionPointer, model.controller.instructions)
 									]);
 							}
