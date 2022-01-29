@@ -11418,6 +11418,7 @@ var $author$project$RegisterMachine$Base$AssignOperation = F2(
 	function (a, b) {
 		return {$: 'AssignOperation', a: a, b: b};
 	});
+var $author$project$RegisterMachine$Base$Halt = {$: 'Halt'};
 var $author$project$RegisterMachine$Base$JumpToLabelAtRegister = function (a) {
 	return {$: 'JumpToLabelAtRegister', a: a};
 };
@@ -11448,8 +11449,7 @@ var $author$project$RegisterMachine$Controllers$controller6_fct_recursive = {
 			A2($author$project$RegisterMachine$Base$AssignConstant, 'n', 5)),
 			$author$project$RegisterMachine$Base$Perform(
 			A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fct')),
-			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$AssignConstant, 'n', 1024)),
+			$author$project$RegisterMachine$Base$Perform($author$project$RegisterMachine$Base$Halt),
 			$author$project$RegisterMachine$Base$Label('fct'),
 			$author$project$RegisterMachine$Base$Perform(
 			A2(
