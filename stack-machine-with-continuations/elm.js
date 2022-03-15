@@ -5181,6 +5181,12 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
+var $author$project$ExplicitEvaluator$Receive = {$: 'Receive'};
+var $author$project$ExplicitEvaluator$Self = {$: 'Self'};
+var $author$project$ExplicitEvaluator$Send = F3(
+	function (a, b, c) {
+		return {$: 'Send', a: a, b: b, c: c};
+	});
 var $author$project$ExplicitEvaluator$Add = {$: 'Add'};
 var $author$project$ExplicitEvaluator$PrimitiveIntOperation2 = F3(
 	function (a, b, c) {
@@ -5190,96 +5196,12 @@ var $author$project$Example$add = F2(
 	function (c0, c1) {
 		return A3($author$project$ExplicitEvaluator$PrimitiveIntOperation2, $author$project$ExplicitEvaluator$Add, c0, c1);
 	});
-var $author$project$ExplicitEvaluator$ConstantComputation = function (a) {
-	return {$: 'ConstantComputation', a: a};
-};
-var $author$project$ExplicitEvaluator$IntConst = function (a) {
-	return {$: 'IntConst', a: a};
-};
-var $author$project$Example$c = function (x) {
-	return $author$project$ExplicitEvaluator$ConstantComputation(
-		$author$project$ExplicitEvaluator$IntConst(x));
-};
-var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
-var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
-var $author$project$Example$example = F2(
-	function (name, comp) {
-		return {comp: comp, env: $elm$core$Dict$empty, name: name};
-	});
-var $author$project$Example$example0 = A2(
-	$author$project$Example$example,
-	'arithmetic-0',
-	A2(
-		$author$project$Example$add,
-		$author$project$Example$c(3),
-		$author$project$Example$c(2)));
-var $author$project$Example$defaultExample = $author$project$Example$example0;
-var $author$project$ExplicitEvaluator$Computation = function (a) {
-	return {$: 'Computation', a: a};
-};
-var $author$project$ExplicitEvaluator$emptyStack = {currentDelimitedStack: _List_Nil, savedDelimitedStacks: _List_Nil};
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $Fresheyeball$elm_return$Return$singleton = function (a) {
-	return _Utils_Tuple2(a, $elm$core$Platform$Cmd$none);
-};
-var $author$project$Main$modelFromExample = function (ex) {
-	return $Fresheyeball$elm_return$Return$singleton(
-		{
-			currentExample: ex,
-			currentState: $elm$core$Result$Ok(
-				{
-					isTerminated: false,
-					state: {
-						console: _List_Nil,
-						currentComputation: $author$project$ExplicitEvaluator$Computation(ex.comp),
-						env: ex.env,
-						stack: $author$project$ExplicitEvaluator$emptyStack
-					}
-				}),
-			numOfCurrentlySaved: 0,
-			numOfMaxSaved: 40,
-			savedStates: _List_Nil
-		});
-};
-var $author$project$Main$initModel = $author$project$Main$modelFromExample($author$project$Example$defaultExample);
-var $author$project$Main$StepBack = {$: 'StepBack'};
-var $author$project$Main$StepForward = {$: 'StepForward'};
-var $elm$json$Json$Decode$andThen = _Json_andThen;
-var $elm$json$Json$Decode$fail = _Json_fail;
-var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$browser$Browser$Events$Document = {$: 'Document'};
-var $elm$browser$Browser$Events$MySub = F3(
-	function (a, b, c) {
-		return {$: 'MySub', a: a, b: b, c: c};
-	});
-var $elm$browser$Browser$Events$State = F2(
-	function (subs, pids) {
-		return {pids: pids, subs: subs};
-	});
-var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
-	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
-var $elm$browser$Browser$Events$nodeToKey = function (node) {
-	if (node.$ === 'Document') {
-		return 'd_';
-	} else {
-		return 'w_';
-	}
-};
-var $elm$browser$Browser$Events$addKey = function (sub) {
-	var node = sub.a;
-	var name = sub.b;
-	return _Utils_Tuple2(
-		_Utils_ap(
-			$elm$browser$Browser$Events$nodeToKey(node),
-			name),
-		sub);
-};
 var $elm$core$Dict$Black = {$: 'Black'};
 var $elm$core$Dict$RBNode_elm_builtin = F5(
 	function (a, b, c, d, e) {
 		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
 	});
+var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
 var $elm$core$Dict$Red = {$: 'Red'};
 var $elm$core$Dict$balance = F5(
 	function (color, key, value, left, right) {
@@ -5384,6 +5306,26 @@ var $elm$core$Dict$insert = F3(
 			return x;
 		}
 	});
+var $author$project$Example$addActor = F2(
+	function (exActor, ex) {
+		return _Utils_update(
+			ex,
+			{
+				actors: A3($elm$core$Dict$insert, ex.nextAddress, exActor, ex.actors),
+				nextAddress: ex.nextAddress + 1
+			});
+	});
+var $author$project$ExplicitEvaluator$ConstantComputation = function (a) {
+	return {$: 'ConstantComputation', a: a};
+};
+var $author$project$ExplicitEvaluator$IntConst = function (a) {
+	return {$: 'IntConst', a: a};
+};
+var $author$project$Example$c = function (x) {
+	return $author$project$ExplicitEvaluator$ConstantComputation(
+		$author$project$ExplicitEvaluator$IntConst(x));
+};
+var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
 var $elm$core$Dict$fromList = function (assocs) {
 	return A3(
 		$elm$core$List$foldl,
@@ -5395,6 +5337,129 @@ var $elm$core$Dict$fromList = function (assocs) {
 			}),
 		$elm$core$Dict$empty,
 		assocs);
+};
+var $author$project$Example$example = function (name) {
+	return {
+		actors: $elm$core$Dict$fromList(_List_Nil),
+		name: name,
+		nextAddress: 0
+	};
+};
+var $author$project$Queue$Queue = F2(
+	function (a, b) {
+		return {$: 'Queue', a: a, b: b};
+	});
+var $author$project$Queue$empty = A2($author$project$Queue$Queue, _List_Nil, _List_Nil);
+var $author$project$Example$exampleActor = function (comp) {
+	return {comp: comp, env: $elm$core$Dict$empty, mailbox: $author$project$Queue$empty};
+};
+var $author$project$Example$example28 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A3(
+			$author$project$ExplicitEvaluator$Send,
+			$author$project$ExplicitEvaluator$Self,
+			$author$project$Example$c(123),
+			A2(
+				$author$project$Example$add,
+				$author$project$ExplicitEvaluator$Receive,
+				$author$project$Example$c(1)))),
+	$author$project$Example$example('Actors: self'));
+var $author$project$Example$defaultExample = $author$project$Example$example28;
+var $author$project$ExplicitEvaluator$ActiveActor = function (a) {
+	return {$: 'ActiveActor', a: a};
+};
+var $author$project$ExplicitEvaluator$Computation = function (a) {
+	return {$: 'Computation', a: a};
+};
+var $author$project$ExplicitEvaluator$emptyStack = {currentDelimitedStack: _List_Nil, savedDelimitedStacks: _List_Nil};
+var $elm$core$Dict$map = F2(
+	function (func, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		} else {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				key,
+				A2(func, key, value),
+				A2($elm$core$Dict$map, func, left),
+				A2($elm$core$Dict$map, func, right));
+		}
+	});
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $Fresheyeball$elm_return$Return$singleton = function (a) {
+	return _Utils_Tuple2(a, $elm$core$Platform$Cmd$none);
+};
+var $author$project$Main$modelFromExample = function (ex) {
+	return $Fresheyeball$elm_return$Return$singleton(
+		{
+			currentExample: ex,
+			currentState: {
+				actors: A2(
+					$elm$core$Dict$map,
+					F2(
+						function (address, exActor) {
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								{
+									console: _List_Nil,
+									currentComputation: $author$project$ExplicitEvaluator$Computation(exActor.comp),
+									env: exActor.env,
+									mailbox: exActor.mailbox,
+									stack: $author$project$ExplicitEvaluator$emptyStack
+								});
+						}),
+					ex.actors),
+				currentlySelectedActor: 0,
+				messagesInTransit: $elm$core$Dict$fromList(_List_Nil),
+				nextAddress: ex.nextAddress,
+				nextMessageId: 0
+			},
+			numOfCurrentlySaved: 0,
+			numOfMaxSaved: 40,
+			savedStates: _List_Nil
+		});
+};
+var $author$project$Main$initModel = $author$project$Main$modelFromExample($author$project$Example$defaultExample);
+var $author$project$Main$StepBack = {$: 'StepBack'};
+var $author$project$Main$StepForward = function (a) {
+	return {$: 'StepForward', a: a};
+};
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $elm$json$Json$Decode$fail = _Json_fail;
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$browser$Browser$Events$Document = {$: 'Document'};
+var $elm$browser$Browser$Events$MySub = F3(
+	function (a, b, c) {
+		return {$: 'MySub', a: a, b: b, c: c};
+	});
+var $elm$browser$Browser$Events$State = F2(
+	function (subs, pids) {
+		return {pids: pids, subs: subs};
+	});
+var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
+	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
+var $elm$browser$Browser$Events$nodeToKey = function (node) {
+	if (node.$ === 'Document') {
+		return 'd_';
+	} else {
+		return 'w_';
+	}
+};
+var $elm$browser$Browser$Events$addKey = function (sub) {
+	var node = sub.a;
+	var name = sub.b;
+	return _Utils_Tuple2(
+		_Utils_ap(
+			$elm$browser$Browser$Events$nodeToKey(node),
+			name),
+		sub);
 };
 var $elm$core$Process$kill = _Scheduler_kill;
 var $elm$core$Dict$foldl = F3(
@@ -5653,7 +5718,8 @@ var $author$project$Main$subscriptions = function (model) {
 		A2(
 			$elm$json$Json$Decode$andThen,
 			function (keyCode) {
-				return (keyCode === 'ArrowRight') ? $elm$json$Json$Decode$succeed($author$project$Main$StepForward) : ((keyCode === 'ArrowLeft') ? $elm$json$Json$Decode$succeed($author$project$Main$StepBack) : $elm$json$Json$Decode$fail(''));
+				return (keyCode === 'ArrowRight') ? $elm$json$Json$Decode$succeed(
+					$author$project$Main$StepForward(model.currentState.currentlySelectedActor)) : ((keyCode === 'ArrowLeft') ? $elm$json$Json$Decode$succeed($author$project$Main$StepBack) : $elm$json$Json$Decode$fail(''));
 			},
 			A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string)));
 };
@@ -7883,239 +7949,46 @@ var $Fresheyeball$elm_return$Return$andThen = F2(
 				_List_fromArray(
 					[cmd, cmd_])));
 	});
-var $author$project$Main$modelReset = function (model) {
-	return $author$project$Main$modelFromExample(model.currentExample);
+var $author$project$ExplicitEvaluator$FailedActor = function (a) {
+	return {$: 'FailedActor', a: a};
 };
-var $elm$core$Basics$ge = _Utils_ge;
-var $elm$core$Basics$min = F2(
-	function (x, y) {
-		return (_Utils_cmp(x, y) < 0) ? x : y;
+var $author$project$ExplicitEvaluator$TerminatedActor = function (a) {
+	return {$: 'TerminatedActor', a: a};
+};
+var $author$project$Queue$enqueue = F2(
+	function (x, _v0) {
+		var back = _v0.a;
+		var front = _v0.b;
+		return A2(
+			$author$project$Queue$Queue,
+			A2($elm$core$List$cons, x, back),
+			front);
 	});
-var $author$project$ExplicitEvaluator$removeLast = function (xs0) {
-	if (!xs0.b) {
-		return _List_Nil;
-	} else {
-		if (!xs0.b.b) {
-			var x = xs0.a;
-			return _List_Nil;
-		} else {
-			var x = xs0.a;
-			var xs1 = xs0.b;
-			return A2(
-				$elm$core$List$cons,
-				x,
-				$author$project$ExplicitEvaluator$removeLast(xs1));
-		}
-	}
-};
-var $author$project$Main$modelSaveCurrentState = function (model) {
-	var currentState = model.currentState;
-	var savedStates = model.savedStates;
-	if (currentState.$ === 'Ok') {
-		var isTerminated = currentState.a.isTerminated;
-		var state = currentState.a.state;
-		return isTerminated ? $Fresheyeball$elm_return$Return$singleton(model) : $Fresheyeball$elm_return$Return$singleton(
-			_Utils_update(
-				model,
+var $author$project$ExplicitEvaluator$deliverPayloadToActor = F2(
+	function (val, actor) {
+		var updateActorState = function (actorState) {
+			return _Utils_update(
+				actorState,
 				{
-					numOfCurrentlySaved: A2($elm$core$Basics$min, model.numOfCurrentlySaved + 1, model.numOfMaxSaved),
-					savedStates: (_Utils_cmp(model.numOfCurrentlySaved, model.numOfMaxSaved) > -1) ? A2(
-						$elm$core$List$cons,
-						state,
-						$author$project$ExplicitEvaluator$removeLast(model.savedStates)) : A2($elm$core$List$cons, state, model.savedStates)
-				}));
-	} else {
-		var err = currentState.a;
-		return $Fresheyeball$elm_return$Return$singleton(model);
-	}
-};
-var $author$project$Main$modelStepBack = function (model) {
-	var savedStates = model.savedStates;
-	var numOfCurrentlySaved = model.numOfCurrentlySaved;
-	if (!savedStates.b) {
-		return $Fresheyeball$elm_return$Return$singleton(model);
-	} else {
-		var state = savedStates.a;
-		var savedStates1 = savedStates.b;
-		return $Fresheyeball$elm_return$Return$singleton(
-			_Utils_update(
-				model,
-				{
-					currentState: $elm$core$Result$Ok(
-						{isTerminated: false, state: state}),
-					numOfCurrentlySaved: numOfCurrentlySaved - 1,
-					savedStates: savedStates1
-				}));
-	}
-};
-var $elm$core$Result$andThen = F2(
-	function (callback, result) {
-		if (result.$ === 'Ok') {
-			var value = result.a;
-			return callback(value);
-		} else {
-			var msg = result.a;
-			return $elm$core$Result$Err(msg);
+					mailbox: A2($author$project$Queue$enqueue, val, actorState.mailbox)
+				});
+		};
+		switch (actor.$) {
+			case 'ActiveActor':
+				var actorState = actor.a;
+				return $author$project$ExplicitEvaluator$ActiveActor(
+					updateActorState(actorState));
+			case 'BlockedActor':
+				var actorState = actor.a;
+				return $author$project$ExplicitEvaluator$ActiveActor(
+					updateActorState(actorState));
+			case 'TerminatedActor':
+				var terminatedActorState = actor.a;
+				return $author$project$ExplicitEvaluator$TerminatedActor(terminatedActorState);
+			default:
+				var err = actor.a;
+				return $author$project$ExplicitEvaluator$FailedActor(err);
 		}
-	});
-var $elm$core$Result$map = F2(
-	function (func, ra) {
-		if (ra.$ === 'Ok') {
-			var a = ra.a;
-			return $elm$core$Result$Ok(
-				func(a));
-		} else {
-			var e = ra.a;
-			return $elm$core$Result$Err(e);
-		}
-	});
-var $author$project$ExplicitEvaluator$Left = function (a) {
-	return {$: 'Left', a: a};
-};
-var $author$project$ExplicitEvaluator$Right = function (a) {
-	return {$: 'Right', a: a};
-};
-var $author$project$ExplicitEvaluator$ApplicationRightHole = function (a) {
-	return {$: 'ApplicationRightHole', a: a};
-};
-var $author$project$ExplicitEvaluator$CantProject = function (a) {
-	return {$: 'CantProject', a: a};
-};
-var $author$project$ExplicitEvaluator$ExpectedBoolean = {$: 'ExpectedBoolean'};
-var $author$project$ExplicitEvaluator$ExpectedClosure = {$: 'ExpectedClosure'};
-var $author$project$ExplicitEvaluator$ExpectedDelimitedStack = {$: 'ExpectedDelimitedStack'};
-var $author$project$ExplicitEvaluator$ExpectedEnv = {$: 'ExpectedEnv'};
-var $author$project$ExplicitEvaluator$ExpectedInteger = {$: 'ExpectedInteger'};
-var $author$project$ExplicitEvaluator$ExpectedStack = {$: 'ExpectedStack'};
-var $author$project$ExplicitEvaluator$ExpectedTaggedValue = {$: 'ExpectedTaggedValue'};
-var $author$project$ExplicitEvaluator$ExpectedTuple = {$: 'ExpectedTuple'};
-var $author$project$ExplicitEvaluator$MatchNotFound = {$: 'MatchNotFound'};
-var $author$project$ExplicitEvaluator$PrimitiveIntOperation2RightHole = F2(
-	function (a, b) {
-		return {$: 'PrimitiveIntOperation2RightHole', a: a, b: b};
-	});
-var $author$project$ExplicitEvaluator$RestoreDelimitedStackWithRightHole = function (a) {
-	return {$: 'RestoreDelimitedStackWithRightHole', a: a};
-};
-var $author$project$ExplicitEvaluator$RestoreEnv = function (a) {
-	return {$: 'RestoreEnv', a: a};
-};
-var $author$project$ExplicitEvaluator$RestoreStackWithRightHole = function (a) {
-	return {$: 'RestoreStackWithRightHole', a: a};
-};
-var $author$project$ExplicitEvaluator$TaggedValue = F3(
-	function (a, b, c) {
-		return {$: 'TaggedValue', a: a, b: b, c: c};
-	});
-var $author$project$ExplicitEvaluator$TaggedWithHole = F4(
-	function (a, b, c, d) {
-		return {$: 'TaggedWithHole', a: a, b: b, c: c, d: d};
-	});
-var $author$project$ExplicitEvaluator$TupleValue = F2(
-	function (a, b) {
-		return {$: 'TupleValue', a: a, b: b};
-	});
-var $author$project$ExplicitEvaluator$TupleWithHole = F3(
-	function (a, b, c) {
-		return {$: 'TupleWithHole', a: a, b: b, c: c};
-	});
-var $author$project$ExplicitEvaluator$Value = function (a) {
-	return {$: 'Value', a: a};
-};
-var $author$project$ExplicitEvaluator$ConstantValue = function (a) {
-	return {$: 'ConstantValue', a: a};
-};
-var $author$project$ExplicitEvaluator$FalseConst = {$: 'FalseConst'};
-var $author$project$ExplicitEvaluator$TrueConst = {$: 'TrueConst'};
-var $author$project$ExplicitEvaluator$boolToConstant = function (b) {
-	return b ? $author$project$ExplicitEvaluator$TrueConst : $author$project$ExplicitEvaluator$FalseConst;
-};
-var $author$project$ExplicitEvaluator$applyPredicate = F2(
-	function (pred, val) {
-		return A2($elm$core$Basics$composeL, $author$project$ExplicitEvaluator$ConstantValue, $author$project$ExplicitEvaluator$boolToConstant)(
-			function () {
-				switch (val.$) {
-					case 'ConstantValue':
-						var constant = val.a;
-						switch (constant.$) {
-							case 'IntConst':
-								if (pred.$ === 'IsInt') {
-									return true;
-								} else {
-									return false;
-								}
-							case 'TrueConst':
-								if (pred.$ === 'IsBool') {
-									return true;
-								} else {
-									return false;
-								}
-							case 'FalseConst':
-								if (pred.$ === 'IsBool') {
-									return true;
-								} else {
-									return false;
-								}
-							default:
-								if (pred.$ === 'IsString') {
-									return true;
-								} else {
-									return false;
-								}
-						}
-					case 'ClosureValue':
-						if (pred.$ === 'IsClosure') {
-							return true;
-						} else {
-							return false;
-						}
-					case 'TaggedValue':
-						if (pred.$ === 'IsTagged') {
-							return true;
-						} else {
-							return false;
-						}
-					case 'TupleValue':
-						if (pred.$ === 'IsTuple') {
-							return true;
-						} else {
-							return false;
-						}
-					case 'StackValue':
-						if (pred.$ === 'IsStack') {
-							return true;
-						} else {
-							return false;
-						}
-					case 'DelimitedStackValue':
-						if (pred.$ === 'IsDelimitedStack') {
-							return true;
-						} else {
-							return false;
-						}
-					default:
-						if (pred.$ === 'IsEnv') {
-							return true;
-						} else {
-							return false;
-						}
-				}
-			}());
-	});
-var $author$project$ExplicitEvaluator$applyPrimitiveOp2 = F3(
-	function (op, x, y) {
-		return $author$project$ExplicitEvaluator$ConstantValue(
-			function () {
-				switch (op.$) {
-					case 'Add':
-						return $author$project$ExplicitEvaluator$IntConst(x + y);
-					case 'Mul':
-						return $author$project$ExplicitEvaluator$IntConst(x * y);
-					default:
-						return $author$project$ExplicitEvaluator$boolToConstant(
-							_Utils_cmp(x, y) < 0);
-				}
-			}());
 	});
 var $elm$core$Dict$get = F2(
 	function (targetKey, dict) {
@@ -8510,6 +8383,324 @@ var $elm$core$Dict$remove = F2(
 			return x;
 		}
 	});
+var $author$project$ExplicitEvaluator$removeMessage = F2(
+	function (_v0, state) {
+		var messageId = _v0.messageId;
+		var messagesInTransit = state.messagesInTransit;
+		return _Utils_update(
+			state,
+			{
+				messagesInTransit: A2($elm$core$Dict$remove, messageId, messagesInTransit)
+			});
+	});
+var $author$project$ExplicitEvaluator$updateActor = F3(
+	function (address, actor, state) {
+		return _Utils_update(
+			state,
+			{
+				actors: A3($elm$core$Dict$insert, address, actor, state.actors)
+			});
+	});
+var $author$project$ExplicitEvaluator$deliverMessage = F2(
+	function (message, state) {
+		var _v0 = A2($elm$core$Dict$get, message.destination, state.actors);
+		if (_v0.$ === 'Just') {
+			var actor = _v0.a;
+			return A2(
+				$author$project$ExplicitEvaluator$removeMessage,
+				message,
+				A3(
+					$author$project$ExplicitEvaluator$updateActor,
+					message.destination,
+					A2($author$project$ExplicitEvaluator$deliverPayloadToActor, message.payload, actor),
+					state));
+		} else {
+			return A2($author$project$ExplicitEvaluator$removeMessage, message, state);
+		}
+	});
+var $author$project$ExplicitEvaluator$isActive = function (actor) {
+	if (actor.$ === 'ActiveActor') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$ExplicitEvaluator$isActorActive = F2(
+	function (address, _v0) {
+		var actors = _v0.actors;
+		var currentlySelectedActor = _v0.currentlySelectedActor;
+		var _v1 = A2($elm$core$Dict$get, address, actors);
+		if (_v1.$ === 'Just') {
+			var actor = _v1.a;
+			return $author$project$ExplicitEvaluator$isActive(actor);
+		} else {
+			return false;
+		}
+	});
+var $author$project$Main$modelReset = function (model) {
+	return $author$project$Main$modelFromExample(model.currentExample);
+};
+var $elm$core$Basics$ge = _Utils_ge;
+var $elm$core$Basics$min = F2(
+	function (x, y) {
+		return (_Utils_cmp(x, y) < 0) ? x : y;
+	});
+var $author$project$ExplicitEvaluator$removeLast = function (xs0) {
+	if (!xs0.b) {
+		return _List_Nil;
+	} else {
+		if (!xs0.b.b) {
+			var x = xs0.a;
+			return _List_Nil;
+		} else {
+			var x = xs0.a;
+			var xs1 = xs0.b;
+			return A2(
+				$elm$core$List$cons,
+				x,
+				$author$project$ExplicitEvaluator$removeLast(xs1));
+		}
+	}
+};
+var $author$project$Main$modelSaveCurrentState = function (model) {
+	var currentState = model.currentState;
+	var savedStates = model.savedStates;
+	return $Fresheyeball$elm_return$Return$singleton(
+		_Utils_update(
+			model,
+			{
+				numOfCurrentlySaved: A2($elm$core$Basics$min, model.numOfCurrentlySaved + 1, model.numOfMaxSaved),
+				savedStates: (_Utils_cmp(model.numOfCurrentlySaved, model.numOfMaxSaved) > -1) ? A2(
+					$elm$core$List$cons,
+					currentState,
+					$author$project$ExplicitEvaluator$removeLast(model.savedStates)) : A2($elm$core$List$cons, currentState, model.savedStates)
+			}));
+};
+var $author$project$Main$modelStepBack = function (model) {
+	var savedStates = model.savedStates;
+	var numOfCurrentlySaved = model.numOfCurrentlySaved;
+	if (!savedStates.b) {
+		return $Fresheyeball$elm_return$Return$singleton(model);
+	} else {
+		var state = savedStates.a;
+		var savedStates1 = savedStates.b;
+		return $Fresheyeball$elm_return$Return$singleton(
+			_Utils_update(
+				model,
+				{currentState: state, numOfCurrentlySaved: numOfCurrentlySaved - 1, savedStates: savedStates1}));
+	}
+};
+var $author$project$ExplicitEvaluator$selectActor = F2(
+	function (address, state) {
+		return _Utils_update(
+			state,
+			{currentlySelectedActor: address});
+	});
+var $author$project$ExplicitEvaluator$updateNextMessageId = function (state) {
+	return _Utils_update(
+		state,
+		{nextMessageId: state.nextMessageId + 1});
+};
+var $author$project$ExplicitEvaluator$sendMessage = F2(
+	function (message, state) {
+		var messagesInTransit = state.messagesInTransit;
+		return $author$project$ExplicitEvaluator$updateNextMessageId(
+			_Utils_update(
+				state,
+				{
+					messagesInTransit: A3($elm$core$Dict$insert, message.messageId, message, messagesInTransit)
+				}));
+	});
+var $author$project$ExplicitEvaluator$emptyConsole = _List_Nil;
+var $author$project$ExplicitEvaluator$emptyEnv = $elm$core$Dict$empty;
+var $author$project$ExplicitEvaluator$emptyMailbox = $author$project$Queue$empty;
+var $author$project$ExplicitEvaluator$updateNextAddress = function (state) {
+	return _Utils_update(
+		state,
+		{nextAddress: state.nextAddress + 1});
+};
+var $author$project$ExplicitEvaluator$spawnActor = F2(
+	function (computation, state) {
+		var nextAddress = state.nextAddress;
+		var actors = state.actors;
+		return $author$project$ExplicitEvaluator$updateNextAddress(
+			_Utils_update(
+				state,
+				{
+					actors: A3(
+						$elm$core$Dict$insert,
+						nextAddress,
+						$author$project$ExplicitEvaluator$ActiveActor(
+							{
+								console: $author$project$ExplicitEvaluator$emptyConsole,
+								currentComputation: $author$project$ExplicitEvaluator$Computation(computation),
+								env: $author$project$ExplicitEvaluator$emptyEnv,
+								mailbox: $author$project$ExplicitEvaluator$emptyMailbox,
+								stack: $author$project$ExplicitEvaluator$emptyStack
+							}),
+						actors)
+				}));
+	});
+var $author$project$ExplicitEvaluator$Return = function (a) {
+	return {$: 'Return', a: a};
+};
+var $author$project$ExplicitEvaluator$ApplicationRightHole = function (a) {
+	return {$: 'ApplicationRightHole', a: a};
+};
+var $author$project$ExplicitEvaluator$CantProject = function (a) {
+	return {$: 'CantProject', a: a};
+};
+var $author$project$ExplicitEvaluator$EmitMessage = F2(
+	function (a, b) {
+		return {$: 'EmitMessage', a: a, b: b};
+	});
+var $author$project$ExplicitEvaluator$ExpectedAddress = {$: 'ExpectedAddress'};
+var $author$project$ExplicitEvaluator$ExpectedBoolean = {$: 'ExpectedBoolean'};
+var $author$project$ExplicitEvaluator$ExpectedClosure = {$: 'ExpectedClosure'};
+var $author$project$ExplicitEvaluator$ExpectedDelimitedStack = {$: 'ExpectedDelimitedStack'};
+var $author$project$ExplicitEvaluator$ExpectedEnv = {$: 'ExpectedEnv'};
+var $author$project$ExplicitEvaluator$ExpectedInteger = {$: 'ExpectedInteger'};
+var $author$project$ExplicitEvaluator$ExpectedStack = {$: 'ExpectedStack'};
+var $author$project$ExplicitEvaluator$ExpectedTaggedValue = {$: 'ExpectedTaggedValue'};
+var $author$project$ExplicitEvaluator$ExpectedTuple = {$: 'ExpectedTuple'};
+var $author$project$ExplicitEvaluator$MatchNotFound = {$: 'MatchNotFound'};
+var $author$project$ExplicitEvaluator$PrimitiveIntOperation2RightHole = F2(
+	function (a, b) {
+		return {$: 'PrimitiveIntOperation2RightHole', a: a, b: b};
+	});
+var $author$project$ExplicitEvaluator$RestoreDelimitedStackWithRightHole = function (a) {
+	return {$: 'RestoreDelimitedStackWithRightHole', a: a};
+};
+var $author$project$ExplicitEvaluator$RestoreEnv = function (a) {
+	return {$: 'RestoreEnv', a: a};
+};
+var $author$project$ExplicitEvaluator$RestoreStackWithRightHole = function (a) {
+	return {$: 'RestoreStackWithRightHole', a: a};
+};
+var $author$project$ExplicitEvaluator$SendRightHole = F2(
+	function (a, b) {
+		return {$: 'SendRightHole', a: a, b: b};
+	});
+var $author$project$ExplicitEvaluator$TaggedValue = F3(
+	function (a, b, c) {
+		return {$: 'TaggedValue', a: a, b: b, c: c};
+	});
+var $author$project$ExplicitEvaluator$TaggedWithHole = F4(
+	function (a, b, c, d) {
+		return {$: 'TaggedWithHole', a: a, b: b, c: c, d: d};
+	});
+var $author$project$ExplicitEvaluator$TupleValue = F2(
+	function (a, b) {
+		return {$: 'TupleValue', a: a, b: b};
+	});
+var $author$project$ExplicitEvaluator$TupleWithHole = F3(
+	function (a, b, c) {
+		return {$: 'TupleWithHole', a: a, b: b, c: c};
+	});
+var $author$project$ExplicitEvaluator$Value = function (a) {
+	return {$: 'Value', a: a};
+};
+var $author$project$ExplicitEvaluator$ConstantValue = function (a) {
+	return {$: 'ConstantValue', a: a};
+};
+var $author$project$ExplicitEvaluator$FalseConst = {$: 'FalseConst'};
+var $author$project$ExplicitEvaluator$TrueConst = {$: 'TrueConst'};
+var $author$project$ExplicitEvaluator$boolToConstant = function (b) {
+	return b ? $author$project$ExplicitEvaluator$TrueConst : $author$project$ExplicitEvaluator$FalseConst;
+};
+var $author$project$ExplicitEvaluator$applyPredicate = F2(
+	function (pred, val) {
+		return A2($elm$core$Basics$composeL, $author$project$ExplicitEvaluator$ConstantValue, $author$project$ExplicitEvaluator$boolToConstant)(
+			function () {
+				switch (val.$) {
+					case 'ConstantValue':
+						var constant = val.a;
+						switch (constant.$) {
+							case 'IntConst':
+								if (pred.$ === 'IsInt') {
+									return true;
+								} else {
+									return false;
+								}
+							case 'TrueConst':
+								if (pred.$ === 'IsBool') {
+									return true;
+								} else {
+									return false;
+								}
+							case 'FalseConst':
+								if (pred.$ === 'IsBool') {
+									return true;
+								} else {
+									return false;
+								}
+							default:
+								if (pred.$ === 'IsString') {
+									return true;
+								} else {
+									return false;
+								}
+						}
+					case 'ClosureValue':
+						if (pred.$ === 'IsClosure') {
+							return true;
+						} else {
+							return false;
+						}
+					case 'TaggedValue':
+						if (pred.$ === 'IsTagged') {
+							return true;
+						} else {
+							return false;
+						}
+					case 'TupleValue':
+						if (pred.$ === 'IsTuple') {
+							return true;
+						} else {
+							return false;
+						}
+					case 'StackValue':
+						if (pred.$ === 'IsStack') {
+							return true;
+						} else {
+							return false;
+						}
+					case 'DelimitedStackValue':
+						if (pred.$ === 'IsDelimitedStack') {
+							return true;
+						} else {
+							return false;
+						}
+					case 'EnvValue':
+						if (pred.$ === 'IsEnv') {
+							return true;
+						} else {
+							return false;
+						}
+					default:
+						if (pred.$ === 'IsAddress') {
+							return true;
+						} else {
+							return false;
+						}
+				}
+			}());
+	});
+var $author$project$ExplicitEvaluator$applyPrimitiveOp2 = F3(
+	function (op, x, y) {
+		return $author$project$ExplicitEvaluator$ConstantValue(
+			function () {
+				switch (op.$) {
+					case 'Add':
+						return $author$project$ExplicitEvaluator$IntConst(x + y);
+					case 'Mul':
+						return $author$project$ExplicitEvaluator$IntConst(x * y);
+					default:
+						return $author$project$ExplicitEvaluator$boolToConstant(
+							_Utils_cmp(x, y) < 0);
+				}
+			}());
+	});
 var $elm$core$Dict$update = F3(
 	function (targetKey, alter, dictionary) {
 		var _v0 = alter(
@@ -8540,12 +8731,18 @@ var $author$project$ExplicitEvaluator$insertEnv = F3(
 			env);
 	});
 var $author$project$ExplicitEvaluator$bind = F3(
-	function (varName, value, state) {
+	function (varName, value, actorState) {
 		return _Utils_update(
-			state,
+			actorState,
 			{
-				env: A3($author$project$ExplicitEvaluator$insertEnv, varName, value, state.env)
+				env: A3($author$project$ExplicitEvaluator$insertEnv, varName, value, actorState.env)
 			});
+	});
+var $author$project$ExplicitEvaluator$do = F2(
+	function (currentComputation, actorState) {
+		return _Utils_update(
+			actorState,
+			{currentComputation: currentComputation});
 	});
 var $elm$core$List$drop = F2(
 	function (n, list) {
@@ -8574,8 +8771,8 @@ var $elm_community$list_extra$List$Extra$getAt = F2(
 			A2($elm$core$List$drop, idx, xs));
 	});
 var $author$project$ExplicitEvaluator$getEnvironment = F2(
-	function (f, state) {
-		return A2(f, state.env, state);
+	function (f, actorState) {
+		return A2(f, actorState.env, actorState);
 	});
 var $author$project$ExplicitEvaluator$insertsEnv = F2(
 	function (bindings, env) {
@@ -8591,11 +8788,11 @@ var $author$project$ExplicitEvaluator$insertsEnv = F2(
 			bindings);
 	});
 var $author$project$ExplicitEvaluator$log = F2(
-	function (value, state) {
+	function (value, actorState) {
 		return _Utils_update(
-			state,
+			actorState,
 			{
-				console: A2($elm$core$List$cons, value, state.console)
+				console: A2($elm$core$List$cons, value, actorState.console)
 			});
 	});
 var $author$project$ExplicitEvaluator$find = F2(
@@ -8664,11 +8861,11 @@ var $author$project$ExplicitEvaluator$pushStack = F2(
 			});
 	});
 var $author$project$ExplicitEvaluator$push = F2(
-	function (stackEl, state) {
+	function (stackEl, actorState) {
 		return _Utils_update(
-			state,
+			actorState,
 			{
-				stack: A2($author$project$ExplicitEvaluator$pushStack, stackEl, state.stack)
+				stack: A2($author$project$ExplicitEvaluator$pushStack, stackEl, actorState.stack)
 			});
 	});
 var $author$project$ExplicitEvaluator$resetToDelimitedStack = F2(
@@ -8681,66 +8878,72 @@ var $author$project$ExplicitEvaluator$resetToDelimitedStack = F2(
 		};
 	});
 var $author$project$ExplicitEvaluator$resetTo = F2(
-	function (delimitedStack, state) {
+	function (delimitedStack, actorState) {
 		return _Utils_update(
-			state,
+			actorState,
 			{
-				stack: A2($author$project$ExplicitEvaluator$resetToDelimitedStack, delimitedStack, state.stack)
+				stack: A2($author$project$ExplicitEvaluator$resetToDelimitedStack, delimitedStack, actorState.stack)
 			});
 	});
 var $author$project$ExplicitEvaluator$setEnvironment = F2(
-	function (env, state) {
+	function (env, actorState) {
 		return _Utils_update(
-			state,
+			actorState,
 			{env: env});
 	});
 var $author$project$ExplicitEvaluator$setStack = F2(
-	function (stack, state) {
+	function (stack, actorState) {
 		return _Utils_update(
-			state,
+			actorState,
 			{stack: stack});
 	});
 var $author$project$ExplicitEvaluator$combine = F3(
-	function (val, stackEl, _do) {
+	function (val, stackEl, actorState) {
 		switch (stackEl.$) {
 			case 'PrimitiveIntOperation2LeftHole':
 				var op = stackEl.a;
 				var computation1 = stackEl.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						A2($author$project$ExplicitEvaluator$PrimitiveIntOperation2RightHole, op, val),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation1))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							A2($author$project$ExplicitEvaluator$PrimitiveIntOperation2RightHole, op, val),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation1),
+								actorState))));
 			case 'PrimitiveIntOperation2RightHole':
 				var op = stackEl.a;
 				var value0 = stackEl.b;
-				var _v1 = _Utils_Tuple2(value0, val);
-				if ((((_v1.a.$ === 'ConstantValue') && (_v1.a.a.$ === 'IntConst')) && (_v1.b.$ === 'ConstantValue')) && (_v1.b.a.$ === 'IntConst')) {
-					var x = _v1.a.a.a;
-					var y = _v1.b.a.a;
-					return $elm$core$Result$Ok(
-						_do(
-							$author$project$ExplicitEvaluator$Value(
-								A3($author$project$ExplicitEvaluator$applyPrimitiveOp2, op, x, y))));
-				} else {
-					return $elm$core$Result$Err($author$project$ExplicitEvaluator$ExpectedInteger);
-				}
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						var _v1 = _Utils_Tuple2(value0, val);
+						if ((((_v1.a.$ === 'ConstantValue') && (_v1.a.a.$ === 'IntConst')) && (_v1.b.$ === 'ConstantValue')) && (_v1.b.a.$ === 'IntConst')) {
+							var x = _v1.a.a.a;
+							var y = _v1.b.a.a;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$do,
+									$author$project$ExplicitEvaluator$Value(
+										A3($author$project$ExplicitEvaluator$applyPrimitiveOp2, op, x, y)),
+									actorState));
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedInteger);
+						}
+					}());
 			case 'PredicateApplicationHole':
 				var pred = stackEl.a;
-				return $elm$core$Result$Ok(
-					_do(
-						$author$project$ExplicitEvaluator$Value(
-							A2($author$project$ExplicitEvaluator$applyPredicate, pred, val))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$do,
+							$author$project$ExplicitEvaluator$Value(
+								A2($author$project$ExplicitEvaluator$applyPredicate, pred, val)),
+							actorState)));
 			case 'IfThenElseHole':
 				var leftBranch = stackEl.a;
 				var rightBranch = stackEl.b;
-				return A2(
-					$elm$core$Result$map,
-					function (branch) {
-						return _do(
-							$author$project$ExplicitEvaluator$Computation(branch.body));
-					},
+				return $author$project$ExplicitEvaluator$Return(
 					function () {
 						_v2$2:
 						while (true) {
@@ -8748,10 +8951,18 @@ var $author$project$ExplicitEvaluator$combine = F3(
 								switch (val.a.$) {
 									case 'TrueConst':
 										var _v3 = val.a;
-										return $elm$core$Result$Ok(leftBranch);
+										return $author$project$ExplicitEvaluator$ActiveActor(
+											A2(
+												$author$project$ExplicitEvaluator$do,
+												$author$project$ExplicitEvaluator$Computation(leftBranch.body),
+												actorState));
 									case 'FalseConst':
 										var _v4 = val.a;
-										return $elm$core$Result$Ok(rightBranch);
+										return $author$project$ExplicitEvaluator$ActiveActor(
+											A2(
+												$author$project$ExplicitEvaluator$do,
+												$author$project$ExplicitEvaluator$Computation(rightBranch.body),
+												actorState));
 									default:
 										break _v2$2;
 								}
@@ -8759,23 +8970,265 @@ var $author$project$ExplicitEvaluator$combine = F3(
 								break _v2$2;
 							}
 						}
-						return $elm$core$Result$Err($author$project$ExplicitEvaluator$ExpectedBoolean);
+						return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedBoolean);
 					}());
 			case 'ApplicationLeftHole':
 				var computation1 = stackEl.a;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$ApplicationRightHole(val),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation1))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$ApplicationRightHole(val),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation1),
+								actorState))));
 			case 'ApplicationRightHole':
 				var value0 = stackEl.a;
-				if (value0.$ === 'ClosureValue') {
-					var frozenEnv = value0.a;
-					var _var = value0.b._var;
-					var body = value0.b.body;
-					return $elm$core$Result$Ok(
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (value0.$ === 'ClosureValue') {
+							var frozenEnv = value0.a;
+							var _var = value0.b._var;
+							var body = value0.b.body;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A3(
+									$author$project$ExplicitEvaluator$bind,
+									_var,
+									val,
+									A2(
+										$author$project$ExplicitEvaluator$getEnvironment,
+										function (env) {
+											return $author$project$ExplicitEvaluator$push(
+												$author$project$ExplicitEvaluator$RestoreEnv(env));
+										},
+										A2(
+											$author$project$ExplicitEvaluator$do,
+											$author$project$ExplicitEvaluator$Computation(body),
+											actorState))));
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedClosure);
+						}
+					}());
+			case 'TaggedWithHole':
+				var tag = stackEl.a;
+				var n = stackEl.b;
+				var reversedValues = stackEl.c;
+				var computations0 = stackEl.d;
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (!computations0.b) {
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$do,
+									$author$project$ExplicitEvaluator$Value(
+										A3(
+											$author$project$ExplicitEvaluator$TaggedValue,
+											tag,
+											n,
+											$elm$core$List$reverse(
+												A2($elm$core$List$cons, val, reversedValues)))),
+									actorState));
+						} else {
+							var computation0 = computations0.a;
+							var computations1 = computations0.b;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$push,
+									A4(
+										$author$project$ExplicitEvaluator$TaggedWithHole,
+										tag,
+										n,
+										A2($elm$core$List$cons, val, reversedValues),
+										computations1),
+									A2(
+										$author$project$ExplicitEvaluator$do,
+										$author$project$ExplicitEvaluator$Computation(computation0),
+										actorState)));
+						}
+					}());
+			case 'MatchTaggedWithHole':
+				var branches = stackEl.a;
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (val.$ === 'TaggedValue') {
+							var tag = val.a;
+							var n = val.b;
+							var values = val.c;
+							var _v8 = A4($author$project$ExplicitEvaluator$matchPatternWithBranch, tag, n, values, branches);
+							if (_v8.$ === 'Just') {
+								var bindings = _v8.a.bindings;
+								var body = _v8.a.body;
+								return $author$project$ExplicitEvaluator$ActiveActor(
+									A2(
+										$author$project$ExplicitEvaluator$getEnvironment,
+										function (env) {
+											return $author$project$ExplicitEvaluator$setEnvironment(
+												A2($author$project$ExplicitEvaluator$insertsEnv, bindings, env));
+										},
+										A2(
+											$author$project$ExplicitEvaluator$getEnvironment,
+											function (env) {
+												return $author$project$ExplicitEvaluator$push(
+													$author$project$ExplicitEvaluator$RestoreEnv(env));
+											},
+											A2(
+												$author$project$ExplicitEvaluator$do,
+												$author$project$ExplicitEvaluator$Computation(body),
+												actorState))));
+							} else {
+								return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$MatchNotFound);
+							}
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedTaggedValue);
+						}
+					}());
+			case 'TupleWithHole':
+				var n = stackEl.a;
+				var reversedValues = stackEl.b;
+				var computations0 = stackEl.c;
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (!computations0.b) {
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$do,
+									$author$project$ExplicitEvaluator$Value(
+										A2(
+											$author$project$ExplicitEvaluator$TupleValue,
+											n,
+											$elm$core$List$reverse(
+												A2($elm$core$List$cons, val, reversedValues)))),
+									actorState));
+						} else {
+							var computation0 = computations0.a;
+							var computations1 = computations0.b;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$push,
+									A3(
+										$author$project$ExplicitEvaluator$TupleWithHole,
+										n,
+										A2($elm$core$List$cons, val, reversedValues),
+										computations1),
+									A2(
+										$author$project$ExplicitEvaluator$do,
+										$author$project$ExplicitEvaluator$Computation(computation0),
+										actorState)));
+						}
+					}());
+			case 'ProjectWithHole':
+				var k = stackEl.a;
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (val.$ === 'TupleValue') {
+							var n = val.a;
+							var values = val.b;
+							var _v11 = A2($elm_community$list_extra$List$Extra$getAt, k, values);
+							if (_v11.$ === 'Just') {
+								var val0 = _v11.a;
+								return $author$project$ExplicitEvaluator$ActiveActor(
+									A2(
+										$author$project$ExplicitEvaluator$do,
+										$author$project$ExplicitEvaluator$Value(val0),
+										actorState));
+							} else {
+								return $author$project$ExplicitEvaluator$FailedActor(
+									$author$project$ExplicitEvaluator$CantProject(
+										{index: k, tupleSize: n}));
+							}
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedTuple);
+						}
+					}());
+			case 'RestoreStackWithLeftHole':
+				var computation1 = stackEl.a;
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$RestoreStackWithRightHole(val),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation1),
+								actorState))));
+			case 'RestoreStackWithRightHole':
+				var value0 = stackEl.a;
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (value0.$ === 'StackValue') {
+							var frozenEnv = value0.a;
+							var frozenStack = value0.b;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$setEnvironment,
+									frozenEnv,
+									A2(
+										$author$project$ExplicitEvaluator$setStack,
+										frozenStack,
+										A2(
+											$author$project$ExplicitEvaluator$do,
+											$author$project$ExplicitEvaluator$Value(val),
+											actorState))));
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedStack);
+						}
+					}());
+			case 'RestoreDelimitedStackWithLeftHole':
+				var computation1 = stackEl.a;
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$RestoreDelimitedStackWithRightHole(val),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation1),
+								actorState))));
+			case 'RestoreDelimitedStackWithRightHole':
+				var value0 = stackEl.a;
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (value0.$ === 'DelimitedStackValue') {
+							var frozenEnv = value0.a;
+							var frozenDelimitedStack = value0.b;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$setEnvironment,
+									frozenEnv,
+									A2(
+										$author$project$ExplicitEvaluator$resetTo,
+										frozenDelimitedStack,
+										A2(
+											$author$project$ExplicitEvaluator$getEnvironment,
+											function (env) {
+												return $author$project$ExplicitEvaluator$push(
+													$author$project$ExplicitEvaluator$RestoreEnv(env));
+											},
+											A2(
+												$author$project$ExplicitEvaluator$do,
+												$author$project$ExplicitEvaluator$Value(val),
+												actorState)))));
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedDelimitedStack);
+						}
+					}());
+			case 'RestoreEnv':
+				var envToBeRestored = stackEl.a;
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$setEnvironment,
+							envToBeRestored,
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Value(val),
+								actorState))));
+			case 'LetWithLeftHole':
+				var _var = stackEl.a._var;
+				var body = stackEl.a.body;
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
 						A3(
 							$author$project$ExplicitEvaluator$bind,
 							_var,
@@ -8786,227 +9239,84 @@ var $author$project$ExplicitEvaluator$combine = F3(
 									return $author$project$ExplicitEvaluator$push(
 										$author$project$ExplicitEvaluator$RestoreEnv(env));
 								},
-								_do(
-									$author$project$ExplicitEvaluator$Computation(body)))));
-				} else {
-					return $elm$core$Result$Err($author$project$ExplicitEvaluator$ExpectedClosure);
-				}
-			case 'TaggedWithHole':
-				var tag = stackEl.a;
-				var n = stackEl.b;
-				var reversedValues = stackEl.c;
-				var computations0 = stackEl.d;
-				if (!computations0.b) {
-					return $elm$core$Result$Ok(
-						_do(
-							$author$project$ExplicitEvaluator$Value(
-								A3(
-									$author$project$ExplicitEvaluator$TaggedValue,
-									tag,
-									n,
-									$elm$core$List$reverse(
-										A2($elm$core$List$cons, val, reversedValues))))));
-				} else {
-					var computation0 = computations0.a;
-					var computations1 = computations0.b;
-					return $elm$core$Result$Ok(
-						A2(
-							$author$project$ExplicitEvaluator$push,
-							A4(
-								$author$project$ExplicitEvaluator$TaggedWithHole,
-								tag,
-								n,
-								A2($elm$core$List$cons, val, reversedValues),
-								computations1),
-							_do(
-								$author$project$ExplicitEvaluator$Computation(computation0))));
-				}
-			case 'MatchTaggedWithHole':
-				var branches = stackEl.a;
-				if (val.$ === 'TaggedValue') {
-					var tag = val.a;
-					var n = val.b;
-					var values = val.c;
-					var _v8 = A4($author$project$ExplicitEvaluator$matchPatternWithBranch, tag, n, values, branches);
-					if (_v8.$ === 'Just') {
-						var bindings = _v8.a.bindings;
-						var body = _v8.a.body;
-						return $elm$core$Result$Ok(
-							A2(
-								$author$project$ExplicitEvaluator$getEnvironment,
-								function (env) {
-									return $author$project$ExplicitEvaluator$setEnvironment(
-										A2($author$project$ExplicitEvaluator$insertsEnv, bindings, env));
-								},
 								A2(
-									$author$project$ExplicitEvaluator$getEnvironment,
-									function (env) {
-										return $author$project$ExplicitEvaluator$push(
-											$author$project$ExplicitEvaluator$RestoreEnv(env));
-									},
-									_do(
-										$author$project$ExplicitEvaluator$Computation(body)))));
-					} else {
-						return $elm$core$Result$Err($author$project$ExplicitEvaluator$MatchNotFound);
-					}
-				} else {
-					return $elm$core$Result$Err($author$project$ExplicitEvaluator$ExpectedTaggedValue);
-				}
-			case 'TupleWithHole':
-				var n = stackEl.a;
-				var reversedValues = stackEl.b;
-				var computations0 = stackEl.c;
-				if (!computations0.b) {
-					return $elm$core$Result$Ok(
-						_do(
-							$author$project$ExplicitEvaluator$Value(
-								A2(
-									$author$project$ExplicitEvaluator$TupleValue,
-									n,
-									$elm$core$List$reverse(
-										A2($elm$core$List$cons, val, reversedValues))))));
-				} else {
-					var computation0 = computations0.a;
-					var computations1 = computations0.b;
-					return $elm$core$Result$Ok(
-						A2(
-							$author$project$ExplicitEvaluator$push,
-							A3(
-								$author$project$ExplicitEvaluator$TupleWithHole,
-								n,
-								A2($elm$core$List$cons, val, reversedValues),
-								computations1),
-							_do(
-								$author$project$ExplicitEvaluator$Computation(computation0))));
-				}
-			case 'ProjectWithHole':
-				var k = stackEl.a;
-				if (val.$ === 'TupleValue') {
-					var n = val.a;
-					var values = val.b;
-					var _v11 = A2($elm_community$list_extra$List$Extra$getAt, k, values);
-					if (_v11.$ === 'Just') {
-						var val0 = _v11.a;
-						return $elm$core$Result$Ok(
-							_do(
-								$author$project$ExplicitEvaluator$Value(val0)));
-					} else {
-						return $elm$core$Result$Err(
-							$author$project$ExplicitEvaluator$CantProject(
-								{index: k, tupleSize: n}));
-					}
-				} else {
-					return $elm$core$Result$Err($author$project$ExplicitEvaluator$ExpectedTuple);
-				}
-			case 'RestoreStackWithLeftHole':
-				var computation1 = stackEl.a;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$RestoreStackWithRightHole(val),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation1))));
-			case 'RestoreStackWithRightHole':
-				var value0 = stackEl.a;
-				if (value0.$ === 'StackValue') {
-					var frozenEnv = value0.a;
-					var frozenStack = value0.b;
-					return $elm$core$Result$Ok(
-						A2(
-							$author$project$ExplicitEvaluator$setEnvironment,
-							frozenEnv,
-							A2(
-								$author$project$ExplicitEvaluator$setStack,
-								frozenStack,
-								_do(
-									$author$project$ExplicitEvaluator$Value(val)))));
-				} else {
-					return $elm$core$Result$Err($author$project$ExplicitEvaluator$ExpectedStack);
-				}
-			case 'RestoreDelimitedStackWithLeftHole':
-				var computation1 = stackEl.a;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$RestoreDelimitedStackWithRightHole(val),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation1))));
-			case 'RestoreDelimitedStackWithRightHole':
-				var value0 = stackEl.a;
-				if (value0.$ === 'DelimitedStackValue') {
-					var frozenEnv = value0.a;
-					var frozenDelimitedStack = value0.b;
-					return $elm$core$Result$Ok(
-						A2(
-							$author$project$ExplicitEvaluator$setEnvironment,
-							frozenEnv,
-							A2(
-								$author$project$ExplicitEvaluator$resetTo,
-								frozenDelimitedStack,
-								A2(
-									$author$project$ExplicitEvaluator$getEnvironment,
-									function (env) {
-										return $author$project$ExplicitEvaluator$push(
-											$author$project$ExplicitEvaluator$RestoreEnv(env));
-									},
-									_do(
-										$author$project$ExplicitEvaluator$Value(val))))));
-				} else {
-					return $elm$core$Result$Err($author$project$ExplicitEvaluator$ExpectedDelimitedStack);
-				}
-			case 'RestoreEnv':
-				var envToBeRestored = stackEl.a;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$setEnvironment,
-						envToBeRestored,
-						_do(
-							$author$project$ExplicitEvaluator$Value(val))));
-			case 'LetWithLeftHole':
-				var _var = stackEl.a._var;
-				var body = stackEl.a.body;
-				return $elm$core$Result$Ok(
-					A3(
-						$author$project$ExplicitEvaluator$bind,
-						_var,
-						val,
-						A2(
-							$author$project$ExplicitEvaluator$getEnvironment,
-							function (env) {
-								return $author$project$ExplicitEvaluator$push(
-									$author$project$ExplicitEvaluator$RestoreEnv(env));
-							},
-							_do(
-								$author$project$ExplicitEvaluator$Computation(body)))));
+									$author$project$ExplicitEvaluator$do,
+									$author$project$ExplicitEvaluator$Computation(body),
+									actorState)))));
 			case 'WithInLeftHole':
 				var computation1 = stackEl.a;
-				if (val.$ === 'EnvValue') {
-					var env0 = val.a;
-					return $elm$core$Result$Ok(
-						A2(
-							$author$project$ExplicitEvaluator$setEnvironment,
-							env0,
-							A2(
-								$author$project$ExplicitEvaluator$getEnvironment,
-								function (env) {
-									return $author$project$ExplicitEvaluator$push(
-										$author$project$ExplicitEvaluator$RestoreEnv(env));
-								},
-								_do(
-									$author$project$ExplicitEvaluator$Computation(computation1)))));
-				} else {
-					return $elm$core$Result$Err($author$project$ExplicitEvaluator$ExpectedEnv);
-				}
-			default:
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (val.$ === 'EnvValue') {
+							var env0 = val.a;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$setEnvironment,
+									env0,
+									A2(
+										$author$project$ExplicitEvaluator$getEnvironment,
+										function (env) {
+											return $author$project$ExplicitEvaluator$push(
+												$author$project$ExplicitEvaluator$RestoreEnv(env));
+										},
+										A2(
+											$author$project$ExplicitEvaluator$do,
+											$author$project$ExplicitEvaluator$Computation(computation1),
+											actorState))));
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedEnv);
+						}
+					}());
+			case 'LogLeftHole':
 				var computation1 = stackEl.a;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$log,
-						val,
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation1))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$log,
+							val,
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation1),
+								actorState))));
+			case 'SendLeftHole':
+				var messageComputation = stackEl.a;
+				var computation1 = stackEl.b;
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						if (val.$ === 'Address') {
+							var addressValue = val.a;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$push,
+									A2($author$project$ExplicitEvaluator$SendRightHole, addressValue, computation1),
+									A2(
+										$author$project$ExplicitEvaluator$do,
+										$author$project$ExplicitEvaluator$Computation(messageComputation),
+										actorState)));
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ExpectedAddress);
+						}
+					}());
+			case 'SendRightHole':
+				var address = stackEl.a;
+				var computation1 = stackEl.b;
+				return A2(
+					$author$project$ExplicitEvaluator$EmitMessage,
+					{destination: address, payload: val},
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$do,
+							$author$project$ExplicitEvaluator$Computation(computation1),
+							actorState)));
+			default:
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$TerminatedActor(
+						{console: actorState.console, env: actorState.env, mailbox: actorState.mailbox, terminalValue: val}));
 		}
 	});
+var $author$project$ExplicitEvaluator$Address = function (a) {
+	return {$: 'Address', a: a};
+};
 var $author$project$ExplicitEvaluator$ApplicationLeftHole = function (a) {
 	return {$: 'ApplicationLeftHole', a: a};
 };
@@ -9021,6 +9331,7 @@ var $author$project$ExplicitEvaluator$DelimitedStackValue = F2(
 var $author$project$ExplicitEvaluator$EnvValue = function (a) {
 	return {$: 'EnvValue', a: a};
 };
+var $author$project$ExplicitEvaluator$HaltHole = {$: 'HaltHole'};
 var $author$project$ExplicitEvaluator$IfThenElseHole = F2(
 	function (a, b) {
 		return {$: 'IfThenElseHole', a: a, b: b};
@@ -9050,6 +9361,14 @@ var $author$project$ExplicitEvaluator$RestoreDelimitedStackWithLeftHole = functi
 var $author$project$ExplicitEvaluator$RestoreStackWithLeftHole = function (a) {
 	return {$: 'RestoreStackWithLeftHole', a: a};
 };
+var $author$project$ExplicitEvaluator$SendLeftHole = F2(
+	function (a, b) {
+		return {$: 'SendLeftHole', a: a, b: b};
+	});
+var $author$project$ExplicitEvaluator$SpawnActor = F2(
+	function (a, b) {
+		return {$: 'SpawnActor', a: a, b: b};
+	});
 var $author$project$ExplicitEvaluator$StackValue = F2(
 	function (a, b) {
 		return {$: 'StackValue', a: a, b: b};
@@ -9066,6 +9385,11 @@ var $author$project$ExplicitEvaluator$UnboundVarName = function (a) {
 var $author$project$ExplicitEvaluator$WithInLeftHole = function (a) {
 	return {$: 'WithInLeftHole', a: a};
 };
+var $elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
+	});
 var $elm$core$Maybe$andThen = F2(
 	function (callback, maybeValue) {
 		if (maybeValue.$ === 'Just') {
@@ -9083,9 +9407,73 @@ var $author$project$ExplicitEvaluator$getEnv = F2(
 			A2($elm$core$Dict$get, varName, env));
 	});
 var $author$project$ExplicitEvaluator$getStack = F2(
-	function (f, state) {
-		return A2(f, state.stack, state);
+	function (f, actorState) {
+		return A2(f, actorState.stack, actorState);
 	});
+var $author$project$ExplicitEvaluator$BlockedActor = function (a) {
+	return {$: 'BlockedActor', a: a};
+};
+var $author$project$ExplicitEvaluator$mapActor = F2(
+	function (f, actor) {
+		switch (actor.$) {
+			case 'ActiveActor':
+				var actorState = actor.a;
+				return $author$project$ExplicitEvaluator$ActiveActor(
+					f(actorState));
+			case 'BlockedActor':
+				var actorState = actor.a;
+				return $author$project$ExplicitEvaluator$BlockedActor(
+					f(actorState));
+			case 'TerminatedActor':
+				var val = actor.a;
+				return $author$project$ExplicitEvaluator$TerminatedActor(val);
+			default:
+				var err = actor.a;
+				return $author$project$ExplicitEvaluator$FailedActor(err);
+		}
+	});
+var $author$project$Queue$dequeue = function (_v0) {
+	var back = _v0.a;
+	var front0 = _v0.b;
+	if (!front0.b) {
+		var rev0 = $elm$core$List$reverse(back);
+		if (!rev0.b) {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var x = rev0.a;
+			var rev1 = rev0.b;
+			return $elm$core$Maybe$Just(
+				_Utils_Tuple2(
+					x,
+					A2($author$project$Queue$Queue, _List_Nil, rev1)));
+		}
+	} else {
+		var x = front0.a;
+		var front1 = front0.b;
+		return $elm$core$Maybe$Just(
+			_Utils_Tuple2(
+				x,
+				A2($author$project$Queue$Queue, back, front1)));
+	}
+};
+var $author$project$ExplicitEvaluator$receive = function (actorState) {
+	var _v0 = $author$project$Queue$dequeue(actorState.mailbox);
+	if (_v0.$ === 'Just') {
+		var _v1 = _v0.a;
+		var val = _v1.a;
+		var newQueue = _v1.b;
+		return _Utils_Tuple2(
+			$elm$core$Maybe$Just(val),
+			$author$project$ExplicitEvaluator$ActiveActor(
+				_Utils_update(
+					actorState,
+					{mailbox: newQueue})));
+	} else {
+		return _Utils_Tuple2(
+			$elm$core$Maybe$Nothing,
+			$author$project$ExplicitEvaluator$BlockedActor(actorState));
+	}
+};
 var $author$project$ExplicitEvaluator$delimitStack = function (stack) {
 	var currentDelimitedStack = stack.currentDelimitedStack;
 	var savedDelimitedStacks = stack.savedDelimitedStacks;
@@ -9094,11 +9482,11 @@ var $author$project$ExplicitEvaluator$delimitStack = function (stack) {
 		savedDelimitedStacks: A2($elm$core$List$cons, currentDelimitedStack, savedDelimitedStacks)
 	};
 };
-var $author$project$ExplicitEvaluator$reset = function (state) {
+var $author$project$ExplicitEvaluator$reset = function (actorState) {
 	return _Utils_update(
-		state,
+		actorState,
 		{
-			stack: $author$project$ExplicitEvaluator$delimitStack(state.stack)
+			stack: $author$project$ExplicitEvaluator$delimitStack(actorState.stack)
 		});
 };
 var $author$project$ExplicitEvaluator$ShiftingWithoutReset = {$: 'ShiftingWithoutReset'};
@@ -9118,260 +9506,397 @@ var $author$project$ExplicitEvaluator$shiftStack = function (stack) {
 					{currentDelimitedStack: delimitedStack, savedDelimitedStacks: savedDelimitedStacks1})));
 	}
 };
-var $author$project$ExplicitEvaluator$shift = function (state) {
-	var stack = state.stack;
+var $author$project$ExplicitEvaluator$shift = function (actorState) {
+	var stack = actorState.stack;
 	var _v0 = $author$project$ExplicitEvaluator$shiftStack(stack);
 	if (_v0.$ === 'Just') {
 		var _v1 = _v0.a;
 		var delimitedStack = _v1.a;
 		var stack1 = _v1.b;
-		return $elm$core$Result$Ok(
-			_Utils_Tuple2(
-				delimitedStack,
+		return _Utils_Tuple2(
+			$elm$core$Maybe$Just(delimitedStack),
+			$author$project$ExplicitEvaluator$ActiveActor(
 				_Utils_update(
-					state,
+					actorState,
 					{stack: stack1})));
 	} else {
-		return $elm$core$Result$Err($author$project$ExplicitEvaluator$ShiftingWithoutReset);
+		return _Utils_Tuple2(
+			$elm$core$Maybe$Nothing,
+			$author$project$ExplicitEvaluator$FailedActor($author$project$ExplicitEvaluator$ShiftingWithoutReset));
 	}
 };
-var $author$project$ExplicitEvaluator$decompose = F3(
-	function (env, comp, _do) {
+var $author$project$ExplicitEvaluator$decompose = F5(
+	function (nextAddress, env, comp, currentAddress, actorState) {
 		switch (comp.$) {
 			case 'ConstantComputation':
 				var constant = comp.a;
-				return $elm$core$Result$Ok(
-					_do(
-						$author$project$ExplicitEvaluator$Value(
-							$author$project$ExplicitEvaluator$ConstantValue(constant))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$do,
+							$author$project$ExplicitEvaluator$Value(
+								$author$project$ExplicitEvaluator$ConstantValue(constant)),
+							actorState)));
 			case 'VarUse':
 				var varName = comp.a;
-				var _v1 = A2($author$project$ExplicitEvaluator$getEnv, varName, env);
-				if (_v1.$ === 'Just') {
-					var val = _v1.a;
-					return $elm$core$Result$Ok(
-						_do(
-							$author$project$ExplicitEvaluator$Value(val)));
-				} else {
-					return $elm$core$Result$Err(
-						$author$project$ExplicitEvaluator$UnboundVarName(varName));
-				}
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						var _v1 = A2($author$project$ExplicitEvaluator$getEnv, varName, env);
+						if (_v1.$ === 'Just') {
+							var val = _v1.a;
+							return $author$project$ExplicitEvaluator$ActiveActor(
+								A2(
+									$author$project$ExplicitEvaluator$do,
+									$author$project$ExplicitEvaluator$Value(val),
+									actorState));
+						} else {
+							return $author$project$ExplicitEvaluator$FailedActor(
+								$author$project$ExplicitEvaluator$UnboundVarName(varName));
+						}
+					}());
 			case 'PrimitiveIntOperation2':
 				var op = comp.a;
 				var computation0 = comp.b;
 				var computation1 = comp.c;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						A2($author$project$ExplicitEvaluator$PrimitiveIntOperation2LeftHole, op, computation1),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							A2($author$project$ExplicitEvaluator$PrimitiveIntOperation2LeftHole, op, computation1),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
 			case 'PredicateApplication':
 				var pred = comp.a;
 				var computation0 = comp.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$PredicateApplicationHole(pred),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$PredicateApplicationHole(pred),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
 			case 'IfThenElse':
 				var computation = comp.a;
 				var leftBranch = comp.b;
 				var rightBranch = comp.c;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						A2($author$project$ExplicitEvaluator$IfThenElseHole, leftBranch, rightBranch),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							A2($author$project$ExplicitEvaluator$IfThenElseHole, leftBranch, rightBranch),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation),
+								actorState))));
 			case 'Lambda':
 				var _var = comp.a._var;
 				var body = comp.a.body;
-				return $elm$core$Result$Ok(
-					_do(
-						$author$project$ExplicitEvaluator$Value(
-							A2(
-								$author$project$ExplicitEvaluator$ClosureValue,
-								env,
-								{body: body, _var: _var}))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$do,
+							$author$project$ExplicitEvaluator$Value(
+								A2(
+									$author$project$ExplicitEvaluator$ClosureValue,
+									env,
+									{body: body, _var: _var})),
+							actorState)));
 			case 'Application':
 				var computation0 = comp.a;
 				var computation1 = comp.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$ApplicationLeftHole(computation1),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$ApplicationLeftHole(computation1),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
 			case 'Tagged':
 				var tag = comp.a;
 				var n = comp.b;
 				var computations0 = comp.c;
-				var numOfComputations = $elm$core$List$length(computations0);
-				if (!_Utils_eq(n, numOfComputations)) {
-					return $elm$core$Result$Err(
-						$author$project$ExplicitEvaluator$TaggedComputationArityMismatch(
-							{expected: n, got: numOfComputations}));
-				} else {
-					if (!computations0.b) {
-						return $elm$core$Result$Ok(
-							_do(
-								$author$project$ExplicitEvaluator$Value(
-									A3($author$project$ExplicitEvaluator$TaggedValue, tag, 0, _List_Nil))));
-					} else {
-						var computation0 = computations0.a;
-						var computations1 = computations0.b;
-						return $elm$core$Result$Ok(
-							A2(
-								$author$project$ExplicitEvaluator$push,
-								A4($author$project$ExplicitEvaluator$TaggedWithHole, tag, n, _List_Nil, computations1),
-								_do(
-									$author$project$ExplicitEvaluator$Computation(computation0))));
-					}
-				}
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						var numOfComputations = $elm$core$List$length(computations0);
+						if (!_Utils_eq(n, numOfComputations)) {
+							return $author$project$ExplicitEvaluator$FailedActor(
+								$author$project$ExplicitEvaluator$TaggedComputationArityMismatch(
+									{expected: n, got: numOfComputations}));
+						} else {
+							if (!computations0.b) {
+								return $author$project$ExplicitEvaluator$ActiveActor(
+									A2(
+										$author$project$ExplicitEvaluator$do,
+										$author$project$ExplicitEvaluator$Value(
+											A3($author$project$ExplicitEvaluator$TaggedValue, tag, 0, _List_Nil)),
+										actorState));
+							} else {
+								var computation0 = computations0.a;
+								var computations1 = computations0.b;
+								return $author$project$ExplicitEvaluator$ActiveActor(
+									A2(
+										$author$project$ExplicitEvaluator$push,
+										A4($author$project$ExplicitEvaluator$TaggedWithHole, tag, n, _List_Nil, computations1),
+										A2(
+											$author$project$ExplicitEvaluator$do,
+											$author$project$ExplicitEvaluator$Computation(computation0),
+											actorState)));
+							}
+						}
+					}());
 			case 'MatchTagged':
 				var computation0 = comp.a;
 				var branches = comp.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$MatchTaggedWithHole(branches),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$MatchTaggedWithHole(branches),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
 			case 'Tuple':
 				var n = comp.a;
 				var computations0 = comp.b;
-				var numOfComputations = $elm$core$List$length(computations0);
-				if (!_Utils_eq(n, numOfComputations)) {
-					return $elm$core$Result$Err(
-						$author$project$ExplicitEvaluator$TupleArityMismatch(
-							{expected: n, got: numOfComputations}));
-				} else {
-					if (!computations0.b) {
-						return $elm$core$Result$Ok(
-							_do(
-								$author$project$ExplicitEvaluator$Value(
-									A2($author$project$ExplicitEvaluator$TupleValue, 0, _List_Nil))));
-					} else {
-						var computation0 = computations0.a;
-						var computations1 = computations0.b;
-						return $elm$core$Result$Ok(
-							A2(
-								$author$project$ExplicitEvaluator$push,
-								A3($author$project$ExplicitEvaluator$TupleWithHole, n, _List_Nil, computations1),
-								_do(
-									$author$project$ExplicitEvaluator$Computation(computation0))));
-					}
-				}
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						var numOfComputations = $elm$core$List$length(computations0);
+						if (!_Utils_eq(n, numOfComputations)) {
+							return $author$project$ExplicitEvaluator$FailedActor(
+								$author$project$ExplicitEvaluator$TupleArityMismatch(
+									{expected: n, got: numOfComputations}));
+						} else {
+							if (!computations0.b) {
+								return $author$project$ExplicitEvaluator$ActiveActor(
+									A2(
+										$author$project$ExplicitEvaluator$do,
+										$author$project$ExplicitEvaluator$Value(
+											A2($author$project$ExplicitEvaluator$TupleValue, 0, _List_Nil)),
+										actorState));
+							} else {
+								var computation0 = computations0.a;
+								var computations1 = computations0.b;
+								return $author$project$ExplicitEvaluator$ActiveActor(
+									A2(
+										$author$project$ExplicitEvaluator$push,
+										A3($author$project$ExplicitEvaluator$TupleWithHole, n, _List_Nil, computations1),
+										A2(
+											$author$project$ExplicitEvaluator$do,
+											$author$project$ExplicitEvaluator$Computation(computation0),
+											actorState)));
+							}
+						}
+					}());
 			case 'Project':
 				var computation0 = comp.a;
 				var k = comp.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$ProjectWithHole(k),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$ProjectWithHole(k),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
 			case 'SaveStack':
 				var _var = comp.a._var;
 				var body = comp.a.body;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$getStack,
-						function (stack) {
-							return A2(
-								$author$project$ExplicitEvaluator$bind,
-								_var,
-								A2($author$project$ExplicitEvaluator$StackValue, env, stack));
-						},
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
 						A2(
-							$author$project$ExplicitEvaluator$push,
-							$author$project$ExplicitEvaluator$RestoreEnv(env),
-							_do(
-								$author$project$ExplicitEvaluator$Computation(body)))));
+							$author$project$ExplicitEvaluator$getStack,
+							function (stack) {
+								return A2(
+									$author$project$ExplicitEvaluator$bind,
+									_var,
+									A2($author$project$ExplicitEvaluator$StackValue, env, stack));
+							},
+							A2(
+								$author$project$ExplicitEvaluator$push,
+								$author$project$ExplicitEvaluator$RestoreEnv(env),
+								A2(
+									$author$project$ExplicitEvaluator$do,
+									$author$project$ExplicitEvaluator$Computation(body),
+									actorState)))));
 			case 'RestoreStackWith':
 				var computation0 = comp.a;
 				var computation1 = comp.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$RestoreStackWithLeftHole(computation1),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
-			case 'Reset':
-				var body = comp.a.body;
-				return $elm$core$Result$Ok(
-					$author$project$ExplicitEvaluator$reset(
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
 						A2(
 							$author$project$ExplicitEvaluator$push,
-							$author$project$ExplicitEvaluator$RestoreEnv(env),
-							_do(
-								$author$project$ExplicitEvaluator$Computation(body)))));
+							$author$project$ExplicitEvaluator$RestoreStackWithLeftHole(computation1),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
+			case 'Reset':
+				var body = comp.a.body;
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						$author$project$ExplicitEvaluator$reset(
+							A2(
+								$author$project$ExplicitEvaluator$push,
+								$author$project$ExplicitEvaluator$RestoreEnv(env),
+								A2(
+									$author$project$ExplicitEvaluator$do,
+									$author$project$ExplicitEvaluator$Computation(body),
+									actorState)))));
 			case 'Shift':
 				var _var = comp.a._var;
 				var body = comp.a.body;
-				return A2(
-					$elm$core$Result$map,
-					$author$project$ExplicitEvaluator$push(
-						$author$project$ExplicitEvaluator$RestoreEnv(env)),
-					A2(
-						$elm$core$Result$map,
-						function (_v4) {
-							var delimitedStack = _v4.a;
-							var newState = _v4.b;
-							return A3(
-								$author$project$ExplicitEvaluator$bind,
-								_var,
-								A2($author$project$ExplicitEvaluator$DelimitedStackValue, env, delimitedStack),
-								newState);
-						},
-						$author$project$ExplicitEvaluator$shift(
-							_do(
-								$author$project$ExplicitEvaluator$Computation(body)))));
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						var _v4 = $author$project$ExplicitEvaluator$shift(
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(body),
+								actorState));
+						var maybeDelimitedStack = _v4.a;
+						var newActor = _v4.b;
+						if (maybeDelimitedStack.$ === 'Just') {
+							var delimitedStack = maybeDelimitedStack.a;
+							return A2(
+								$author$project$ExplicitEvaluator$mapActor,
+								A2(
+									$elm$core$Basics$composeR,
+									A2(
+										$author$project$ExplicitEvaluator$bind,
+										_var,
+										A2($author$project$ExplicitEvaluator$DelimitedStackValue, env, delimitedStack)),
+									$author$project$ExplicitEvaluator$push(
+										$author$project$ExplicitEvaluator$RestoreEnv(env))),
+								newActor);
+						} else {
+							return newActor;
+						}
+					}());
 			case 'RestoreDelimitedStackWith':
 				var computation0 = comp.a;
 				var computation1 = comp.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$RestoreDelimitedStackWithLeftHole(computation1),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$RestoreDelimitedStackWithLeftHole(computation1),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
 			case 'Let':
 				var computation0 = comp.a;
 				var _var = comp.b._var;
 				var body = comp.b.body;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$LetWithLeftHole(
-							{body: body, _var: _var}),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$LetWithLeftHole(
+								{body: body, _var: _var}),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
 			case 'GetEnv':
-				return $elm$core$Result$Ok(
-					_do(
-						$author$project$ExplicitEvaluator$Value(
-							$author$project$ExplicitEvaluator$EnvValue(env))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$do,
+							$author$project$ExplicitEvaluator$Value(
+								$author$project$ExplicitEvaluator$EnvValue(env)),
+							actorState)));
 			case 'WithIn':
 				var computation0 = comp.a;
 				var computation1 = comp.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$WithInLeftHole(computation1),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
-			default:
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$WithInLeftHole(computation1),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
+			case 'Log':
 				var computation0 = comp.a;
 				var computation1 = comp.b;
-				return $elm$core$Result$Ok(
-					A2(
-						$author$project$ExplicitEvaluator$push,
-						$author$project$ExplicitEvaluator$LogLeftHole(computation1),
-						_do(
-							$author$project$ExplicitEvaluator$Computation(computation0))));
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$LogLeftHole(computation1),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
+			case 'Receive':
+				return $author$project$ExplicitEvaluator$Return(
+					function () {
+						var _v6 = $author$project$ExplicitEvaluator$receive(actorState);
+						var maybeVal = _v6.a;
+						var newActor = _v6.b;
+						if (maybeVal.$ === 'Nothing') {
+							return newActor;
+						} else {
+							var val = maybeVal.a;
+							return A2(
+								$author$project$ExplicitEvaluator$mapActor,
+								$author$project$ExplicitEvaluator$do(
+									$author$project$ExplicitEvaluator$Value(val)),
+								newActor);
+						}
+					}());
+			case 'Send':
+				var addressComputation = comp.a;
+				var messageComputation = comp.b;
+				var computation1 = comp.c;
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							A2($author$project$ExplicitEvaluator$SendLeftHole, messageComputation, computation1),
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(addressComputation),
+								actorState))));
+			case 'Spawn':
+				var computation0 = comp.a;
+				return A2(
+					$author$project$ExplicitEvaluator$SpawnActor,
+					computation0,
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$do,
+							$author$project$ExplicitEvaluator$Value(
+								$author$project$ExplicitEvaluator$Address(nextAddress)),
+							actorState)));
+			case 'Self':
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$do,
+							$author$project$ExplicitEvaluator$Value(
+								$author$project$ExplicitEvaluator$Address(currentAddress)),
+							actorState)));
+			default:
+				var computation0 = comp.a;
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$ActiveActor(
+						A2(
+							$author$project$ExplicitEvaluator$push,
+							$author$project$ExplicitEvaluator$HaltHole,
+							A2(
+								$author$project$ExplicitEvaluator$do,
+								$author$project$ExplicitEvaluator$Computation(computation0),
+								actorState))));
 		}
 	});
 var $author$project$ExplicitEvaluator$popStack = function (stack) {
@@ -9407,97 +9932,109 @@ var $author$project$ExplicitEvaluator$popStack = function (stack) {
 					{currentDelimitedStack: currentDelimitedStack1})));
 	}
 };
-var $author$project$ExplicitEvaluator$setCurrentComputation = F2(
-	function (currentComputation, state) {
-		return _Utils_update(
-			state,
-			{currentComputation: currentComputation});
-	});
-var $author$project$ExplicitEvaluator$smallStepEval = function (state) {
-	var _v0 = state.currentComputation;
-	if (_v0.$ === 'Value') {
-		var val = _v0.a;
-		var _v1 = $author$project$ExplicitEvaluator$popStack(state.stack);
-		if (_v1.$ === 'Nothing') {
-			return $elm$core$Result$Ok(
-				$author$project$ExplicitEvaluator$Right(_Utils_Tuple0));
-		} else {
-			var _v2 = _v1.a;
-			var stackEl = _v2.a;
-			var stack1 = _v2.b;
-			return A2(
-				$elm$core$Result$map,
-				$author$project$ExplicitEvaluator$Left,
-				A3(
+var $author$project$ExplicitEvaluator$stepActor = F3(
+	function (nextAddress, currentAddress, actorState) {
+		var _v0 = actorState.currentComputation;
+		if (_v0.$ === 'Value') {
+			var val = _v0.a;
+			var _v1 = $author$project$ExplicitEvaluator$popStack(actorState.stack);
+			if (_v1.$ === 'Nothing') {
+				return $author$project$ExplicitEvaluator$Return(
+					$author$project$ExplicitEvaluator$TerminatedActor(
+						{console: actorState.console, env: actorState.env, mailbox: actorState.mailbox, terminalValue: val}));
+			} else {
+				var _v2 = _v1.a;
+				var stackEl = _v2.a;
+				var stack1 = _v2.b;
+				return A3(
 					$author$project$ExplicitEvaluator$combine,
 					val,
 					stackEl,
-					function (currentComputation) {
-						return A2(
-							$author$project$ExplicitEvaluator$setStack,
-							stack1,
-							A2($author$project$ExplicitEvaluator$setCurrentComputation, currentComputation, state));
-					}));
+					A2($author$project$ExplicitEvaluator$setStack, stack1, actorState));
+			}
+		} else {
+			var comp = _v0.a;
+			return A5($author$project$ExplicitEvaluator$decompose, nextAddress, actorState.env, comp, currentAddress, actorState);
+		}
+	});
+var $author$project$ExplicitEvaluator$stepState = function (state) {
+	var actors = state.actors;
+	var currentlySelectedActor = state.currentlySelectedActor;
+	var nextAddress = state.nextAddress;
+	var nextMessageId = state.nextMessageId;
+	var _v0 = A2($elm$core$Dict$get, currentlySelectedActor, actors);
+	if (_v0.$ === 'Just') {
+		var actor = _v0.a;
+		if (actor.$ === 'ActiveActor') {
+			var actorState = actor.a;
+			var _v2 = A3($author$project$ExplicitEvaluator$stepActor, nextAddress, currentlySelectedActor, actorState);
+			switch (_v2.$) {
+				case 'Return':
+					var newActor = _v2.a;
+					return A3($author$project$ExplicitEvaluator$updateActor, currentlySelectedActor, newActor, state);
+				case 'EmitMessage':
+					var destination = _v2.a.destination;
+					var payload = _v2.a.payload;
+					var newActor = _v2.b;
+					return A2(
+						$author$project$ExplicitEvaluator$sendMessage,
+						{destination: destination, messageId: state.nextMessageId, payload: payload},
+						A3($author$project$ExplicitEvaluator$updateActor, currentlySelectedActor, newActor, state));
+				default:
+					var computation = _v2.a;
+					var newActor = _v2.b;
+					return A2(
+						$author$project$ExplicitEvaluator$spawnActor,
+						computation,
+						A3($author$project$ExplicitEvaluator$updateActor, currentlySelectedActor, newActor, state));
+			}
+		} else {
+			return state;
 		}
 	} else {
-		var comp = _v0.a;
-		return A2(
-			$elm$core$Result$map,
-			$author$project$ExplicitEvaluator$Left,
-			A3(
-				$author$project$ExplicitEvaluator$decompose,
-				state.env,
-				comp,
-				function (currentComputation0) {
-					return A2($author$project$ExplicitEvaluator$setCurrentComputation, currentComputation0, state);
-				}));
+		return state;
 	}
 };
-var $author$project$Main$modelStepForward = function (model) {
-	var currentState = model.currentState;
-	return $Fresheyeball$elm_return$Return$singleton(
-		_Utils_update(
-			model,
-			{
-				currentState: A2(
-					$elm$core$Result$andThen,
-					function (decoratedState) {
-						return A2(
-							$elm$core$Result$map,
-							function (newStateOrTerminal) {
-								if (newStateOrTerminal.$ === 'Left') {
-									var state = newStateOrTerminal.a;
-									return {isTerminated: false, state: state};
-								} else {
-									return {isTerminated: true, state: decoratedState.state};
-								}
-							},
-							$author$project$ExplicitEvaluator$smallStepEval(decoratedState.state));
-					},
-					currentState)
-			}));
-};
+var $author$project$Main$modelStepForward = F2(
+	function (address, model) {
+		var currentState = model.currentState;
+		return $Fresheyeball$elm_return$Return$singleton(
+			_Utils_update(
+				model,
+				{
+					currentState: $author$project$ExplicitEvaluator$stepState(
+						A2($author$project$ExplicitEvaluator$selectActor, address, currentState))
+				}));
+	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'StepForward':
-				return A2(
+				var actorId = msg.a;
+				return A2($author$project$ExplicitEvaluator$isActorActive, actorId, model.currentState) ? A2(
 					$Fresheyeball$elm_return$Return$andThen,
-					$author$project$Main$modelStepForward,
-					$author$project$Main$modelSaveCurrentState(model));
+					$author$project$Main$modelStepForward(actorId),
+					$author$project$Main$modelSaveCurrentState(model)) : $Fresheyeball$elm_return$Return$singleton(model);
 			case 'StepBack':
 				return $author$project$Main$modelStepBack(model);
 			case 'ResetState':
 				return $author$project$Main$modelReset(model);
-			default:
+			case 'ExampleSelected':
 				var ex = msg.a;
 				return $author$project$Main$modelFromExample(ex);
+			default:
+				var message = msg.a;
+				return $Fresheyeball$elm_return$Return$singleton(
+					_Utils_update(
+						model,
+						{
+							currentState: A2($author$project$ExplicitEvaluator$deliverMessage, message, model.currentState)
+						}));
 		}
 	});
 var $author$project$Main$ExampleSelected = function (a) {
 	return {$: 'ExampleSelected', a: a};
 };
-var $author$project$Main$ResetState = {$: 'ResetState'};
 var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 	function (a, b, c) {
 		return {$: 'Node', a: a, b: b, c: c};
@@ -9505,7 +10042,6 @@ var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 var $rtfeldman$elm_css$VirtualDom$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$Node;
 var $rtfeldman$elm_css$Html$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$node;
 var $rtfeldman$elm_css$Html$Styled$a = $rtfeldman$elm_css$Html$Styled$node('a');
-var $rtfeldman$elm_css$Html$Styled$button = $rtfeldman$elm_css$Html$Styled$node('button');
 var $rtfeldman$elm_css$Html$Styled$div = $rtfeldman$elm_css$Html$Styled$node('div');
 var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
 	function (a, b, c) {
@@ -9569,79 +10105,73 @@ var $rtfeldman$elm_css$Html$Styled$Internal$css = function (styles) {
 	return A3($rtfeldman$elm_css$VirtualDom$Styled$Attribute, classProperty, styles, classname);
 };
 var $rtfeldman$elm_css$Html$Styled$Attributes$css = $rtfeldman$elm_css$Html$Styled$Internal$css;
-var $elm$json$Json$Encode$bool = _Json_wrap;
-var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
-	function (key, value) {
-		return A3(
-			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
-			A2($elm$virtual_dom$VirtualDom$property, key, value),
-			_List_Nil,
-			'');
-	});
-var $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty = F2(
-	function (key, bool) {
-		return A2(
-			$rtfeldman$elm_css$VirtualDom$Styled$property,
-			key,
-			$elm$json$Json$Encode$bool(bool));
-	});
-var $rtfeldman$elm_css$Html$Styled$Attributes$disabled = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('disabled');
+var $author$project$Example$example0 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$Example$add,
+			$author$project$Example$c(3),
+			$author$project$Example$c(2))),
+	$author$project$Example$example('arithmetic-0'));
 var $author$project$ExplicitEvaluator$Mul = {$: 'Mul'};
 var $author$project$Example$mul = F2(
 	function (c0, c1) {
 		return A3($author$project$ExplicitEvaluator$PrimitiveIntOperation2, $author$project$ExplicitEvaluator$Mul, c0, c1);
 	});
 var $author$project$Example$example1 = A2(
-	$author$project$Example$example,
-	'arithmetic-1',
-	A2(
-		$author$project$Example$mul,
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
 		A2(
-			$author$project$Example$add,
-			$author$project$Example$c(3),
-			$author$project$Example$c(2)),
-		A2(
-			$author$project$Example$add,
-			$author$project$Example$c(7),
-			$author$project$Example$c(7))));
+			$author$project$Example$mul,
+			A2(
+				$author$project$Example$add,
+				$author$project$Example$c(3),
+				$author$project$Example$c(2)),
+			A2(
+				$author$project$Example$add,
+				$author$project$Example$c(7),
+				$author$project$Example$c(7)))),
+	$author$project$Example$example('arithmetic-1'));
 var $author$project$ExplicitEvaluator$Tuple = F2(
 	function (a, b) {
 		return {$: 'Tuple', a: a, b: b};
 	});
 var $author$project$Example$example10 = A2(
-	$author$project$Example$example,
-	'tuples 0',
-	A2(
-		$author$project$ExplicitEvaluator$Tuple,
-		3,
-		_List_fromArray(
-			[
-				$author$project$Example$c(0),
-				A2(
-				$author$project$Example$add,
-				$author$project$Example$c(1),
-				$author$project$Example$c(2)),
-				$author$project$Example$c(5)
-			])));
-var $author$project$ExplicitEvaluator$Project = F2(
-	function (a, b) {
-		return {$: 'Project', a: a, b: b};
-	});
-var $author$project$Example$example11 = A2(
-	$author$project$Example$example,
-	'tuples 2',
-	A2(
-		$author$project$ExplicitEvaluator$Project,
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
 		A2(
 			$author$project$ExplicitEvaluator$Tuple,
 			3,
 			_List_fromArray(
 				[
-					$author$project$Example$c(16),
-					$author$project$Example$c(3),
+					$author$project$Example$c(0),
+					A2(
+					$author$project$Example$add,
+					$author$project$Example$c(1),
+					$author$project$Example$c(2)),
 					$author$project$Example$c(5)
-				])),
-		1));
+				]))),
+	$author$project$Example$example('tuples 0'));
+var $author$project$ExplicitEvaluator$Project = F2(
+	function (a, b) {
+		return {$: 'Project', a: a, b: b};
+	});
+var $author$project$Example$example11 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$ExplicitEvaluator$Project,
+			A2(
+				$author$project$ExplicitEvaluator$Tuple,
+				3,
+				_List_fromArray(
+					[
+						$author$project$Example$c(16),
+						$author$project$Example$c(3),
+						$author$project$Example$c(5)
+					])),
+			1)),
+	$author$project$Example$example('tuples 2'));
 var $author$project$ExplicitEvaluator$Log = F2(
 	function (a, b) {
 		return {$: 'Log', a: a, b: b};
@@ -9654,15 +10184,16 @@ var $author$project$Example$str = function (s) {
 		$author$project$ExplicitEvaluator$StringConst(s));
 };
 var $author$project$Example$example12 = A2(
-	$author$project$Example$example,
-	'console',
-	A2(
-		$author$project$ExplicitEvaluator$Log,
-		$author$project$Example$str('hello'),
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
 		A2(
 			$author$project$ExplicitEvaluator$Log,
-			$author$project$Example$c(1),
-			$author$project$Example$c(2))));
+			$author$project$Example$str('hello'),
+			A2(
+				$author$project$ExplicitEvaluator$Log,
+				$author$project$Example$c(1),
+				$author$project$Example$c(2)))),
+	$author$project$Example$example('console'));
 var $author$project$ExplicitEvaluator$Let = F2(
 	function (a, b) {
 		return {$: 'Let', a: a, b: b};
@@ -9687,37 +10218,38 @@ var $author$project$Example$pair = F2(
 				[a, b]));
 	});
 var $author$project$Example$example13 = A2(
-	$author$project$Example$example,
-	'call/cc with printing',
-	A2(
-		$author$project$ExplicitEvaluator$Let,
-		$author$project$ExplicitEvaluator$SaveStack(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$ExplicitEvaluator$Let,
+			$author$project$ExplicitEvaluator$SaveStack(
+				{
+					body: A2(
+						$author$project$ExplicitEvaluator$Log,
+						$author$project$Example$str('Executed'),
+						A2(
+							$author$project$ExplicitEvaluator$Project,
+							A2(
+								$author$project$Example$pair,
+								A2(
+									$author$project$ExplicitEvaluator$RestoreStackWith,
+									$author$project$ExplicitEvaluator$VarUse('k'),
+									$author$project$Example$c(5)),
+								A2(
+									$author$project$ExplicitEvaluator$Log,
+									$author$project$Example$str('Not executed'),
+									$author$project$Example$empty)),
+							1)),
+					_var: 'k'
+				}),
 			{
 				body: A2(
 					$author$project$ExplicitEvaluator$Log,
-					$author$project$Example$str('Executed'),
-					A2(
-						$author$project$ExplicitEvaluator$Project,
-						A2(
-							$author$project$Example$pair,
-							A2(
-								$author$project$ExplicitEvaluator$RestoreStackWith,
-								$author$project$ExplicitEvaluator$VarUse('k'),
-								$author$project$Example$c(5)),
-							A2(
-								$author$project$ExplicitEvaluator$Log,
-								$author$project$Example$str('Not executed'),
-								$author$project$Example$empty)),
-						1)),
-				_var: 'k'
-			}),
-		{
-			body: A2(
-				$author$project$ExplicitEvaluator$Log,
-				$author$project$ExplicitEvaluator$VarUse('val'),
-				$author$project$Example$empty),
-			_var: 'val'
-		}));
+					$author$project$ExplicitEvaluator$VarUse('val'),
+					$author$project$Example$empty),
+				_var: 'val'
+			})),
+	$author$project$Example$example('call/cc with printing'));
 var $author$project$ExplicitEvaluator$IfThenElse = F3(
 	function (a, b, c) {
 		return {$: 'IfThenElse', a: a, b: b, c: c};
@@ -9728,20 +10260,21 @@ var $author$project$ExplicitEvaluator$PredicateApplication = F2(
 		return {$: 'PredicateApplication', a: a, b: b};
 	});
 var $author$project$Example$example14 = A2(
-	$author$project$Example$example,
-	'predicates',
-	A3(
-		$author$project$ExplicitEvaluator$IfThenElse,
-		A2(
-			$author$project$ExplicitEvaluator$PredicateApplication,
-			$author$project$ExplicitEvaluator$IsInt,
-			$author$project$Example$str('hello')),
-		{
-			body: $author$project$Example$c(3)
-		},
-		{
-			body: $author$project$Example$c(5)
-		}));
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A3(
+			$author$project$ExplicitEvaluator$IfThenElse,
+			A2(
+				$author$project$ExplicitEvaluator$PredicateApplication,
+				$author$project$ExplicitEvaluator$IsInt,
+				$author$project$Example$str('hello')),
+			{
+				body: $author$project$Example$c(3)
+			},
+			{
+				body: $author$project$Example$c(5)
+			})),
+	$author$project$Example$example('predicates'));
 var $author$project$ExplicitEvaluator$MatchTagged = F2(
 	function (a, b) {
 		return {$: 'MatchTagged', a: a, b: b};
@@ -9755,155 +10288,161 @@ var $author$project$ExplicitEvaluator$Tagged = F3(
 		return {$: 'Tagged', a: a, b: b, c: c};
 	});
 var $author$project$Example$example15 = A2(
-	$author$project$Example$example,
-	'Binding a stack to a variable',
-	A2(
-		$author$project$ExplicitEvaluator$Let,
-		$author$project$ExplicitEvaluator$SaveStack(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$ExplicitEvaluator$Let,
+			$author$project$ExplicitEvaluator$SaveStack(
+				{
+					body: A3(
+						$author$project$ExplicitEvaluator$Tagged,
+						'first',
+						1,
+						_List_fromArray(
+							[
+								$author$project$ExplicitEvaluator$VarUse('k')
+							])),
+					_var: 'k'
+				}),
 			{
-				body: A3(
-					$author$project$ExplicitEvaluator$Tagged,
-					'first',
-					1,
+				body: A2(
+					$author$project$ExplicitEvaluator$MatchTagged,
+					$author$project$ExplicitEvaluator$VarUse('val'),
 					_List_fromArray(
 						[
-							$author$project$ExplicitEvaluator$VarUse('k')
+							{
+							body: A2(
+								$author$project$ExplicitEvaluator$Log,
+								$author$project$ExplicitEvaluator$VarUse('val'),
+								A2(
+									$author$project$ExplicitEvaluator$RestoreStackWith,
+									$author$project$ExplicitEvaluator$VarUse('k'),
+									A3(
+										$author$project$ExplicitEvaluator$Tagged,
+										'second',
+										1,
+										_List_fromArray(
+											[
+												$author$project$Example$c(5)
+											])))),
+							pattern: A3(
+								$author$project$ExplicitEvaluator$TagPattern,
+								'first',
+								1,
+								_List_fromArray(
+									['k']))
+						},
+							{
+							body: A2(
+								$author$project$ExplicitEvaluator$Log,
+								$author$project$ExplicitEvaluator$VarUse('val'),
+								$author$project$Example$empty),
+							pattern: A3(
+								$author$project$ExplicitEvaluator$TagPattern,
+								'second',
+								1,
+								_List_fromArray(
+									['x']))
+						}
 						])),
-				_var: 'k'
-			}),
-		{
-			body: A2(
-				$author$project$ExplicitEvaluator$MatchTagged,
-				$author$project$ExplicitEvaluator$VarUse('val'),
-				_List_fromArray(
-					[
-						{
-						body: A2(
-							$author$project$ExplicitEvaluator$Log,
-							$author$project$ExplicitEvaluator$VarUse('val'),
-							A2(
-								$author$project$ExplicitEvaluator$RestoreStackWith,
-								$author$project$ExplicitEvaluator$VarUse('k'),
-								A3(
-									$author$project$ExplicitEvaluator$Tagged,
-									'second',
-									1,
-									_List_fromArray(
-										[
-											$author$project$Example$c(5)
-										])))),
-						pattern: A3(
-							$author$project$ExplicitEvaluator$TagPattern,
-							'first',
-							1,
-							_List_fromArray(
-								['k']))
-					},
-						{
-						body: A2(
-							$author$project$ExplicitEvaluator$Log,
-							$author$project$ExplicitEvaluator$VarUse('val'),
-							$author$project$Example$empty),
-						pattern: A3(
-							$author$project$ExplicitEvaluator$TagPattern,
-							'second',
-							1,
-							_List_fromArray(
-								['x']))
-					}
-					])),
-			_var: 'val'
-		}));
+				_var: 'val'
+			})),
+	$author$project$Example$example('Binding a stack to a variable'));
 var $author$project$Example$example16 = A2(
-	$author$project$Example$example,
-	'Tagged values 0',
-	A3(
-		$author$project$ExplicitEvaluator$Tagged,
-		'just',
-		1,
-		_List_fromArray(
-			[
-				$author$project$Example$c(3)
-			])));
-var $author$project$Example$example17 = A2(
-	$author$project$Example$example,
-	'Tagged values 1',
-	A3($author$project$ExplicitEvaluator$Tagged, 'nothing', 0, _List_Nil));
-var $author$project$Example$example18 = A2(
-	$author$project$Example$example,
-	'Tagged values 2',
-	A3(
-		$author$project$ExplicitEvaluator$Tagged,
-		'cons',
-		2,
-		_List_fromArray(
-			[
-				$author$project$Example$c(73),
-				A3(
-				$author$project$ExplicitEvaluator$Tagged,
-				'cons',
-				2,
-				_List_fromArray(
-					[
-						$author$project$Example$c(30),
-						A3($author$project$ExplicitEvaluator$Tagged, 'empty', 0, _List_Nil)
-					]))
-			])));
-var $author$project$Example$example19 = A2(
-	$author$project$Example$example,
-	'Tagged values 3',
-	A2(
-		$author$project$ExplicitEvaluator$MatchTagged,
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
 		A3(
 			$author$project$ExplicitEvaluator$Tagged,
 			'just',
 			1,
 			_List_fromArray(
 				[
-					$author$project$Example$c(5)
-				])),
-		_List_fromArray(
-			[
-				{
-				body: $author$project$Example$c(5),
-				pattern: A3($author$project$ExplicitEvaluator$TagPattern, 'nothing', 0, _List_Nil)
-			},
-				{
-				body: A2(
-					$author$project$Example$add,
-					$author$project$ExplicitEvaluator$VarUse('x'),
-					$author$project$Example$c(20)),
-				pattern: A3(
-					$author$project$ExplicitEvaluator$TagPattern,
-					'just',
-					1,
+					$author$project$Example$c(3)
+				]))),
+	$author$project$Example$example('Tagged values 0'));
+var $author$project$Example$example17 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A3($author$project$ExplicitEvaluator$Tagged, 'nothing', 0, _List_Nil)),
+	$author$project$Example$example('Tagged values 1'));
+var $author$project$Example$example18 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A3(
+			$author$project$ExplicitEvaluator$Tagged,
+			'cons',
+			2,
+			_List_fromArray(
+				[
+					$author$project$Example$c(73),
+					A3(
+					$author$project$ExplicitEvaluator$Tagged,
+					'cons',
+					2,
 					_List_fromArray(
-						['x']))
-			}
-			])));
+						[
+							$author$project$Example$c(30),
+							A3($author$project$ExplicitEvaluator$Tagged, 'empty', 0, _List_Nil)
+						]))
+				]))),
+	$author$project$Example$example('Tagged values 2'));
+var $author$project$Example$example19 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$ExplicitEvaluator$MatchTagged,
+			A3(
+				$author$project$ExplicitEvaluator$Tagged,
+				'just',
+				1,
+				_List_fromArray(
+					[
+						$author$project$Example$c(5)
+					])),
+			_List_fromArray(
+				[
+					{
+					body: $author$project$Example$c(5),
+					pattern: A3($author$project$ExplicitEvaluator$TagPattern, 'nothing', 0, _List_Nil)
+				},
+					{
+					body: A2(
+						$author$project$Example$add,
+						$author$project$ExplicitEvaluator$VarUse('x'),
+						$author$project$Example$c(20)),
+					pattern: A3(
+						$author$project$ExplicitEvaluator$TagPattern,
+						'just',
+						1,
+						_List_fromArray(
+							['x']))
+				}
+				]))),
+	$author$project$Example$example('Tagged values 3'));
 var $author$project$Example$cv = function (x) {
 	return $author$project$ExplicitEvaluator$ConstantValue(
 		$author$project$ExplicitEvaluator$IntConst(x));
 };
 var $author$project$Example$withBinding = F3(
-	function (varName, val, ex) {
+	function (varName, val, exActor) {
 		return _Utils_update(
-			ex,
+			exActor,
 			{
-				env: A3($author$project$ExplicitEvaluator$insertEnv, varName, val, ex.env)
+				env: A3($author$project$ExplicitEvaluator$insertEnv, varName, val, exActor.env)
 			});
 	});
-var $author$project$Example$example2 = A3(
-	$author$project$Example$withBinding,
-	'x',
-	$author$project$Example$cv(5),
-	A2(
-		$author$project$Example$example,
-		'variable',
-		A2(
-			$author$project$Example$add,
-			$author$project$ExplicitEvaluator$VarUse('x'),
-			$author$project$Example$c(7))));
+var $author$project$Example$example2 = A2(
+	$author$project$Example$addActor,
+	A3(
+		$author$project$Example$withBinding,
+		'x',
+		$author$project$Example$cv(5),
+		$author$project$Example$exampleActor(
+			A2(
+				$author$project$Example$add,
+				$author$project$ExplicitEvaluator$VarUse('x'),
+				$author$project$Example$c(7)))),
+	$author$project$Example$example('variable'));
 var $author$project$ExplicitEvaluator$Reset = function (a) {
 	return {$: 'Reset', a: a};
 };
@@ -9911,125 +10450,225 @@ var $author$project$ExplicitEvaluator$Shift = function (a) {
 	return {$: 'Shift', a: a};
 };
 var $author$project$Example$example20 = A2(
-	$author$project$Example$example,
-	'Delimited continuations 0',
-	A2(
-		$author$project$Example$add,
-		$author$project$ExplicitEvaluator$Reset(
-			{
-				body: A2(
-					$author$project$Example$add,
-					$author$project$Example$c(34),
-					$author$project$ExplicitEvaluator$Shift(
-						{
-							body: $author$project$Example$c(12),
-							_var: 'k'
-						}))
-			}),
-		$author$project$Example$c(1)));
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$Example$add,
+			$author$project$ExplicitEvaluator$Reset(
+				{
+					body: A2(
+						$author$project$Example$add,
+						$author$project$Example$c(34),
+						$author$project$ExplicitEvaluator$Shift(
+							{
+								body: $author$project$Example$c(12),
+								_var: 'k'
+							}))
+				}),
+			$author$project$Example$c(1))),
+	$author$project$Example$example('Delimited continuations 0'));
 var $author$project$ExplicitEvaluator$RestoreDelimitedStackWith = F2(
 	function (a, b) {
 		return {$: 'RestoreDelimitedStackWith', a: a, b: b};
 	});
 var $author$project$Example$example21 = A2(
-	$author$project$Example$example,
-	'Delimited continuations 1',
-	A2(
-		$author$project$Example$add,
-		$author$project$ExplicitEvaluator$Reset(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$Example$add,
+			$author$project$ExplicitEvaluator$Reset(
+				{
+					body: A2(
+						$author$project$Example$add,
+						$author$project$Example$c(34),
+						$author$project$ExplicitEvaluator$Shift(
+							{
+								body: A2(
+									$author$project$Example$add,
+									A2(
+										$author$project$ExplicitEvaluator$RestoreDelimitedStackWith,
+										$author$project$ExplicitEvaluator$VarUse('k'),
+										$author$project$Example$c(3)),
+									A2(
+										$author$project$ExplicitEvaluator$RestoreDelimitedStackWith,
+										$author$project$ExplicitEvaluator$VarUse('k'),
+										$author$project$Example$c(4))),
+								_var: 'k'
+							}))
+				}),
+			$author$project$Example$c(1))),
+	$author$project$Example$example('Delimited continuations 1'));
+var $author$project$Example$example22 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$ExplicitEvaluator$Let,
+			$author$project$Example$c(3),
 			{
 				body: A2(
-					$author$project$Example$add,
-					$author$project$Example$c(34),
-					$author$project$ExplicitEvaluator$Shift(
-						{
-							body: A2(
-								$author$project$Example$add,
-								A2(
-									$author$project$ExplicitEvaluator$RestoreDelimitedStackWith,
-									$author$project$ExplicitEvaluator$VarUse('k'),
-									$author$project$Example$c(3)),
-								A2(
-									$author$project$ExplicitEvaluator$RestoreDelimitedStackWith,
-									$author$project$ExplicitEvaluator$VarUse('k'),
-									$author$project$Example$c(4))),
-							_var: 'k'
-						}))
-			}),
-		$author$project$Example$c(1)));
-var $author$project$Example$example22 = A2(
-	$author$project$Example$example,
-	'Delimited continuations 2',
+					$author$project$ExplicitEvaluator$Let,
+					$author$project$Example$c(4),
+					{
+						body: $author$project$ExplicitEvaluator$Reset(
+							{
+								body: A2(
+									$author$project$ExplicitEvaluator$Let,
+									$author$project$Example$c(34),
+									{
+										body: A2(
+											$author$project$Example$add,
+											$author$project$ExplicitEvaluator$VarUse('x'),
+											$author$project$ExplicitEvaluator$Shift(
+												{
+													body: A3(
+														$author$project$ExplicitEvaluator$Tagged,
+														'pair',
+														2,
+														_List_fromArray(
+															[
+																A2(
+																$author$project$Example$add,
+																A2(
+																	$author$project$ExplicitEvaluator$RestoreDelimitedStackWith,
+																	$author$project$ExplicitEvaluator$VarUse('k'),
+																	$author$project$ExplicitEvaluator$VarUse('a')),
+																A2(
+																	$author$project$ExplicitEvaluator$RestoreDelimitedStackWith,
+																	$author$project$ExplicitEvaluator$VarUse('k'),
+																	$author$project$ExplicitEvaluator$VarUse('b'))),
+																$author$project$ExplicitEvaluator$VarUse('x')
+															])),
+													_var: 'k'
+												})),
+										_var: 'x'
+									})
+							}),
+						_var: 'b'
+					}),
+				_var: 'a'
+			})),
+	$author$project$Example$example('Delimited continuations 2'));
+var $author$project$Example$queueMessage = F3(
+	function (address, val, exActor) {
+		return _Utils_update(
+			exActor,
+			{
+				mailbox: A2($author$project$Queue$enqueue, val, exActor.mailbox)
+			});
+	});
+var $author$project$Example$example23 = A2(
+	$author$project$Example$addActor,
+	A3(
+		$author$project$Example$queueMessage,
+		0,
+		$author$project$Example$cv(3),
+		A3(
+			$author$project$Example$queueMessage,
+			0,
+			$author$project$Example$cv(5),
+			$author$project$Example$exampleActor($author$project$ExplicitEvaluator$Receive))),
+	$author$project$Example$example('Actors: receive from mailbox'));
+var $author$project$Example$example24 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor($author$project$ExplicitEvaluator$Receive),
+	$author$project$Example$example('Actors: receive from empty mailbox and get blocked'));
+var $author$project$Example$example25 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$Example$add,
+			$author$project$Example$c(3),
+			$author$project$Example$c(18))),
 	A2(
-		$author$project$ExplicitEvaluator$Let,
-		$author$project$Example$c(3),
-		{
-			body: A2(
-				$author$project$ExplicitEvaluator$Let,
-				$author$project$Example$c(4),
-				{
-					body: $author$project$ExplicitEvaluator$Reset(
-						{
-							body: A2(
-								$author$project$ExplicitEvaluator$Let,
-								$author$project$Example$c(34),
-								{
-									body: A2(
-										$author$project$Example$add,
-										$author$project$ExplicitEvaluator$VarUse('x'),
-										$author$project$ExplicitEvaluator$Shift(
-											{
-												body: A3(
-													$author$project$ExplicitEvaluator$Tagged,
-													'pair',
-													2,
-													_List_fromArray(
-														[
-															A2(
-															$author$project$Example$add,
-															A2(
-																$author$project$ExplicitEvaluator$RestoreDelimitedStackWith,
-																$author$project$ExplicitEvaluator$VarUse('k'),
-																$author$project$ExplicitEvaluator$VarUse('a')),
-															A2(
-																$author$project$ExplicitEvaluator$RestoreDelimitedStackWith,
-																$author$project$ExplicitEvaluator$VarUse('k'),
-																$author$project$ExplicitEvaluator$VarUse('b'))),
-															$author$project$ExplicitEvaluator$VarUse('x')
-														])),
-												_var: 'k'
-											})),
-									_var: 'x'
-								})
-						}),
-					_var: 'b'
-				}),
-			_var: 'a'
-		}));
+		$author$project$Example$addActor,
+		$author$project$Example$exampleActor(
+			A2(
+				$author$project$Example$mul,
+				A2(
+					$author$project$Example$add,
+					$author$project$Example$c(3),
+					$author$project$Example$c(2)),
+				A2(
+					$author$project$Example$add,
+					$author$project$Example$c(7),
+					$author$project$Example$c(7)))),
+		A2(
+			$author$project$Example$addActor,
+			$author$project$Example$exampleActor(
+				A2(
+					$author$project$Example$add,
+					$author$project$Example$c(3),
+					$author$project$Example$c(2))),
+			$author$project$Example$example('Actors: multiple independent actors'))));
+var $author$project$Example$example26 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor($author$project$ExplicitEvaluator$Receive),
+	A2(
+		$author$project$Example$addActor,
+		A3(
+			$author$project$Example$withBinding,
+			'actorBelow',
+			$author$project$ExplicitEvaluator$Address(1),
+			$author$project$Example$exampleActor(
+				A3(
+					$author$project$ExplicitEvaluator$Send,
+					$author$project$ExplicitEvaluator$VarUse('actorBelow'),
+					$author$project$Example$c(6),
+					A2(
+						$author$project$Example$add,
+						$author$project$Example$c(3),
+						$author$project$Example$c(2))))),
+		$author$project$Example$example('Actors: communication')));
+var $author$project$ExplicitEvaluator$Spawn = function (a) {
+	return {$: 'Spawn', a: a};
+};
+var $author$project$Example$example27 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$ExplicitEvaluator$Let,
+			$author$project$ExplicitEvaluator$Spawn(
+				A2(
+					$author$project$Example$add,
+					$author$project$ExplicitEvaluator$Receive,
+					$author$project$Example$c(1))),
+			{
+				body: A3(
+					$author$project$ExplicitEvaluator$Send,
+					$author$project$ExplicitEvaluator$VarUse('child'),
+					$author$project$Example$c(5),
+					A2(
+						$author$project$Example$add,
+						$author$project$Example$c(3),
+						$author$project$Example$c(5))),
+				_var: 'child'
+			})),
+	$author$project$Example$example('Actors: spawning'));
 var $author$project$ExplicitEvaluator$LessThan = {$: 'LessThan'};
 var $author$project$Example$lt = F2(
 	function (c0, c1) {
 		return A3($author$project$ExplicitEvaluator$PrimitiveIntOperation2, $author$project$ExplicitEvaluator$LessThan, c0, c1);
 	});
-var $author$project$Example$example3 = A3(
-	$author$project$Example$withBinding,
-	'x',
-	$author$project$Example$cv(2),
-	A2(
-		$author$project$Example$example,
-		'if-the-else',
-		A3(
-			$author$project$ExplicitEvaluator$IfThenElse,
-			A2(
-				$author$project$Example$lt,
-				$author$project$ExplicitEvaluator$VarUse('x'),
-				$author$project$Example$c(3)),
-			{
-				body: $author$project$Example$c(7)
-			},
-			{
-				body: $author$project$Example$c(5)
-			})));
+var $author$project$Example$example3 = A2(
+	$author$project$Example$addActor,
+	A3(
+		$author$project$Example$withBinding,
+		'x',
+		$author$project$Example$cv(2),
+		$author$project$Example$exampleActor(
+			A3(
+				$author$project$ExplicitEvaluator$IfThenElse,
+				A2(
+					$author$project$Example$lt,
+					$author$project$ExplicitEvaluator$VarUse('x'),
+					$author$project$Example$c(3)),
+				{
+					body: $author$project$Example$c(7)
+				},
+				{
+					body: $author$project$Example$c(5)
+				}))),
+	$author$project$Example$example('if-the-else'));
 var $author$project$ExplicitEvaluator$Application = F2(
 	function (a, b) {
 		return {$: 'Application', a: a, b: b};
@@ -10038,117 +10677,123 @@ var $author$project$ExplicitEvaluator$Lambda = function (a) {
 	return {$: 'Lambda', a: a};
 };
 var $author$project$Example$example4 = A2(
-	$author$project$Example$example,
-	'function application',
-	A2(
-		$author$project$ExplicitEvaluator$Application,
-		$author$project$ExplicitEvaluator$Lambda(
-			{
-				body: A2(
-					$author$project$Example$add,
-					$author$project$ExplicitEvaluator$VarUse('x'),
-					$author$project$Example$c(1)),
-				_var: 'x'
-			}),
-		$author$project$Example$c(5)));
-var $author$project$Example$example5 = A3(
-	$author$project$Example$withBinding,
-	'x',
-	$author$project$Example$cv(3),
-	A2(
-		$author$project$Example$example,
-		'call/cc-0',
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
 		A2(
-			$author$project$Example$add,
-			$author$project$Example$c(1),
-			$author$project$ExplicitEvaluator$SaveStack(
+			$author$project$ExplicitEvaluator$Application,
+			$author$project$ExplicitEvaluator$Lambda(
 				{
 					body: A2(
 						$author$project$Example$add,
-						A3(
-							$author$project$ExplicitEvaluator$IfThenElse,
-							A2(
-								$author$project$Example$lt,
-								$author$project$ExplicitEvaluator$VarUse('x'),
-								$author$project$Example$c(3)),
-							{
-								body: $author$project$Example$c(5)
-							},
-							{
-								body: A2(
-									$author$project$ExplicitEvaluator$RestoreStackWith,
-									$author$project$ExplicitEvaluator$VarUse('k'),
-									$author$project$Example$c(6))
-							}),
-						$author$project$Example$c(17)),
-					_var: 'k'
-				}))));
+						$author$project$ExplicitEvaluator$VarUse('x'),
+						$author$project$Example$c(1)),
+					_var: 'x'
+				}),
+			$author$project$Example$c(5))),
+	$author$project$Example$example('function application'));
+var $author$project$Example$example5 = A2(
+	$author$project$Example$addActor,
+	A3(
+		$author$project$Example$withBinding,
+		'x',
+		$author$project$Example$cv(3),
+		$author$project$Example$exampleActor(
+			A2(
+				$author$project$Example$add,
+				$author$project$Example$c(1),
+				$author$project$ExplicitEvaluator$SaveStack(
+					{
+						body: A2(
+							$author$project$Example$add,
+							A3(
+								$author$project$ExplicitEvaluator$IfThenElse,
+								A2(
+									$author$project$Example$lt,
+									$author$project$ExplicitEvaluator$VarUse('x'),
+									$author$project$Example$c(3)),
+								{
+									body: $author$project$Example$c(5)
+								},
+								{
+									body: A2(
+										$author$project$ExplicitEvaluator$RestoreStackWith,
+										$author$project$ExplicitEvaluator$VarUse('k'),
+										$author$project$Example$c(6))
+								}),
+							$author$project$Example$c(17)),
+						_var: 'k'
+					})))),
+	$author$project$Example$example('call/cc-0'));
 var $author$project$Example$true = $author$project$ExplicitEvaluator$ConstantComputation($author$project$ExplicitEvaluator$TrueConst);
 var $author$project$Example$example6 = A2(
-	$author$project$Example$example,
-	'runtime error',
-	A2(
-		$author$project$Example$add,
-		$author$project$Example$c(1),
-		$author$project$Example$true));
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$Example$add,
+			$author$project$Example$c(1),
+			$author$project$Example$true)),
+	$author$project$Example$example('runtime error'));
 var $author$project$Example$example7 = A2(
-	$author$project$Example$example,
-	'let binding',
-	A2(
-		$author$project$Example$add,
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$Example$add,
+			A2(
+				$author$project$ExplicitEvaluator$Let,
+				$author$project$Example$c(3),
+				{
+					body: A2(
+						$author$project$Example$add,
+						$author$project$ExplicitEvaluator$VarUse('x'),
+						$author$project$Example$c(1)),
+					_var: 'x'
+				}),
+			$author$project$Example$c(5))),
+	$author$project$Example$example('let binding'));
+var $author$project$ExplicitEvaluator$GetEnv = {$: 'GetEnv'};
+var $author$project$Example$example8 = A2(
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
 		A2(
 			$author$project$ExplicitEvaluator$Let,
 			$author$project$Example$c(3),
-			{
-				body: A2(
-					$author$project$Example$add,
-					$author$project$ExplicitEvaluator$VarUse('x'),
-					$author$project$Example$c(1)),
-				_var: 'x'
-			}),
-		$author$project$Example$c(5)));
-var $author$project$ExplicitEvaluator$GetEnv = {$: 'GetEnv'};
-var $author$project$Example$example8 = A2(
-	$author$project$Example$example,
-	'get environment',
-	A2(
-		$author$project$ExplicitEvaluator$Let,
-		$author$project$Example$c(3),
-		{body: $author$project$ExplicitEvaluator$GetEnv, _var: 'x'}));
+			{body: $author$project$ExplicitEvaluator$GetEnv, _var: 'x'})),
+	$author$project$Example$example('get environment'));
 var $author$project$ExplicitEvaluator$WithIn = F2(
 	function (a, b) {
 		return {$: 'WithIn', a: a, b: b};
 	});
 var $author$project$Example$example9 = A2(
-	$author$project$Example$example,
-	'evaluating with saved environment 0',
-	A2(
-		$author$project$ExplicitEvaluator$Let,
-		$author$project$Example$c(3),
-		{
-			body: A2(
-				$author$project$ExplicitEvaluator$Let,
-				$author$project$ExplicitEvaluator$GetEnv,
-				{
-					body: A2(
-						$author$project$ExplicitEvaluator$Let,
-						$author$project$Example$c(5),
-						{
-							body: A2(
-								$author$project$Example$add,
-								A2(
-									$author$project$ExplicitEvaluator$WithIn,
-									$author$project$ExplicitEvaluator$VarUse('e'),
+	$author$project$Example$addActor,
+	$author$project$Example$exampleActor(
+		A2(
+			$author$project$ExplicitEvaluator$Let,
+			$author$project$Example$c(3),
+			{
+				body: A2(
+					$author$project$ExplicitEvaluator$Let,
+					$author$project$ExplicitEvaluator$GetEnv,
+					{
+						body: A2(
+							$author$project$ExplicitEvaluator$Let,
+							$author$project$Example$c(5),
+							{
+								body: A2(
+									$author$project$Example$add,
+									A2(
+										$author$project$ExplicitEvaluator$WithIn,
+										$author$project$ExplicitEvaluator$VarUse('e'),
+										$author$project$ExplicitEvaluator$VarUse('x')),
 									$author$project$ExplicitEvaluator$VarUse('x')),
-								$author$project$ExplicitEvaluator$VarUse('x')),
-							_var: 'x'
-						}),
-					_var: 'e'
-				}),
-			_var: 'x'
-		}));
+								_var: 'x'
+							}),
+						_var: 'e'
+					}),
+				_var: 'x'
+			})),
+	$author$project$Example$example('evaluating with saved environment 0'));
 var $author$project$Example$examples = _List_fromArray(
-	[$author$project$Example$example0, $author$project$Example$example1, $author$project$Example$example2, $author$project$Example$example3, $author$project$Example$example4, $author$project$Example$example5, $author$project$Example$example6, $author$project$Example$example7, $author$project$Example$example8, $author$project$Example$example9, $author$project$Example$example10, $author$project$Example$example11, $author$project$Example$example12, $author$project$Example$example13, $author$project$Example$example14, $author$project$Example$example15, $author$project$Example$example16, $author$project$Example$example17, $author$project$Example$example18, $author$project$Example$example19, $author$project$Example$example20, $author$project$Example$example21, $author$project$Example$example22]);
+	[$author$project$Example$example0, $author$project$Example$example1, $author$project$Example$example2, $author$project$Example$example3, $author$project$Example$example4, $author$project$Example$example5, $author$project$Example$example6, $author$project$Example$example7, $author$project$Example$example8, $author$project$Example$example9, $author$project$Example$example10, $author$project$Example$example11, $author$project$Example$example12, $author$project$Example$example13, $author$project$Example$example14, $author$project$Example$example15, $author$project$Example$example16, $author$project$Example$example17, $author$project$Example$example18, $author$project$Example$example19, $author$project$Example$example20, $author$project$Example$example21, $author$project$Example$example22, $author$project$Example$example23, $author$project$Example$example24, $author$project$Example$example25, $author$project$Example$example26, $author$project$Example$example27, $author$project$Example$example28]);
 var $rtfeldman$elm_css$Css$Preprocess$AppendProperty = function (a) {
 	return {$: 'AppendProperty', a: a};
 };
@@ -10203,6 +10848,14 @@ var $author$project$Main$gapY = function (h) {
 			]),
 		_List_Nil);
 };
+var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
+	function (key, value) {
+		return A3(
+			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2($elm$virtual_dom$VirtualDom$property, key, value),
+			_List_Nil,
+			'');
+	});
 var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -10239,19 +10892,6 @@ var $rtfeldman$elm_css$Html$Styled$Events$onClick = function (msg) {
 		$elm$json$Json$Decode$succeed(msg));
 };
 var $rtfeldman$elm_css$Html$Styled$option = $rtfeldman$elm_css$Html$Styled$node('option');
-var $author$project$Main$row = F2(
-	function (attrs, html) {
-		return A2(
-			$rtfeldman$elm_css$Html$Styled$div,
-			_Utils_ap(
-				_List_fromArray(
-					[
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'display', 'flex'),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-direction', 'row')
-					]),
-				attrs),
-			html);
-	});
 var $rtfeldman$elm_css$Html$Styled$select = $rtfeldman$elm_css$Html$Styled$node('select');
 var $rtfeldman$elm_css$VirtualDom$Styled$Unstyled = function (a) {
 	return {$: 'Unstyled', a: a};
@@ -10261,9 +10901,20 @@ var $rtfeldman$elm_css$VirtualDom$Styled$text = function (str) {
 		$elm$virtual_dom$VirtualDom$text(str));
 };
 var $rtfeldman$elm_css$Html$Styled$text = $rtfeldman$elm_css$VirtualDom$Styled$text;
-var $rtfeldman$elm_css$Css$color = function (c) {
-	return A2($rtfeldman$elm_css$Css$property, 'color', c.value);
-};
+var $author$project$Main$ResetState = {$: 'ResetState'};
+var $rtfeldman$elm_css$Css$prop3 = F4(
+	function (key, argA, argB, argC) {
+		return A2(
+			$rtfeldman$elm_css$Css$property,
+			key,
+			A2(
+				$elm$core$String$join,
+				' ',
+				_List_fromArray(
+					[argA.value, argB.value, argC.value])));
+	});
+var $rtfeldman$elm_css$Css$border3 = $rtfeldman$elm_css$Css$prop3('border');
+var $rtfeldman$elm_css$Html$Styled$button = $rtfeldman$elm_css$Html$Styled$node('button');
 var $rtfeldman$elm_css$Css$cssFunction = F2(
 	function (funcName, args) {
 		return funcName + ('(' + (A2($elm$core$String$join, ', ', args) + ')'));
@@ -10300,84 +10951,39 @@ var $author$project$Main$color = {
 var $elm$core$String$concat = function (strings) {
 	return A2($elm$core$String$join, '', strings);
 };
-var $author$project$Main$viewRunTimeError = function (err) {
-	return A2(
-		$rtfeldman$elm_css$Html$Styled$div,
-		_List_fromArray(
-			[
-				$rtfeldman$elm_css$Html$Styled$Attributes$css(
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$disabled = $rtfeldman$elm_css$Html$Styled$Attributes$boolProperty('disabled');
+var $author$project$Main$row = F2(
+	function (attrs, html) {
+		return A2(
+			$rtfeldman$elm_css$Html$Styled$div,
+			_Utils_ap(
 				_List_fromArray(
 					[
-						$rtfeldman$elm_css$Css$color($author$project$Main$color.red)
-					]))
-			]),
-		_List_fromArray(
-			[
-				$rtfeldman$elm_css$Html$Styled$text(
-				function () {
-					switch (err.$) {
-						case 'ExpectedBoolean':
-							return 'Expected Boolean value';
-						case 'ExpectedInteger':
-							return 'Expected Integer value';
-						case 'ExpectedClosure':
-							return 'Expected Closure';
-						case 'ExpectedTaggedValue':
-							return 'Expected Tagged Value';
-						case 'MatchNotFound':
-							return 'Match not found';
-						case 'ExpectedTuple':
-							return 'Expected Tuple';
-						case 'ExpectedStack':
-							return 'Expected Stack';
-						case 'ExpectedDelimitedStack':
-							return 'Expected Delimited Stack';
-						case 'ExpectedEnv':
-							return 'Expected Environment';
-						case 'TaggedComputationArityMismatch':
-							var expected = err.a.expected;
-							var got = err.a.got;
-							return $elm$core$String$concat(
-								_List_fromArray(
-									[
-										'Ill-formed tagged value: The tuple is supposed to be of size ',
-										$elm$core$String$fromInt(expected),
-										' but in it we have ',
-										$elm$core$String$fromInt(got),
-										' elements'
-									]));
-						case 'TupleArityMismatch':
-							var expected = err.a.expected;
-							var got = err.a.got;
-							return $elm$core$String$concat(
-								_List_fromArray(
-									[
-										'Ill-formed tuple: The tuple is supposed to be of size ',
-										$elm$core$String$fromInt(expected),
-										' but in it we have ',
-										$elm$core$String$fromInt(got),
-										' elements'
-									]));
-						case 'CantProject':
-							var tupleSize = err.a.tupleSize;
-							var index = err.a.index;
-							return $elm$core$String$concat(
-								_List_fromArray(
-									[
-										'Out of bounds of a tuple: The tupple is supposed to be of size ',
-										$elm$core$String$fromInt(tupleSize),
-										' but you\'re trying to get its ',
-										$elm$core$String$fromInt(index),
-										'th element (0-based indexing)'
-									]));
-						case 'ShiftingWithoutReset':
-							return 'Shifting without reset';
-						default:
-							var varName = err.a;
-							return 'Unbound variable name';
-					}
-				}())
-			]));
+						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'display', 'flex'),
+						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-direction', 'row')
+					]),
+				attrs),
+			html);
+	});
+var $rtfeldman$elm_css$Css$solid = {borderStyle: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationStyle: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'solid'};
+var $rtfeldman$elm_css$Html$Styled$strong = $rtfeldman$elm_css$Html$Styled$node('strong');
+var $elm$core$Dict$values = function (dict) {
+	return A3(
+		$elm$core$Dict$foldr,
+		F3(
+			function (key, value, valueList) {
+				return A2($elm$core$List$cons, value, valueList);
+			}),
+		_List_Nil,
+		dict);
 };
 var $rtfeldman$elm_css$Css$marginLeft = $rtfeldman$elm_css$Css$prop1('margin-left');
 var $author$project$Main$gapX = function (w) {
@@ -10408,6 +11014,9 @@ var $author$project$Main$alignedRow = F2(
 				attrs),
 			html);
 	});
+var $rtfeldman$elm_css$Css$color = function (c) {
+	return A2($rtfeldman$elm_css$Css$property, 'color', c.value);
+};
 var $author$project$Main$braces = function (html) {
 	return A2(
 		$author$project$Main$alignedRow,
@@ -10585,6 +11194,18 @@ var $author$project$Main$viewKeyword = function (keyword) {
 			[
 				$rtfeldman$elm_css$Html$Styled$text(keyword)
 			]));
+};
+var $author$project$Main$viewHalt = function (html0) {
+	return $author$project$Main$parens(
+		A2(
+			$author$project$Main$alignedRow,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$author$project$Main$viewKeyword('halt'),
+					$author$project$Main$gapX(15),
+					html0
+				])));
 };
 var $author$project$Main$viewIfThenElse = F3(
 	function (html, html1, html2) {
@@ -10852,8 +11473,10 @@ var $author$project$Main$predicateToString = function (pred) {
 			return 'isStack';
 		case 'IsDelimitedStack':
 			return 'isDelimitedStack';
-		default:
+		case 'IsEnv':
 			return 'isEnv';
+		default:
+			return 'isAddress';
 	}
 };
 var $author$project$Main$viewPredicateApplication = F2(
@@ -10914,6 +11537,25 @@ var $author$project$Main$viewRestoreStack = F2(
 						html0,
 						$author$project$Main$gapX(w),
 						html1
+					])));
+	});
+var $author$project$Main$viewSend = F3(
+	function (html0, html1, html2) {
+		var w = 5;
+		return $author$project$Main$parens(
+			A2(
+				$author$project$Main$alignedRow,
+				_List_Nil,
+				_List_fromArray(
+					[
+						html0,
+						$author$project$Main$gapX(w),
+						$author$project$Main$viewKeyword('<-'),
+						$author$project$Main$gapX(w),
+						html1,
+						$author$project$Main$viewKeyword('; '),
+						$author$project$Main$gapX(w),
+						html2
 					])));
 	});
 var $author$project$Main$viewTuple = function (htmlValues) {
@@ -11118,13 +11760,41 @@ var $author$project$Main$viewComputation = function (comp) {
 				$author$project$Main$viewWithIn,
 				$author$project$Main$viewComputation(computation0),
 				$author$project$Main$viewComputation(computation1));
-		default:
+		case 'Log':
 			var computation0 = comp.a;
 			var computation1 = comp.b;
 			return A2(
 				$author$project$Main$viewLog,
 				$author$project$Main$viewComputation(computation0),
 				$author$project$Main$viewComputation(computation1));
+		case 'Receive':
+			return $author$project$Main$viewKeyword('receive');
+		case 'Send':
+			var addressComputation = comp.a;
+			var messageComputation = comp.b;
+			var computation1 = comp.c;
+			return A3(
+				$author$project$Main$viewSend,
+				$author$project$Main$viewComputation(addressComputation),
+				$author$project$Main$viewComputation(messageComputation),
+				$author$project$Main$viewComputation(computation1));
+		case 'Spawn':
+			var computation0 = comp.a;
+			return A2(
+				$author$project$Main$alignedRow,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$author$project$Main$viewKeyword('spawn'),
+						$author$project$Main$braces(
+						$author$project$Main$viewComputation(computation0))
+					]));
+		case 'Self':
+			return $author$project$Main$viewKeyword('self');
+		default:
+			var computation0 = comp.a;
+			return $author$project$Main$viewHalt(
+				$author$project$Main$viewComputation(computation0));
 	}
 };
 var $author$project$Main$viewHiddenValue = function (str) {
@@ -11160,8 +11830,10 @@ var $author$project$Main$viewValue = function (val) {
 			return $author$project$Main$viewHiddenValue('stack');
 		case 'DelimitedStackValue':
 			return $author$project$Main$viewHiddenValue('delimited-stack');
-		default:
+		case 'EnvValue':
 			return $author$project$Main$viewHiddenValue('env');
+		default:
+			return $author$project$Main$viewHiddenValue('address');
 	}
 };
 var $author$project$Main$viewConsole = function (console) {
@@ -11213,6 +11885,39 @@ var $author$project$Main$viewEnv = function (env) {
 					}
 				},
 				$elm$core$Dict$toList(env))));
+};
+var $author$project$Queue$toList = function (q0) {
+	var _v0 = $author$project$Queue$dequeue(q0);
+	if (_v0.$ === 'Nothing') {
+		return _List_Nil;
+	} else {
+		var _v1 = _v0.a;
+		var x = _v1.a;
+		var q1 = _v1.b;
+		return A2(
+			$elm$core$List$cons,
+			x,
+			$author$project$Queue$toList(q1));
+	}
+};
+var $author$project$Main$viewMailbox = function (q) {
+	return A2(
+		$author$project$Main$alignedRow,
+		_List_Nil,
+		A2(
+			$elm$core$List$intersperse,
+			A2(
+				$author$project$Main$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Html$Styled$text(','),
+						$author$project$Main$gapX(15)
+					])),
+			A2(
+				$elm$core$List$map,
+				$author$project$Main$viewValue,
+				$author$project$Queue$toList(q))));
 };
 var $elm_community$list_extra$List$Extra$andThen = $elm$core$List$concatMap;
 var $rtfeldman$elm_css$Css$bold = {fontWeight: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'bold'};
@@ -11396,12 +12101,30 @@ var $author$project$Main$viewStackElement = function (stackEl) {
 				$author$project$Main$viewWithIn,
 				$author$project$Main$viewHole,
 				$author$project$Main$viewComputation(computation1));
-		default:
+		case 'LogLeftHole':
 			var computation1 = stackEl.a;
 			return A2(
 				$author$project$Main$viewLog,
 				$author$project$Main$viewHole,
 				$author$project$Main$viewComputation(computation1));
+		case 'SendLeftHole':
+			var messageComputation = stackEl.a;
+			var computation1 = stackEl.b;
+			return A3(
+				$author$project$Main$viewSend,
+				$author$project$Main$viewHole,
+				$author$project$Main$viewComputation(messageComputation),
+				$author$project$Main$viewComputation(computation1));
+		case 'SendRightHole':
+			var address = stackEl.a;
+			var computation1 = stackEl.b;
+			return A3(
+				$author$project$Main$viewSend,
+				$author$project$Main$viewHiddenValue('address'),
+				$author$project$Main$viewHole,
+				$author$project$Main$viewComputation(computation1));
+		default:
+			return $author$project$Main$viewHalt($author$project$Main$viewHole);
 	}
 };
 var $author$project$Main$viewDelimitedStack = function (delimitedStack) {
@@ -11497,129 +12220,502 @@ var $author$project$Main$viewTypeOfCurrentComputation = function (keyword) {
 				$rtfeldman$elm_css$Html$Styled$text(keyword)
 			]));
 };
-var $author$project$Main$viewState = F2(
-	function (_v0, isTerminated) {
-		var env = _v0.env;
-		var stack = _v0.stack;
-		var currentComputation = _v0.currentComputation;
-		var console = _v0.console;
-		var w = $rtfeldman$elm_css$Css$px(120);
-		return A2(
-			$author$project$Main$col,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$author$project$Main$row,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$div,
+var $author$project$Main$viewActorState = function (_v0) {
+	var env = _v0.env;
+	var stack = _v0.stack;
+	var currentComputation = _v0.currentComputation;
+	var console = _v0.console;
+	var mailbox = _v0.mailbox;
+	var w = $rtfeldman$elm_css$Css$px(120);
+	return A2(
+		$author$project$Main$col,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$author$project$Main$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(w)
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('Focused on')
+							])),
+						function () {
+						if (currentComputation.$ === 'Computation') {
+							var comp = currentComputation.a;
+							return A2(
+								$author$project$Main$row,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$author$project$Main$viewComputation(comp),
+										$author$project$Main$gapX(20),
+										$author$project$Main$viewTypeOfCurrentComputation('Computation')
+									]));
+						} else {
+							var val = currentComputation.a;
+							return A2(
+								$author$project$Main$row,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$author$project$Main$viewValue(val),
+										$author$project$Main$gapX(20),
+										$author$project$Main$viewTypeOfCurrentComputation('Value')
+									]));
+						}
+					}()
+					])),
+				A2(
+				$author$project$Main$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(w)
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('Env')
+							])),
+						$author$project$Main$viewEnv(env)
+					])),
+				A2(
+				$author$project$Main$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(w)
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('Stack')
+							])),
+						$author$project$Main$viewStack(stack)
+					])),
+				A2(
+				$author$project$Main$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(w)
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('Console')
+							])),
+						$author$project$Main$viewConsole(console)
+					])),
+				A2(
+				$author$project$Main$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(w)
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('Mailbox')
+							])),
+						$author$project$Main$viewMailbox(mailbox)
+					]))
+			]));
+};
+var $author$project$Main$viewRunTimeError = function (err) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$div,
+		_List_fromArray(
+			[
+				$rtfeldman$elm_css$Html$Styled$Attributes$css(
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Css$color($author$project$Main$color.red)
+					]))
+			]),
+		_List_fromArray(
+			[
+				$rtfeldman$elm_css$Html$Styled$text(
+				function () {
+					switch (err.$) {
+						case 'ExpectedBoolean':
+							return 'Expected Boolean value';
+						case 'ExpectedInteger':
+							return 'Expected Integer value';
+						case 'ExpectedClosure':
+							return 'Expected Closure';
+						case 'ExpectedTaggedValue':
+							return 'Expected Tagged Value';
+						case 'MatchNotFound':
+							return 'Match not found';
+						case 'ExpectedTuple':
+							return 'Expected Tuple';
+						case 'ExpectedStack':
+							return 'Expected Stack';
+						case 'ExpectedDelimitedStack':
+							return 'Expected Delimited Stack';
+						case 'ExpectedEnv':
+							return 'Expected Environment';
+						case 'ExpectedAddress':
+							return 'Expected Address';
+						case 'TaggedComputationArityMismatch':
+							var expected = err.a.expected;
+							var got = err.a.got;
+							return $elm$core$String$concat(
+								_List_fromArray(
+									[
+										'Ill-formed tagged value: The tuple is supposed to be of size ',
+										$elm$core$String$fromInt(expected),
+										' but in it we have ',
+										$elm$core$String$fromInt(got),
+										' elements'
+									]));
+						case 'TupleArityMismatch':
+							var expected = err.a.expected;
+							var got = err.a.got;
+							return $elm$core$String$concat(
+								_List_fromArray(
+									[
+										'Ill-formed tuple: The tuple is supposed to be of size ',
+										$elm$core$String$fromInt(expected),
+										' but in it we have ',
+										$elm$core$String$fromInt(got),
+										' elements'
+									]));
+						case 'CantProject':
+							var tupleSize = err.a.tupleSize;
+							var index = err.a.index;
+							return $elm$core$String$concat(
+								_List_fromArray(
+									[
+										'Out of bounds of a tuple: The tupple is supposed to be of size ',
+										$elm$core$String$fromInt(tupleSize),
+										' but you\'re trying to get its ',
+										$elm$core$String$fromInt(index),
+										'th element (0-based indexing)'
+									]));
+						case 'ShiftingWithoutReset':
+							return 'Shifting without reset';
+						default:
+							var varName = err.a;
+							return 'Unbound variable name';
+					}
+				}())
+			]));
+};
+var $author$project$Main$viewActor = function (actor) {
+	switch (actor.$) {
+		case 'ActiveActor':
+			var actorState = actor.a;
+			return $author$project$Main$viewActorState(actorState);
+		case 'BlockedActor':
+			var actorState = actor.a;
+			return $author$project$Main$viewActorState(actorState);
+		case 'TerminatedActor':
+			var env = actor.a.env;
+			var terminalValue = actor.a.terminalValue;
+			var console = actor.a.console;
+			var mailbox = actor.a.mailbox;
+			var w = $rtfeldman$elm_css$Css$px(120);
+			return A2(
+				$author$project$Main$col,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$author$project$Main$row,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$rtfeldman$elm_css$Html$Styled$div,
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Html$Styled$Attributes$css(
+										_List_fromArray(
+											[
+												$rtfeldman$elm_css$Css$width(w)
+											]))
+									]),
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Html$Styled$text('Result')
+									])),
+								$author$project$Main$viewValue(terminalValue),
+								$author$project$Main$gapX(20),
+								$author$project$Main$viewTypeOfCurrentComputation('Value (Terminated)')
+							])),
+						A2(
+						$author$project$Main$row,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$rtfeldman$elm_css$Html$Styled$div,
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Html$Styled$Attributes$css(
+										_List_fromArray(
+											[
+												$rtfeldman$elm_css$Css$width(w)
+											]))
+									]),
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Html$Styled$text('Env')
+									])),
+								$author$project$Main$viewEnv(env)
+							])),
+						A2(
+						$author$project$Main$row,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$rtfeldman$elm_css$Html$Styled$div,
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Html$Styled$Attributes$css(
+										_List_fromArray(
+											[
+												$rtfeldman$elm_css$Css$width(w)
+											]))
+									]),
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Html$Styled$text('Console')
+									])),
+								$author$project$Main$viewConsole(console)
+							])),
+						A2(
+						$author$project$Main$row,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$rtfeldman$elm_css$Html$Styled$div,
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Html$Styled$Attributes$css(
+										_List_fromArray(
+											[
+												$rtfeldman$elm_css$Css$width(w)
+											]))
+									]),
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Html$Styled$text('Mailbox')
+									])),
+								$author$project$Main$viewMailbox(mailbox)
+							]))
+					]));
+		default:
+			var err = actor.a;
+			return $author$project$Main$viewRunTimeError(err);
+	}
+};
+var $author$project$Main$MessageInTransitClicked = function (a) {
+	return {$: 'MessageInTransitClicked', a: a};
+};
+var $rtfeldman$elm_css$Css$padding2 = $rtfeldman$elm_css$Css$prop2('padding');
+var $author$project$Main$viewMessage = function (message) {
+	var destination = message.destination;
+	var payload = message.payload;
+	return A2(
+		$author$project$Main$row,
+		_List_fromArray(
+			[
+				$rtfeldman$elm_css$Html$Styled$Attributes$css(
+				_List_fromArray(
+					[
+						A3(
+						$rtfeldman$elm_css$Css$border3,
+						$rtfeldman$elm_css$Css$px(1),
+						$rtfeldman$elm_css$Css$solid,
+						$author$project$Main$color.blue),
+						A2(
+						$rtfeldman$elm_css$Css$padding2,
+						$rtfeldman$elm_css$Css$px(5),
+						$rtfeldman$elm_css$Css$px(8)),
+						$rtfeldman$elm_css$Css$backgroundColor($author$project$Main$color.lightBlue)
+					])),
+				$rtfeldman$elm_css$Html$Styled$Events$onClick(
+				$author$project$Main$MessageInTransitClicked(message))
+			]),
+		_List_fromArray(
+			[
+				$author$project$Main$viewHiddenValue('address'),
+				$author$project$Main$gapX(20),
+				$author$project$Main$viewValue(payload)
+			]));
+};
+var $author$project$Main$viewState = function (model) {
+	var w = $rtfeldman$elm_css$Css$px(120);
+	return A2(
+		$author$project$Main$col,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$author$project$Main$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$button,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Main$StepBack),
+								$rtfeldman$elm_css$Html$Styled$Attributes$disabled(!model.numOfCurrentlySaved)
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text(
+								'step back (' + ($elm$core$String$fromInt(model.numOfCurrentlySaved) + ') <-'))
+							])),
+						A2(
+						$rtfeldman$elm_css$Html$Styled$button,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Main$ResetState)
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('Reset')
+							]))
+					])),
+				A2(
+				$author$project$Main$col,
+				_List_Nil,
+				A2(
+					$elm$core$List$map,
+					function (_v0) {
+						var address = _v0.a;
+						var actor = _v0.b;
+						return A2(
+							$author$project$Main$col,
 							_List_fromArray(
 								[
 									$rtfeldman$elm_css$Html$Styled$Attributes$css(
 									_List_fromArray(
 										[
-											$rtfeldman$elm_css$Css$width(w)
+											A3(
+											$rtfeldman$elm_css$Css$border3,
+											$rtfeldman$elm_css$Css$px(1),
+											$rtfeldman$elm_css$Css$solid,
+											$author$project$Main$color.black)
 										]))
 								]),
 							_List_fromArray(
 								[
-									$rtfeldman$elm_css$Html$Styled$text('Focused on')
-								])),
-							function () {
-							if (currentComputation.$ === 'Computation') {
-								var comp = currentComputation.a;
-								return A2(
+									A2(
+									$rtfeldman$elm_css$Html$Styled$strong,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Html$Styled$text(
+											$elm$core$String$concat(
+												_List_fromArray(
+													[
+														'#Actor(',
+														$elm$core$String$fromInt(address),
+														')'
+													])))
+										])),
+									A2(
 									$author$project$Main$row,
 									_List_Nil,
 									_List_fromArray(
 										[
-											$author$project$Main$viewComputation(comp),
-											$author$project$Main$gapX(20),
-											$author$project$Main$viewTypeOfCurrentComputation('Computation')
-										]));
-							} else {
-								var val = currentComputation.a;
-								return A2(
-									$author$project$Main$row,
-									_List_Nil,
-									_List_fromArray(
-										[
-											$author$project$Main$viewValue(val),
-											$author$project$Main$gapX(20),
-											$author$project$Main$viewTypeOfCurrentComputation(
-											isTerminated ? 'Value (terminated)' : 'Value')
-										]));
-							}
-						}()
-						])),
-					A2(
-					$author$project$Main$row,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$div,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$Attributes$css(
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Css$width(w)
-										]))
-								]),
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Env')
-								])),
-							$author$project$Main$viewEnv(env)
-						])),
-					A2(
-					$author$project$Main$row,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$div,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$Attributes$css(
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Css$width(w)
-										]))
-								]),
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Stack')
-								])),
-							$author$project$Main$viewStack(stack)
-						])),
-					A2(
-					$author$project$Main$row,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$rtfeldman$elm_css$Html$Styled$div,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$Attributes$css(
-									_List_fromArray(
-										[
-											$rtfeldman$elm_css$Css$width(w)
-										]))
-								]),
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('Console')
-								])),
-							$author$project$Main$viewConsole(console)
-						]))
-				]));
-	});
+											A2(
+											$rtfeldman$elm_css$Html$Styled$button,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$Events$onClick(
+													$author$project$Main$StepForward(address)),
+													$rtfeldman$elm_css$Html$Styled$Attributes$disabled(
+													!$author$project$ExplicitEvaluator$isActive(actor))
+												]),
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$text('step forward ->')
+												]))
+										])),
+									$author$project$Main$gapY(10),
+									$author$project$Main$viewActor(actor)
+								]));
+					},
+					$elm$core$Dict$toList(model.currentState.actors))),
+				A2(
+				$author$project$Main$row,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(w)
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$text('Messages')
+							])),
+						A2(
+						$author$project$Main$row,
+						_List_Nil,
+						A2(
+							$elm$core$List$map,
+							$author$project$Main$viewMessage,
+							$elm$core$Dict$values(model.currentState.messagesInTransit)))
+					]))
+			]));
+};
 var $author$project$Main$view = function (model) {
 	return A2(
 		$author$project$Main$col,
@@ -11680,56 +12776,7 @@ var $author$project$Main$view = function (model) {
 						$rtfeldman$elm_css$Html$Styled$text(
 						'You can use the left/right arrow keys. I save max ' + ($elm$core$String$fromInt(model.numOfMaxSaved) + ' states of the machine.'))
 					])),
-				A2(
-				$author$project$Main$row,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$rtfeldman$elm_css$Html$Styled$button,
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Main$StepBack),
-								$rtfeldman$elm_css$Html$Styled$Attributes$disabled(!model.numOfCurrentlySaved)
-							]),
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$text(
-								'step back (' + ($elm$core$String$fromInt(model.numOfCurrentlySaved) + ') <-'))
-							])),
-						A2(
-						$rtfeldman$elm_css$Html$Styled$button,
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Main$StepForward)
-							]),
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$text('step forward ->')
-							])),
-						A2(
-						$rtfeldman$elm_css$Html$Styled$button,
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Main$ResetState)
-							]),
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$text('Reset')
-							]))
-					])),
-				$author$project$Main$gapY(10),
-				function () {
-				var _v0 = model.currentState;
-				if (_v0.$ === 'Ok') {
-					var isTerminated = _v0.a.isTerminated;
-					var state = _v0.a.state;
-					return A2($author$project$Main$viewState, state, isTerminated);
-				} else {
-					var err = _v0.a;
-					return $author$project$Main$viewRunTimeError(err);
-				}
-			}()
+				$author$project$Main$viewState(model)
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
