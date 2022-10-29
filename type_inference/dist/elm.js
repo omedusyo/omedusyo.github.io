@@ -11406,19 +11406,53 @@ var $author$project$Ui$Tab$Program$exampleBinding = function () {
 	};
 }();
 var $author$project$Ui$Tab$Program$init = $author$project$Ui$Control$InitContext$setModelTo($author$project$Ui$Tab$Program$exampleBinding);
-var $author$project$RegisterMachine$Base$AssignCallAtLabel = F2(
+var $author$project$Ui$Tab$RegisterMachine$EditorMsg = function (a) {
+	return {$: 'EditorMsg', a: a};
+};
+var $author$project$Ui$Tab$RegisterMachine$centerOfMemoryView = function (_v0) {
+	var top = _v0.top;
+	var bottom = _v0.bottom;
+	return bottom + (((top - bottom) / 2) | 0);
+};
+var $author$project$RegisterMachine$Base$AssignLabel = F2(
 	function (a, b) {
-		return {$: 'AssignCallAtLabel', a: a, b: b};
-	});
-var $author$project$RegisterMachine$Base$AssignConstant = F2(
-	function (a, b) {
-		return {$: 'AssignConstant', a: a, b: b};
+		return {$: 'AssignLabel', a: a, b: b};
 	});
 var $author$project$RegisterMachine$Base$AssignOperation = F2(
 	function (a, b) {
 		return {$: 'AssignOperation', a: a, b: b};
 	});
+var $author$project$RegisterMachine$Base$AssignRegister = F2(
+	function (a, b) {
+		return {$: 'AssignRegister', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$Constant = function (a) {
+	return {$: 'Constant', a: a};
+};
+var $author$project$RegisterMachine$Base$ConstructPair = F3(
+	function (a, b, c) {
+		return {$: 'ConstructPair', a: a, b: b, c: c};
+	});
+var $author$project$RegisterMachine$Base$DualSecond = F2(
+	function (a, b) {
+		return {$: 'DualSecond', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$DualSetFirst = F2(
+	function (a, b) {
+		return {$: 'DualSetFirst', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$DualSetSecond = F2(
+	function (a, b) {
+		return {$: 'DualSetSecond', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$First = F2(
+	function (a, b) {
+		return {$: 'First', a: a, b: b};
+	});
 var $author$project$RegisterMachine$Base$Halt = {$: 'Halt'};
+var $author$project$RegisterMachine$Base$JumpToLabel = function (a) {
+	return {$: 'JumpToLabel', a: a};
+};
 var $author$project$RegisterMachine$Base$JumpToLabelAtRegister = function (a) {
 	return {$: 'JumpToLabelAtRegister', a: a};
 };
@@ -11426,14 +11460,26 @@ var $author$project$RegisterMachine$Base$JumpToLabelIf = F2(
 	function (a, b) {
 		return {$: 'JumpToLabelIf', a: a, b: b};
 	});
-var $author$project$RegisterMachine$Base$Label = function (a) {
+var $author$project$RegisterMachine$Machine$Label = function (a) {
 	return {$: 'Label', a: a};
+};
+var $author$project$RegisterMachine$Base$MarkAsMoved = F2(
+	function (a, b) {
+		return {$: 'MarkAsMoved', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$MoveToDual = F2(
+	function (a, b) {
+		return {$: 'MoveToDual', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$Nil = {$: 'Nil'};
+var $author$project$RegisterMachine$Base$Num = function (a) {
+	return {$: 'Num', a: a};
 };
 var $author$project$RegisterMachine$Base$Operation = F2(
 	function (a, b) {
 		return {$: 'Operation', a: a, b: b};
 	});
-var $author$project$RegisterMachine$Base$Perform = function (a) {
+var $author$project$RegisterMachine$Machine$Perform = function (a) {
 	return {$: 'Perform', a: a};
 };
 var $author$project$RegisterMachine$Base$Pop = function (a) {
@@ -11442,66 +11488,15 @@ var $author$project$RegisterMachine$Base$Pop = function (a) {
 var $author$project$RegisterMachine$Base$PushRegister = function (a) {
 	return {$: 'PushRegister', a: a};
 };
-var $author$project$RegisterMachine$Controllers$controller6_fct_recursive = {
-	instructions: _List_fromArray(
-		[
-			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$AssignConstant, 'n', 5)),
-			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fct')),
-			$author$project$RegisterMachine$Base$Perform($author$project$RegisterMachine$Base$Halt),
-			$author$project$RegisterMachine$Base$Label('fct'),
-			$author$project$RegisterMachine$Base$Perform(
-			A2(
-				$author$project$RegisterMachine$Base$AssignOperation,
-				'done?',
-				A2(
-					$author$project$RegisterMachine$Base$Operation,
-					'zero?',
-					_List_fromArray(
-						['n'])))),
-			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
-			$author$project$RegisterMachine$Base$Perform(
-			$author$project$RegisterMachine$Base$PushRegister('continue')),
-			$author$project$RegisterMachine$Base$Perform(
-			$author$project$RegisterMachine$Base$PushRegister('n')),
-			$author$project$RegisterMachine$Base$Perform(
-			A2(
-				$author$project$RegisterMachine$Base$AssignOperation,
-				'n',
-				A2(
-					$author$project$RegisterMachine$Base$Operation,
-					'decrement',
-					_List_fromArray(
-						['n'])))),
-			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fct')),
-			$author$project$RegisterMachine$Base$Perform(
-			$author$project$RegisterMachine$Base$Pop('n')),
-			$author$project$RegisterMachine$Base$Perform(
-			$author$project$RegisterMachine$Base$Pop('continue')),
-			$author$project$RegisterMachine$Base$Perform(
-			A2(
-				$author$project$RegisterMachine$Base$AssignOperation,
-				'result',
-				A2(
-					$author$project$RegisterMachine$Base$Operation,
-					'mul',
-					_List_fromArray(
-						['n', 'result'])))),
-			$author$project$RegisterMachine$Base$Perform(
-			$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue')),
-			$author$project$RegisterMachine$Base$Label('done'),
-			$author$project$RegisterMachine$Base$Perform(
-			A2($author$project$RegisterMachine$Base$AssignConstant, 'result', 1)),
-			$author$project$RegisterMachine$Base$Perform(
-			$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue'))
-		]),
-	registers: $elm$core$Set$fromList(
-		_List_fromArray(
-			['n', 'result', 'done?']))
+var $author$project$RegisterMachine$Base$Register = function (a) {
+	return {$: 'Register', a: a};
 };
+var $author$project$RegisterMachine$Base$Second = F2(
+	function (a, b) {
+		return {$: 'Second', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$SwapMemory = {$: 'SwapMemory'};
+var $author$project$RegisterMachine$Base$Uninitialized = {$: 'Uninitialized'};
 var $elm$core$Dict$fromList = function (assocs) {
 	return A3(
 		$elm$core$List$foldl,
@@ -11514,19 +11509,1268 @@ var $elm$core$Dict$fromList = function (assocs) {
 		$elm$core$Dict$empty,
 		assocs);
 };
-var $author$project$RegisterMachine$Base$emptyStack = _List_Nil;
-var $author$project$RegisterMachine$Base$LabelUsedMoreThanOnce = function (a) {
+var $author$project$RegisterMachine$GarbageCollector$init = F3(
+	function (name, registers, instructions) {
+		return {
+			controller: {
+				instructions: instructions,
+				registers: $elm$core$Set$fromList(registers)
+			},
+			initialRegisterEnvironment: $elm$core$Dict$fromList(
+				A2(
+					$elm$core$List$map,
+					function (register) {
+						return _Utils_Tuple2(register, $author$project$RegisterMachine$Base$Uninitialized);
+					},
+					registers)),
+			name: name
+		};
+	});
+var $author$project$RegisterMachine$GarbageCollector$controller = A3(
+	$author$project$RegisterMachine$GarbageCollector$init,
+	'garbage-collector',
+	_List_fromArray(
+		['xs', 'ys', 'main-pair', 'dual-pair', 'tmp', 'root', 'test', 'continue']),
+	_List_fromArray(
+		[
+			$author$project$RegisterMachine$Machine$Label('initialization'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A3(
+				$author$project$RegisterMachine$Base$ConstructPair,
+				'ys',
+				$author$project$RegisterMachine$Base$Constant(
+					$author$project$RegisterMachine$Base$Num(16)),
+				$author$project$RegisterMachine$Base$Constant($author$project$RegisterMachine$Base$Nil))),
+			$author$project$RegisterMachine$Machine$Perform(
+			A3(
+				$author$project$RegisterMachine$Base$ConstructPair,
+				'xs',
+				$author$project$RegisterMachine$Base$Constant(
+					$author$project$RegisterMachine$Base$Num(32)),
+				$author$project$RegisterMachine$Base$Register('ys'))),
+			$author$project$RegisterMachine$Machine$Label('initializing root'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A3(
+				$author$project$RegisterMachine$Base$ConstructPair,
+				'root',
+				$author$project$RegisterMachine$Base$Register('xs'),
+				$author$project$RegisterMachine$Base$Constant($author$project$RegisterMachine$Base$Nil))),
+			$author$project$RegisterMachine$Machine$Perform(
+			A3(
+				$author$project$RegisterMachine$Base$ConstructPair,
+				'root',
+				$author$project$RegisterMachine$Base$Register('ys'),
+				$author$project$RegisterMachine$Base$Register('root'))),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$AssignRegister, 'to-be-moved', 'root')),
+			$author$project$RegisterMachine$Machine$Label('start garbage collection'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$AssignOperation,
+				'test',
+				A2(
+					$author$project$RegisterMachine$Base$Operation,
+					'nil?',
+					_List_fromArray(
+						[
+							$author$project$RegisterMachine$Base$Register('to-be-moved')
+						])))),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'test', 'refresh root')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$First, 'main-pair', 'to-be-moved')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$Second, 'to-be-moved', 'to-be-moved')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$AssignLabel, 'continue', 'start garbage collection')),
+			$author$project$RegisterMachine$Machine$Label('move-pair'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$First, 'tmp', 'main-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$AssignOperation,
+				'test',
+				A2(
+					$author$project$RegisterMachine$Base$Operation,
+					'moved?',
+					_List_fromArray(
+						[
+							$author$project$RegisterMachine$Base$Register('tmp')
+						])))),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'test', 'already moved')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$MoveToDual, 'dual-pair', 'main-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$MarkAsMoved, 'main-pair', 'dual-pair')),
+			$author$project$RegisterMachine$Machine$Label('attempt to move first component'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$AssignRegister, 'main-pair', 'tmp')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$AssignOperation,
+				'test',
+				A2(
+					$author$project$RegisterMachine$Base$Operation,
+					'pair?',
+					_List_fromArray(
+						[
+							$author$project$RegisterMachine$Base$Register('main-pair')
+						])))),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'test', 'move first component')),
+			$author$project$RegisterMachine$Machine$Label('attempt to move second component'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$DualSecond, 'main-pair', 'dual-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$AssignOperation,
+				'test',
+				A2(
+					$author$project$RegisterMachine$Base$Operation,
+					'pair?',
+					_List_fromArray(
+						[
+							$author$project$RegisterMachine$Base$Register('main-pair')
+						])))),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'test', 'move second component')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue')),
+			$author$project$RegisterMachine$Machine$Label('move second component'),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$PushRegister('dual-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$PushRegister('continue')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$AssignLabel, 'continue', 'after second call')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$JumpToLabel('move-pair')),
+			$author$project$RegisterMachine$Machine$Label('after second call'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$AssignRegister, 'tmp', 'dual-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$Pop('continue')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$Pop('dual-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$DualSetSecond,
+				'dual-pair',
+				$author$project$RegisterMachine$Base$Register('tmp'))),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue')),
+			$author$project$RegisterMachine$Machine$Label('move first component'),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$PushRegister('dual-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$PushRegister('continue')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$AssignLabel, 'continue', 'after first call')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$JumpToLabel('move-pair')),
+			$author$project$RegisterMachine$Machine$Label('after first call'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$AssignRegister, 'tmp', 'dual-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$Pop('continue')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$Pop('dual-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2(
+				$author$project$RegisterMachine$Base$DualSetFirst,
+				'dual-pair',
+				$author$project$RegisterMachine$Base$Register('tmp'))),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$JumpToLabel('attempt to move second component')),
+			$author$project$RegisterMachine$Machine$Label('already moved'),
+			$author$project$RegisterMachine$Machine$Perform(
+			A2($author$project$RegisterMachine$Base$Second, 'dual-pair', 'main-pair')),
+			$author$project$RegisterMachine$Machine$Perform(
+			$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue')),
+			$author$project$RegisterMachine$Machine$Label('refresh root'),
+			$author$project$RegisterMachine$Machine$Label('done'),
+			$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$SwapMemory),
+			$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+		]));
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
+var $author$project$RegisterMachine$Base$ConstantValue = function (a) {
+	return {$: 'ConstantValue', a: a};
+};
+var $author$project$RegisterMachine$Controllers$num = function (x) {
+	return $author$project$RegisterMachine$Base$ConstantValue(
+		$author$project$RegisterMachine$Base$Num(x));
+};
+var $elm$core$List$product = function (numbers) {
+	return A3($elm$core$List$foldl, $elm$core$Basics$mul, 1, numbers);
+};
+var $author$project$RegisterMachine$Controllers$controller0_gcd = function () {
+	var b = _List_fromArray(
+		[3, 5, 11]);
+	var a = _List_fromArray(
+		[3, 5, 7]);
+	return {
+		controller: {
+			instructions: _List_fromArray(
+				[
+					$author$project$RegisterMachine$Machine$Label('loop'),
+					$author$project$RegisterMachine$Machine$Perform(
+					A2(
+						$author$project$RegisterMachine$Base$AssignOperation,
+						'is-b-zero?',
+						A2(
+							$author$project$RegisterMachine$Base$Operation,
+							'zero?',
+							_List_fromArray(
+								[
+									$author$project$RegisterMachine$Base$Register('b')
+								])))),
+					$author$project$RegisterMachine$Machine$Perform(
+					A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'is-b-zero?', 'done')),
+					$author$project$RegisterMachine$Machine$Perform(
+					A2(
+						$author$project$RegisterMachine$Base$AssignOperation,
+						'tmp',
+						A2(
+							$author$project$RegisterMachine$Base$Operation,
+							'remainder',
+							_List_fromArray(
+								[
+									$author$project$RegisterMachine$Base$Register('a'),
+									$author$project$RegisterMachine$Base$Register('b')
+								])))),
+					$author$project$RegisterMachine$Machine$Perform(
+					A2($author$project$RegisterMachine$Base$AssignRegister, 'a', 'b')),
+					$author$project$RegisterMachine$Machine$Perform(
+					A2($author$project$RegisterMachine$Base$AssignRegister, 'b', 'tmp')),
+					$author$project$RegisterMachine$Machine$Perform(
+					$author$project$RegisterMachine$Base$JumpToLabel('loop')),
+					$author$project$RegisterMachine$Machine$Label('done'),
+					$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+				]),
+			registers: $elm$core$Set$fromList(
+				_List_fromArray(
+					['a', 'b', 'tmp', 'is-b-zero?', 'label-test']))
+		},
+		initialRegisterEnvironment: $elm$core$Dict$fromList(
+			_List_fromArray(
+				[
+					_Utils_Tuple2(
+					'a',
+					$author$project$RegisterMachine$Controllers$num(
+						$elm$core$List$product(a))),
+					_Utils_Tuple2(
+					'b',
+					$author$project$RegisterMachine$Controllers$num(
+						$elm$core$List$product(b))),
+					_Utils_Tuple2(
+					'tmp',
+					$author$project$RegisterMachine$Controllers$num(0)),
+					_Utils_Tuple2(
+					'is-b-zero?',
+					$author$project$RegisterMachine$Controllers$num(0))
+				])),
+		name: $elm$core$String$concat(
+			_List_fromArray(
+				[
+					'gcd(',
+					A2(
+					$elm$core$String$join,
+					'*',
+					A2($elm$core$List$map, $elm$core$String$fromInt, a)),
+					', ',
+					A2(
+					$elm$core$String$join,
+					'*',
+					A2($elm$core$List$map, $elm$core$String$fromInt, b)),
+					')'
+				]))
+	};
+}();
+var $author$project$RegisterMachine$Base$JumpToLabelAtRegisterIf = F2(
+	function (a, b) {
+		return {$: 'JumpToLabelAtRegisterIf', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Controllers$controller10_append = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'xs',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(40)),
+					$author$project$RegisterMachine$Base$Constant($author$project$RegisterMachine$Base$Nil))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'xs',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(30)),
+					$author$project$RegisterMachine$Base$Register('xs'))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'xs',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(20)),
+					$author$project$RegisterMachine$Base$Register('xs'))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'xs',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(10)),
+					$author$project$RegisterMachine$Base$Register('xs'))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'ys',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(16)),
+					$author$project$RegisterMachine$Base$Constant($author$project$RegisterMachine$Base$Nil))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'ys',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(32)),
+					$author$project$RegisterMachine$Base$Register('ys'))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'ys',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(64)),
+					$author$project$RegisterMachine$Base$Register('ys'))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignLabel, 'continue', 'done')),
+				$author$project$RegisterMachine$Machine$Label('append'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'nil?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('xs')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelAtRegisterIf, 'done?', 'continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$First, 'x', 'xs')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$Second, 'xs', 'xs')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$PushRegister('x')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$PushRegister('continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignLabel, 'continue', 'append-after-rec-call')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('append')),
+				$author$project$RegisterMachine$Machine$Label('append-after-rec-call'),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$Pop('continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$Pop('x')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'ys',
+					$author$project$RegisterMachine$Base$Register('x'),
+					$author$project$RegisterMachine$Base$Register('ys'))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue')),
+				$author$project$RegisterMachine$Machine$Label('done'),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['xs', 'ys', 'x', 'done?', 'continue']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2('continue', $author$project$RegisterMachine$Base$Uninitialized),
+				_Utils_Tuple2('xs', $author$project$RegisterMachine$Base$Uninitialized),
+				_Utils_Tuple2('ys', $author$project$RegisterMachine$Base$Uninitialized),
+				_Utils_Tuple2('x', $author$project$RegisterMachine$Base$Uninitialized),
+				_Utils_Tuple2('done?', $author$project$RegisterMachine$Base$Uninitialized)
+			])),
+	name: 'append'
+};
+var $author$project$RegisterMachine$Base$AssignConstant = F2(
+	function (a, b) {
+		return {$: 'AssignConstant', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Controllers$controller1_remainder = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'a',
+					$author$project$RegisterMachine$Base$Num(16))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'b',
+					$author$project$RegisterMachine$Base$Num(3))),
+				$author$project$RegisterMachine$Machine$Label('start'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'less-than?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('a'),
+								$author$project$RegisterMachine$Base$Register('b')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'a',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'sub',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('a'),
+								$author$project$RegisterMachine$Base$Register('b')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('start')),
+				$author$project$RegisterMachine$Machine$Label('done'),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['a', 'b', 'is-finished?']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'a',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'b',
+				$author$project$RegisterMachine$Controllers$num(15)),
+				_Utils_Tuple2(
+				'done?',
+				$author$project$RegisterMachine$Controllers$num(0))
+			])),
+	name: 'remainder'
+};
+var $author$project$RegisterMachine$Controllers$controller2_fct_iterative = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'counter',
+					$author$project$RegisterMachine$Base$Num(5))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'state',
+					$author$project$RegisterMachine$Base$Num(1))),
+				$author$project$RegisterMachine$Machine$Label('loop'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'zero?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('counter')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'state',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'mul',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('state'),
+								$author$project$RegisterMachine$Base$Register('counter')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'counter',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'decrement',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('counter')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('loop')),
+				$author$project$RegisterMachine$Machine$Label('done'),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['counter', 'state', 'done?']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'counter',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'state',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'done?',
+				$author$project$RegisterMachine$Controllers$num(0))
+			])),
+	name: 'fct-iterative'
+};
+var $author$project$RegisterMachine$Controllers$controller3_gcd_with_inlined_remainder = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'a',
+					$author$project$RegisterMachine$Base$Num((3 * 5) * 7))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'b',
+					$author$project$RegisterMachine$Base$Num((3 * 5) * 5))),
+				$author$project$RegisterMachine$Machine$Label('gcd-loop'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'zero?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('b')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignRegister, 'remainder-result', 'a')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('remainder')),
+				$author$project$RegisterMachine$Machine$Label('after-remainder-done'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignRegister, 'a', 'b')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignRegister, 'b', 'remainder-result')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('gcd-loop')),
+				$author$project$RegisterMachine$Machine$Label('remainder'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'remainder-done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'less-than?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('remainder-result'),
+								$author$project$RegisterMachine$Base$Register('b')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'remainder-done?', 'after-remainder-done')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'remainder-result',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'sub',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('remainder-result'),
+								$author$project$RegisterMachine$Base$Register('b')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('remainder')),
+				$author$project$RegisterMachine$Machine$Label('done'),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['a', 'b', 'remainder-result', 'done?', 'remainder-done?']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'a',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'b',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'remainder-result',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'done?',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'remainder-done?',
+				$author$project$RegisterMachine$Controllers$num(0))
+			])),
+	name: 'gcd-with-inlined-remainder'
+};
+var $author$project$RegisterMachine$Base$AssignCallAtLabel = F2(
+	function (a, b) {
+		return {$: 'AssignCallAtLabel', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Controllers$controller4_gcd_with_inlined_remainder_using_jump = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'a',
+					$author$project$RegisterMachine$Base$Num((3 * 5) * 7))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'b',
+					$author$project$RegisterMachine$Base$Num((3 * 5) * 5))),
+				$author$project$RegisterMachine$Machine$Label('gcd-loop'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'zero?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('b')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignRegister, 'remainder-result', 'a')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'remainder')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignRegister, 'a', 'b')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignRegister, 'b', 'remainder-result')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('gcd-loop')),
+				$author$project$RegisterMachine$Machine$Label('remainder'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'remainder-done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'less-than?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('remainder-result'),
+								$author$project$RegisterMachine$Base$Register('b')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelAtRegisterIf, 'remainder-done?', 'continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'remainder-result',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'sub',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('remainder-result'),
+								$author$project$RegisterMachine$Base$Register('b')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('remainder')),
+				$author$project$RegisterMachine$Machine$Label('done'),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['a', 'b', 'remainder-result', 'done?', 'remainder-done?', 'continue']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'a',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'b',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'remainder-result',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'done?',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'remainder-done?',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'continue',
+				$author$project$RegisterMachine$Controllers$num(0))
+			])),
+	name: 'gcd-with-inlined-remainder-using-jump'
+};
+var $author$project$RegisterMachine$Controllers$controller6_fct_recursive = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'n',
+					$author$project$RegisterMachine$Base$Num(5))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fct')),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt),
+				$author$project$RegisterMachine$Machine$Label('fct'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'zero?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('n')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$PushRegister('continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$PushRegister('n')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'n',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'decrement',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('n')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fct')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$Pop('n')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$Pop('continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'result',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'mul',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('n'),
+								$author$project$RegisterMachine$Base$Register('result')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue')),
+				$author$project$RegisterMachine$Machine$Label('done'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'result',
+					$author$project$RegisterMachine$Base$Num(1))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue'))
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['n', 'result', 'done?']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'n',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'result',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'done?',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'continue',
+				$author$project$RegisterMachine$Controllers$num(0))
+			])),
+	name: 'fct-recursive'
+};
+var $author$project$RegisterMachine$Controllers$controller7_fibonacci_recursive = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignConstant,
+					'n',
+					$author$project$RegisterMachine$Base$Num(8))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fib')),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt),
+				$author$project$RegisterMachine$Machine$Label('fib'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'less-than?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('n'),
+								$author$project$RegisterMachine$Base$Constant(
+								$author$project$RegisterMachine$Base$Num(2))
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'n',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'decrement',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('n')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$PushRegister('n')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$PushRegister('continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fib')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$Pop('continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$Pop('n')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'n',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'decrement',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('n')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$PushRegister('result')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$PushRegister('continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignCallAtLabel, 'continue', 'fib')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$Pop('continue')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$Pop('tmp')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'result',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'add',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('result'),
+								$author$project$RegisterMachine$Base$Register('tmp')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue')),
+				$author$project$RegisterMachine$Machine$Label('done'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$AssignRegister, 'result', 'n')),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabelAtRegister('continue'))
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['n', 'result', 'tmp', 'done?', 'continue']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'n',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'result',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'tmp',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'done?',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'continue',
+				$author$project$RegisterMachine$Controllers$num(0))
+			])),
+	name: 'fibonacci-recursive'
+};
+var $author$project$RegisterMachine$Base$SetFirst = F2(
+	function (a, b) {
+		return {$: 'SetFirst', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Base$SetSecond = F2(
+	function (a, b) {
+		return {$: 'SetSecond', a: a, b: b};
+	});
+var $author$project$RegisterMachine$Controllers$nil = $author$project$RegisterMachine$Base$ConstantValue($author$project$RegisterMachine$Base$Nil);
+var $author$project$RegisterMachine$Controllers$controller8_memory_test = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Label('memory_test'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'p',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(16)),
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(32)))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$First, 'a', 'p')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$Second, 'b', 'p')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$SetFirst,
+					'p',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(17)))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$SetSecond,
+					'p',
+					$author$project$RegisterMachine$Base$Constant(
+						$author$project$RegisterMachine$Base$Num(33)))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'test',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'pair?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('p')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['p', 'a', 'b', 'test']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2('p', $author$project$RegisterMachine$Controllers$nil),
+				_Utils_Tuple2(
+				'a',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'b',
+				$author$project$RegisterMachine$Controllers$num(0)),
+				_Utils_Tuple2(
+				'test',
+				$author$project$RegisterMachine$Controllers$num(0))
+			])),
+	name: 'memory-test'
+};
+var $author$project$RegisterMachine$Controllers$controller9_range = {
+	controller: {
+		instructions: _List_fromArray(
+			[
+				$author$project$RegisterMachine$Machine$Label('start'),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'done?',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'zero?',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('n')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2($author$project$RegisterMachine$Base$JumpToLabelIf, 'done?', 'done')),
+				$author$project$RegisterMachine$Machine$Perform(
+				A3(
+					$author$project$RegisterMachine$Base$ConstructPair,
+					'xs',
+					$author$project$RegisterMachine$Base$Register('n'),
+					$author$project$RegisterMachine$Base$Register('xs'))),
+				$author$project$RegisterMachine$Machine$Perform(
+				A2(
+					$author$project$RegisterMachine$Base$AssignOperation,
+					'n',
+					A2(
+						$author$project$RegisterMachine$Base$Operation,
+						'decrement',
+						_List_fromArray(
+							[
+								$author$project$RegisterMachine$Base$Register('n')
+							])))),
+				$author$project$RegisterMachine$Machine$Perform(
+				$author$project$RegisterMachine$Base$JumpToLabel('start')),
+				$author$project$RegisterMachine$Machine$Label('done'),
+				$author$project$RegisterMachine$Machine$Perform($author$project$RegisterMachine$Base$Halt)
+			]),
+		registers: $elm$core$Set$fromList(
+			_List_fromArray(
+				['xs', 'n', 'done?']))
+	},
+	initialRegisterEnvironment: $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2('xs', $author$project$RegisterMachine$Controllers$nil),
+				_Utils_Tuple2(
+				'n',
+				$author$project$RegisterMachine$Controllers$num(5)),
+				_Utils_Tuple2(
+				'done?',
+				$author$project$RegisterMachine$Controllers$num(0))
+			])),
+	name: 'range'
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$State = function (a) {
+	return {$: 'State', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$init = function (id) {
+	return $PaackEng$elm_ui_dropdown$Dropdown$State(
+		{filterText: '', focusedIndex: 0, id: id, isOpen: false});
+};
+var $author$project$RegisterMachine$Ui$Base$Halt = {$: 'Halt'};
+var $author$project$RegisterMachine$Ui$Editor$TraversingInstructions = function (a) {
+	return {$: 'TraversingInstructions', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$TraversingNodes = {$: 'TraversingNodes'};
+var $author$project$RegisterMachine$Ui$Base$Instruction = F3(
+	function (a, b, c) {
+		return {$: 'Instruction', a: a, b: b, c: c};
+	});
+var $author$project$RegisterMachine$Ui$Base$OperationApplicationKind = {$: 'OperationApplicationKind'};
+var $author$project$RegisterMachine$Ui$Base$Dynamic = {$: 'Dynamic'};
+var $author$project$RegisterMachine$Ui$Base$Integer = {$: 'Integer'};
+var $author$project$RegisterMachine$Ui$Base$LabelUse = {$: 'LabelUse'};
+var $author$project$RegisterMachine$Ui$Base$Nil = {$: 'Nil'};
+var $author$project$RegisterMachine$Ui$Base$RegisterUse = {$: 'RegisterUse'};
+var $author$project$RegisterMachine$Ui$Base$argExpectation = _List_fromArray(
+	[$author$project$RegisterMachine$Ui$Base$RegisterUse, $author$project$RegisterMachine$Ui$Base$LabelUse, $author$project$RegisterMachine$Ui$Base$Integer, $author$project$RegisterMachine$Ui$Base$Nil]);
+var $author$project$RegisterMachine$Ui$Base$Node = F4(
+	function (a, b, c, d) {
+		return {$: 'Node', a: a, b: b, c: c, d: d};
+	});
+var $author$project$RegisterMachine$Ui$Base$UnfinishedNode = {$: 'UnfinishedNode'};
+var $author$project$RegisterMachine$Ui$Base$emptyNode = F2(
+	function (nodeKind, nodeExpectation) {
+		return A4($author$project$RegisterMachine$Ui$Base$Node, nodeKind, $author$project$RegisterMachine$Ui$Base$UnfinishedNode, nodeExpectation, '');
+	});
+var $author$project$RegisterMachine$Ui$Editor$argDyn = A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Dynamic, $author$project$RegisterMachine$Ui$Base$argExpectation);
+var $author$project$Lib$ZipList$fromList = F2(
+	function (x, xs) {
+		return _Utils_Tuple3(_List_Nil, x, xs);
+	});
+var $author$project$RegisterMachine$Ui$Base$ContainsUnfinishedNodes = {$: 'ContainsUnfinishedNodes'};
+var $author$project$RegisterMachine$Ui$Base$initialInstructionValidity = $author$project$RegisterMachine$Ui$Base$ContainsUnfinishedNodes;
+var $author$project$RegisterMachine$Ui$Base$Static = {$: 'Static'};
+var $author$project$RegisterMachine$Ui$Base$OperationName = {$: 'OperationName'};
+var $author$project$RegisterMachine$Ui$Base$operationNameExpectation = _List_fromArray(
+	[$author$project$RegisterMachine$Ui$Base$OperationName]);
+var $author$project$RegisterMachine$Ui$Editor$opName = A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$operationNameExpectation);
+var $author$project$RegisterMachine$Ui$Base$RegisterName = {$: 'RegisterName'};
+var $author$project$RegisterMachine$Ui$Base$registerExpectation = _List_fromArray(
+	[$author$project$RegisterMachine$Ui$Base$RegisterName]);
+var $author$project$RegisterMachine$Ui$Editor$src = A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$registerExpectation);
+var $author$project$RegisterMachine$Ui$Editor$exampleInstruction0 = A3(
+	$author$project$RegisterMachine$Ui$Base$Instruction,
+	$author$project$RegisterMachine$Ui$Base$OperationApplicationKind,
+	A2(
+		$author$project$Lib$ZipList$fromList,
+		$author$project$RegisterMachine$Ui$Editor$src,
+		_List_fromArray(
+			[$author$project$RegisterMachine$Ui$Editor$opName, $author$project$RegisterMachine$Ui$Editor$argDyn, $author$project$RegisterMachine$Ui$Editor$argDyn, $author$project$RegisterMachine$Ui$Editor$argDyn])),
+	$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+var $author$project$RegisterMachine$Ui$Editor$exampleInstruction1 = A3(
+	$author$project$RegisterMachine$Ui$Base$Instruction,
+	$author$project$RegisterMachine$Ui$Base$OperationApplicationKind,
+	A2(
+		$author$project$Lib$ZipList$fromList,
+		$author$project$RegisterMachine$Ui$Editor$src,
+		_List_fromArray(
+			[$author$project$RegisterMachine$Ui$Editor$opName, $author$project$RegisterMachine$Ui$Editor$argDyn])),
+	$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+var $author$project$RegisterMachine$Ui$Base$LabelKind = {$: 'LabelKind'};
+var $author$project$RegisterMachine$Ui$Base$Label = {$: 'Label'};
+var $author$project$RegisterMachine$Ui$Base$labelExpectation = _List_fromArray(
+	[$author$project$RegisterMachine$Ui$Base$Label]);
+var $author$project$RegisterMachine$Ui$Editor$lbl = A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$labelExpectation);
+var $author$project$RegisterMachine$Ui$Editor$exampleInstruction2 = A3(
+	$author$project$RegisterMachine$Ui$Base$Instruction,
+	$author$project$RegisterMachine$Ui$Base$LabelKind,
+	A2($author$project$Lib$ZipList$fromList, $author$project$RegisterMachine$Ui$Editor$lbl, _List_Nil),
+	$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+var $author$project$RegisterMachine$Ui$Editor$initDebugConsole = {instructionsRev: _List_Nil};
+var $author$project$RegisterMachine$Ui$Editor$EmptyBoard = {$: 'EmptyBoard'};
+var $author$project$RegisterMachine$Ui$Editor$initFragmentBoard = $author$project$RegisterMachine$Ui$Editor$EmptyBoard;
+var $author$project$RegisterMachine$Ui$Editor$init = $author$project$Ui$Control$InitContext$setModelTo(
+	{
+		debugConsole: $author$project$RegisterMachine$Ui$Editor$initDebugConsole,
+		dropdownModel: $PaackEng$elm_ui_dropdown$Dropdown$init('dropdown'),
+		fragmentBoard: $author$project$RegisterMachine$Ui$Editor$initFragmentBoard,
+		instructionMode: $author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$TraversingNodes),
+		instructions: A2(
+			$author$project$Lib$ZipList$fromList,
+			$author$project$RegisterMachine$Ui$Editor$exampleInstruction0,
+			_List_fromArray(
+				[$author$project$RegisterMachine$Ui$Editor$exampleInstruction1, $author$project$RegisterMachine$Ui$Editor$exampleInstruction2, $author$project$RegisterMachine$Ui$Base$Halt])),
+		selectedInstructions: $elm$core$Maybe$Nothing,
+		selectedOption: $elm$core$Maybe$Nothing
+	});
+var $author$project$Ui$Tab$RegisterMachine$initMemoryView = {bottom: 0, top: 10};
+var $author$project$RegisterMachine$Machine$Zero = {$: 'Zero'};
+var $elm$core$Array$repeat = F2(
+	function (n, e) {
+		return A2(
+			$elm$core$Array$initialize,
+			n,
+			function (_v0) {
+				return e;
+			});
+	});
+var $author$project$RegisterMachine$MemoryState$empty = function (maxSize) {
+	return {
+		maxSize: maxSize,
+		memory: A2(
+			$elm$core$Array$repeat,
+			maxSize,
+			_Utils_Tuple2($author$project$RegisterMachine$Base$Uninitialized, $author$project$RegisterMachine$Base$Uninitialized)),
+		nextFreePointer: 0
+	};
+};
+var $author$project$RegisterMachine$Stack$empty = _List_Nil;
+var $author$project$RegisterMachine$Machine$LabelUsedMoreThanOnce = function (a) {
 	return {$: 'LabelUsedMoreThanOnce', a: a};
 };
-var $author$project$RegisterMachine$Base$UnknownRegister = function (a) {
+var $author$project$RegisterMachine$Machine$UnknownRegister = function (a) {
 	return {$: 'UnknownRegister', a: a};
 };
-var $author$project$RegisterMachine$Base$doesRegisterExist = F2(
-	function (register, controller) {
-		return A2($elm$core$Set$member, register, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
-			$author$project$RegisterMachine$Base$UnknownRegister(register));
+var $author$project$Lib$Result$ignore = function (result) {
+	return A2(
+		$elm$core$Result$map,
+		function (_v0) {
+			return _Utils_Tuple0;
+		},
+		result);
+};
+var $author$project$Lib$Result$sequence = function (results0) {
+	if (!results0.b) {
+		return $elm$core$Result$Ok(_List_Nil);
+	} else {
+		var result = results0.a;
+		var results1 = results0.b;
+		return A2(
+			$elm$core$Result$andThen,
+			function (x) {
+				return A2(
+					$elm$core$Result$map,
+					function (xs1) {
+						return A2($elm$core$List$cons, x, xs1);
+					},
+					$author$project$Lib$Result$sequence(results1));
+			},
+			result);
+	}
+};
+var $author$project$Lib$Result$tuple2 = F2(
+	function (result_a, result_b) {
+		if (result_a.$ === 'Ok') {
+			var a = result_a.a;
+			if (result_b.$ === 'Ok') {
+				var b = result_b.a;
+				return $elm$core$Result$Ok(
+					_Utils_Tuple2(a, b));
+			} else {
+				var e = result_b.a;
+				return $elm$core$Result$Err(e);
+			}
+		} else {
+			var e = result_a.a;
+			return $elm$core$Result$Err(e);
+		}
 	});
-var $author$project$RegisterMachine$Base$foldlMayFail = F3(
+var $author$project$RegisterMachine$Machine$checkRegisters = F3(
+	function (registers, _arguments, controller) {
+		var checkRegister = function (register) {
+			return A2($elm$core$Set$member, register, controller.registers) ? $elm$core$Result$Ok(_Utils_Tuple0) : $elm$core$Result$Err(
+				$author$project$RegisterMachine$Machine$UnknownRegister(register));
+		};
+		var checkArg = function (arg) {
+			if (arg.$ === 'Register') {
+				var register = arg.a;
+				return checkRegister(register);
+			} else {
+				return $elm$core$Result$Ok(_Utils_Tuple0);
+			}
+		};
+		return $author$project$Lib$Result$ignore(
+			A2(
+				$author$project$Lib$Result$tuple2,
+				$author$project$Lib$Result$sequence(
+					A2($elm$core$List$map, checkRegister, registers)),
+				$author$project$Lib$Result$sequence(
+					A2($elm$core$List$map, checkArg, _arguments))));
+	});
+var $author$project$RegisterMachine$Machine$foldlMayFail = F3(
 	function (update, state, actions0) {
 		if (!actions0.b) {
 			return $elm$core$Result$Ok(state);
@@ -11536,19 +12780,11 @@ var $author$project$RegisterMachine$Base$foldlMayFail = F3(
 			return A2(
 				$elm$core$Result$andThen,
 				function (newState) {
-					return A3($author$project$RegisterMachine$Base$foldlMayFail, update, newState, actions1);
+					return A3($author$project$RegisterMachine$Machine$foldlMayFail, update, newState, actions1);
 				},
 				A2(update, action, state));
 		}
 	});
-var $author$project$Lib$Result$ignore = function (result) {
-	return A2(
-		$elm$core$Result$map,
-		function (_v0) {
-			return _Utils_Tuple0;
-		},
-		result);
-};
 var $elm$core$Elm$JsArray$push = _JsArray_push;
 var $elm$core$Bitwise$and = _Bitwise_and;
 var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
@@ -11633,43 +12869,7 @@ var $elm$core$Array$push = F2(
 			A2($elm$core$Elm$JsArray$push, a, tail),
 			array);
 	});
-var $author$project$Lib$Result$sequence = function (results0) {
-	if (!results0.b) {
-		return $elm$core$Result$Ok(_List_Nil);
-	} else {
-		var result = results0.a;
-		var results1 = results0.b;
-		return A2(
-			$elm$core$Result$andThen,
-			function (x) {
-				return A2(
-					$elm$core$Result$map,
-					function (xs1) {
-						return A2($elm$core$List$cons, x, xs1);
-					},
-					$author$project$Lib$Result$sequence(results1));
-			},
-			result);
-	}
-};
-var $author$project$Lib$Result$tuple2 = F2(
-	function (result_a, result_b) {
-		if (result_a.$ === 'Ok') {
-			var a = result_a.a;
-			if (result_b.$ === 'Ok') {
-				var b = result_b.a;
-				return $elm$core$Result$Ok(
-					_Utils_Tuple2(a, b));
-			} else {
-				var e = result_b.a;
-				return $elm$core$Result$Err(e);
-			}
-		} else {
-			var e = result_a.a;
-			return $elm$core$Result$Err(e);
-		}
-	});
-var $author$project$RegisterMachine$Base$parse = function (controller) {
+var $author$project$RegisterMachine$Machine$parse = function (controller) {
 	var update = F2(
 		function (labelOrInstruction, _v3) {
 			var pointer = _v3.a;
@@ -11677,7 +12877,7 @@ var $author$project$RegisterMachine$Base$parse = function (controller) {
 			if (labelOrInstruction.$ === 'Label') {
 				var label = labelOrInstruction.a;
 				return A2($elm$core$Set$member, label, machineInstructions.labels) ? $elm$core$Result$Err(
-					$author$project$RegisterMachine$Base$LabelUsedMoreThanOnce(label)) : $elm$core$Result$Ok(
+					$author$project$RegisterMachine$Machine$LabelUsedMoreThanOnce(label)) : $elm$core$Result$Ok(
 					_Utils_Tuple2(
 						pointer,
 						_Utils_update(
@@ -11706,55 +12906,71 @@ var $author$project$RegisterMachine$Base$parse = function (controller) {
 			case 'AssignRegister':
 				var target = instruction.a;
 				var source = instruction.b;
-				return $author$project$Lib$Result$ignore(
-					A2(
-						$author$project$Lib$Result$tuple2,
-						A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller),
-						A2($author$project$RegisterMachine$Base$doesRegisterExist, source, controller)));
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target, source]),
+					_List_Nil,
+					controller);
 			case 'AssignLabel':
 				var target = instruction.a;
-				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_Nil,
+					controller);
 			case 'AssignOperation':
 				var target = instruction.a;
 				var _v1 = instruction.b;
 				var _arguments = _v1.b;
-				return $author$project$Lib$Result$ignore(
-					A2(
-						$author$project$Lib$Result$tuple2,
-						A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller),
-						$author$project$Lib$Result$ignore(
-							$author$project$Lib$Result$sequence(
-								A2(
-									$elm$core$List$map,
-									function (register) {
-										return A2($author$project$RegisterMachine$Base$doesRegisterExist, register, controller);
-									},
-									_arguments)))));
+				return A3($author$project$RegisterMachine$Machine$checkRegisters, _List_Nil, _arguments, controller);
 			case 'AssignConstant':
 				var target = instruction.a;
-				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_Nil,
+					controller);
 			case 'JumpToLabel':
 				var label = instruction.a;
 				return $elm$core$Result$Ok(_Utils_Tuple0);
 			case 'JumpToLabelAtRegister':
 				var target = instruction.a;
-				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_Nil,
+					controller);
 			case 'JumpToLabelIf':
 				var testRegister = instruction.a;
-				return A2($author$project$RegisterMachine$Base$doesRegisterExist, testRegister, controller);
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[testRegister]),
+					_List_Nil,
+					controller);
 			case 'JumpToLabelAtRegisterIf':
 				var testRegister = instruction.a;
 				var target = instruction.b;
-				return $author$project$Lib$Result$ignore(
-					A2(
-						$author$project$Lib$Result$tuple2,
-						A2($author$project$RegisterMachine$Base$doesRegisterExist, testRegister, controller),
-						A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller)));
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[testRegister, target]),
+					_List_Nil,
+					controller);
 			case 'Halt':
 				return $elm$core$Result$Ok(_Utils_Tuple0);
 			case 'PushRegister':
 				var register = instruction.a;
-				return A2($author$project$RegisterMachine$Base$doesRegisterExist, register, controller);
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[register]),
+					_List_Nil,
+					controller);
 			case 'PushConstant':
 				return $elm$core$Result$Ok(_Utils_Tuple0);
 			case 'PushLabel':
@@ -11762,160 +12978,163 @@ var $author$project$RegisterMachine$Base$parse = function (controller) {
 				return $elm$core$Result$Ok(_Utils_Tuple0);
 			case 'Pop':
 				var target = instruction.a;
-				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_Nil,
+					controller);
 			case 'AssignCallAtLabel':
 				var target = instruction.a;
-				return A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller);
-			default:
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_Nil,
+					controller);
+			case 'AssignCallAtRegister':
 				var target = instruction.a;
 				var labelRegister = instruction.b;
-				return $author$project$Lib$Result$ignore(
-					A2(
-						$author$project$Lib$Result$tuple2,
-						A2($author$project$RegisterMachine$Base$doesRegisterExist, target, controller),
-						A2($author$project$RegisterMachine$Base$doesRegisterExist, labelRegister, controller)));
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target, labelRegister]),
+					_List_Nil,
+					controller);
+			case 'ConstructPair':
+				var target = instruction.a;
+				var arg0 = instruction.b;
+				var arg1 = instruction.c;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_fromArray(
+						[arg0, arg1]),
+					controller);
+			case 'First':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target, source]),
+					_List_Nil,
+					controller);
+			case 'Second':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target, source]),
+					_List_Nil,
+					controller);
+			case 'SetFirst':
+				var target = instruction.a;
+				var arg = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_fromArray(
+						[arg]),
+					controller);
+			case 'SetSecond':
+				var target = instruction.a;
+				var arg = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_fromArray(
+						[arg]),
+					controller);
+			case 'DualFirst':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target, source]),
+					_List_Nil,
+					controller);
+			case 'DualSecond':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target, source]),
+					_List_Nil,
+					controller);
+			case 'DualSetFirst':
+				var target = instruction.a;
+				var arg = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_fromArray(
+						[arg]),
+					controller);
+			case 'DualSetSecond':
+				var target = instruction.a;
+				var arg = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target]),
+					_List_fromArray(
+						[arg]),
+					controller);
+			case 'MoveToDual':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[target, source]),
+					_List_Nil,
+					controller);
+			case 'MarkAsMoved':
+				var toBeCollected = instruction.a;
+				var referenceToDualMemory = instruction.b;
+				return A3(
+					$author$project$RegisterMachine$Machine$checkRegisters,
+					_List_fromArray(
+						[toBeCollected, referenceToDualMemory]),
+					_List_Nil,
+					controller);
+			default:
+				return $elm$core$Result$Ok(_Utils_Tuple0);
 		}
 	};
 	return A2(
 		$elm$core$Result$map,
 		$elm$core$Tuple$second,
-		A3($author$project$RegisterMachine$Base$foldlMayFail, update, initMachineInstructions, controller.instructions));
+		A3($author$project$RegisterMachine$Machine$foldlMayFail, update, initMachineInstructions, controller.instructions));
 };
-var $author$project$RegisterMachine$Base$makeMachine = F3(
+var $author$project$RegisterMachine$Machine$makeMachine = F3(
 	function (controller, env, operationsEnv) {
 		return A2(
 			$elm$core$Result$map,
 			function (instructions) {
-				return {env: env, instructionPointer: 0, instructions: instructions, operationEnv: operationsEnv, stack: $author$project$RegisterMachine$Base$emptyStack};
+				return {
+					env: env,
+					instructionPointer: 0,
+					instructions: instructions,
+					memory: {
+						memoryInUse: $author$project$RegisterMachine$Machine$Zero,
+						memoryState0: $author$project$RegisterMachine$MemoryState$empty(4096),
+						memoryState1: $author$project$RegisterMachine$MemoryState$empty(4096)
+					},
+					operationEnv: operationsEnv,
+					stack: $author$project$RegisterMachine$Stack$empty
+				};
 			},
-			$author$project$RegisterMachine$Base$parse(controller));
+			$author$project$RegisterMachine$Machine$parse(controller));
 	});
-var $author$project$RegisterMachine$Base$WrongNumberOfArgumentsGivenToOperationExpected = function (a) {
-	return {$: 'WrongNumberOfArgumentsGivenToOperationExpected', a: a};
-};
-var $author$project$RegisterMachine$Base$makeOperation1 = function (op) {
-	return function (xs) {
-		if (xs.b && (!xs.b.b)) {
-			var x = xs.a;
-			return $elm$core$Result$Ok(
-				op(x));
-		} else {
-			return $elm$core$Result$Err(
-				$author$project$RegisterMachine$Base$WrongNumberOfArgumentsGivenToOperationExpected(1));
-		}
-	};
-};
-var $author$project$RegisterMachine$Base$makeOperation2 = function (op) {
-	return function (xs) {
-		if ((xs.b && xs.b.b) && (!xs.b.b.b)) {
-			var x = xs.a;
-			var _v1 = xs.b;
-			var y = _v1.a;
-			return $elm$core$Result$Ok(
-				A2(op, x, y));
-		} else {
-			return $elm$core$Result$Err(
-				$author$project$RegisterMachine$Base$WrongNumberOfArgumentsGivenToOperationExpected(2));
-		}
-	};
-};
-var $author$project$Ui$Tab$RegisterMachine$init = function () {
-	var env = $elm$core$Dict$fromList(
-		_List_fromArray(
-			[
-				_Utils_Tuple2('n', 0),
-				_Utils_Tuple2('result', 0),
-				_Utils_Tuple2('done?', 0),
-				_Utils_Tuple2('continue', 0)
-			]));
-	var controller = $author$project$RegisterMachine$Controllers$controller6_fct_recursive;
-	var boolToInt = function (b) {
-		return b ? 1 : 0;
-	};
-	var operationEnv = $elm$core$Dict$fromList(
-		_List_fromArray(
-			[
-				_Utils_Tuple2(
-				'sub',
-				$author$project$RegisterMachine$Base$makeOperation2(
-					F2(
-						function (x, y) {
-							return x - y;
-						}))),
-				_Utils_Tuple2(
-				'less-than?',
-				$author$project$RegisterMachine$Base$makeOperation2(
-					F2(
-						function (x, y) {
-							return boolToInt(
-								_Utils_cmp(x, y) < 0);
-						}))),
-				_Utils_Tuple2(
-				'add',
-				$author$project$RegisterMachine$Base$makeOperation2(
-					F2(
-						function (x, y) {
-							return x + y;
-						}))),
-				_Utils_Tuple2(
-				'mul',
-				$author$project$RegisterMachine$Base$makeOperation2(
-					F2(
-						function (x, y) {
-							return x * y;
-						}))),
-				_Utils_Tuple2(
-				'zero?',
-				$author$project$RegisterMachine$Base$makeOperation1(
-					function (x) {
-						return boolToInt(!x);
-					})),
-				_Utils_Tuple2(
-				'eq?',
-				$author$project$RegisterMachine$Base$makeOperation2(
-					F2(
-						function (x, y) {
-							return boolToInt(
-								_Utils_eq(x, y));
-						}))),
-				_Utils_Tuple2(
-				'decrement',
-				$author$project$RegisterMachine$Base$makeOperation1(
-					function (x) {
-						return x - 1;
-					})),
-				_Utils_Tuple2(
-				'increment',
-				$author$project$RegisterMachine$Base$makeOperation1(
-					function (x) {
-						return x + 1;
-					})),
-				_Utils_Tuple2(
-				'remainder',
-				$author$project$RegisterMachine$Base$makeOperation2(
-					F2(
-						function (x, y) {
-							return x % y;
-						})))
-			]));
-	var parsedMachine = A3($author$project$RegisterMachine$Base$makeMachine, controller, env, operationEnv);
-	return $author$project$Ui$Control$InitContext$setModelTo(
-		{
-			controller: controller,
-			maybeRuntime: function () {
-				if (parsedMachine.$ === 'Ok') {
-					var machine = parsedMachine.a;
-					return $elm$core$Maybe$Just(
-						$elm$core$Result$Ok(machine));
-				} else {
-					return $elm$core$Maybe$Nothing;
-				}
-			}(),
-			parsedMachine: parsedMachine
-		});
-}();
-var $author$project$Ui$Main$RegisterMachineTab = {$: 'RegisterMachineTab'};
-var $author$project$Ui$Main$initTab = $author$project$Ui$Main$RegisterMachineTab;
 var $elm$core$Platform$Cmd$map = _Platform_map;
 var $author$project$Ui$Control$InitContext$mapCmd = F2(
 	function (f, initContext0) {
@@ -11972,6 +13191,231 @@ var $author$project$Ui$Control$InitContext$ooo = F2(
 			},
 			A2($author$project$Ui$Control$InitContext$tuple2, initContext_f, initContext_a));
 	});
+var $author$project$RegisterMachine$Machine$TheOperationExpectsIntegerArguments = {$: 'TheOperationExpectsIntegerArguments'};
+var $author$project$RegisterMachine$Machine$WrongNumberOfArgumentsGivenToOperationExpected = function (a) {
+	return {$: 'WrongNumberOfArgumentsGivenToOperationExpected', a: a};
+};
+var $author$project$RegisterMachine$Machine$makeOperation1 = function (op) {
+	return function (xs) {
+		if (xs.b && (!xs.b.b)) {
+			var x = xs.a;
+			return op(x);
+		} else {
+			return $elm$core$Result$Err(
+				$author$project$RegisterMachine$Machine$WrongNumberOfArgumentsGivenToOperationExpected(1));
+		}
+	};
+};
+var $author$project$RegisterMachine$Machine$makeNumOperation1 = function (op) {
+	return $author$project$RegisterMachine$Machine$makeOperation1(
+		function (v) {
+			if ((v.$ === 'ConstantValue') && (v.a.$ === 'Num')) {
+				var x = v.a.a;
+				return $elm$core$Result$Ok(
+					$author$project$RegisterMachine$Base$ConstantValue(
+						$author$project$RegisterMachine$Base$Num(
+							op(x))));
+			} else {
+				return $elm$core$Result$Err($author$project$RegisterMachine$Machine$TheOperationExpectsIntegerArguments);
+			}
+		});
+};
+var $author$project$RegisterMachine$Machine$makeOperation2 = function (op) {
+	return function (xs) {
+		if ((xs.b && xs.b.b) && (!xs.b.b.b)) {
+			var x = xs.a;
+			var _v1 = xs.b;
+			var y = _v1.a;
+			return A2(op, x, y);
+		} else {
+			return $elm$core$Result$Err(
+				$author$project$RegisterMachine$Machine$WrongNumberOfArgumentsGivenToOperationExpected(2));
+		}
+	};
+};
+var $author$project$RegisterMachine$Machine$makeNumOperation2 = function (op) {
+	return $author$project$RegisterMachine$Machine$makeOperation2(
+		F2(
+			function (v0, v1) {
+				var _v0 = _Utils_Tuple2(v0, v1);
+				if ((((_v0.a.$ === 'ConstantValue') && (_v0.a.a.$ === 'Num')) && (_v0.b.$ === 'ConstantValue')) && (_v0.b.a.$ === 'Num')) {
+					var x = _v0.a.a.a;
+					var y = _v0.b.a.a;
+					return $elm$core$Result$Ok(
+						$author$project$RegisterMachine$Base$ConstantValue(
+							$author$project$RegisterMachine$Base$Num(
+								A2(op, x, y))));
+				} else {
+					return $elm$core$Result$Err($author$project$RegisterMachine$Machine$TheOperationExpectsIntegerArguments);
+				}
+			}));
+};
+var $author$project$Ui$Tab$RegisterMachine$operationEnv = function () {
+	var boolToInt = function (b) {
+		return b ? 1 : 0;
+	};
+	return $elm$core$Dict$fromList(
+		_List_fromArray(
+			[
+				_Utils_Tuple2(
+				'sub',
+				$author$project$RegisterMachine$Machine$makeNumOperation2(
+					F2(
+						function (x, y) {
+							return x - y;
+						}))),
+				_Utils_Tuple2(
+				'less-than?',
+				$author$project$RegisterMachine$Machine$makeNumOperation2(
+					F2(
+						function (x, y) {
+							return boolToInt(
+								_Utils_cmp(x, y) < 0);
+						}))),
+				_Utils_Tuple2(
+				'add',
+				$author$project$RegisterMachine$Machine$makeNumOperation2(
+					F2(
+						function (x, y) {
+							return x + y;
+						}))),
+				_Utils_Tuple2(
+				'mul',
+				$author$project$RegisterMachine$Machine$makeNumOperation2(
+					F2(
+						function (x, y) {
+							return x * y;
+						}))),
+				_Utils_Tuple2(
+				'zero?',
+				$author$project$RegisterMachine$Machine$makeNumOperation1(
+					function (x) {
+						return boolToInt(!x);
+					})),
+				_Utils_Tuple2(
+				'eq?',
+				$author$project$RegisterMachine$Machine$makeNumOperation2(
+					F2(
+						function (x, y) {
+							return boolToInt(
+								_Utils_eq(x, y));
+						}))),
+				_Utils_Tuple2(
+				'not',
+				$author$project$RegisterMachine$Machine$makeNumOperation1(
+					function (x) {
+						return boolToInt(!x);
+					})),
+				_Utils_Tuple2(
+				'decrement',
+				$author$project$RegisterMachine$Machine$makeNumOperation1(
+					function (x) {
+						return x - 1;
+					})),
+				_Utils_Tuple2(
+				'increment',
+				$author$project$RegisterMachine$Machine$makeNumOperation1(
+					function (x) {
+						return x + 1;
+					})),
+				_Utils_Tuple2(
+				'remainder',
+				$author$project$RegisterMachine$Machine$makeNumOperation2(
+					F2(
+						function (x, y) {
+							return x % y;
+						}))),
+				_Utils_Tuple2(
+				'pair?',
+				$author$project$RegisterMachine$Machine$makeOperation1(
+					function (val) {
+						if (val.$ === 'Pair') {
+							return $elm$core$Result$Ok(
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(1)));
+						} else {
+							return $elm$core$Result$Ok(
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(0)));
+						}
+					})),
+				_Utils_Tuple2(
+				'nil?',
+				$author$project$RegisterMachine$Machine$makeOperation1(
+					function (val) {
+						if ((val.$ === 'ConstantValue') && (val.a.$ === 'Nil')) {
+							var _v2 = val.a;
+							return $elm$core$Result$Ok(
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(1)));
+						} else {
+							return $elm$core$Result$Ok(
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(0)));
+						}
+					})),
+				_Utils_Tuple2(
+				'num?',
+				$author$project$RegisterMachine$Machine$makeOperation1(
+					function (val) {
+						if ((val.$ === 'ConstantValue') && (val.a.$ === 'Num')) {
+							return $elm$core$Result$Ok(
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(1)));
+						} else {
+							return $elm$core$Result$Ok(
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(0)));
+						}
+					})),
+				_Utils_Tuple2(
+				'moved?',
+				$author$project$RegisterMachine$Machine$makeOperation1(
+					function (val) {
+						if (val.$ === 'Moved') {
+							return $elm$core$Result$Ok(
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(1)));
+						} else {
+							return $elm$core$Result$Ok(
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(0)));
+						}
+					}))
+			]));
+}();
+var $author$project$Ui$Tab$RegisterMachine$init = function () {
+	var defaultSelectedController = $author$project$RegisterMachine$Controllers$controller7_fibonacci_recursive;
+	var parsedMachine = A3($author$project$RegisterMachine$Machine$makeMachine, defaultSelectedController.controller, defaultSelectedController.initialRegisterEnvironment, $author$project$Ui$Tab$RegisterMachine$operationEnv);
+	var controllers = _List_fromArray(
+		[$author$project$RegisterMachine$Controllers$controller0_gcd, $author$project$RegisterMachine$Controllers$controller1_remainder, $author$project$RegisterMachine$Controllers$controller2_fct_iterative, $author$project$RegisterMachine$Controllers$controller3_gcd_with_inlined_remainder, $author$project$RegisterMachine$Controllers$controller4_gcd_with_inlined_remainder_using_jump, $author$project$RegisterMachine$Controllers$controller6_fct_recursive, $author$project$RegisterMachine$Controllers$controller7_fibonacci_recursive, $author$project$RegisterMachine$Controllers$controller8_memory_test, $author$project$RegisterMachine$Controllers$controller9_range, $author$project$RegisterMachine$Controllers$controller10_append, $author$project$RegisterMachine$GarbageCollector$controller]);
+	return A2(
+		$author$project$Ui$Control$InitContext$ooo,
+		A2($author$project$Ui$Control$InitContext$mapCmd, $author$project$Ui$Tab$RegisterMachine$EditorMsg, $author$project$RegisterMachine$Ui$Editor$init),
+		$author$project$Ui$Control$InitContext$setModelTo(
+			function (editorModel) {
+				return {
+					controllerDropdownModel: $PaackEng$elm_ui_dropdown$Dropdown$init('controllers'),
+					controllers: controllers,
+					currentlyHighlightedCell: $author$project$Ui$Tab$RegisterMachine$centerOfMemoryView($author$project$Ui$Tab$RegisterMachine$initMemoryView),
+					editorModel: editorModel,
+					maybeRuntime: function () {
+						if (parsedMachine.$ === 'Ok') {
+							var machine = parsedMachine.a;
+							return $elm$core$Maybe$Just(
+								$elm$core$Result$Ok(machine));
+						} else {
+							return $elm$core$Maybe$Nothing;
+						}
+					}(),
+					memoryView: $author$project$Ui$Tab$RegisterMachine$initMemoryView,
+					parsedMachine: parsedMachine,
+					selectedController: $elm$core$Maybe$Just(defaultSelectedController)
+				};
+			}));
+}();
+var $author$project$Ui$Main$RegisterMachineTab = {$: 'RegisterMachineTab'};
+var $author$project$Ui$Main$initTab = $author$project$Ui$Main$RegisterMachineTab;
 var $author$project$Ui$Main$init = A2(
 	$author$project$Ui$Control$InitContext$ooo,
 	A2($author$project$Ui$Control$InitContext$mapCmd, $author$project$Ui$Main$RegisterMachineMsg, $author$project$Ui$Tab$RegisterMachine$init),
@@ -14350,9 +15794,6 @@ var $mdgriffith$elm_ui$Internal$Style$sliderReset = '\ninput[type=range] {\n  -w
 var $mdgriffith$elm_ui$Internal$Style$thumbReset = '\ninput[type=range]::-webkit-slider-thumb {\n    -webkit-appearance: none;\n    opacity: 0.5;\n    width: 80px;\n    height: 80px;\n    background-color: black;\n    border:none;\n    border-radius: 5px;\n}\ninput[type=range]::-moz-range-thumb {\n    opacity: 0.5;\n    width: 80px;\n    height: 80px;\n    background-color: black;\n    border:none;\n    border-radius: 5px;\n}\ninput[type=range]::-ms-thumb {\n    opacity: 0.5;\n    width: 80px;\n    height: 80px;\n    background-color: black;\n    border:none;\n    border-radius: 5px;\n}\ninput[type=range][orient=vertical]{\n    writing-mode: bt-lr; /* IE */\n    -webkit-appearance: slider-vertical;  /* WebKit */\n}\n';
 var $mdgriffith$elm_ui$Internal$Style$trackReset = '\ninput[type=range]::-moz-range-track {\n    background: transparent;\n    cursor: pointer;\n}\ninput[type=range]::-ms-track {\n    background: transparent;\n    cursor: pointer;\n}\ninput[type=range]::-webkit-slider-runnable-track {\n    background: transparent;\n    cursor: pointer;\n}\n';
 var $mdgriffith$elm_ui$Internal$Style$overrides = '@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {' + ($mdgriffith$elm_ui$Internal$Style$dot($mdgriffith$elm_ui$Internal$Style$classes.any) + ($mdgriffith$elm_ui$Internal$Style$dot($mdgriffith$elm_ui$Internal$Style$classes.row) + (' > ' + ($mdgriffith$elm_ui$Internal$Style$dot($mdgriffith$elm_ui$Internal$Style$classes.any) + (' { flex-basis: auto !important; } ' + ($mdgriffith$elm_ui$Internal$Style$dot($mdgriffith$elm_ui$Internal$Style$classes.any) + ($mdgriffith$elm_ui$Internal$Style$dot($mdgriffith$elm_ui$Internal$Style$classes.row) + (' > ' + ($mdgriffith$elm_ui$Internal$Style$dot($mdgriffith$elm_ui$Internal$Style$classes.any) + ($mdgriffith$elm_ui$Internal$Style$dot($mdgriffith$elm_ui$Internal$Style$classes.container) + (' { flex-basis: auto !important; }}' + ($mdgriffith$elm_ui$Internal$Style$inputTextReset + ($mdgriffith$elm_ui$Internal$Style$sliderReset + ($mdgriffith$elm_ui$Internal$Style$trackReset + ($mdgriffith$elm_ui$Internal$Style$thumbReset + $mdgriffith$elm_ui$Internal$Style$explainer)))))))))))))));
-var $elm$core$String$concat = function (strings) {
-	return A2($elm$core$String$join, '', strings);
-};
 var $mdgriffith$elm_ui$Internal$Style$Intermediate = function (a) {
 	return {$: 'Intermediate', a: a};
 };
@@ -17699,16 +19140,482 @@ var $mdgriffith$elm_ui$Element$layoutWith = F3(
 	});
 var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $elm$core$Platform$Sub$map = _Platform_map;
+var $author$project$RegisterMachine$Ui$Editor$ChangeInstructionTo = function (a) {
+	return {$: 'ChangeInstructionTo', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$SetModeTo = function (a) {
+	return {$: 'SetModeTo', a: a};
+};
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $elm$json$Json$Decode$fail = _Json_fail;
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $author$project$RegisterMachine$Ui$Base$AssignmentKind = {$: 'AssignmentKind'};
+var $author$project$RegisterMachine$Ui$Base$HaltKind = {$: 'HaltKind'};
+var $author$project$RegisterMachine$Ui$Base$JumpIfKind = {$: 'JumpIfKind'};
+var $author$project$RegisterMachine$Ui$Base$JumpKind = {$: 'JumpKind'};
+var $author$project$RegisterMachine$Ui$Base$PushKind = {$: 'PushKind'};
+var $author$project$RegisterMachine$Ui$Editor$insertionModeKeyBindings = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2('q', $author$project$RegisterMachine$Ui$Base$LabelKind),
+			_Utils_Tuple2('l', $author$project$RegisterMachine$Ui$Base$LabelKind),
+			_Utils_Tuple2('w', $author$project$RegisterMachine$Ui$Base$JumpKind),
+			_Utils_Tuple2('e', $author$project$RegisterMachine$Ui$Base$JumpIfKind),
+			_Utils_Tuple2('a', $author$project$RegisterMachine$Ui$Base$OperationApplicationKind),
+			_Utils_Tuple2('s', $author$project$RegisterMachine$Ui$Base$AssignmentKind),
+			_Utils_Tuple2('d', $author$project$RegisterMachine$Ui$Base$PushKind),
+			_Utils_Tuple2('f', $author$project$RegisterMachine$Ui$Base$HaltKind)
+		]));
+var $elm$browser$Browser$Events$Document = {$: 'Document'};
+var $elm$browser$Browser$Events$MySub = F3(
+	function (a, b, c) {
+		return {$: 'MySub', a: a, b: b, c: c};
+	});
+var $elm$browser$Browser$Events$State = F2(
+	function (subs, pids) {
+		return {pids: pids, subs: subs};
+	});
+var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
+	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
+var $elm$browser$Browser$Events$nodeToKey = function (node) {
+	if (node.$ === 'Document') {
+		return 'd_';
+	} else {
+		return 'w_';
+	}
+};
+var $elm$browser$Browser$Events$addKey = function (sub) {
+	var node = sub.a;
+	var name = sub.b;
+	return _Utils_Tuple2(
+		_Utils_ap(
+			$elm$browser$Browser$Events$nodeToKey(node),
+			name),
+		sub);
+};
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$browser$Browser$Events$Event = F2(
+	function (key, event) {
+		return {event: event, key: key};
+	});
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$browser$Browser$Events$spawn = F3(
+	function (router, key, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var actualNode = function () {
+			if (node.$ === 'Document') {
+				return _Browser_doc;
+			} else {
+				return _Browser_window;
+			}
+		}();
+		return A2(
+			$elm$core$Task$map,
+			function (value) {
+				return _Utils_Tuple2(key, value);
+			},
+			A3(
+				_Browser_on,
+				actualNode,
+				name,
+				function (event) {
+					return A2(
+						$elm$core$Platform$sendToSelf,
+						router,
+						A2($elm$browser$Browser$Events$Event, key, event));
+				}));
+	});
+var $elm$browser$Browser$Events$onEffects = F3(
+	function (router, subs, state) {
+		var stepRight = F3(
+			function (key, sub, _v6) {
+				var deads = _v6.a;
+				var lives = _v6.b;
+				var news = _v6.c;
+				return _Utils_Tuple3(
+					deads,
+					lives,
+					A2(
+						$elm$core$List$cons,
+						A3($elm$browser$Browser$Events$spawn, router, key, sub),
+						news));
+			});
+		var stepLeft = F3(
+			function (_v4, pid, _v5) {
+				var deads = _v5.a;
+				var lives = _v5.b;
+				var news = _v5.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, pid, deads),
+					lives,
+					news);
+			});
+		var stepBoth = F4(
+			function (key, pid, _v2, _v3) {
+				var deads = _v3.a;
+				var lives = _v3.b;
+				var news = _v3.c;
+				return _Utils_Tuple3(
+					deads,
+					A3($elm$core$Dict$insert, key, pid, lives),
+					news);
+			});
+		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
+		var _v0 = A6(
+			$elm$core$Dict$merge,
+			stepLeft,
+			stepBoth,
+			stepRight,
+			state.pids,
+			$elm$core$Dict$fromList(newSubs),
+			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
+		var deadPids = _v0.a;
+		var livePids = _v0.b;
+		var makeNewPids = _v0.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (pids) {
+				return $elm$core$Task$succeed(
+					A2(
+						$elm$browser$Browser$Events$State,
+						newSubs,
+						A2(
+							$elm$core$Dict$union,
+							livePids,
+							$elm$core$Dict$fromList(pids))));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$sequence(makeNewPids);
+				},
+				$elm$core$Task$sequence(
+					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
+	});
+var $elm$browser$Browser$Events$onSelfMsg = F3(
+	function (router, _v0, state) {
+		var key = _v0.key;
+		var event = _v0.event;
+		var toMessage = function (_v2) {
+			var subKey = _v2.a;
+			var _v3 = _v2.b;
+			var node = _v3.a;
+			var name = _v3.b;
+			var decoder = _v3.c;
+			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
+		};
+		var messages = A2($elm$core$List$filterMap, toMessage, state.subs);
+		return A2(
+			$elm$core$Task$andThen,
+			function (_v1) {
+				return $elm$core$Task$succeed(state);
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$map,
+					$elm$core$Platform$sendToApp(router),
+					messages)));
+	});
+var $elm$browser$Browser$Events$subMap = F2(
+	function (func, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var decoder = _v0.c;
+		return A3(
+			$elm$browser$Browser$Events$MySub,
+			node,
+			name,
+			A2($elm$json$Json$Decode$map, func, decoder));
+	});
+_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
+var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
+var $elm$browser$Browser$Events$on = F3(
+	function (node, name, decoder) {
+		return $elm$browser$Browser$Events$subscription(
+			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
+	});
+var $elm$browser$Browser$Events$onKeyUp = A2($elm$browser$Browser$Events$on, $elm$browser$Browser$Events$Document, 'keyup');
+var $author$project$RegisterMachine$Ui$Base$Down = {$: 'Down'};
+var $author$project$RegisterMachine$Ui$Editor$SelectionMovement = function (a) {
+	return {$: 'SelectionMovement', a: a};
+};
+var $author$project$RegisterMachine$Ui$Base$Up = {$: 'Up'};
+var $author$project$RegisterMachine$Ui$Editor$selectionModeKeyBindings = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2(
+			'k',
+			$author$project$RegisterMachine$Ui$Editor$SelectionMovement($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'j',
+			$author$project$RegisterMachine$Ui$Editor$SelectionMovement($author$project$RegisterMachine$Ui$Base$Down))
+		]));
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$RegisterMachine$Ui$Editor$ConvertAssignmentToOperation = {$: 'ConvertAssignmentToOperation'};
+var $author$project$RegisterMachine$Ui$Editor$DebugCurrentInstruction = {$: 'DebugCurrentInstruction'};
+var $author$project$RegisterMachine$Ui$Editor$DeleteInstruction = {$: 'DeleteInstruction'};
+var $author$project$RegisterMachine$Ui$Editor$DeleteNode = {$: 'DeleteNode'};
+var $author$project$RegisterMachine$Ui$Editor$DuplicateInstruction = function (a) {
+	return {$: 'DuplicateInstruction', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$EditingNode = {$: 'EditingNode'};
+var $author$project$RegisterMachine$Ui$Editor$FragmentMovement = function (a) {
+	return {$: 'FragmentMovement', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$InstructionEdit = {$: 'InstructionEdit'};
+var $author$project$RegisterMachine$Ui$Editor$InstructionInsertion = function (a) {
+	return {$: 'InstructionInsertion', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$InstructionMovement = function (a) {
+	return {$: 'InstructionMovement', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$JumpToBoundaryInstruction = function (a) {
+	return {$: 'JumpToBoundaryInstruction', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$JumpToBoundaryNode = function (a) {
+	return {$: 'JumpToBoundaryNode', a: a};
+};
+var $author$project$RegisterMachine$Ui$Base$Left = {$: 'Left'};
+var $author$project$RegisterMachine$Ui$Editor$NodeInsertion = function (a) {
+	return {$: 'NodeInsertion', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$NodeMovement = function (a) {
+	return {$: 'NodeMovement', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$PasteAndPopFragment = function (a) {
+	return {$: 'PasteAndPopFragment', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$PasteFragment = function (a) {
+	return {$: 'PasteFragment', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$PushFragment = {$: 'PushFragment'};
+var $author$project$RegisterMachine$Ui$Base$Right = {$: 'Right'};
+var $author$project$RegisterMachine$Ui$Editor$SelectingInstructions = {$: 'SelectingInstructions'};
+var $author$project$RegisterMachine$Ui$Editor$SwapInstruction = function (a) {
+	return {$: 'SwapInstruction', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$traverseModeKeyBindings = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2(
+			'k',
+			$author$project$RegisterMachine$Ui$Editor$InstructionMovement($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'j',
+			$author$project$RegisterMachine$Ui$Editor$InstructionMovement($author$project$RegisterMachine$Ui$Base$Down)),
+			_Utils_Tuple2(
+			'K',
+			$author$project$RegisterMachine$Ui$Editor$SwapInstruction($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'J',
+			$author$project$RegisterMachine$Ui$Editor$SwapInstruction($author$project$RegisterMachine$Ui$Base$Down)),
+			_Utils_Tuple2('i', $author$project$RegisterMachine$Ui$Editor$InstructionEdit),
+			_Utils_Tuple2(
+			'o',
+			$author$project$RegisterMachine$Ui$Editor$InstructionInsertion($author$project$RegisterMachine$Ui$Base$Down)),
+			_Utils_Tuple2(
+			'O',
+			$author$project$RegisterMachine$Ui$Editor$InstructionInsertion($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'f',
+			$author$project$RegisterMachine$Ui$Editor$DuplicateInstruction($author$project$RegisterMachine$Ui$Base$Down)),
+			_Utils_Tuple2(
+			'F',
+			$author$project$RegisterMachine$Ui$Editor$DuplicateInstruction($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'3',
+			$author$project$RegisterMachine$Ui$Editor$JumpToBoundaryInstruction($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'4',
+			$author$project$RegisterMachine$Ui$Editor$JumpToBoundaryInstruction($author$project$RegisterMachine$Ui$Base$Down)),
+			_Utils_Tuple2(
+			's',
+			$author$project$RegisterMachine$Ui$Editor$NodeMovement($author$project$RegisterMachine$Ui$Base$Left)),
+			_Utils_Tuple2(
+			'd',
+			$author$project$RegisterMachine$Ui$Editor$NodeMovement($author$project$RegisterMachine$Ui$Base$Right)),
+			_Utils_Tuple2(
+			'e',
+			$author$project$RegisterMachine$Ui$Editor$SetModeTo(
+				$author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$EditingNode))),
+			_Utils_Tuple2(
+			'<',
+			$author$project$RegisterMachine$Ui$Editor$NodeInsertion($author$project$RegisterMachine$Ui$Base$Left)),
+			_Utils_Tuple2(
+			',',
+			$author$project$RegisterMachine$Ui$Editor$NodeInsertion($author$project$RegisterMachine$Ui$Base$Right)),
+			_Utils_Tuple2('X', $author$project$RegisterMachine$Ui$Editor$DeleteInstruction),
+			_Utils_Tuple2('x', $author$project$RegisterMachine$Ui$Editor$DeleteNode),
+			_Utils_Tuple2('(', $author$project$RegisterMachine$Ui$Editor$ConvertAssignmentToOperation),
+			_Utils_Tuple2(
+			'#',
+			$author$project$RegisterMachine$Ui$Editor$JumpToBoundaryNode($author$project$RegisterMachine$Ui$Base$Left)),
+			_Utils_Tuple2(
+			'$',
+			$author$project$RegisterMachine$Ui$Editor$JumpToBoundaryNode($author$project$RegisterMachine$Ui$Base$Right)),
+			_Utils_Tuple2('c', $author$project$RegisterMachine$Ui$Editor$PushFragment),
+			_Utils_Tuple2(
+			'p',
+			$author$project$RegisterMachine$Ui$Editor$PasteFragment($author$project$RegisterMachine$Ui$Base$Down)),
+			_Utils_Tuple2(
+			'P',
+			$author$project$RegisterMachine$Ui$Editor$PasteFragment($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'v',
+			$author$project$RegisterMachine$Ui$Editor$PasteAndPopFragment($author$project$RegisterMachine$Ui$Base$Down)),
+			_Utils_Tuple2(
+			'V',
+			$author$project$RegisterMachine$Ui$Editor$PasteAndPopFragment($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'5',
+			$author$project$RegisterMachine$Ui$Editor$FragmentMovement($author$project$RegisterMachine$Ui$Base$Down)),
+			_Utils_Tuple2(
+			'6',
+			$author$project$RegisterMachine$Ui$Editor$FragmentMovement($author$project$RegisterMachine$Ui$Base$Up)),
+			_Utils_Tuple2(
+			'm',
+			$author$project$RegisterMachine$Ui$Editor$SetModeTo($author$project$RegisterMachine$Ui$Editor$SelectingInstructions)),
+			_Utils_Tuple2('?', $author$project$RegisterMachine$Ui$Editor$DebugCurrentInstruction)
+		]));
+var $author$project$RegisterMachine$Ui$Editor$subscriptions = function (model) {
+	return $elm$browser$Browser$Events$onKeyUp(
+		A2(
+			$elm$json$Json$Decode$andThen,
+			function (keyCode) {
+				var _v0 = model.instructionMode;
+				switch (_v0.$) {
+					case 'TraversingInstructions':
+						var nodeMode = _v0.a;
+						if (nodeMode.$ === 'TraversingNodes') {
+							var _v2 = A2($elm$core$Dict$get, keyCode, $author$project$RegisterMachine$Ui$Editor$traverseModeKeyBindings);
+							if (_v2.$ === 'Just') {
+								var msg = _v2.a;
+								return $elm$json$Json$Decode$succeed(msg);
+							} else {
+								return $elm$json$Json$Decode$fail('');
+							}
+						} else {
+							if (keyCode === 'Escape') {
+								return $elm$json$Json$Decode$succeed(
+									$author$project$RegisterMachine$Ui$Editor$SetModeTo(
+										$author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$TraversingNodes)));
+							} else {
+								return $elm$json$Json$Decode$fail('');
+							}
+						}
+					case 'InsertingInstruction':
+						var _v4 = A2($elm$core$Dict$get, keyCode, $author$project$RegisterMachine$Ui$Editor$insertionModeKeyBindings);
+						if (_v4.$ === 'Just') {
+							var instructionKind = _v4.a;
+							return $elm$json$Json$Decode$succeed(
+								$author$project$RegisterMachine$Ui$Editor$ChangeInstructionTo(instructionKind));
+						} else {
+							if (keyCode === 'Escape') {
+								return $elm$json$Json$Decode$succeed(
+									$author$project$RegisterMachine$Ui$Editor$SetModeTo(
+										$author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$TraversingNodes)));
+							} else {
+								return $elm$json$Json$Decode$fail('');
+							}
+						}
+					default:
+						var _v6 = A2($elm$core$Dict$get, keyCode, $author$project$RegisterMachine$Ui$Editor$selectionModeKeyBindings);
+						if (_v6.$ === 'Just') {
+							var msg = _v6.a;
+							return $elm$json$Json$Decode$succeed(msg);
+						} else {
+							if (keyCode === 'Escape') {
+								return $elm$json$Json$Decode$succeed(
+									$author$project$RegisterMachine$Ui$Editor$SetModeTo(
+										$author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$TraversingNodes)));
+							} else {
+								return $elm$json$Json$Decode$fail('');
+							}
+						}
+				}
+			},
+			A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string)));
+};
+var $author$project$Ui$Tab$RegisterMachine$subscriptions = function (model) {
+	return A2(
+		$elm$core$Platform$Sub$map,
+		$author$project$Ui$Tab$RegisterMachine$EditorMsg,
+		$author$project$RegisterMachine$Ui$Editor$subscriptions(model.editorModel));
+};
+var $author$project$Ui$Main$subscriptions = function (model) {
+	return A2(
+		$elm$core$Platform$Sub$map,
+		$author$project$Ui$Main$RegisterMachineMsg,
+		$author$project$Ui$Tab$RegisterMachine$subscriptions(model.registerMachineModel));
+};
 var $author$project$Main$subscriptions = function (model) {
-	return $elm$core$Platform$Sub$none;
-};
-var $author$project$Lib$State$StatefulReader$run = function (stateful_a) {
-	return stateful_a;
-};
-var $author$project$Lib$State$StatefulReader$make = function (f) {
-	return f;
+	return A2(
+		$elm$core$Platform$Sub$map,
+		$author$project$Main$LambdaUiMsg,
+		$author$project$Ui$Main$subscriptions(model.lambdaUiState.model));
 };
 var $author$project$Ui$Control$Context$mapModelInState = F2(
 	function (f, state1) {
@@ -17717,44 +19624,41 @@ var $author$project$Ui$Control$Context$mapModelInState = F2(
 			notifications: state1.notifications
 		};
 	});
-var $author$project$Ui$Control$Context$embed = F3(
-	function (projectParentToChild, embedChildIntoParent, child_context) {
-		return $author$project$Lib$State$StatefulReader$make(
-			F2(
-				function (config, state) {
-					var _v0 = A3(
-						$author$project$Lib$State$StatefulReader$run,
-						child_context,
-						config,
-						A2($author$project$Ui$Control$Context$mapModelInState, projectParentToChild, state));
-					var fullSubModel = _v0.a;
-					var subCmd = _v0.b;
-					return _Utils_Tuple2(
-						A2(
-							$author$project$Ui$Control$Context$mapModelInState,
-							embedChildIntoParent(state.model),
-							fullSubModel),
-						subCmd);
-				}));
-	});
-var $author$project$Ui$Control$Context$update = function (nextModel) {
-	return $author$project$Lib$State$StatefulReader$make(
-		F2(
-			function (_v0, state) {
+var $author$project$Ui$Control$Context$embed = F4(
+	function (liftChildToParentMsg, projectParentToChild, embedChildIntoParent, child_context) {
+		return F3(
+			function (config, liftMsg, state) {
+				var _v0 = A3(
+					child_context,
+					config,
+					A2($elm$core$Basics$composeL, liftMsg, liftChildToParentMsg),
+					A2($author$project$Ui$Control$Context$mapModelInState, projectParentToChild, state));
+				var fullSubModel = _v0.a;
+				var subCmd = _v0.b;
 				return _Utils_Tuple2(
-					_Utils_update(
-						state,
-						{
-							model: nextModel(state.model)
-						}),
-					$elm$core$Platform$Cmd$none);
-			}));
+					A2(
+						$author$project$Ui$Control$Context$mapModelInState,
+						embedChildIntoParent(state.model),
+						fullSubModel),
+					subCmd);
+			});
+	});
+var $author$project$Ui$Control$Context$update = function (f) {
+	return F3(
+		function (_v0, _v1, state) {
+			return _Utils_Tuple2(
+				_Utils_update(
+					state,
+					{
+						model: f(state.model)
+					}),
+				$elm$core$Platform$Cmd$none);
+		});
 };
-var $author$project$Ui$Control$Context$none = $author$project$Lib$State$StatefulReader$make(
-	F2(
-		function (_v0, state) {
-			return _Utils_Tuple2(state, $elm$core$Platform$Cmd$none);
-		}));
+var $author$project$Ui$Control$Context$none = F3(
+	function (_v0, _v1, state) {
+		return _Utils_Tuple2(state, $elm$core$Platform$Cmd$none);
+	});
 var $author$project$Ui$Tab$Help$update = function (msg) {
 	return $author$project$Ui$Control$Context$none;
 };
@@ -17876,6 +19780,381 @@ var $author$project$Ui$Tab$Program$update = function (msg) {
 				});
 	}
 };
+var $author$project$Ui$Tab$RegisterMachine$shiftBy = F2(
+	function (delta, memoryView) {
+		var bottom = memoryView.bottom;
+		var top = memoryView.top;
+		var _v0 = _Utils_Tuple2(bottom + delta, top + delta);
+		var bottomNew = _v0.a;
+		var topNew = _v0.b;
+		return (bottomNew < 0) ? {bottom: 0, top: topNew - bottomNew} : {bottom: bottomNew, top: topNew};
+	});
+var $author$project$Ui$Tab$RegisterMachine$centerAt = F2(
+	function (p, memoryView) {
+		var oldCenter = $author$project$Ui$Tab$RegisterMachine$centerOfMemoryView(memoryView);
+		return A2($author$project$Ui$Tab$RegisterMachine$shiftBy, p - oldCenter, memoryView);
+	});
+var $author$project$Ui$Tab$RegisterMachine$ControllerPicked = function (a) {
+	return {$: 'ControllerPicked', a: a};
+};
+var $author$project$Ui$Tab$RegisterMachine$ControllersDropdownMsg = function (a) {
+	return {$: 'ControllersDropdownMsg', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$Basic = {$: 'Basic'};
+var $PaackEng$elm_ui_dropdown$Dropdown$Config = function (a) {
+	return {$: 'Config', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$OnSelectSingleItem = function (a) {
+	return {$: 'OnSelectSingleItem', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$SingleItem = function (a) {
+	return {$: 'SingleItem', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$SingleItemToPrompt = function (a) {
+	return {$: 'SingleItemToPrompt', a: a};
+};
+var $elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
+	});
+var $mdgriffith$elm_ui$Internal$Model$Height = function (a) {
+	return {$: 'Height', a: a};
+};
+var $mdgriffith$elm_ui$Element$height = $mdgriffith$elm_ui$Internal$Model$Height;
+var $mdgriffith$elm_ui$Internal$Model$Content = {$: 'Content'};
+var $mdgriffith$elm_ui$Element$shrink = $mdgriffith$elm_ui$Internal$Model$Content;
+var $mdgriffith$elm_ui$Internal$Model$Width = function (a) {
+	return {$: 'Width', a: a};
+};
+var $mdgriffith$elm_ui$Element$width = $mdgriffith$elm_ui$Internal$Model$Width;
+var $mdgriffith$elm_ui$Element$el = F2(
+	function (attrs, child) {
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+					attrs)),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[child])));
+	});
+var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
+	return {$: 'Fill', a: a};
+};
+var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
+var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
+var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
+	return {$: 'Text', a: a};
+};
+var $mdgriffith$elm_ui$Element$text = function (content) {
+	return $mdgriffith$elm_ui$Internal$Model$Text(content);
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$basic = function (_v0) {
+	var itemsFromModel = _v0.itemsFromModel;
+	var selectionFromModel = _v0.selectionFromModel;
+	var dropdownMsg = _v0.dropdownMsg;
+	var onSelectMsg = _v0.onSelectMsg;
+	var itemToPrompt = _v0.itemToPrompt;
+	var itemToElement = _v0.itemToElement;
+	return $PaackEng$elm_ui_dropdown$Dropdown$Config(
+		{
+			closeButton: $mdgriffith$elm_ui$Element$text('▲'),
+			containerAttributes: _List_Nil,
+			dropdownMsg: dropdownMsg,
+			dropdownType: $PaackEng$elm_ui_dropdown$Dropdown$Basic,
+			emptyListElement: $mdgriffith$elm_ui$Element$none,
+			filterPlaceholder: $elm$core$Maybe$Nothing,
+			itemToElement: itemToElement,
+			itemToText: function (_v1) {
+				return '';
+			},
+			itemsFromModel: itemsFromModel,
+			listAttributes: _List_Nil,
+			onFilterChangeMsg: $elm$core$Maybe$Nothing,
+			onSelectMsg: $PaackEng$elm_ui_dropdown$Dropdown$OnSelectSingleItem(onSelectMsg),
+			openButton: $mdgriffith$elm_ui$Element$text('▼'),
+			promptElement: A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+					]),
+				$mdgriffith$elm_ui$Element$text('-- Select --')),
+			searchAttributes: _List_Nil,
+			selectAttributes: _List_Nil,
+			selectionFromModel: A2($elm$core$Basics$composeR, selectionFromModel, $PaackEng$elm_ui_dropdown$Dropdown$SingleItem),
+			selectionToPrompt: $PaackEng$elm_ui_dropdown$Dropdown$SingleItemToPrompt(itemToPrompt)
+		});
+};
+var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$bgColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'bg-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
+			'background-color',
+			clr));
+};
+var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
+	function (a, b, c, d, e) {
+		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$padding = $mdgriffith$elm_ui$Internal$Flag$flag(2);
+var $mdgriffith$elm_ui$Element$padding = function (x) {
+	var f = x;
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$padding,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+			'p-' + $elm$core$String$fromInt(x),
+			f,
+			f,
+			f,
+			f));
+};
+var $mdgriffith$elm_ui$Element$paddingXY = F2(
+	function (x, y) {
+		if (_Utils_eq(x, y)) {
+			var f = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + $elm$core$String$fromInt(x),
+					f,
+					f,
+					f,
+					f));
+		} else {
+			var yFloat = y;
+			var xFloat = x;
+			return A2(
+				$mdgriffith$elm_ui$Internal$Model$StyleClass,
+				$mdgriffith$elm_ui$Internal$Flag$padding,
+				A5(
+					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+					yFloat,
+					xFloat,
+					yFloat,
+					xFloat));
+		}
+	});
+var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
+	return {$: 'Px', a: a};
+};
+var $mdgriffith$elm_ui$Element$px = $mdgriffith$elm_ui$Internal$Model$Px;
+var $mdgriffith$elm_ui$Element$rgb255 = F3(
+	function (red, green, blue) {
+		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
+	});
+var $mdgriffith$elm_ui$Internal$Flag$borderRound = $mdgriffith$elm_ui$Internal$Flag$flag(17);
+var $mdgriffith$elm_ui$Element$Border$roundEach = function (_v0) {
+	var topLeft = _v0.topLeft;
+	var topRight = _v0.topRight;
+	var bottomLeft = _v0.bottomLeft;
+	var bottomRight = _v0.bottomRight;
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderRound,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Single,
+			'br-' + ($elm$core$String$fromInt(topLeft) + ('-' + ($elm$core$String$fromInt(topRight) + ($elm$core$String$fromInt(bottomLeft) + ('-' + $elm$core$String$fromInt(bottomRight)))))),
+			'border-radius',
+			$elm$core$String$fromInt(topLeft) + ('px ' + ($elm$core$String$fromInt(topRight) + ('px ' + ($elm$core$String$fromInt(bottomRight) + ('px ' + ($elm$core$String$fromInt(bottomLeft) + 'px'))))))));
+};
+var $mdgriffith$elm_ui$Element$Border$rounded = function (radius) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderRound,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Single,
+			'br-' + $elm$core$String$fromInt(radius),
+			'border-radius',
+			$elm$core$String$fromInt(radius) + 'px'));
+};
+var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
+var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
+var $mdgriffith$elm_ui$Element$row = F2(
+	function (attrs, children) {
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asRow,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentLeft + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.contentCenterY)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+						attrs))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
+	});
+var $mdgriffith$elm_ui$Element$Font$size = function (i) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$fontSize,
+		$mdgriffith$elm_ui$Internal$Model$FontSize(i));
+};
+var $mdgriffith$elm_ui$Internal$Model$SpacingStyle = F3(
+	function (a, b, c) {
+		return {$: 'SpacingStyle', a: a, b: b, c: c};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$spacing = $mdgriffith$elm_ui$Internal$Flag$flag(3);
+var $mdgriffith$elm_ui$Internal$Model$spacingName = F2(
+	function (x, y) {
+		return 'spacing-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y)));
+	});
+var $mdgriffith$elm_ui$Element$spacing = function (x) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$spacing,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$SpacingStyle,
+			A2($mdgriffith$elm_ui$Internal$Model$spacingName, x, x),
+			x,
+			x));
+};
+var $mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
+	function (a, b, c, d, e) {
+		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
+	});
+var $mdgriffith$elm_ui$Element$Border$width = function (v) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderWidth,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$BorderWidth,
+			'b-' + $elm$core$String$fromInt(v),
+			v,
+			v,
+			v,
+			v));
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$withContainerAttributes = F2(
+	function (attrs, _v0) {
+		var config = _v0.a;
+		return $PaackEng$elm_ui_dropdown$Dropdown$Config(
+			_Utils_update(
+				config,
+				{containerAttributes: attrs}));
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$withListAttributes = F2(
+	function (attrs, _v0) {
+		var config = _v0.a;
+		return $PaackEng$elm_ui_dropdown$Dropdown$Config(
+			_Utils_update(
+				config,
+				{listAttributes: attrs}));
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$withSelectAttributes = F2(
+	function (attrs, _v0) {
+		var config = _v0.a;
+		return $PaackEng$elm_ui_dropdown$Dropdown$Config(
+			_Utils_update(
+				config,
+				{selectAttributes: attrs}));
+	});
+var $author$project$Ui$Tab$RegisterMachine$dropdownConfig = A2(
+	$PaackEng$elm_ui_dropdown$Dropdown$withListAttributes,
+	_List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$Border$width(1),
+			$mdgriffith$elm_ui$Element$Border$roundEach(
+			{bottomLeft: 5, bottomRight: 5, topLeft: 0, topRight: 0}),
+			$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+		]),
+	A2(
+		$PaackEng$elm_ui_dropdown$Dropdown$withSelectAttributes,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$Border$width(1),
+				$mdgriffith$elm_ui$Element$Border$rounded(5),
+				A2($mdgriffith$elm_ui$Element$paddingXY, 16, 8),
+				$mdgriffith$elm_ui$Element$spacing(10),
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+			]),
+		A2(
+			$PaackEng$elm_ui_dropdown$Dropdown$withContainerAttributes,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width(
+					$mdgriffith$elm_ui$Element$px(400))
+				]),
+			$PaackEng$elm_ui_dropdown$Dropdown$basic(
+				{
+					dropdownMsg: $author$project$Ui$Tab$RegisterMachine$ControllersDropdownMsg,
+					itemToElement: F3(
+						function (selected, highlighted, controllerExample) {
+							var bgColor = selected ? A3($mdgriffith$elm_ui$Element$rgb255, 100, 100, 100) : A3($mdgriffith$elm_ui$Element$rgb255, 255, 255, 255);
+							return A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$Background$color(bgColor),
+										$mdgriffith$elm_ui$Element$padding(8),
+										$mdgriffith$elm_ui$Element$spacing(10),
+										$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$el,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$Font$size(16)
+											]),
+										$mdgriffith$elm_ui$Element$text(controllerExample.name))
+									]));
+						}),
+					itemToPrompt: function (controllerExample) {
+						return $mdgriffith$elm_ui$Element$text(controllerExample.name);
+					},
+					itemsFromModel: function (model) {
+						return model.controllers;
+					},
+					onSelectMsg: $author$project$Ui$Tab$RegisterMachine$ControllerPicked,
+					selectionFromModel: function (model) {
+						return model.selectedController;
+					}
+				}))));
+var $author$project$Ui$Tab$RegisterMachine$reset = function (model) {
+	var _v0 = model.selectedController;
+	if (_v0.$ === 'Just') {
+		var controllerExample = _v0.a;
+		var parsedMachine = A3($author$project$RegisterMachine$Machine$makeMachine, controllerExample.controller, controllerExample.initialRegisterEnvironment, $author$project$Ui$Tab$RegisterMachine$operationEnv);
+		if (parsedMachine.$ === 'Ok') {
+			var machine = parsedMachine.a;
+			return _Utils_update(
+				model,
+				{
+					maybeRuntime: $elm$core$Maybe$Just(
+						$elm$core$Result$Ok(machine)),
+					memoryView: $author$project$Ui$Tab$RegisterMachine$initMemoryView
+				});
+		} else {
+			return _Utils_update(
+				model,
+				{maybeRuntime: $elm$core$Maybe$Nothing, memoryView: $author$project$Ui$Tab$RegisterMachine$initMemoryView});
+		}
+	} else {
+		return model;
+	}
+};
 var $author$project$Ui$Tab$RegisterMachine$resetRuntime = function (model) {
 	return _Utils_update(
 		model,
@@ -17892,13 +20171,55 @@ var $author$project$Ui$Tab$RegisterMachine$resetRuntime = function (model) {
 			}()
 		});
 };
-var $author$project$RegisterMachine$Base$LabelPointsToNothing = function (a) {
+var $author$project$RegisterMachine$Machine$Dual = {$: 'Dual'};
+var $author$project$RegisterMachine$Machine$FirstComponent = {$: 'FirstComponent'};
+var $author$project$RegisterMachine$Base$InstructionAddress = function (a) {
+	return {$: 'InstructionAddress', a: a};
+};
+var $author$project$RegisterMachine$Machine$LabelPointsToNothing = function (a) {
 	return {$: 'LabelPointsToNothing', a: a};
 };
-var $author$project$RegisterMachine$Base$advanceInstructionPointer = function (machine) {
+var $author$project$RegisterMachine$Machine$Main = {$: 'Main'};
+var $author$project$RegisterMachine$Machine$MemoryError = function (a) {
+	return {$: 'MemoryError', a: a};
+};
+var $author$project$RegisterMachine$Base$Moved = {$: 'Moved'};
+var $author$project$RegisterMachine$Base$Pair = function (a) {
+	return {$: 'Pair', a: a};
+};
+var $author$project$RegisterMachine$Machine$SecondComponent = {$: 'SecondComponent'};
+var $author$project$RegisterMachine$Machine$advanceInstructionPointer = function (machine) {
 	return _Utils_update(
 		machine,
 		{instructionPointer: machine.instructionPointer + 1});
+};
+var $author$project$RegisterMachine$Machine$currentMemoryState = F2(
+	function (memoryType, machine) {
+		var _v0 = _Utils_Tuple2(memoryType, machine.memory.memoryInUse);
+		if (_v0.a.$ === 'Main') {
+			if (_v0.b.$ === 'Zero') {
+				var _v1 = _v0.a;
+				var _v2 = _v0.b;
+				return machine.memory.memoryState0;
+			} else {
+				var _v3 = _v0.a;
+				var _v4 = _v0.b;
+				return machine.memory.memoryState1;
+			}
+		} else {
+			if (_v0.b.$ === 'Zero') {
+				var _v5 = _v0.a;
+				var _v6 = _v0.b;
+				return machine.memory.memoryState1;
+			} else {
+				var _v7 = _v0.a;
+				var _v8 = _v0.b;
+				return machine.memory.memoryState0;
+			}
+		}
+	});
+var $author$project$RegisterMachine$MemoryState$InvalidMemoryAccessAt = function (a) {
+	return {$: 'InvalidMemoryAccessAt', a: a};
 };
 var $elm$core$Array$getHelp = F3(
 	function (shift, index, tree) {
@@ -17936,31 +20257,23 @@ var $elm$core$Array$get = F2(
 			A2($elm$core$Elm$JsArray$unsafeGet, $elm$core$Array$bitMask & index, tail)) : $elm$core$Maybe$Just(
 			A3($elm$core$Array$getHelp, startShift, index, tree)));
 	});
-var $author$project$RegisterMachine$Base$getInstruction = function (machine) {
-	return A2($elm$core$Array$get, machine.instructionPointer, machine.instructions.instructions);
-};
-var $author$project$RegisterMachine$Base$getLabelPosition = F2(
-	function (label, machine) {
-		return A2($elm$core$Dict$get, label, machine.instructions.labelToPosition);
-	});
-var $author$project$RegisterMachine$Base$UndefinedOperation = function (a) {
-	return {$: 'UndefinedOperation', a: a};
-};
-var $author$project$RegisterMachine$Base$getOperation = F2(
-	function (operationName, machine) {
-		var _v0 = A2($elm$core$Dict$get, operationName, machine.operationEnv);
+var $author$project$RegisterMachine$MemoryState$get = F2(
+	function (pointer, memoryState) {
+		var memory = memoryState.memory;
+		var _v0 = A2($elm$core$Array$get, pointer, memory);
 		if (_v0.$ === 'Just') {
-			var op = _v0.a;
-			return $elm$core$Result$Ok(op);
+			var memoryCell = _v0.a;
+			return $elm$core$Result$Ok(memoryCell);
 		} else {
 			return $elm$core$Result$Err(
-				$author$project$RegisterMachine$Base$UndefinedOperation(operationName));
+				$author$project$RegisterMachine$MemoryState$InvalidMemoryAccessAt(pointer));
 		}
 	});
-var $author$project$RegisterMachine$Base$UndefinedRegister = function (a) {
+var $author$project$RegisterMachine$Machine$ExpectedPairInRegister = {$: 'ExpectedPairInRegister'};
+var $author$project$RegisterMachine$Machine$UndefinedRegister = function (a) {
 	return {$: 'UndefinedRegister', a: a};
 };
-var $author$project$RegisterMachine$Base$getRegister = F2(
+var $author$project$RegisterMachine$Machine$getRegister = F2(
 	function (register, machine) {
 		var _v0 = A2($elm$core$Dict$get, register, machine.env);
 		if (_v0.$ === 'Just') {
@@ -17968,30 +20281,189 @@ var $author$project$RegisterMachine$Base$getRegister = F2(
 			return $elm$core$Result$Ok(val);
 		} else {
 			return $elm$core$Result$Err(
-				$author$project$RegisterMachine$Base$UndefinedRegister(register));
+				$author$project$RegisterMachine$Machine$UndefinedRegister(register));
 		}
 	});
-var $author$project$RegisterMachine$Base$halt = function (machine) {
+var $author$project$RegisterMachine$Machine$getMemoryAddressAtRegister = F2(
+	function (register, machine) {
+		return A2(
+			$elm$core$Result$andThen,
+			function (value) {
+				if (value.$ === 'Pair') {
+					var pointer = value.a;
+					return $elm$core$Result$Ok(pointer);
+				} else {
+					return $elm$core$Result$Err($author$project$RegisterMachine$Machine$ExpectedPairInRegister);
+				}
+			},
+			A2($author$project$RegisterMachine$Machine$getRegister, register, machine));
+	});
+var $author$project$RegisterMachine$Machine$updateRegister = F3(
+	function (register, val, machine) {
+		return _Utils_update(
+			machine,
+			{
+				env: A3($elm$core$Dict$insert, register, val, machine.env)
+			});
+	});
+var $author$project$RegisterMachine$Machine$accessPair = F5(
+	function (memoryCellComponent, memoryType, target, source, machine) {
+		return A2(
+			$elm$core$Result$andThen,
+			function (pointer) {
+				return A2(
+					$elm$core$Result$map,
+					function (_v0) {
+						var a = _v0.a;
+						var b = _v0.b;
+						return {
+							isFinished: false,
+							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+								function () {
+									if (memoryCellComponent.$ === 'FirstComponent') {
+										return A2($author$project$RegisterMachine$Machine$updateRegister, target, a);
+									} else {
+										return A2($author$project$RegisterMachine$Machine$updateRegister, target, b);
+									}
+								}()(machine))
+						};
+					},
+					A2(
+						$elm$core$Result$mapError,
+						$author$project$RegisterMachine$Machine$MemoryError,
+						A2(
+							$author$project$RegisterMachine$MemoryState$get,
+							pointer,
+							A2($author$project$RegisterMachine$Machine$currentMemoryState, memoryType, machine))));
+			},
+			A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, source, machine));
+	});
+var $author$project$RegisterMachine$Machine$getInstruction = function (machine) {
+	return A2($elm$core$Array$get, machine.instructionPointer, machine.instructions.instructions);
+};
+var $author$project$RegisterMachine$Machine$ExpectedInstructionAddressInRegister = {$: 'ExpectedInstructionAddressInRegister'};
+var $author$project$RegisterMachine$Machine$getInstructionAddressAtRegister = F2(
+	function (register, machine) {
+		return A2(
+			$elm$core$Result$andThen,
+			function (value) {
+				if (value.$ === 'InstructionAddress') {
+					var pointer = value.a;
+					return $elm$core$Result$Ok(pointer);
+				} else {
+					return $elm$core$Result$Err($author$project$RegisterMachine$Machine$ExpectedInstructionAddressInRegister);
+				}
+			},
+			A2($author$project$RegisterMachine$Machine$getRegister, register, machine));
+	});
+var $author$project$RegisterMachine$Machine$getLabelPosition = F2(
+	function (label, machine) {
+		return A2($elm$core$Dict$get, label, machine.instructions.labelToPosition);
+	});
+var $author$project$RegisterMachine$Machine$UndefinedOperation = function (a) {
+	return {$: 'UndefinedOperation', a: a};
+};
+var $author$project$RegisterMachine$Machine$getOperation = F2(
+	function (operationName, machine) {
+		var _v0 = A2($elm$core$Dict$get, operationName, machine.operationEnv);
+		if (_v0.$ === 'Just') {
+			var op = _v0.a;
+			return $elm$core$Result$Ok(op);
+		} else {
+			return $elm$core$Result$Err(
+				$author$project$RegisterMachine$Machine$UndefinedOperation(operationName));
+		}
+	});
+var $author$project$RegisterMachine$Machine$getValueFromArgument = F2(
+	function (argument, machine) {
+		if (argument.$ === 'Register') {
+			var register = argument.a;
+			return A2($author$project$RegisterMachine$Machine$getRegister, register, machine);
+		} else {
+			var val = argument.a;
+			return $elm$core$Result$Ok(
+				$author$project$RegisterMachine$Base$ConstantValue(val));
+		}
+	});
+var $author$project$RegisterMachine$Machine$halt = function (machine) {
 	return {isFinished: true, machine: machine};
 };
-var $author$project$RegisterMachine$Base$pointerJump = F2(
+var $author$project$RegisterMachine$Machine$pointerJump = F2(
 	function (pointer, machine) {
 		return _Utils_update(
 			machine,
 			{instructionPointer: pointer});
 	});
-var $author$project$RegisterMachine$Base$jump = F2(
+var $author$project$RegisterMachine$Machine$jump = F2(
 	function (label, machine) {
-		var _v0 = A2($author$project$RegisterMachine$Base$getLabelPosition, label, machine);
+		var _v0 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, machine);
 		if (_v0.$ === 'Just') {
 			var pointer = _v0.a;
-			return A2($author$project$RegisterMachine$Base$pointerJump, pointer, machine);
+			return A2($author$project$RegisterMachine$Machine$pointerJump, pointer, machine);
 		} else {
 			return machine;
 		}
 	});
-var $author$project$RegisterMachine$Base$PoppingEmptyStack = {$: 'PoppingEmptyStack'};
-var $author$project$RegisterMachine$Base$popStack = function (stack0) {
+var $author$project$RegisterMachine$MemoryState$MemoryExceeded = {$: 'MemoryExceeded'};
+var $elm$core$Array$setHelp = F4(
+	function (shift, index, value, tree) {
+		var pos = $elm$core$Array$bitMask & (index >>> shift);
+		var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, pos, tree);
+		if (_v0.$ === 'SubTree') {
+			var subTree = _v0.a;
+			var newSub = A4($elm$core$Array$setHelp, shift - $elm$core$Array$shiftStep, index, value, subTree);
+			return A3(
+				$elm$core$Elm$JsArray$unsafeSet,
+				pos,
+				$elm$core$Array$SubTree(newSub),
+				tree);
+		} else {
+			var values = _v0.a;
+			var newLeaf = A3($elm$core$Elm$JsArray$unsafeSet, $elm$core$Array$bitMask & index, value, values);
+			return A3(
+				$elm$core$Elm$JsArray$unsafeSet,
+				pos,
+				$elm$core$Array$Leaf(newLeaf),
+				tree);
+		}
+	});
+var $elm$core$Array$set = F3(
+	function (index, value, array) {
+		var len = array.a;
+		var startShift = array.b;
+		var tree = array.c;
+		var tail = array.d;
+		return ((index < 0) || (_Utils_cmp(index, len) > -1)) ? array : ((_Utils_cmp(
+			index,
+			$elm$core$Array$tailIndex(len)) > -1) ? A4(
+			$elm$core$Array$Array_elm_builtin,
+			len,
+			startShift,
+			tree,
+			A3($elm$core$Elm$JsArray$unsafeSet, $elm$core$Array$bitMask & index, value, tail)) : A4(
+			$elm$core$Array$Array_elm_builtin,
+			len,
+			startShift,
+			A4($elm$core$Array$setHelp, startShift, index, value, tree),
+			tail));
+	});
+var $author$project$RegisterMachine$MemoryState$new = F2(
+	function (memoryCell, memoryState) {
+		var memory = memoryState.memory;
+		var maxSize = memoryState.maxSize;
+		var nextFreePointer = memoryState.nextFreePointer;
+		return (_Utils_cmp(nextFreePointer + 1, maxSize) < 0) ? $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				nextFreePointer,
+				_Utils_update(
+					memoryState,
+					{
+						memory: A3($elm$core$Array$set, nextFreePointer, memoryCell, memory),
+						nextFreePointer: nextFreePointer + 1
+					}))) : $elm$core$Result$Err($author$project$RegisterMachine$MemoryState$MemoryExceeded);
+	});
+var $author$project$RegisterMachine$Machine$PoppingEmptyStack = {$: 'PoppingEmptyStack'};
+var $author$project$RegisterMachine$Stack$pop = function (stack0) {
 	if (!stack0.b) {
 		return $elm$core$Maybe$Nothing;
 	} else {
@@ -18001,8 +20473,8 @@ var $author$project$RegisterMachine$Base$popStack = function (stack0) {
 			_Utils_Tuple2(val, stack1));
 	}
 };
-var $author$project$RegisterMachine$Base$pop = function (machine) {
-	var _v0 = $author$project$RegisterMachine$Base$popStack(machine.stack);
+var $author$project$RegisterMachine$Machine$pop = function (machine) {
+	var _v0 = $author$project$RegisterMachine$Stack$pop(machine.stack);
 	if (_v0.$ === 'Just') {
 		var _v1 = _v0.a;
 		var val = _v1.a;
@@ -18014,31 +20486,181 @@ var $author$project$RegisterMachine$Base$pop = function (machine) {
 					machine,
 					{stack: stack})));
 	} else {
-		return $elm$core$Result$Err($author$project$RegisterMachine$Base$PoppingEmptyStack);
+		return $elm$core$Result$Err($author$project$RegisterMachine$Machine$PoppingEmptyStack);
 	}
 };
-var $author$project$RegisterMachine$Base$pushStack = F2(
+var $author$project$RegisterMachine$Stack$push = F2(
 	function (val, stack) {
 		return A2($elm$core$List$cons, val, stack);
 	});
-var $author$project$RegisterMachine$Base$push = F2(
+var $author$project$RegisterMachine$Machine$push = F2(
 	function (val, machine) {
 		return _Utils_update(
 			machine,
 			{
-				stack: A2($author$project$RegisterMachine$Base$pushStack, val, machine.stack)
+				stack: A2($author$project$RegisterMachine$Stack$push, val, machine.stack)
 			});
 	});
-var $author$project$RegisterMachine$Base$updateRegister = F3(
-	function (register, val, machine) {
+var $author$project$RegisterMachine$MemoryState$set = F3(
+	function (pointer, cell, memoryState) {
+		var memory = memoryState.memory;
 		return _Utils_update(
-			machine,
+			memoryState,
 			{
-				env: A3($elm$core$Dict$insert, register, val, machine.env)
+				memory: A3($elm$core$Array$set, pointer, cell, memory)
 			});
 	});
-var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
-	var _v0 = $author$project$RegisterMachine$Base$getInstruction(machine);
+var $author$project$RegisterMachine$Machine$setDualMemoryStateOfMachine = F2(
+	function (memoryState, machine) {
+		var memory = machine.memory;
+		var _v0 = memory.memoryInUse;
+		if (_v0.$ === 'Zero') {
+			return _Utils_update(
+				machine,
+				{
+					memory: _Utils_update(
+						memory,
+						{memoryState1: memoryState})
+				});
+		} else {
+			return _Utils_update(
+				machine,
+				{
+					memory: _Utils_update(
+						memory,
+						{memoryState0: memoryState})
+				});
+		}
+	});
+var $author$project$RegisterMachine$Machine$setMemoryStateOfMachine = F3(
+	function (memoryType, memoryState, machine) {
+		var memory = machine.memory;
+		var _v0 = _Utils_Tuple2(memoryType, memory.memoryInUse);
+		if (_v0.a.$ === 'Main') {
+			if (_v0.b.$ === 'Zero') {
+				var _v1 = _v0.a;
+				var _v2 = _v0.b;
+				return _Utils_update(
+					machine,
+					{
+						memory: _Utils_update(
+							memory,
+							{memoryState0: memoryState})
+					});
+			} else {
+				var _v3 = _v0.a;
+				var _v4 = _v0.b;
+				return _Utils_update(
+					machine,
+					{
+						memory: _Utils_update(
+							memory,
+							{memoryState1: memoryState})
+					});
+			}
+		} else {
+			if (_v0.b.$ === 'Zero') {
+				var _v5 = _v0.a;
+				var _v6 = _v0.b;
+				return _Utils_update(
+					machine,
+					{
+						memory: _Utils_update(
+							memory,
+							{memoryState1: memoryState})
+					});
+			} else {
+				var _v7 = _v0.a;
+				var _v8 = _v0.b;
+				return _Utils_update(
+					machine,
+					{
+						memory: _Utils_update(
+							memory,
+							{memoryState0: memoryState})
+					});
+			}
+		}
+	});
+var $elm_community$array_extra$Array$Extra$update = F3(
+	function (index, alter, array) {
+		var _v0 = A2($elm$core$Array$get, index, array);
+		if (_v0.$ === 'Nothing') {
+			return array;
+		} else {
+			var element = _v0.a;
+			return A3(
+				$elm$core$Array$set,
+				index,
+				alter(element),
+				array);
+		}
+	});
+var $author$project$RegisterMachine$MemoryState$update = F3(
+	function (pointer, f, memoryState) {
+		var memory = memoryState.memory;
+		return _Utils_update(
+			memoryState,
+			{
+				memory: A3($elm_community$array_extra$Array$Extra$update, pointer, f, memory)
+			});
+	});
+var $author$project$RegisterMachine$Machine$setPair = F5(
+	function (memoryCellComponent, memoryType, register, arg, machine) {
+		return A2(
+			$elm$core$Result$map,
+			function (_v0) {
+				var val = _v0.a;
+				var pointer = _v0.b;
+				return {
+					isFinished: false,
+					machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+						A3(
+							$author$project$RegisterMachine$Machine$setMemoryStateOfMachine,
+							memoryType,
+							A3(
+								$author$project$RegisterMachine$MemoryState$update,
+								pointer,
+								function (_v1) {
+									var a = _v1.a;
+									var b = _v1.b;
+									if (memoryCellComponent.$ === 'FirstComponent') {
+										return _Utils_Tuple2(val, b);
+									} else {
+										return _Utils_Tuple2(a, val);
+									}
+								},
+								A2($author$project$RegisterMachine$Machine$currentMemoryState, memoryType, machine)),
+							machine))
+				};
+			},
+			A2(
+				$author$project$Lib$Result$tuple2,
+				A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg, machine),
+				A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, register, machine)));
+	});
+var $author$project$RegisterMachine$Machine$One = {$: 'One'};
+var $author$project$RegisterMachine$Machine$swapMemory = function (machine) {
+	var memory = machine.memory;
+	return _Utils_update(
+		machine,
+		{
+			memory: _Utils_update(
+				memory,
+				{
+					memoryInUse: function () {
+						var _v0 = memory.memoryInUse;
+						if (_v0.$ === 'Zero') {
+							return $author$project$RegisterMachine$Machine$One;
+						} else {
+							return $author$project$RegisterMachine$Machine$Zero;
+						}
+					}()
+				})
+		});
+};
+var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
+	var _v0 = $author$project$RegisterMachine$Machine$getInstruction(machine);
 	if (_v0.$ === 'Just') {
 		var instruction = _v0.a;
 		switch (instruction.$) {
@@ -18050,40 +20672,44 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 					function (val) {
 						return {
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-								A3($author$project$RegisterMachine$Base$updateRegister, target, val, machine))
+							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+								A3($author$project$RegisterMachine$Machine$updateRegister, target, val, machine))
 						};
 					},
-					A2($author$project$RegisterMachine$Base$getRegister, source, machine));
+					A2($author$project$RegisterMachine$Machine$getRegister, source, machine));
 			case 'AssignLabel':
 				var target = instruction.a;
 				var label = instruction.b;
-				var _v2 = A2($author$project$RegisterMachine$Base$getLabelPosition, label, machine);
+				var _v2 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, machine);
 				if (_v2.$ === 'Just') {
 					var pointer = _v2.a;
 					return $elm$core$Result$Ok(
 						{
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-								A3($author$project$RegisterMachine$Base$updateRegister, target, pointer, machine))
+							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+								A3(
+									$author$project$RegisterMachine$Machine$updateRegister,
+									target,
+									$author$project$RegisterMachine$Base$InstructionAddress(pointer),
+									machine))
 						});
 				} else {
 					return $elm$core$Result$Err(
-						$author$project$RegisterMachine$Base$LabelPointsToNothing(label));
+						$author$project$RegisterMachine$Machine$LabelPointsToNothing(label));
 				}
 			case 'AssignOperation':
 				var target = instruction.a;
 				var _v3 = instruction.b;
 				var opName = _v3.a;
-				var registers = _v3.b;
+				var args = _v3.b;
 				var applyOp = function (op) {
 					return A2(
 						$elm$core$Result$map,
 						function (output) {
 							return {
 								isFinished: false,
-								machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-									A3($author$project$RegisterMachine$Base$updateRegister, target, output, machine))
+								machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+									A3($author$project$RegisterMachine$Machine$updateRegister, target, output, machine))
 							};
 						},
 						A2(
@@ -18092,30 +20718,34 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 							$author$project$Lib$Result$sequence(
 								A2(
 									$elm$core$List$map,
-									function (register) {
-										return A2($author$project$RegisterMachine$Base$getRegister, register, machine);
+									function (argument) {
+										return A2($author$project$RegisterMachine$Machine$getValueFromArgument, argument, machine);
 									},
-									registers))));
+									args))));
 				};
 				return A2(
 					$elm$core$Result$andThen,
 					applyOp,
-					A2($author$project$RegisterMachine$Base$getOperation, opName, machine));
+					A2($author$project$RegisterMachine$Machine$getOperation, opName, machine));
 			case 'AssignConstant':
 				var target = instruction.a;
 				var x = instruction.b;
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-							A3($author$project$RegisterMachine$Base$updateRegister, target, x, machine))
+						machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+							A3(
+								$author$project$RegisterMachine$Machine$updateRegister,
+								target,
+								$author$project$RegisterMachine$Base$ConstantValue(x),
+								machine))
 					});
 			case 'JumpToLabel':
 				var label = instruction.a;
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: A2($author$project$RegisterMachine$Base$jump, label, machine)
+						machine: A2($author$project$RegisterMachine$Machine$jump, label, machine)
 					});
 			case 'JumpToLabelAtRegister':
 				var register = instruction.a;
@@ -18124,10 +20754,10 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 					function (pointer) {
 						return {
 							isFinished: false,
-							machine: A2($author$project$RegisterMachine$Base$pointerJump, pointer, machine)
+							machine: A2($author$project$RegisterMachine$Machine$pointerJump, pointer, machine)
 						};
 					},
-					A2($author$project$RegisterMachine$Base$getRegister, register, machine));
+					A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, register, machine));
 			case 'JumpToLabelIf':
 				var testRegister = instruction.a;
 				var label = instruction.b;
@@ -18136,34 +20766,40 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 					function (val) {
 						return {
 							isFinished: false,
-							machine: (val === 1) ? A2($author$project$RegisterMachine$Base$jump, label, machine) : $author$project$RegisterMachine$Base$advanceInstructionPointer(machine)
+							machine: _Utils_eq(
+								val,
+								$author$project$RegisterMachine$Base$ConstantValue(
+									$author$project$RegisterMachine$Base$Num(1))) ? A2($author$project$RegisterMachine$Machine$jump, label, machine) : $author$project$RegisterMachine$Machine$advanceInstructionPointer(machine)
 						};
 					},
-					A2($author$project$RegisterMachine$Base$getRegister, testRegister, machine));
+					A2($author$project$RegisterMachine$Machine$getRegister, testRegister, machine));
 			case 'JumpToLabelAtRegisterIf':
 				var testRegister = instruction.a;
 				var target = instruction.b;
 				return A2(
 					$elm$core$Result$andThen,
 					function (val) {
-						return (val === 1) ? A2(
+						return _Utils_eq(
+							val,
+							$author$project$RegisterMachine$Base$ConstantValue(
+								$author$project$RegisterMachine$Base$Num(1))) ? A2(
 							$elm$core$Result$map,
 							function (pointer) {
 								return {
 									isFinished: false,
-									machine: A2($author$project$RegisterMachine$Base$pointerJump, pointer, machine)
+									machine: A2($author$project$RegisterMachine$Machine$pointerJump, pointer, machine)
 								};
 							},
-							A2($author$project$RegisterMachine$Base$getRegister, target, machine)) : $elm$core$Result$Ok(
+							A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, target, machine)) : $elm$core$Result$Ok(
 							{
 								isFinished: false,
-								machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(machine)
+								machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(machine)
 							});
 					},
-					A2($author$project$RegisterMachine$Base$getRegister, testRegister, machine));
+					A2($author$project$RegisterMachine$Machine$getRegister, testRegister, machine));
 			case 'Halt':
 				return $elm$core$Result$Ok(
-					$author$project$RegisterMachine$Base$halt(machine));
+					$author$project$RegisterMachine$Machine$halt(machine));
 			case 'PushRegister':
 				var register = instruction.a;
 				return A2(
@@ -18171,33 +20807,39 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 					function (val) {
 						return {
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-								A2($author$project$RegisterMachine$Base$push, val, machine))
+							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+								A2($author$project$RegisterMachine$Machine$push, val, machine))
 						};
 					},
-					A2($author$project$RegisterMachine$Base$getRegister, register, machine));
+					A2($author$project$RegisterMachine$Machine$getRegister, register, machine));
 			case 'PushConstant':
 				var val = instruction.a;
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-							A2($author$project$RegisterMachine$Base$push, val, machine))
+						machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+							A2(
+								$author$project$RegisterMachine$Machine$push,
+								$author$project$RegisterMachine$Base$ConstantValue(val),
+								machine))
 					});
 			case 'PushLabel':
 				var label = instruction.a;
-				var _v4 = A2($author$project$RegisterMachine$Base$getLabelPosition, label, machine);
+				var _v4 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, machine);
 				if (_v4.$ === 'Just') {
 					var pointer = _v4.a;
 					return $elm$core$Result$Ok(
 						{
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-								A2($author$project$RegisterMachine$Base$push, pointer, machine))
+							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+								A2(
+									$author$project$RegisterMachine$Machine$push,
+									$author$project$RegisterMachine$Base$InstructionAddress(pointer),
+									machine))
 						});
 				} else {
 					return $elm$core$Result$Err(
-						$author$project$RegisterMachine$Base$LabelPointsToNothing(label));
+						$author$project$RegisterMachine$Machine$LabelPointsToNothing(label));
 				}
 			case 'Pop':
 				var target = instruction.a;
@@ -18208,11 +20850,11 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 						var newMachine = _v5.b;
 						return {
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Base$advanceInstructionPointer(
-								A3($author$project$RegisterMachine$Base$updateRegister, target, val, newMachine))
+							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+								A3($author$project$RegisterMachine$Machine$updateRegister, target, val, newMachine))
 						};
 					},
-					$author$project$RegisterMachine$Base$pop(machine));
+					$author$project$RegisterMachine$Machine$pop(machine));
 			case 'AssignCallAtLabel':
 				var target = instruction.a;
 				var label = instruction.b;
@@ -18220,11 +20862,15 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 					{
 						isFinished: false,
 						machine: A2(
-							$author$project$RegisterMachine$Base$jump,
+							$author$project$RegisterMachine$Machine$jump,
 							label,
-							A3($author$project$RegisterMachine$Base$updateRegister, target, machine.instructionPointer + 1, machine))
+							A3(
+								$author$project$RegisterMachine$Machine$updateRegister,
+								target,
+								$author$project$RegisterMachine$Base$InstructionAddress(machine.instructionPointer + 1),
+								machine))
 					});
-			default:
+			case 'AssignCallAtRegister':
 				var target = instruction.a;
 				var labelRegister = instruction.b;
 				return A2(
@@ -18233,27 +20879,1821 @@ var $author$project$RegisterMachine$Base$runOneStep = function (machine) {
 						return {
 							isFinished: false,
 							machine: A2(
-								$author$project$RegisterMachine$Base$pointerJump,
+								$author$project$RegisterMachine$Machine$pointerJump,
 								pointer,
-								A3($author$project$RegisterMachine$Base$updateRegister, target, machine.instructionPointer + 1, machine))
+								A3(
+									$author$project$RegisterMachine$Machine$updateRegister,
+									target,
+									$author$project$RegisterMachine$Base$InstructionAddress(machine.instructionPointer + 1),
+									machine))
 						};
 					},
-					A2($author$project$RegisterMachine$Base$getRegister, labelRegister, machine));
+					A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, labelRegister, machine));
+			case 'ConstructPair':
+				var target = instruction.a;
+				var arg0 = instruction.b;
+				var arg1 = instruction.c;
+				return A2(
+					$elm$core$Result$andThen,
+					function (_v6) {
+						var value0 = _v6.a;
+						var value1 = _v6.b;
+						return A2(
+							$elm$core$Result$map,
+							function (_v7) {
+								var newPairAddress = _v7.a;
+								var newMemoryState = _v7.b;
+								return {
+									isFinished: false,
+									machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+										A3(
+											$author$project$RegisterMachine$Machine$updateRegister,
+											target,
+											$author$project$RegisterMachine$Base$Pair(newPairAddress),
+											A3($author$project$RegisterMachine$Machine$setMemoryStateOfMachine, $author$project$RegisterMachine$Machine$Main, newMemoryState, machine)))
+								};
+							},
+							A2(
+								$elm$core$Result$mapError,
+								$author$project$RegisterMachine$Machine$MemoryError,
+								A2(
+									$author$project$RegisterMachine$MemoryState$new,
+									_Utils_Tuple2(value0, value1),
+									A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine))));
+					},
+					A2(
+						$author$project$Lib$Result$tuple2,
+						A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg0, machine),
+						A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg1, machine)));
+			case 'First':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A5($author$project$RegisterMachine$Machine$accessPair, $author$project$RegisterMachine$Machine$FirstComponent, $author$project$RegisterMachine$Machine$Main, target, source, machine);
+			case 'Second':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A5($author$project$RegisterMachine$Machine$accessPair, $author$project$RegisterMachine$Machine$SecondComponent, $author$project$RegisterMachine$Machine$Main, target, source, machine);
+			case 'SetFirst':
+				var register = instruction.a;
+				var arg = instruction.b;
+				return A5($author$project$RegisterMachine$Machine$setPair, $author$project$RegisterMachine$Machine$FirstComponent, $author$project$RegisterMachine$Machine$Main, register, arg, machine);
+			case 'SetSecond':
+				var register = instruction.a;
+				var arg = instruction.b;
+				return A5($author$project$RegisterMachine$Machine$setPair, $author$project$RegisterMachine$Machine$SecondComponent, $author$project$RegisterMachine$Machine$Main, register, arg, machine);
+			case 'DualFirst':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A5($author$project$RegisterMachine$Machine$accessPair, $author$project$RegisterMachine$Machine$FirstComponent, $author$project$RegisterMachine$Machine$Dual, target, source, machine);
+			case 'DualSecond':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A5($author$project$RegisterMachine$Machine$accessPair, $author$project$RegisterMachine$Machine$SecondComponent, $author$project$RegisterMachine$Machine$Dual, target, source, machine);
+			case 'DualSetFirst':
+				var register = instruction.a;
+				var arg = instruction.b;
+				return A5($author$project$RegisterMachine$Machine$setPair, $author$project$RegisterMachine$Machine$FirstComponent, $author$project$RegisterMachine$Machine$Dual, register, arg, machine);
+			case 'DualSetSecond':
+				var register = instruction.a;
+				var arg = instruction.b;
+				return A5($author$project$RegisterMachine$Machine$setPair, $author$project$RegisterMachine$Machine$SecondComponent, $author$project$RegisterMachine$Machine$Dual, register, arg, machine);
+			case 'MoveToDual':
+				var target = instruction.a;
+				var source = instruction.b;
+				return A2(
+					$elm$core$Result$andThen,
+					function (sourceAddress) {
+						return A2(
+							$elm$core$Result$map,
+							function (_v8) {
+								var addressOfNewPair = _v8.a;
+								var newDualMemoryState = _v8.b;
+								return {
+									isFinished: false,
+									machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+										A3(
+											$author$project$RegisterMachine$Machine$updateRegister,
+											target,
+											$author$project$RegisterMachine$Base$Pair(addressOfNewPair),
+											A2($author$project$RegisterMachine$Machine$setDualMemoryStateOfMachine, newDualMemoryState, machine)))
+								};
+							},
+							A2(
+								$elm$core$Result$andThen,
+								function (memoryCell) {
+									return A2(
+										$elm$core$Result$mapError,
+										$author$project$RegisterMachine$Machine$MemoryError,
+										A2(
+											$author$project$RegisterMachine$MemoryState$new,
+											memoryCell,
+											A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Dual, machine)));
+								},
+								A2(
+									$elm$core$Result$mapError,
+									$author$project$RegisterMachine$Machine$MemoryError,
+									A2(
+										$author$project$RegisterMachine$MemoryState$get,
+										sourceAddress,
+										A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine)))));
+					},
+					A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, source, machine));
+			case 'MarkAsMoved':
+				var toBeCollected = instruction.a;
+				var referenceToDualMemory = instruction.b;
+				return A2(
+					$elm$core$Result$map,
+					function (_v9) {
+						var addressToBeCollected = _v9.a;
+						var addressToDualMemory = _v9.b;
+						return {
+							isFinished: false,
+							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+								A3(
+									$author$project$RegisterMachine$Machine$setMemoryStateOfMachine,
+									$author$project$RegisterMachine$Machine$Main,
+									A3(
+										$author$project$RegisterMachine$MemoryState$set,
+										addressToBeCollected,
+										_Utils_Tuple2(
+											$author$project$RegisterMachine$Base$Moved,
+											$author$project$RegisterMachine$Base$Pair(addressToDualMemory)),
+										A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine)),
+									machine))
+						};
+					},
+					A2(
+						$author$project$Lib$Result$tuple2,
+						A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, toBeCollected, machine),
+						A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, referenceToDualMemory, machine)));
+			default:
+				return $elm$core$Result$Ok(
+					{
+						isFinished: false,
+						machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
+							$author$project$RegisterMachine$Machine$swapMemory(machine))
+					});
 		}
 	} else {
 		return $elm$core$Result$Ok(
-			$author$project$RegisterMachine$Base$halt(machine));
+			$author$project$RegisterMachine$Machine$halt(machine));
 	}
 };
-var $author$project$RegisterMachine$Base$start = function (machine0) {
+var $author$project$RegisterMachine$Machine$start = function (machine0) {
 	return A2(
 		$elm$core$Result$andThen,
 		function (_v0) {
 			var isFinished = _v0.isFinished;
 			var machine = _v0.machine;
-			return isFinished ? $elm$core$Result$Ok(machine) : $author$project$RegisterMachine$Base$start(machine);
+			return isFinished ? $elm$core$Result$Ok(machine) : $author$project$RegisterMachine$Machine$start(machine);
 		},
-		$author$project$RegisterMachine$Base$runOneStep(machine0));
+		$author$project$RegisterMachine$Machine$runOneStep(machine0));
+};
+var $elm$core$Task$onError = _Scheduler_onError;
+var $elm$core$Task$attempt = F2(
+	function (resultToMessage, task) {
+		return $elm$core$Task$command(
+			$elm$core$Task$Perform(
+				A2(
+					$elm$core$Task$onError,
+					A2(
+						$elm$core$Basics$composeL,
+						A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+						$elm$core$Result$Err),
+					A2(
+						$elm$core$Task$andThen,
+						A2(
+							$elm$core$Basics$composeL,
+							A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+							$elm$core$Result$Ok),
+						task))));
+	});
+var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
+var $PaackEng$elm_ui_dropdown$Dropdown$performEffect = function (effect) {
+	if (effect.$ === 'Loopback') {
+		var msg = effect.a;
+		return A2(
+			$elm$core$Task$perform,
+			$elm$core$Basics$identity,
+			$elm$core$Task$succeed(msg));
+	} else {
+		var msg = effect.a;
+		var id = effect.b;
+		return A2(
+			$elm$core$Task$attempt,
+			msg,
+			$elm$browser$Browser$Dom$focus(id));
+	}
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$DomFocus = F2(
+	function (a, b) {
+		return {$: 'DomFocus', a: a, b: b};
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$Loopback = function (a) {
+	return {$: 'Loopback', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$OnDomFocus = function (a) {
+	return {$: 'OnDomFocus', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$closeOnlyIfNotMultiSelect = F2(
+	function (config, state) {
+		var _v0 = config.dropdownType;
+		if (_v0.$ === 'MultiSelect') {
+			return state.isOpen;
+		} else {
+			return false;
+		}
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$modifySelectedItems = F3(
+	function (dropdownType, selectedItem, selectedItemsOld) {
+		if (dropdownType.$ === 'MultiSelect') {
+			return A2(
+				$elm$core$List$any,
+				$elm$core$Basics$eq(selectedItem),
+				selectedItemsOld) ? A2(
+				$elm$core$List$filter,
+				$elm$core$Basics$neq(selectedItem),
+				selectedItemsOld) : A2($elm$core$List$cons, selectedItem, selectedItemsOld);
+		} else {
+			return _List_fromArray(
+				[selectedItem]);
+		}
+	});
+var $elm$core$List$singleton = function (value) {
+	return _List_fromArray(
+		[value]);
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$selectedItemsAsList = F2(
+	function (config, model) {
+		var _v0 = config.selectionFromModel(model);
+		if (_v0.$ === 'SingleItem') {
+			var maybeItem = _v0.a;
+			return A2(
+				$elm$core$Maybe$withDefault,
+				_List_Nil,
+				A2($elm$core$Maybe$map, $elm$core$List$singleton, maybeItem));
+		} else {
+			var listItems = _v0.a;
+			return listItems;
+		}
+	});
+var $elm$core$Basics$clamp = F3(
+	function (low, high, number) {
+		return (_Utils_cmp(number, low) < 0) ? low : ((_Utils_cmp(number, high) > 0) ? high : number);
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$findFocusedItem = F4(
+	function (itemToText, filterText, focusedIndex, items) {
+		var loweredFilter = $elm$core$String$toLower(filterText);
+		var maybeFocusedItemFold = F2(
+			function (list, i) {
+				maybeFocusedItemFold:
+				while (true) {
+					if (list.b) {
+						var item = list.a;
+						var tail = list.b;
+						if (A2(
+							$elm$core$String$contains,
+							loweredFilter,
+							$elm$core$String$toLower(
+								itemToText(item)))) {
+							return _Utils_eq(i, focusedIndex) ? $elm$core$Maybe$Just(item) : A2(maybeFocusedItemFold, tail, i + 1);
+						} else {
+							var $temp$list = tail,
+								$temp$i = i;
+							list = $temp$list;
+							i = $temp$i;
+							continue maybeFocusedItemFold;
+						}
+					} else {
+						return $elm$core$Maybe$Nothing;
+					}
+				}
+			});
+		return A2(maybeFocusedItemFold, items, 0);
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$updateSelectedItemsCommand = F2(
+	function (onSelectMsg, selectedItemsNew) {
+		var onSelectMsgWithItems = function () {
+			if (onSelectMsg.$ === 'OnSelectSingleItem') {
+				var itemToMsg = onSelectMsg.a;
+				return itemToMsg(
+					$elm$core$List$head(selectedItemsNew));
+			} else {
+				var itemsToMsg = onSelectMsg.a;
+				return itemsToMsg(selectedItemsNew);
+			}
+		}();
+		return _List_fromArray(
+			[
+				$PaackEng$elm_ui_dropdown$Dropdown$Loopback(onSelectMsgWithItems)
+			]);
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$updateKeyDown = F4(
+	function (config, key, model, state) {
+		var items = config.itemsFromModel(model);
+		var clampIndex = function (i) {
+			return A3(
+				$elm$core$Basics$clamp,
+				0,
+				$elm$core$List$length(items) - 1,
+				i);
+		};
+		switch (key.$) {
+			case 'ArrowDown':
+				return _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{
+								focusedIndex: clampIndex(state.focusedIndex + 1),
+								isOpen: true
+							})),
+					_List_Nil);
+			case 'ArrowUp':
+				return _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{
+								focusedIndex: clampIndex(state.focusedIndex - 1),
+								isOpen: true
+							})),
+					_List_Nil);
+			case 'Enter':
+				return (!state.isOpen) ? _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{isOpen: true})),
+					_List_Nil) : _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{isOpen: false})),
+					function () {
+						var _v1 = A4($PaackEng$elm_ui_dropdown$Dropdown$findFocusedItem, config.itemToText, state.filterText, state.focusedIndex, items);
+						if (_v1.$ === 'Just') {
+							var focusedItem = _v1.a;
+							return A2(
+								$PaackEng$elm_ui_dropdown$Dropdown$updateSelectedItemsCommand,
+								config.onSelectMsg,
+								A3(
+									$PaackEng$elm_ui_dropdown$Dropdown$modifySelectedItems,
+									config.dropdownType,
+									focusedItem,
+									A2($PaackEng$elm_ui_dropdown$Dropdown$selectedItemsAsList, config, model)));
+						} else {
+							return _List_Nil;
+						}
+					}());
+			default:
+				return _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{isOpen: false})),
+					_List_Nil);
+		}
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$updateWithoutPerform = F4(
+	function (_v0, msg, model, untouchedState) {
+		var config = _v0.a;
+		var state = untouchedState.a;
+		switch (msg.$) {
+			case 'OnDomFocus':
+				return _Utils_Tuple2(untouchedState, _List_Nil);
+			case 'OnBlur':
+				return _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{
+								isOpen: A2($PaackEng$elm_ui_dropdown$Dropdown$closeOnlyIfNotMultiSelect, config, state)
+							})),
+					_List_Nil);
+			case 'OnClickOutside':
+				return _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{isOpen: false})),
+					_List_Nil);
+			case 'OnClickPrompt':
+				var isOpen = !state.isOpen;
+				var effect = isOpen ? _List_fromArray(
+					[
+						A2(
+						$PaackEng$elm_ui_dropdown$Dropdown$DomFocus,
+						A2($elm$core$Basics$composeR, $PaackEng$elm_ui_dropdown$Dropdown$OnDomFocus, config.dropdownMsg),
+						state.id + 'input-search')
+					]) : _List_Nil;
+				return _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{filterText: '', focusedIndex: 0, isOpen: isOpen})),
+					effect);
+			case 'OnSelect':
+				var item = msg.a;
+				var selectedItemsNew = A3(
+					$PaackEng$elm_ui_dropdown$Dropdown$modifySelectedItems,
+					config.dropdownType,
+					item,
+					A2($PaackEng$elm_ui_dropdown$Dropdown$selectedItemsAsList, config, model));
+				return _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{
+								isOpen: A2($PaackEng$elm_ui_dropdown$Dropdown$closeOnlyIfNotMultiSelect, config, state)
+							})),
+					A2($PaackEng$elm_ui_dropdown$Dropdown$updateSelectedItemsCommand, config.onSelectMsg, selectedItemsNew));
+			case 'OnFilterTyped':
+				var val = msg.a;
+				return _Utils_Tuple2(
+					$PaackEng$elm_ui_dropdown$Dropdown$State(
+						_Utils_update(
+							state,
+							{filterText: val})),
+					function () {
+						var _v2 = config.onFilterChangeMsg;
+						if (_v2.$ === 'Nothing') {
+							return _List_Nil;
+						} else {
+							var onFilterChange = _v2.a;
+							return _List_fromArray(
+								[
+									$PaackEng$elm_ui_dropdown$Dropdown$Loopback(
+									onFilterChange(val))
+								]);
+						}
+					}());
+			default:
+				var key = msg.a;
+				return A4($PaackEng$elm_ui_dropdown$Dropdown$updateKeyDown, config, key, model, state);
+		}
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$update = F4(
+	function (config, msg, model, state) {
+		return A2(
+			$elm$core$Tuple$mapSecond,
+			A2(
+				$elm$core$Basics$composeR,
+				$elm$core$List$map($PaackEng$elm_ui_dropdown$Dropdown$performEffect),
+				$elm$core$Platform$Cmd$batch),
+			A4($PaackEng$elm_ui_dropdown$Dropdown$updateWithoutPerform, config, msg, model, state));
+	});
+var $author$project$RegisterMachine$Ui$Base$argNode = A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Dynamic, $author$project$RegisterMachine$Ui$Base$argExpectation);
+var $author$project$RegisterMachine$Ui$Base$jumpArgExpectation = _List_fromArray(
+	[$author$project$RegisterMachine$Ui$Base$RegisterUse, $author$project$RegisterMachine$Ui$Base$LabelUse]);
+var $author$project$RegisterMachine$Ui$Base$registerUseExpectation = _List_fromArray(
+	[$author$project$RegisterMachine$Ui$Base$RegisterUse]);
+var $author$project$RegisterMachine$Ui$Base$initialInstruction = function (instructionKind) {
+	switch (instructionKind.$) {
+		case 'LabelKind':
+			return A3(
+				$author$project$RegisterMachine$Ui$Base$Instruction,
+				instructionKind,
+				A2(
+					$author$project$Lib$ZipList$fromList,
+					A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$labelExpectation),
+					_List_Nil),
+				$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+		case 'OperationApplicationKind':
+			return A3(
+				$author$project$RegisterMachine$Ui$Base$Instruction,
+				instructionKind,
+				A2(
+					$author$project$Lib$ZipList$fromList,
+					A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$registerExpectation),
+					_List_fromArray(
+						[
+							A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$operationNameExpectation),
+							A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Dynamic, $author$project$RegisterMachine$Ui$Base$argExpectation)
+						])),
+				$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+		case 'AssignmentKind':
+			return A3(
+				$author$project$RegisterMachine$Ui$Base$Instruction,
+				instructionKind,
+				A2(
+					$author$project$Lib$ZipList$fromList,
+					A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$registerExpectation),
+					_List_fromArray(
+						[
+							A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$argExpectation)
+						])),
+				$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+		case 'JumpKind':
+			return A3(
+				$author$project$RegisterMachine$Ui$Base$Instruction,
+				instructionKind,
+				A2(
+					$author$project$Lib$ZipList$fromList,
+					A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$jumpArgExpectation),
+					_List_Nil),
+				$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+		case 'JumpIfKind':
+			return A3(
+				$author$project$RegisterMachine$Ui$Base$Instruction,
+				instructionKind,
+				A2(
+					$author$project$Lib$ZipList$fromList,
+					A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$registerUseExpectation),
+					_List_fromArray(
+						[
+							A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$jumpArgExpectation)
+						])),
+				$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+		case 'HaltKind':
+			return $author$project$RegisterMachine$Ui$Base$Halt;
+		default:
+			return A3(
+				$author$project$RegisterMachine$Ui$Base$Instruction,
+				instructionKind,
+				A2(
+					$author$project$Lib$ZipList$fromList,
+					A2($author$project$RegisterMachine$Ui$Base$emptyNode, $author$project$RegisterMachine$Ui$Base$Static, $author$project$RegisterMachine$Ui$Base$argExpectation),
+					_List_Nil),
+				$author$project$RegisterMachine$Ui$Base$initialInstructionValidity);
+	}
+};
+var $author$project$Lib$ZipList$current = function (_v0) {
+	var x = _v0.b;
+	return x;
+};
+var $author$project$Lib$ZipList$deleteAndFocusLeft = function (zipList) {
+	var revLeft0 = zipList.a;
+	var x0 = zipList.b;
+	var right0 = zipList.c;
+	if (!revLeft0.b) {
+		if (!right0.b) {
+			return zipList;
+		} else {
+			var x1 = right0.a;
+			var right1 = right0.b;
+			return _Utils_Tuple3(_List_Nil, x1, right1);
+		}
+	} else {
+		var x1 = revLeft0.a;
+		var revLeft1 = revLeft0.b;
+		return _Utils_Tuple3(revLeft1, x1, right0);
+	}
+};
+var $author$project$Lib$ZipList$deleteAndFocusRight = function (zipList) {
+	var revLeft0 = zipList.a;
+	var x0 = zipList.b;
+	var right0 = zipList.c;
+	if (!right0.b) {
+		if (!revLeft0.b) {
+			return zipList;
+		} else {
+			var x1 = revLeft0.a;
+			var revLeft1 = revLeft0.b;
+			return _Utils_Tuple3(revLeft1, x1, _List_Nil);
+		}
+	} else {
+		var x1 = right0.a;
+		var right1 = right0.b;
+		return _Utils_Tuple3(revLeft0, x1, right1);
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$deleteCurrentInstruction = function (model) {
+	return _Utils_update(
+		model,
+		{
+			instructions: function () {
+				var _v0 = $author$project$Lib$ZipList$current(model.instructions);
+				if (_v0.$ === 'FutureInstruction') {
+					var direction = _v0.a;
+					if (direction.$ === 'Up') {
+						return $author$project$Lib$ZipList$deleteAndFocusLeft(model.instructions);
+					} else {
+						return $author$project$Lib$ZipList$deleteAndFocusRight(model.instructions);
+					}
+				} else {
+					return $author$project$Lib$ZipList$deleteAndFocusRight(model.instructions);
+				}
+			}()
+		});
+};
+var $author$project$Lib$ZipList$updateCurrent = F2(
+	function (f, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_Tuple3(
+			revLeft0,
+			f(x0),
+			right0);
+	});
+var $author$project$RegisterMachine$Ui$Editor$updateCurrentInstructionWithoutValidation = F2(
+	function (f, model) {
+		return _Utils_update(
+			model,
+			{
+				instructions: A2($author$project$Lib$ZipList$updateCurrent, f, model.instructions)
+			});
+	});
+var $author$project$RegisterMachine$Ui$Base$Atleast = function (a) {
+	return {$: 'Atleast', a: a};
+};
+var $author$project$RegisterMachine$Ui$Base$Exactly = function (a) {
+	return {$: 'Exactly', a: a};
+};
+var $author$project$Lib$ZipList$length = function (_v0) {
+	var revLeft0 = _v0.a;
+	var right0 = _v0.c;
+	return ($elm$core$List$length(revLeft0) + $elm$core$List$length(right0)) + 1;
+};
+var $author$project$Lib$ZipList$map = F2(
+	function (f, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_Tuple3(
+			A2($elm$core$List$map, f, revLeft0),
+			f(x0),
+			A2($elm$core$List$map, f, right0));
+	});
+var $author$project$RegisterMachine$Ui$Base$ContainsErrorNodes = {$: 'ContainsErrorNodes'};
+var $author$project$RegisterMachine$Ui$Base$EveryNodeIsValid = {$: 'EveryNodeIsValid'};
+var $author$project$RegisterMachine$Ui$Validation$nodesToInstructionValidity = function (nodes) {
+	var nonValidNodes = A2(
+		$elm$core$List$filter,
+		function (_v2) {
+			var nodeValidity = _v2.b;
+			if (nodeValidity.$ === 'ValidNode') {
+				return false;
+			} else {
+				return true;
+			}
+		},
+		nodes);
+	if ($elm$core$List$isEmpty(nonValidNodes)) {
+		return $author$project$RegisterMachine$Ui$Base$EveryNodeIsValid;
+	} else {
+		var containsErrorNode = A2(
+			$elm$core$List$any,
+			function (_v0) {
+				var nodeValidity = _v0.b;
+				if (nodeValidity.$ === 'ErrorNode') {
+					return true;
+				} else {
+					return false;
+				}
+			},
+			nonValidNodes);
+		return containsErrorNode ? $author$project$RegisterMachine$Ui$Base$ContainsErrorNodes : $author$project$RegisterMachine$Ui$Base$ContainsUnfinishedNodes;
+	}
+};
+var $author$project$Lib$ZipList$toList = function (_v0) {
+	var revLeft = _v0.a;
+	var x = _v0.b;
+	var right0 = _v0.c;
+	return _Utils_ap(
+		$elm$core$List$reverse(revLeft),
+		A2($elm$core$List$cons, x, right0));
+};
+var $author$project$RegisterMachine$Ui$Base$ErrorNode = {$: 'ErrorNode'};
+var $author$project$RegisterMachine$Ui$Base$ValidNode = function (a) {
+	return {$: 'ValidNode', a: a};
+};
+var $elm_community$maybe_extra$Maybe$Extra$isJust = function (m) {
+	if (m.$ === 'Nothing') {
+		return false;
+	} else {
+		return true;
+	}
+};
+var $author$project$RegisterMachine$Ui$Validation$hasEntityKind = F2(
+	function (text, entityKind) {
+		switch (entityKind.$) {
+			case 'RegisterName':
+				return true;
+			case 'RegisterUse':
+				var _v1 = $elm$core$String$uncons(text);
+				if (_v1.$ === 'Nothing') {
+					return false;
+				} else {
+					var _v2 = _v1.a;
+					var c = _v2.a;
+					var text1 = _v2.b;
+					return _Utils_eq(
+						c,
+						_Utils_chr('$'));
+				}
+			case 'Label':
+				return true;
+			case 'LabelUse':
+				var _v3 = $elm$core$String$uncons(text);
+				if (_v3.$ === 'Nothing') {
+					return false;
+				} else {
+					var _v4 = _v3.a;
+					var c = _v4.a;
+					var text1 = _v4.b;
+					return _Utils_eq(
+						c,
+						_Utils_chr(':'));
+				}
+			case 'Integer':
+				return $elm_community$maybe_extra$Maybe$Extra$isJust(
+					$elm$core$String$toInt(text));
+			case 'Nil':
+				return text === 'nil';
+			default:
+				return true;
+		}
+	});
+var $author$project$RegisterMachine$Ui$Validation$isEmpty = $elm$core$String$isEmpty;
+var $author$project$RegisterMachine$Ui$Validation$setNodeValidity = F2(
+	function (nodeValidity, _v0) {
+		var nodeKind = _v0.a;
+		var nodeExpectation = _v0.c;
+		var text = _v0.d;
+		return A4($author$project$RegisterMachine$Ui$Base$Node, nodeKind, nodeValidity, nodeExpectation, text);
+	});
+var $author$project$RegisterMachine$Ui$Validation$validatedNode = function (node) {
+	var allExpectations = node.c;
+	var text = node.d;
+	var loop = F2(
+		function (entityKind0, expectations0) {
+			loop:
+			while (true) {
+				if (A2($author$project$RegisterMachine$Ui$Validation$hasEntityKind, text, entityKind0)) {
+					return A2(
+						$author$project$RegisterMachine$Ui$Validation$setNodeValidity,
+						$author$project$RegisterMachine$Ui$Base$ValidNode(entityKind0),
+						node);
+				} else {
+					if (!expectations0.b) {
+						return A2($author$project$RegisterMachine$Ui$Validation$setNodeValidity, $author$project$RegisterMachine$Ui$Base$ErrorNode, node);
+					} else {
+						var entityKind1 = expectations0.a;
+						var expectations1 = expectations0.b;
+						var $temp$entityKind0 = entityKind1,
+							$temp$expectations0 = expectations1;
+						entityKind0 = $temp$entityKind0;
+						expectations0 = $temp$expectations0;
+						continue loop;
+					}
+				}
+			}
+		});
+	if ($author$project$RegisterMachine$Ui$Validation$isEmpty(text)) {
+		return A2($author$project$RegisterMachine$Ui$Validation$setNodeValidity, $author$project$RegisterMachine$Ui$Base$UnfinishedNode, node);
+	} else {
+		if (!allExpectations.b) {
+			return _Debug_todo(
+				'RegisterMachine.Ui.Validation',
+				{
+					start: {line: 52, column: 17},
+					end: {line: 52, column: 27}
+				})('This should never get triggered assuming someone doesn\'t create empty node-expectation');
+		} else {
+			var entityKind = allExpectations.a;
+			var expectations0 = allExpectations.b;
+			return A2(loop, entityKind, expectations0);
+		}
+	}
+};
+var $author$project$RegisterMachine$Ui$Base$WrongArity = function (a) {
+	return {$: 'WrongArity', a: a};
+};
+var $author$project$RegisterMachine$Ui$Validation$wrongArity = F2(
+	function (expected, received) {
+		return $author$project$RegisterMachine$Ui$Base$WrongArity(
+			{expected: expected, received: received});
+	});
+var $author$project$RegisterMachine$Ui$Validation$validateInstruction = F2(
+	function (instructionKind, nodes) {
+		var validatedNodes = A2($author$project$Lib$ZipList$map, $author$project$RegisterMachine$Ui$Validation$validatedNode, nodes);
+		var numOfNodes = $author$project$Lib$ZipList$length(nodes);
+		var instructionValidity = $author$project$RegisterMachine$Ui$Validation$nodesToInstructionValidity(
+			$author$project$Lib$ZipList$toList(validatedNodes));
+		var checkArity = function (expectedArity) {
+			if (expectedArity.$ === 'Atleast') {
+				var expectedNumOfNodes = expectedArity.a;
+				return (_Utils_cmp(numOfNodes, expectedNumOfNodes) > -1) ? instructionValidity : A2(
+					$author$project$RegisterMachine$Ui$Validation$wrongArity,
+					$author$project$RegisterMachine$Ui$Base$Atleast(expectedNumOfNodes),
+					numOfNodes);
+			} else {
+				var expectedNumOfNodes = expectedArity.a;
+				return _Utils_eq(numOfNodes, expectedNumOfNodes) ? instructionValidity : A2(
+					$author$project$RegisterMachine$Ui$Validation$wrongArity,
+					$author$project$RegisterMachine$Ui$Base$Exactly(expectedNumOfNodes),
+					numOfNodes);
+			}
+		};
+		return _Utils_Tuple2(
+			validatedNodes,
+			checkArity(
+				function () {
+					switch (instructionKind.$) {
+						case 'LabelKind':
+							return $author$project$RegisterMachine$Ui$Base$Exactly(1);
+						case 'OperationApplicationKind':
+							return $author$project$RegisterMachine$Ui$Base$Atleast(3);
+						case 'AssignmentKind':
+							return $author$project$RegisterMachine$Ui$Base$Exactly(2);
+						case 'JumpKind':
+							return $author$project$RegisterMachine$Ui$Base$Exactly(1);
+						case 'JumpIfKind':
+							return $author$project$RegisterMachine$Ui$Base$Exactly(2);
+						case 'PushKind':
+							return $author$project$RegisterMachine$Ui$Base$Exactly(1);
+						default:
+							return $author$project$RegisterMachine$Ui$Base$Exactly(0);
+					}
+				}()));
+	});
+var $author$project$RegisterMachine$Ui$Validation$validatedInstruction = F2(
+	function (instructionKind, nodes) {
+		var _v0 = A2($author$project$RegisterMachine$Ui$Validation$validateInstruction, instructionKind, nodes);
+		var validatedNodes = _v0.a;
+		var instructionValidity = _v0.b;
+		return A3($author$project$RegisterMachine$Ui$Base$Instruction, instructionKind, validatedNodes, instructionValidity);
+	});
+var $author$project$RegisterMachine$Ui$Editor$validateCurrentInstruction = $author$project$RegisterMachine$Ui$Editor$updateCurrentInstructionWithoutValidation(
+	function (instruction) {
+		switch (instruction.$) {
+			case 'Instruction':
+				var instructionKind = instruction.a;
+				var nodes = instruction.b;
+				return A2($author$project$RegisterMachine$Ui$Validation$validatedInstruction, instructionKind, nodes);
+			case 'Halt':
+				return instruction;
+			default:
+				return instruction;
+		}
+	});
+var $author$project$RegisterMachine$Ui$Editor$setModeToTraversing = function (model) {
+	var _v0 = $author$project$Lib$ZipList$current(model.instructions);
+	if (_v0.$ === 'FutureInstruction') {
+		var direction = _v0.a;
+		return $author$project$RegisterMachine$Ui$Editor$deleteCurrentInstruction(
+			_Utils_update(
+				model,
+				{
+					instructionMode: $author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$TraversingNodes)
+				}));
+	} else {
+		var _v1 = model.instructionMode;
+		if (_v1.$ === 'InsertingInstruction') {
+			return _Utils_update(
+				model,
+				{
+					instructionMode: $author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$TraversingNodes)
+				});
+		} else {
+			return $author$project$RegisterMachine$Ui$Editor$validateCurrentInstruction(
+				_Utils_update(
+					model,
+					{
+						instructionMode: $author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$TraversingNodes)
+					}));
+		}
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$changeInstructionWithoutValidationTo = F2(
+	function (instructionKind, model) {
+		return $author$project$RegisterMachine$Ui$Editor$setModeToTraversing(
+			A2(
+				$author$project$RegisterMachine$Ui$Editor$updateCurrentInstructionWithoutValidation,
+				function (_v0) {
+					return $author$project$RegisterMachine$Ui$Base$initialInstruction(instructionKind);
+				},
+				model));
+	});
+var $author$project$RegisterMachine$Ui$Editor$isCurrentNodeStatic = function (nodes) {
+	var _v0 = $author$project$Lib$ZipList$current(nodes);
+	if (_v0.a.$ === 'Static') {
+		var _v1 = _v0.a;
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$updateCurrentNodesWithoutValidation = function (f) {
+	return $author$project$RegisterMachine$Ui$Editor$updateCurrentInstructionWithoutValidation(
+		function (instruction) {
+			if (instruction.$ === 'Instruction') {
+				var instructionKind = instruction.a;
+				var nodes = instruction.b;
+				var validation = instruction.c;
+				return A3(
+					$author$project$RegisterMachine$Ui$Base$Instruction,
+					instructionKind,
+					A2(f, nodes, instruction),
+					validation);
+			} else {
+				return instruction;
+			}
+		});
+};
+var $author$project$RegisterMachine$Ui$Editor$setCurrentNodesWithoutValidation = function (nodes) {
+	return $author$project$RegisterMachine$Ui$Editor$updateCurrentNodesWithoutValidation(
+		F2(
+			function (_v0, _v1) {
+				return nodes;
+			}));
+};
+var $author$project$RegisterMachine$Ui$Editor$deleteCurrentNodeWithValidation = function (model) {
+	var _v0 = $author$project$Lib$ZipList$current(model.instructions);
+	if (_v0.$ === 'Instruction') {
+		var instructionKind = _v0.a;
+		var nodes = _v0.b;
+		if ($author$project$RegisterMachine$Ui$Editor$isCurrentNodeStatic(nodes)) {
+			return model;
+		} else {
+			if (instructionKind.$ === 'OperationApplicationKind') {
+				return ($author$project$Lib$ZipList$length(nodes) <= 3) ? model : $author$project$RegisterMachine$Ui$Editor$validateCurrentInstruction(
+					A2(
+						$author$project$RegisterMachine$Ui$Editor$setCurrentNodesWithoutValidation,
+						$author$project$Lib$ZipList$deleteAndFocusRight(nodes),
+						model));
+			} else {
+				return $author$project$RegisterMachine$Ui$Editor$validateCurrentInstruction(
+					A2(
+						$author$project$RegisterMachine$Ui$Editor$setCurrentNodesWithoutValidation,
+						$author$project$Lib$ZipList$deleteAndFocusRight(nodes),
+						model));
+			}
+		}
+	} else {
+		return model;
+	}
+};
+var $author$project$Lib$ZipList$duplicateLeft = function (_v0) {
+	var revLeft0 = _v0.a;
+	var x0 = _v0.b;
+	var right0 = _v0.c;
+	return _Utils_Tuple3(
+		A2($elm$core$List$cons, x0, revLeft0),
+		x0,
+		right0);
+};
+var $author$project$Lib$ZipList$duplicateRight = function (_v0) {
+	var revLeft0 = _v0.a;
+	var x0 = _v0.b;
+	var right0 = _v0.c;
+	return _Utils_Tuple3(
+		revLeft0,
+		x0,
+		A2($elm$core$List$cons, x0, right0));
+};
+var $author$project$RegisterMachine$Ui$Editor$duplicateInstruction = F2(
+	function (direction, model) {
+		if (direction.$ === 'Up') {
+			return _Utils_update(
+				model,
+				{
+					instructions: $author$project$Lib$ZipList$duplicateLeft(model.instructions)
+				});
+		} else {
+			return _Utils_update(
+				model,
+				{
+					instructions: $author$project$Lib$ZipList$duplicateRight(model.instructions)
+				});
+		}
+	});
+var $author$project$RegisterMachine$Ui$Editor$getCurrentInstruction = function (model) {
+	return $author$project$Lib$ZipList$current(model.instructions);
+};
+var $author$project$RegisterMachine$Ui$Editor$getCurrentNodes = function (model) {
+	var _v0 = $author$project$Lib$ZipList$current(model.instructions);
+	if (_v0.$ === 'Instruction') {
+		var nodes = _v0.b;
+		return $elm$core$Maybe$Just(nodes);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Lib$ZipList$insertLeft = F2(
+	function (y, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_Tuple3(
+			A2($elm$core$List$cons, y, revLeft0),
+			x0,
+			right0);
+	});
+var $author$project$Lib$ZipList$insertRight = F2(
+	function (y, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_Tuple3(
+			revLeft0,
+			x0,
+			A2($elm$core$List$cons, y, right0));
+	});
+var $author$project$Lib$ZipList$left = function (zipList) {
+	var revLeft0 = zipList.a;
+	var x0 = zipList.b;
+	var right0 = zipList.c;
+	if (!revLeft0.b) {
+		return zipList;
+	} else {
+		var x1 = revLeft0.a;
+		var revLeft1 = revLeft0.b;
+		return _Utils_Tuple3(
+			revLeft1,
+			x1,
+			A2($elm$core$List$cons, x0, right0));
+	}
+};
+var $author$project$Lib$ZipList$right = function (zipList) {
+	var revLeft = zipList.a;
+	var x0 = zipList.b;
+	var right0 = zipList.c;
+	if (!right0.b) {
+		return zipList;
+	} else {
+		var x1 = right0.a;
+		var right1 = right0.b;
+		return _Utils_Tuple3(
+			A2($elm$core$List$cons, x0, revLeft),
+			x1,
+			right1);
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$setModeToEditing = function (model) {
+	var _v0 = $author$project$Lib$ZipList$current(model.instructions);
+	if (_v0.$ === 'Instruction') {
+		return _Utils_update(
+			model,
+			{
+				instructionMode: $author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$EditingNode)
+			});
+	} else {
+		return model;
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$insertAndEditNodeWithoutValidation = F2(
+	function (direction, model) {
+		var _v0 = $author$project$RegisterMachine$Ui$Editor$getCurrentNodes(model);
+		if (_v0.$ === 'Just') {
+			var nodes = _v0.a;
+			var _v1 = $author$project$Lib$ZipList$current(nodes);
+			if (_v1.a.$ === 'Dynamic') {
+				var _v2 = _v1.a;
+				return $author$project$RegisterMachine$Ui$Editor$setModeToEditing(
+					A2(
+						$author$project$RegisterMachine$Ui$Editor$setCurrentNodesWithoutValidation,
+						function () {
+							if (direction.$ === 'Left') {
+								return $author$project$Lib$ZipList$left(
+									A2(
+										$author$project$Lib$ZipList$insertLeft,
+										A4($author$project$RegisterMachine$Ui$Base$Node, $author$project$RegisterMachine$Ui$Base$Dynamic, $author$project$RegisterMachine$Ui$Base$UnfinishedNode, $author$project$RegisterMachine$Ui$Base$argExpectation, ''),
+										nodes));
+							} else {
+								return $author$project$Lib$ZipList$right(
+									A2(
+										$author$project$Lib$ZipList$insertRight,
+										A4($author$project$RegisterMachine$Ui$Base$Node, $author$project$RegisterMachine$Ui$Base$Dynamic, $author$project$RegisterMachine$Ui$Base$UnfinishedNode, $author$project$RegisterMachine$Ui$Base$argExpectation, ''),
+										nodes));
+							}
+						}(),
+						model));
+			} else {
+				return model;
+			}
+		} else {
+			return model;
+		}
+	});
+var $author$project$Lib$ZipList$insertAtEnd = F2(
+	function (x, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_Tuple3(
+			revLeft0,
+			x0,
+			_Utils_ap(
+				right0,
+				_List_fromArray(
+					[x])));
+	});
+var $author$project$RegisterMachine$Ui$Base$FutureInstruction = function (a) {
+	return {$: 'FutureInstruction', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$insertFutureInstruction = F2(
+	function (direction, model) {
+		return _Utils_update(
+			model,
+			{
+				instructions: function () {
+					if (direction.$ === 'Up') {
+						return $author$project$Lib$ZipList$insertLeft(
+							$author$project$RegisterMachine$Ui$Base$FutureInstruction($author$project$RegisterMachine$Ui$Base$Down));
+					} else {
+						return $author$project$Lib$ZipList$insertRight(
+							$author$project$RegisterMachine$Ui$Base$FutureInstruction($author$project$RegisterMachine$Ui$Base$Up));
+					}
+				}()(model.instructions)
+			});
+	});
+var $author$project$Lib$ZipList$jumpEnd = function (_v0) {
+	jumpEnd:
+	while (true) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		if (!right0.b) {
+			return _Utils_Tuple3(revLeft0, x0, _List_Nil);
+		} else {
+			var x1 = right0.a;
+			var right1 = right0.b;
+			var $temp$_v0 = _Utils_Tuple3(
+				A2($elm$core$List$cons, x0, revLeft0),
+				x1,
+				right1);
+			_v0 = $temp$_v0;
+			continue jumpEnd;
+		}
+	}
+};
+var $author$project$Lib$ZipList$jumpStart = function (_v0) {
+	jumpStart:
+	while (true) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		if (!revLeft0.b) {
+			return _Utils_Tuple3(_List_Nil, x0, right0);
+		} else {
+			var x1 = revLeft0.a;
+			var revLeft1 = revLeft0.b;
+			var $temp$_v0 = _Utils_Tuple3(
+				revLeft1,
+				x1,
+				A2($elm$core$List$cons, x0, right0));
+			_v0 = $temp$_v0;
+			continue jumpStart;
+		}
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$jumpToBoundaryInstruction = F2(
+	function (direction, model) {
+		if (direction.$ === 'Up') {
+			return _Utils_update(
+				model,
+				{
+					instructions: $author$project$Lib$ZipList$jumpStart(model.instructions)
+				});
+		} else {
+			return _Utils_update(
+				model,
+				{
+					instructions: $author$project$Lib$ZipList$jumpEnd(model.instructions)
+				});
+		}
+	});
+var $author$project$RegisterMachine$Ui$Editor$updateNodesOfCurrentInstructionWithoutValidation = F2(
+	function (f, model) {
+		return _Utils_update(
+			model,
+			{
+				instructions: A2(
+					$author$project$Lib$ZipList$updateCurrent,
+					function (instruction) {
+						if (instruction.$ === 'Instruction') {
+							var kind = instruction.a;
+							var nodes = instruction.b;
+							var validation = instruction.c;
+							return A3(
+								$author$project$RegisterMachine$Ui$Base$Instruction,
+								kind,
+								f(nodes),
+								validation);
+						} else {
+							return instruction;
+						}
+					},
+					model.instructions)
+			});
+	});
+var $author$project$RegisterMachine$Ui$Editor$jumpToBoundaryNode = function (direction) {
+	if (direction.$ === 'Left') {
+		return $author$project$RegisterMachine$Ui$Editor$updateNodesOfCurrentInstructionWithoutValidation($author$project$Lib$ZipList$jumpStart);
+	} else {
+		return $author$project$RegisterMachine$Ui$Editor$updateNodesOfCurrentInstructionWithoutValidation($author$project$Lib$ZipList$jumpEnd);
+	}
+};
+var $elm$core$Debug$log = _Debug_log;
+var $author$project$RegisterMachine$Ui$Editor$NonemptyBoard = function (a) {
+	return {$: 'NonemptyBoard', a: a};
+};
+var $author$project$RegisterMachine$Ui$Editor$moveFragment = F2(
+	function (direction, model) {
+		var fragmentBoard = model.fragmentBoard;
+		return _Utils_update(
+			model,
+			{
+				fragmentBoard: function () {
+					if (fragmentBoard.$ === 'EmptyBoard') {
+						return $author$project$RegisterMachine$Ui$Editor$EmptyBoard;
+					} else {
+						var fragments = fragmentBoard.a;
+						if (direction.$ === 'Up') {
+							return $author$project$RegisterMachine$Ui$Editor$NonemptyBoard(
+								$author$project$Lib$ZipList$left(fragments));
+						} else {
+							return $author$project$RegisterMachine$Ui$Editor$NonemptyBoard(
+								$author$project$Lib$ZipList$right(fragments));
+						}
+					}
+				}()
+			});
+	});
+var $author$project$RegisterMachine$Ui$Editor$moveInstruction = F2(
+	function (direction, model) {
+		return _Utils_update(
+			model,
+			{
+				instructions: function () {
+					if (direction.$ === 'Up') {
+						return $author$project$Lib$ZipList$left(model.instructions);
+					} else {
+						return $author$project$Lib$ZipList$right(model.instructions);
+					}
+				}()
+			});
+	});
+var $author$project$Lib$ZipList$insertListLeft = F2(
+	function (xs, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_Tuple3(
+			_Utils_ap(
+				$elm$core$List$reverse(xs),
+				revLeft0),
+			x0,
+			right0);
+	});
+var $author$project$Lib$ZipList$insertListRight = F2(
+	function (xs, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_Tuple3(
+			revLeft0,
+			x0,
+			_Utils_ap(xs, right0));
+	});
+var $mgold$elm_nonempty_list$List$Nonempty$toList = function (_v0) {
+	var x = _v0.a;
+	var xs = _v0.b;
+	return A2($elm$core$List$cons, x, xs);
+};
+var $author$project$RegisterMachine$Ui$Editor$pasteFragment = F2(
+	function (direction, model) {
+		var fragmentBoard = model.fragmentBoard;
+		var instructions = model.instructions;
+		if (fragmentBoard.$ === 'EmptyBoard') {
+			return model;
+		} else {
+			var fragments = fragmentBoard.a;
+			return _Utils_update(
+				model,
+				{
+					instructions: function () {
+						if (direction.$ === 'Up') {
+							return A2(
+								$author$project$Lib$ZipList$insertListLeft,
+								$mgold$elm_nonempty_list$List$Nonempty$toList(
+									$author$project$Lib$ZipList$current(fragments)),
+								instructions);
+						} else {
+							return A2(
+								$author$project$Lib$ZipList$insertListRight,
+								$mgold$elm_nonempty_list$List$Nonempty$toList(
+									$author$project$Lib$ZipList$current(fragments)),
+								instructions);
+						}
+					}()
+				});
+		}
+	});
+var $author$project$Lib$ZipList$isSingleton = function (_v0) {
+	var revLeft0 = _v0.a;
+	var x0 = _v0.b;
+	var right0 = _v0.c;
+	return $elm$core$List$isEmpty(revLeft0) && $elm$core$List$isEmpty(right0);
+};
+var $author$project$RegisterMachine$Ui$Editor$popFragment = function (model) {
+	var fragmentBoard = model.fragmentBoard;
+	if (fragmentBoard.$ === 'EmptyBoard') {
+		return model;
+	} else {
+		var fragments = fragmentBoard.a;
+		return _Utils_update(
+			model,
+			{
+				fragmentBoard: $author$project$Lib$ZipList$isSingleton(fragments) ? $author$project$RegisterMachine$Ui$Editor$EmptyBoard : $author$project$RegisterMachine$Ui$Editor$NonemptyBoard(
+					$author$project$Lib$ZipList$deleteAndFocusLeft(fragments))
+			});
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$pasteAndPopFragment = function (direction) {
+	return A2(
+		$elm$core$Basics$composeR,
+		$author$project$RegisterMachine$Ui$Editor$pasteFragment(direction),
+		$author$project$RegisterMachine$Ui$Editor$popFragment);
+};
+var $author$project$Lib$ZipList$cons = F2(
+	function (x, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_Tuple3(
+			_Utils_ap(
+				revLeft0,
+				_List_fromArray(
+					[x])),
+			x0,
+			right0);
+	});
+var $author$project$Lib$ZipList$singleton = function (a) {
+	return _Utils_Tuple3(_List_Nil, a, _List_Nil);
+};
+var $author$project$RegisterMachine$Ui$Editor$pushFragment = F2(
+	function (fragment, model) {
+		return _Utils_update(
+			model,
+			{
+				fragmentBoard: function () {
+					var _v0 = model.fragmentBoard;
+					if (_v0.$ === 'EmptyBoard') {
+						return $author$project$RegisterMachine$Ui$Editor$NonemptyBoard(
+							$author$project$Lib$ZipList$singleton(fragment));
+					} else {
+						var fragments = _v0.a;
+						return $author$project$RegisterMachine$Ui$Editor$NonemptyBoard(
+							A2($author$project$Lib$ZipList$cons, fragment, fragments));
+					}
+				}()
+			});
+	});
+var $author$project$Lib$ZipListSelection$Downwards = {$: 'Downwards'};
+var $author$project$Lib$ZipListSelection$Upwards = {$: 'Upwards'};
+var $author$project$Lib$ZipListSelection$down = function (zipListSelection0) {
+	var revUps0 = zipListSelection0.a;
+	var middle0 = zipListSelection0.b;
+	var orientation = middle0.a;
+	var downs0 = zipListSelection0.c;
+	if (orientation.$ === 'Upwards') {
+		var _v1 = middle0;
+		var mids0 = _v1.b;
+		if (!mids0.b.b) {
+			var mid0 = mids0.a;
+			if (!downs0.b) {
+				return zipListSelection0;
+			} else {
+				var down0 = downs0.a;
+				var downs1 = downs0.b;
+				return _Utils_Tuple3(
+					revUps0,
+					_Utils_Tuple2(
+						$author$project$Lib$ZipListSelection$Downwards,
+						A2(
+							$mgold$elm_nonempty_list$List$Nonempty$Nonempty,
+							down0,
+							_List_fromArray(
+								[mid0]))),
+					downs1);
+			}
+		} else {
+			var mid0 = mids0.a;
+			var _v4 = mids0.b;
+			var mid1 = _v4.a;
+			var mids2 = _v4.b;
+			return _Utils_Tuple3(
+				A2($elm$core$List$cons, mid0, revUps0),
+				_Utils_Tuple2(
+					$author$project$Lib$ZipListSelection$Upwards,
+					A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, mid1, mids2)),
+				downs0);
+		}
+	} else {
+		if (!downs0.b) {
+			return zipListSelection0;
+		} else {
+			var down0 = downs0.a;
+			var downs1 = downs0.b;
+			var _v6 = middle0;
+			var revMids0 = _v6.b;
+			return _Utils_Tuple3(
+				revUps0,
+				_Utils_Tuple2(
+					$author$project$Lib$ZipListSelection$Downwards,
+					A2($mgold$elm_nonempty_list$List$Nonempty$cons, down0, revMids0)),
+				downs1);
+		}
+	}
+};
+var $author$project$Lib$ZipListSelection$up = function (zipListSelection0) {
+	var revUps0 = zipListSelection0.a;
+	var middle0 = zipListSelection0.b;
+	var orientation = middle0.a;
+	var downs0 = zipListSelection0.c;
+	if (orientation.$ === 'Upwards') {
+		if (!revUps0.b) {
+			return zipListSelection0;
+		} else {
+			var up0 = revUps0.a;
+			var revUps1 = revUps0.b;
+			var _v2 = middle0;
+			var mids0 = _v2.b;
+			return _Utils_Tuple3(
+				revUps1,
+				_Utils_Tuple2(
+					$author$project$Lib$ZipListSelection$Upwards,
+					A2($mgold$elm_nonempty_list$List$Nonempty$cons, up0, mids0)),
+				downs0);
+		}
+	} else {
+		var _v3 = middle0;
+		var revMids0 = _v3.b;
+		if (!revMids0.b.b) {
+			var mid0 = revMids0.a;
+			if (!revUps0.b) {
+				return zipListSelection0;
+			} else {
+				var up0 = revUps0.a;
+				var revUps1 = revUps0.b;
+				return _Utils_Tuple3(
+					revUps1,
+					_Utils_Tuple2(
+						$author$project$Lib$ZipListSelection$Upwards,
+						A2(
+							$mgold$elm_nonempty_list$List$Nonempty$Nonempty,
+							up0,
+							_List_fromArray(
+								[mid0]))),
+					downs0);
+			}
+		} else {
+			var mid0 = revMids0.a;
+			var _v6 = revMids0.b;
+			var mid1 = _v6.a;
+			var revMids2 = _v6.b;
+			return _Utils_Tuple3(
+				revUps0,
+				_Utils_Tuple2(
+					$author$project$Lib$ZipListSelection$Downwards,
+					A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, mid1, revMids2)),
+				A2($elm$core$List$cons, mid0, downs0));
+		}
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$selectionMovement = F2(
+	function (direction, model) {
+		if (direction.$ === 'Up') {
+			return _Utils_update(
+				model,
+				{
+					selectedInstructions: A2($elm$core$Maybe$map, $author$project$Lib$ZipListSelection$up, model.selectedInstructions)
+				});
+		} else {
+			return _Utils_update(
+				model,
+				{
+					selectedInstructions: A2($elm$core$Maybe$map, $author$project$Lib$ZipListSelection$down, model.selectedInstructions)
+				});
+		}
+	});
+var $author$project$RegisterMachine$Ui$Editor$InsertingInstruction = {$: 'InsertingInstruction'};
+var $author$project$RegisterMachine$Ui$Editor$setModeToInsertInstruction = function (model) {
+	return _Utils_update(
+		model,
+		{instructionMode: $author$project$RegisterMachine$Ui$Editor$InsertingInstruction});
+};
+var $author$project$Lib$ZipListSelection$fromZipList = function (_v0) {
+	var revLeft = _v0.a;
+	var x = _v0.b;
+	var right0 = _v0.c;
+	return _Utils_Tuple3(
+		revLeft,
+		_Utils_Tuple2(
+			$author$project$Lib$ZipListSelection$Upwards,
+			$mgold$elm_nonempty_list$List$Nonempty$singleton(x)),
+		right0);
+};
+var $author$project$RegisterMachine$Ui$Editor$setModeToSelectInstructions = function (model) {
+	return _Utils_update(
+		model,
+		{
+			instructionMode: $author$project$RegisterMachine$Ui$Editor$SelectingInstructions,
+			selectedInstructions: $elm$core$Maybe$Just(
+				$author$project$Lib$ZipListSelection$fromZipList(model.instructions))
+		});
+};
+var $author$project$RegisterMachine$Ui$Validation$setNodeToOperationNameNode = function (_v0) {
+	var nodeKind = _v0.a;
+	var nodeValidity = _v0.b;
+	var nodeExpectations = _v0.c;
+	var text = _v0.d;
+	return $author$project$RegisterMachine$Ui$Validation$validatedNode(
+		A4($author$project$RegisterMachine$Ui$Base$Node, nodeKind, nodeValidity, $author$project$RegisterMachine$Ui$Base$operationNameExpectation, text));
+};
+var $author$project$Lib$ZipList$swapWithLeft = function (zipList) {
+	var revLeft0 = zipList.a;
+	var x0 = zipList.b;
+	var right0 = zipList.c;
+	if (!revLeft0.b) {
+		return zipList;
+	} else {
+		var x1 = revLeft0.a;
+		var revLeft1 = revLeft0.b;
+		return _Utils_Tuple3(
+			A2($elm$core$List$cons, x0, revLeft1),
+			x1,
+			right0);
+	}
+};
+var $author$project$Lib$ZipList$swapWithRight = function (zipList) {
+	var revLeft0 = zipList.a;
+	var x0 = zipList.b;
+	var right0 = zipList.c;
+	if (!right0.b) {
+		return zipList;
+	} else {
+		var x1 = right0.a;
+		var right1 = right0.b;
+		return _Utils_Tuple3(
+			revLeft0,
+			x1,
+			A2($elm$core$List$cons, x0, right1));
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$swapInstruction = F2(
+	function (direction, model) {
+		return A2(
+			$author$project$RegisterMachine$Ui$Editor$moveInstruction,
+			direction,
+			_Utils_update(
+				model,
+				{
+					instructions: function () {
+						if (direction.$ === 'Up') {
+							return $author$project$Lib$ZipList$swapWithLeft(model.instructions);
+						} else {
+							return $author$project$Lib$ZipList$swapWithRight(model.instructions);
+						}
+					}()
+				}));
+	});
+var $author$project$RegisterMachine$Ui$Editor$traverseNodes = function (direction) {
+	if (direction.$ === 'Left') {
+		return $author$project$RegisterMachine$Ui$Editor$updateNodesOfCurrentInstructionWithoutValidation($author$project$Lib$ZipList$left);
+	} else {
+		return $author$project$RegisterMachine$Ui$Editor$updateNodesOfCurrentInstructionWithoutValidation($author$project$Lib$ZipList$right);
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$updateCurrentNodeWithoutValidation = function (f) {
+	return $author$project$RegisterMachine$Ui$Editor$updateCurrentInstructionWithoutValidation(
+		function (instruction) {
+			if (instruction.$ === 'Instruction') {
+				var instructionKind = instruction.a;
+				var nodes = instruction.b;
+				var validation = instruction.c;
+				return A3(
+					$author$project$RegisterMachine$Ui$Base$Instruction,
+					instructionKind,
+					A2($author$project$Lib$ZipList$updateCurrent, f, nodes),
+					validation);
+			} else {
+				return instruction;
+			}
+		});
+};
+var $author$project$Lib$ZipList$updateLast = F2(
+	function (f, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		var updateLastInList = function (xs0) {
+			if (!xs0.b) {
+				return _List_Nil;
+			} else {
+				if (!xs0.b.b) {
+					var x = xs0.a;
+					return _List_fromArray(
+						[
+							f(x)
+						]);
+				} else {
+					var x = xs0.a;
+					var xs1 = xs0.b;
+					return A2(
+						$elm$core$List$cons,
+						x,
+						updateLastInList(xs1));
+				}
+			}
+		};
+		if (!right0.b) {
+			return _Utils_Tuple3(
+				revLeft0,
+				f(x0),
+				_List_Nil);
+		} else {
+			return _Utils_Tuple3(
+				revLeft0,
+				x0,
+				updateLastInList(right0));
+		}
+	});
+var $author$project$RegisterMachine$Ui$Editor$update = function (msg) {
+	switch (msg.$) {
+		case 'InstructionMovement':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$moveInstruction(direction));
+		case 'SwapInstruction':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$swapInstruction(direction));
+		case 'InstructionEdit':
+			return $author$project$Ui$Control$Context$update($author$project$RegisterMachine$Ui$Editor$setModeToInsertInstruction);
+		case 'InstructionInsertion':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				A2(
+					$elm$core$Basics$composeR,
+					$author$project$RegisterMachine$Ui$Editor$insertFutureInstruction(direction),
+					A2(
+						$elm$core$Basics$composeR,
+						$author$project$RegisterMachine$Ui$Editor$moveInstruction(direction),
+						$author$project$RegisterMachine$Ui$Editor$setModeToInsertInstruction)));
+		case 'ChangeInstructionTo':
+			var instructionKind = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				A2(
+					$elm$core$Basics$composeR,
+					$author$project$RegisterMachine$Ui$Editor$changeInstructionWithoutValidationTo(instructionKind),
+					$author$project$RegisterMachine$Ui$Editor$validateCurrentInstruction));
+		case 'NodeMovement':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$traverseNodes(direction));
+		case 'DeleteInstruction':
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					return _Utils_update(
+						model,
+						{
+							instructions: $author$project$Lib$ZipList$deleteAndFocusRight(model.instructions)
+						});
+				});
+		case 'ConvertAssignmentToOperation':
+			return $author$project$Ui$Control$Context$update(
+				A2(
+					$elm$core$Basics$composeR,
+					$author$project$RegisterMachine$Ui$Editor$updateCurrentInstructionWithoutValidation(
+						function (instruction) {
+							var newInstruction = function () {
+								if ((instruction.$ === 'Instruction') && (instruction.a.$ === 'AssignmentKind')) {
+									var _v2 = instruction.a;
+									var nodes = instruction.b;
+									var validity = instruction.c;
+									return A3(
+										$author$project$RegisterMachine$Ui$Base$Instruction,
+										$author$project$RegisterMachine$Ui$Base$OperationApplicationKind,
+										A2(
+											$author$project$Lib$ZipList$insertAtEnd,
+											$author$project$RegisterMachine$Ui$Base$argNode,
+											A2($author$project$Lib$ZipList$updateLast, $author$project$RegisterMachine$Ui$Validation$setNodeToOperationNameNode, nodes)),
+										validity);
+								} else {
+									return instruction;
+								}
+							}();
+							return newInstruction;
+						}),
+					$author$project$RegisterMachine$Ui$Editor$validateCurrentInstruction));
+		case 'DuplicateInstruction':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				A2(
+					$elm$core$Basics$composeR,
+					$author$project$RegisterMachine$Ui$Editor$duplicateInstruction(direction),
+					$author$project$RegisterMachine$Ui$Editor$moveInstruction(direction)));
+		case 'JumpToBoundaryInstruction':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$jumpToBoundaryInstruction(direction));
+		case 'SetModeTo':
+			var instructionMode = msg.a;
+			switch (instructionMode.$) {
+				case 'TraversingInstructions':
+					var nodeMode = instructionMode.a;
+					if (nodeMode.$ === 'TraversingNodes') {
+						return $author$project$Ui$Control$Context$update($author$project$RegisterMachine$Ui$Editor$setModeToTraversing);
+					} else {
+						return $author$project$Ui$Control$Context$update($author$project$RegisterMachine$Ui$Editor$setModeToEditing);
+					}
+				case 'InsertingInstruction':
+					return $author$project$Ui$Control$Context$update($author$project$RegisterMachine$Ui$Editor$setModeToInsertInstruction);
+				default:
+					return $author$project$Ui$Control$Context$update($author$project$RegisterMachine$Ui$Editor$setModeToSelectInstructions);
+			}
+		case 'NodeEdit':
+			var str = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$updateCurrentNodeWithoutValidation(
+					function (_v5) {
+						var nodeKind = _v5.a;
+						var nodeValidation = _v5.b;
+						var nodeExpectation = _v5.c;
+						return A4($author$project$RegisterMachine$Ui$Base$Node, nodeKind, nodeValidation, nodeExpectation, str);
+					}));
+		case 'NodeInsertion':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$insertAndEditNodeWithoutValidation(direction));
+		case 'DeleteNode':
+			return $author$project$Ui$Control$Context$update($author$project$RegisterMachine$Ui$Editor$deleteCurrentNodeWithValidation);
+		case 'PushFragment':
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var currentInstruction = $author$project$RegisterMachine$Ui$Editor$getCurrentInstruction(model);
+					return A2(
+						$author$project$RegisterMachine$Ui$Editor$pushFragment,
+						$mgold$elm_nonempty_list$List$Nonempty$singleton(currentInstruction),
+						model);
+				});
+		case 'PasteFragment':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$pasteFragment(direction));
+		case 'PasteAndPopFragment':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$pasteAndPopFragment(direction));
+		case 'FragmentMovement':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$moveFragment(direction));
+		case 'SelectionMovement':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$selectionMovement(direction));
+		case 'JumpToBoundaryNode':
+			var direction = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				$author$project$RegisterMachine$Ui$Editor$jumpToBoundaryNode(direction));
+		case 'DebugCurrentInstruction':
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var debugConsole = model.debugConsole;
+					var currentInstruction = $author$project$RegisterMachine$Ui$Editor$getCurrentInstruction(model);
+					var _v6 = A2($elm$core$Debug$log, 'CURRENT-INSTRUCTION', currentInstruction);
+					return _Utils_update(
+						model,
+						{
+							debugConsole: _Utils_update(
+								debugConsole,
+								{
+									instructionsRev: A2($elm$core$List$cons, currentInstruction, debugConsole.instructionsRev)
+								})
+						});
+				});
+		default:
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var debugConsole = model.debugConsole;
+					return _Utils_update(
+						model,
+						{
+							debugConsole: _Utils_update(
+								debugConsole,
+								{instructionsRev: _List_Nil})
+						});
+				});
+	}
+};
+var $author$project$Ui$Control$Context$updateWithCommand = function (f) {
+	return F3(
+		function (_v0, liftMsg, state) {
+			var _v1 = f(state.model);
+			var newModel = _v1.a;
+			var cmd = _v1.b;
+			return _Utils_Tuple2(
+				_Utils_update(
+					state,
+					{model: newModel}),
+				A2($elm$core$Platform$Cmd$map, liftMsg, cmd));
+		});
 };
 var $author$project$Ui$Tab$RegisterMachine$update = function (msg) {
 	switch (msg.$) {
@@ -18267,11 +22707,11 @@ var $author$project$Ui$Tab$RegisterMachine$update = function (msg) {
 						{
 							maybeRuntime: A2(
 								$elm$core$Maybe$map,
-								$elm$core$Result$andThen($author$project$RegisterMachine$Base$start),
+								$elm$core$Result$andThen($author$project$RegisterMachine$Machine$start),
 								model.maybeRuntime)
 						});
 				});
-		default:
+		case 'RunOneStep':
 			return $author$project$Ui$Control$Context$update(
 				function (model) {
 					return _Utils_update(
@@ -18285,11 +22725,66 @@ var $author$project$Ui$Tab$RegisterMachine$update = function (msg) {
 										function ($) {
 											return $.machine;
 										},
-										A2($elm$core$Result$andThen, $author$project$RegisterMachine$Base$runOneStep, resultMachine));
+										A2($elm$core$Result$andThen, $author$project$RegisterMachine$Machine$runOneStep, resultMachine));
 								},
 								model.maybeRuntime)
 						});
 				});
+		case 'MemoryAddressClicked':
+			var p = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var newMemoryView = A2($author$project$Ui$Tab$RegisterMachine$centerAt, p, model.memoryView);
+					return _Utils_update(
+						model,
+						{currentlyHighlightedCell: p, memoryView: newMemoryView});
+				});
+		case 'ShiftMemoryViewBy':
+			var delta = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					var newMemoryView = A2($author$project$Ui$Tab$RegisterMachine$shiftBy, delta, model.memoryView);
+					return _Utils_update(
+						model,
+						{memoryView: newMemoryView});
+				});
+		case 'ControllerPicked':
+			var maybeControllerExample = msg.a;
+			return $author$project$Ui$Control$Context$update(
+				function (model) {
+					return $author$project$Ui$Tab$RegisterMachine$reset(
+						_Utils_update(
+							model,
+							{selectedController: maybeControllerExample}));
+				});
+		case 'ControllersDropdownMsg':
+			var dropdownMsg = msg.a;
+			return $author$project$Ui$Control$Context$updateWithCommand(
+				function (model) {
+					var _v1 = A4($PaackEng$elm_ui_dropdown$Dropdown$update, $author$project$Ui$Tab$RegisterMachine$dropdownConfig, dropdownMsg, model, model.controllerDropdownModel);
+					var newDropdownModel = _v1.a;
+					var cmd = _v1.b;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{controllerDropdownModel: newDropdownModel}),
+						cmd);
+				});
+		default:
+			var editorMsg = msg.a;
+			return A4(
+				$author$project$Ui$Control$Context$embed,
+				$author$project$Ui$Tab$RegisterMachine$EditorMsg,
+				function ($) {
+					return $.editorModel;
+				},
+				F2(
+					function (model, editorModel) {
+						return _Utils_update(
+							model,
+							{editorModel: editorModel});
+					}),
+				$author$project$RegisterMachine$Ui$Editor$update(editorMsg));
 	}
 };
 var $author$project$Ui$Main$update = function (msg) {
@@ -18304,8 +22799,9 @@ var $author$project$Ui$Main$update = function (msg) {
 				});
 		case 'HelpMsg':
 			var helpMsg = msg.a;
-			return A3(
+			return A4(
 				$author$project$Ui$Control$Context$embed,
+				$author$project$Ui$Main$HelpMsg,
 				function ($) {
 					return $.helpModel;
 				},
@@ -18318,8 +22814,9 @@ var $author$project$Ui$Main$update = function (msg) {
 				$author$project$Ui$Tab$Help$update(helpMsg));
 		case 'ModuleMsg':
 			var moduleMsg = msg.a;
-			return A3(
+			return A4(
 				$author$project$Ui$Control$Context$embed,
+				$author$project$Ui$Main$ModuleMsg,
 				function ($) {
 					return $.moduleModel;
 				},
@@ -18332,8 +22829,9 @@ var $author$project$Ui$Main$update = function (msg) {
 				$author$project$Ui$Tab$Module$update(moduleMsg));
 		case 'ProgramMsg':
 			var programMsg = msg.a;
-			return A3(
+			return A4(
 				$author$project$Ui$Control$Context$embed,
+				$author$project$Ui$Main$ProgramMsg,
 				function ($) {
 					return $.programModel;
 				},
@@ -18346,8 +22844,9 @@ var $author$project$Ui$Main$update = function (msg) {
 				$author$project$Ui$Tab$Program$update(programMsg));
 		default:
 			var registerMachineMsg = msg.a;
-			return A3(
+			return A4(
 				$author$project$Ui$Control$Context$embed,
+				$author$project$Ui$Main$RegisterMachineMsg,
 				function ($) {
 					return $.registerMachineModel;
 				},
@@ -18363,11 +22862,7 @@ var $author$project$Ui$Main$update = function (msg) {
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		var lambdaUiMsg = msg.a;
-		var _v1 = A3(
-			$author$project$Lib$State$StatefulReader$run,
-			$author$project$Ui$Main$update(lambdaUiMsg),
-			$author$project$Ui$Control$Context$initConfig,
-			model.lambdaUiState);
+		var _v1 = A4($author$project$Ui$Main$update, lambdaUiMsg, $author$project$Ui$Control$Context$initConfig, $author$project$Main$LambdaUiMsg, model.lambdaUiState);
 		var lambdaUiState = _v1.a;
 		var cmd = _v1.b;
 		return _Utils_Tuple2(
@@ -18376,10 +22871,6 @@ var $author$project$Main$update = F2(
 				{lambdaUiState: lambdaUiState}),
 			cmd);
 	});
-var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
-var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
-	return {$: 'Text', a: a};
-};
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $mdgriffith$elm_ui$Internal$Model$map = F2(
 	function (fn, el) {
@@ -18442,10 +22933,6 @@ var $mdgriffith$elm_ui$Element$Input$hasFocusStyle = function (attr) {
 var $mdgriffith$elm_ui$Element$Input$focusDefault = function (attrs) {
 	return A2($elm$core$List$any, $mdgriffith$elm_ui$Element$Input$hasFocusStyle, attrs) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Internal$Model$htmlClass('focusable');
 };
-var $mdgriffith$elm_ui$Internal$Model$Height = function (a) {
-	return {$: 'Height', a: a};
-};
-var $mdgriffith$elm_ui$Element$height = $mdgriffith$elm_ui$Internal$Model$Height;
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -18464,9 +22951,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		$elm$json$Json$Decode$succeed(msg));
 };
 var $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Events$onClick);
-var $elm$json$Json$Decode$andThen = _Json_andThen;
-var $elm$json$Json$Decode$fail = _Json_fail;
-var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
 	return {$: 'MayPreventDefault', a: a};
 };
@@ -18477,7 +22961,6 @@ var $elm$html$Html$Events$preventDefaultOn = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$MayPreventDefault(decoder));
 	});
-var $elm$json$Json$Decode$string = _Json_decodeString;
 var $mdgriffith$elm_ui$Element$Input$onKeyLookup = function (lookup) {
 	var decode = function (code) {
 		var _v0 = lookup(code);
@@ -18509,8 +22992,6 @@ var $mdgriffith$elm_ui$Internal$Model$Class = F2(
 	});
 var $mdgriffith$elm_ui$Internal$Flag$cursor = $mdgriffith$elm_ui$Internal$Flag$flag(21);
 var $mdgriffith$elm_ui$Element$pointer = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$cursor, $mdgriffith$elm_ui$Internal$Style$classes.cursorPointer);
-var $mdgriffith$elm_ui$Internal$Model$Content = {$: 'Content'};
-var $mdgriffith$elm_ui$Element$shrink = $mdgriffith$elm_ui$Internal$Model$Content;
 var $mdgriffith$elm_ui$Element$Input$space = ' ';
 var $elm$html$Html$Attributes$tabindex = function (n) {
 	return A2(
@@ -18518,10 +22999,6 @@ var $elm$html$Html$Attributes$tabindex = function (n) {
 		'tabIndex',
 		$elm$core$String$fromInt(n));
 };
-var $mdgriffith$elm_ui$Internal$Model$Width = function (a) {
-	return {$: 'Width', a: a};
-};
-var $mdgriffith$elm_ui$Element$width = $mdgriffith$elm_ui$Internal$Model$Width;
 var $mdgriffith$elm_ui$Element$Input$button = F2(
 	function (attrs, _v0) {
 		var onPress = _v0.onPress;
@@ -18577,66 +23054,7 @@ var $mdgriffith$elm_ui$Element$Input$button = F2(
 				_List_fromArray(
 					[label])));
 	});
-var $mdgriffith$elm_ui$Element$rgb255 = F3(
-	function (red, green, blue) {
-		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
-	});
 var $author$project$Ui$Style$Button$blue = A3($mdgriffith$elm_ui$Element$rgb255, 142, 207, 245);
-var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$bgColor,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$Colored,
-			'bg-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
-			'background-color',
-			clr));
-};
-var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
-	function (a, b, c, d, e) {
-		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$padding = $mdgriffith$elm_ui$Internal$Flag$flag(2);
-var $mdgriffith$elm_ui$Element$paddingXY = F2(
-	function (x, y) {
-		if (_Utils_eq(x, y)) {
-			var f = x;
-			return A2(
-				$mdgriffith$elm_ui$Internal$Model$StyleClass,
-				$mdgriffith$elm_ui$Internal$Flag$padding,
-				A5(
-					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-					'p-' + $elm$core$String$fromInt(x),
-					f,
-					f,
-					f,
-					f));
-		} else {
-			var yFloat = y;
-			var xFloat = x;
-			return A2(
-				$mdgriffith$elm_ui$Internal$Model$StyleClass,
-				$mdgriffith$elm_ui$Internal$Flag$padding,
-				A5(
-					$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-					'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
-					yFloat,
-					xFloat,
-					yFloat,
-					xFloat));
-		}
-	});
-var $mdgriffith$elm_ui$Internal$Flag$borderRound = $mdgriffith$elm_ui$Internal$Flag$flag(17);
-var $mdgriffith$elm_ui$Element$Border$rounded = function (radius) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$borderRound,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$Single,
-			'br-' + $elm$core$String$fromInt(radius),
-			'border-radius',
-			$elm$core$String$fromInt(radius) + 'px'));
-};
 var $author$project$Ui$Style$Button$buttonStyle = _List_fromArray(
 	[
 		$mdgriffith$elm_ui$Element$Background$color($author$project$Ui$Style$Button$blue),
@@ -18663,43 +23081,6 @@ var $mdgriffith$elm_ui$Element$column = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
-var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
-	return {$: 'Fill', a: a};
-};
-var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
-var $mdgriffith$elm_ui$Element$padding = function (x) {
-	var f = x;
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$padding,
-		A5(
-			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-			'p-' + $elm$core$String$fromInt(x),
-			f,
-			f,
-			f,
-			f));
-};
-var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
-var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
-var $mdgriffith$elm_ui$Element$row = F2(
-	function (attrs, children) {
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asRow,
-			$mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentLeft + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.contentCenterY)),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-					A2(
-						$elm$core$List$cons,
-						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-						attrs))),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
-	});
 var $author$project$Ui$Main$tabToString = function (tab) {
 	switch (tab.$) {
 		case 'ProgramTab':
@@ -18717,9 +23098,6 @@ var $author$project$Ui$Main$ModuleTab = {$: 'ModuleTab'};
 var $author$project$Ui$Main$ProgramTab = {$: 'ProgramTab'};
 var $author$project$Ui$Main$tabs = _List_fromArray(
 	[$author$project$Ui$Main$ProgramTab, $author$project$Ui$Main$ModuleTab, $author$project$Ui$Main$HelpTab, $author$project$Ui$Main$RegisterMachineTab]);
-var $mdgriffith$elm_ui$Element$text = function (content) {
-	return $mdgriffith$elm_ui$Internal$Model$Text(content);
-};
 var $author$project$Ui$Tab$Help$view = F2(
 	function (config, model) {
 		return A2(
@@ -18783,23 +23161,6 @@ var $author$project$Ui$Tab$Module$ReplInputChanged = function (a) {
 	return {$: 'ReplInputChanged', a: a};
 };
 var $author$project$Ui$Tab$Module$ReplRunButtonClicked = {$: 'ReplRunButtonClicked'};
-var $mdgriffith$elm_ui$Element$el = F2(
-	function (attrs, child) {
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asEl,
-			$mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-					attrs)),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
-				_List_fromArray(
-					[child])));
-	});
 var $mdgriffith$elm_ui$Element$Input$HiddenLabel = function (a) {
 	return {$: 'HiddenLabel', a: a};
 };
@@ -19712,42 +24073,7 @@ var $mdgriffith$elm_ui$Element$rgb = F3(
 	});
 var $mdgriffith$elm_ui$Element$Input$darkGrey = A3($mdgriffith$elm_ui$Element$rgb, 186 / 255, 189 / 255, 182 / 255);
 var $mdgriffith$elm_ui$Element$Input$defaultTextPadding = A2($mdgriffith$elm_ui$Element$paddingXY, 12, 12);
-var $mdgriffith$elm_ui$Internal$Model$SpacingStyle = F3(
-	function (a, b, c) {
-		return {$: 'SpacingStyle', a: a, b: b, c: c};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$spacing = $mdgriffith$elm_ui$Internal$Flag$flag(3);
-var $mdgriffith$elm_ui$Internal$Model$spacingName = F2(
-	function (x, y) {
-		return 'spacing-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y)));
-	});
-var $mdgriffith$elm_ui$Element$spacing = function (x) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$spacing,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$SpacingStyle,
-			A2($mdgriffith$elm_ui$Internal$Model$spacingName, x, x),
-			x,
-			x));
-};
 var $mdgriffith$elm_ui$Element$Input$white = A3($mdgriffith$elm_ui$Element$rgb, 1, 1, 1);
-var $mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
-	function (a, b, c, d, e) {
-		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
-	});
-var $mdgriffith$elm_ui$Element$Border$width = function (v) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$borderWidth,
-		A5(
-			$mdgriffith$elm_ui$Internal$Model$BorderWidth,
-			'b-' + $elm$core$String$fromInt(v),
-			v,
-			v,
-			v,
-			v));
-};
 var $mdgriffith$elm_ui$Element$Input$defaultTextBoxStyle = _List_fromArray(
 	[
 		$mdgriffith$elm_ui$Element$Input$defaultTextPadding,
@@ -20485,10 +24811,6 @@ var $mdgriffith$elm_ui$Element$Input$multiline = F2(
 			attrs,
 			{label: multi.label, onChange: multi.onChange, placeholder: multi.placeholder, text: multi.text});
 	});
-var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
-	return {$: 'Px', a: a};
-};
-var $mdgriffith$elm_ui$Element$px = $mdgriffith$elm_ui$Internal$Model$Px;
 var $author$project$Calculus$Show$showEvaluationError = function (error) {
 	switch (error.$) {
 		case 'UndefinedVar':
@@ -21548,11 +25870,6 @@ var $mgold$elm_nonempty_list$List$Nonempty$map = F2(
 			f(x),
 			A2($elm$core$List$map, f, xs));
 	});
-var $mgold$elm_nonempty_list$List$Nonempty$toList = function (_v0) {
-	var x = _v0.a;
-	var xs = _v0.b;
-	return A2($elm$core$List$cons, x, xs);
-};
 var $author$project$Lib$StackedSet$show = F2(
 	function (toString, stackedSet) {
 		var setToString = function (set) {
@@ -21821,15 +26138,604 @@ var $author$project$Ui$Tab$Program$view = F2(
 var $author$project$Ui$Tab$RegisterMachine$Reset = {$: 'Reset'};
 var $author$project$Ui$Tab$RegisterMachine$RunOneStep = {$: 'RunOneStep'};
 var $author$project$Ui$Tab$RegisterMachine$Start = {$: 'Start'};
-var $author$project$Ui$Tab$RegisterMachine$Label = function (a) {
-	return {$: 'Label', a: a};
+var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
+	return {$: 'AlignY', a: a};
 };
-var $author$project$Ui$Tab$RegisterMachine$Perform = F2(
-	function (a, b) {
-		return {$: 'Perform', a: a, b: b};
-	});
+var $mdgriffith$elm_ui$Internal$Model$Top = {$: 'Top'};
+var $mdgriffith$elm_ui$Element$alignTop = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$Top);
 var $mdgriffith$elm_ui$Internal$Flag$fontWeight = $mdgriffith$elm_ui$Internal$Flag$flag(13);
-var $mdgriffith$elm_ui$Element$Font$heavy = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.textHeavy);
+var $mdgriffith$elm_ui$Element$Font$bold = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.bold);
+var $author$project$Ui$Tab$RegisterMachine$headingSize = 20;
+var $author$project$Ui$Tab$RegisterMachine$heading = function (str) {
+	return A2(
+		$mdgriffith$elm_ui$Element$el,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$Font$size($author$project$Ui$Tab$RegisterMachine$headingSize),
+				$mdgriffith$elm_ui$Element$Font$bold
+			]),
+		$mdgriffith$elm_ui$Element$text(str));
+};
+var $author$project$Ui$Tab$RegisterMachine$runTimeErrorToString = function (err) {
+	switch (err.$) {
+		case 'UndefinedRegister':
+			var register = err.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['Undefined register $', register]));
+		case 'UndefinedOperation':
+			var operationName = err.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['Undefined operation ', operationName]));
+		case 'WrongNumberOfArgumentsGivenToOperationExpected':
+			var _int = err.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					[
+						'Wrong number of arguments given to the operation. Expected ',
+						$elm$core$String$fromInt(_int)
+					]));
+		case 'LabelPointsToNothing':
+			var label = err.a;
+			return $elm$core$String$concat(
+				_List_fromArray(
+					['The label :', label, ' points to nothing']));
+		case 'PoppingEmptyStack':
+			return 'Popping empty stack';
+		case 'TheOperationExpectsIntegerArguments':
+			return 'The operation expects integer arguments';
+		case 'ExpectedInstructionAddressInRegister':
+			return 'Expected instruction address in the register';
+		case 'ExpectedPairInRegister':
+			return 'Expected pair in the register';
+		default:
+			var memoryError = err.a;
+			switch (memoryError.$) {
+				case 'MemoryExceeded':
+					return 'Memory Exceeded';
+				case 'InvalidMemoryAccessAt':
+					var pointer = memoryError.a;
+					return $elm$core$String$concat(
+						_List_fromArray(
+							[
+								'Invalid memory access at #',
+								$elm$core$String$fromInt(pointer)
+							]));
+				case 'ExpectedNumAt':
+					var pointer = memoryError.a;
+					return $elm$core$String$concat(
+						_List_fromArray(
+							[
+								'Expected Num at #',
+								$elm$core$String$fromInt(pointer)
+							]));
+				case 'ExpectedPairAt':
+					var pointer = memoryError.a;
+					return $elm$core$String$concat(
+						_List_fromArray(
+							[
+								'Expected Pair at #',
+								$elm$core$String$fromInt(pointer)
+							]));
+				default:
+					var pointer = memoryError.a;
+					return $elm$core$String$concat(
+						_List_fromArray(
+							[
+								'Expected Nil at #',
+								$elm$core$String$fromInt(pointer)
+							]));
+			}
+	}
+};
+var $author$project$Ui$Tab$RegisterMachine$shouldDisplayEditor = false;
+var $mdgriffith$elm_ui$Internal$Model$Below = {$: 'Below'};
+var $mdgriffith$elm_ui$Element$below = function (element) {
+	return A2($mdgriffith$elm_ui$Element$createNearby, $mdgriffith$elm_ui$Internal$Model$Below, element);
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$ariaRoleListbox = $mdgriffith$elm_ui$Element$htmlAttribute(
+	A2($elm$html$Html$Attributes$attribute, 'role', 'listbox'));
+var $PaackEng$elm_ui_dropdown$Dropdown$OnSelect = function (a) {
+	return {$: 'OnSelect', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$ariaRoleOption = $mdgriffith$elm_ui$Element$htmlAttribute(
+	A2($elm$html$Html$Attributes$attribute, 'role', 'option'));
+var $PaackEng$elm_ui_dropdown$Dropdown$ariaSelected = $mdgriffith$elm_ui$Element$htmlAttribute(
+	A2($elm$html$Html$Attributes$attribute, 'aria-selected', 'true'));
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$onClick = function (message) {
+	return $mdgriffith$elm_ui$Element$Events$onClick(message);
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$referenceDataName = 'data-dropdown-id';
+var $PaackEng$elm_ui_dropdown$Dropdown$referenceAttr = function (model) {
+	return $mdgriffith$elm_ui$Element$htmlAttribute(
+		A2($elm$html$Html$Attributes$attribute, $PaackEng$elm_ui_dropdown$Dropdown$referenceDataName, model.id));
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$tabIndexAttr = function (tabIndex) {
+	return $mdgriffith$elm_ui$Element$htmlAttribute(
+		$elm$html$Html$Attributes$tabindex(tabIndex));
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$itemView = F5(
+	function (config, selectedItems, state, i, item) {
+		var selected = A2($elm$core$List$member, item, selectedItems);
+		var itemAttrsBase = _List_fromArray(
+			[
+				$PaackEng$elm_ui_dropdown$Dropdown$onClick(
+				config.dropdownMsg(
+					$PaackEng$elm_ui_dropdown$Dropdown$OnSelect(item))),
+				$PaackEng$elm_ui_dropdown$Dropdown$referenceAttr(state),
+				$PaackEng$elm_ui_dropdown$Dropdown$tabIndexAttr(-1),
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$PaackEng$elm_ui_dropdown$Dropdown$ariaRoleOption
+			]);
+		var itemAttrs = selected ? A2($elm$core$List$cons, $PaackEng$elm_ui_dropdown$Dropdown$ariaSelected, itemAttrsBase) : itemAttrsBase;
+		var highlighed = _Utils_eq(i, state.focusedIndex);
+		return A2(
+			$mdgriffith$elm_ui$Element$el,
+			itemAttrs,
+			A3(config.itemToElement, selected, highlighed, item));
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$bodyView = F4(
+	function (config, selectedItems, state, data) {
+		if (state.isOpen) {
+			var items = ($elm$core$List$length(data) >= 1) ? A2(
+				$mdgriffith$elm_ui$Element$column,
+				config.listAttributes,
+				A2(
+					$elm$core$List$indexedMap,
+					A3($PaackEng$elm_ui_dropdown$Dropdown$itemView, config, selectedItems, state),
+					data)) : A2($mdgriffith$elm_ui$Element$el, config.listAttributes, config.emptyListElement);
+			var body = A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$htmlAttribute(
+						A2($elm$html$Html$Attributes$style, 'flex-shrink', '1')),
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+						$PaackEng$elm_ui_dropdown$Dropdown$ariaRoleListbox
+					]),
+				items);
+			return body;
+		} else {
+			return $mdgriffith$elm_ui$Element$none;
+		}
+	});
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $PaackEng$elm_ui_dropdown$Dropdown$idAttr = function (id) {
+	return $mdgriffith$elm_ui$Element$htmlAttribute(
+		$elm$html$Html$Attributes$id(id));
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$OnClickPrompt = {$: 'OnClickPrompt'};
+var $PaackEng$elm_ui_dropdown$Dropdown$OnFilterTyped = function (a) {
+	return {$: 'OnFilterTyped', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$OnKeyDown = function (a) {
+	return {$: 'OnKeyDown', a: a};
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$ariaExpanded = $mdgriffith$elm_ui$Element$htmlAttribute(
+	A2($elm$html$Html$Attributes$attribute, 'aria-expanded', 'true'));
+var $PaackEng$elm_ui_dropdown$Dropdown$ariaHasPopup = $mdgriffith$elm_ui$Element$htmlAttribute(
+	A2($elm$html$Html$Attributes$attribute, 'aria-haspopup', 'listbox'));
+var $PaackEng$elm_ui_dropdown$Dropdown$ariaRoleButton = $mdgriffith$elm_ui$Element$htmlAttribute(
+	A2($elm$html$Html$Attributes$attribute, 'role', 'button'));
+var $mdgriffith$elm_ui$Internal$Model$Focus = {$: 'Focus'};
+var $mdgriffith$elm_ui$Internal$Model$PseudoSelector = F2(
+	function (a, b) {
+		return {$: 'PseudoSelector', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$focus = $mdgriffith$elm_ui$Internal$Flag$flag(31);
+var $mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
+	return {$: 'AlignX', a: a};
+};
+var $elm$virtual_dom$VirtualDom$mapAttribute = _VirtualDom_mapAttribute;
+var $mdgriffith$elm_ui$Internal$Model$mapAttrFromStyle = F2(
+	function (fn, attr) {
+		switch (attr.$) {
+			case 'NoAttribute':
+				return $mdgriffith$elm_ui$Internal$Model$NoAttribute;
+			case 'Describe':
+				var description = attr.a;
+				return $mdgriffith$elm_ui$Internal$Model$Describe(description);
+			case 'AlignX':
+				var x = attr.a;
+				return $mdgriffith$elm_ui$Internal$Model$AlignX(x);
+			case 'AlignY':
+				var y = attr.a;
+				return $mdgriffith$elm_ui$Internal$Model$AlignY(y);
+			case 'Width':
+				var x = attr.a;
+				return $mdgriffith$elm_ui$Internal$Model$Width(x);
+			case 'Height':
+				var x = attr.a;
+				return $mdgriffith$elm_ui$Internal$Model$Height(x);
+			case 'Class':
+				var x = attr.a;
+				var y = attr.b;
+				return A2($mdgriffith$elm_ui$Internal$Model$Class, x, y);
+			case 'StyleClass':
+				var flag = attr.a;
+				var style = attr.b;
+				return A2($mdgriffith$elm_ui$Internal$Model$StyleClass, flag, style);
+			case 'Nearby':
+				var location = attr.a;
+				var elem = attr.b;
+				return A2(
+					$mdgriffith$elm_ui$Internal$Model$Nearby,
+					location,
+					A2($mdgriffith$elm_ui$Internal$Model$map, fn, elem));
+			case 'Attr':
+				var htmlAttr = attr.a;
+				return $mdgriffith$elm_ui$Internal$Model$Attr(
+					A2($elm$virtual_dom$VirtualDom$mapAttribute, fn, htmlAttr));
+			default:
+				var fl = attr.a;
+				var trans = attr.b;
+				return A2($mdgriffith$elm_ui$Internal$Model$TransformComponent, fl, trans);
+		}
+	});
+var $mdgriffith$elm_ui$Internal$Model$removeNever = function (style) {
+	return A2($mdgriffith$elm_ui$Internal$Model$mapAttrFromStyle, $elm$core$Basics$never, style);
+};
+var $mdgriffith$elm_ui$Internal$Model$unwrapDecsHelper = F2(
+	function (attr, _v0) {
+		var styles = _v0.a;
+		var trans = _v0.b;
+		var _v1 = $mdgriffith$elm_ui$Internal$Model$removeNever(attr);
+		switch (_v1.$) {
+			case 'StyleClass':
+				var style = _v1.b;
+				return _Utils_Tuple2(
+					A2($elm$core$List$cons, style, styles),
+					trans);
+			case 'TransformComponent':
+				var flag = _v1.a;
+				var component = _v1.b;
+				return _Utils_Tuple2(
+					styles,
+					A2($mdgriffith$elm_ui$Internal$Model$composeTransformation, trans, component));
+			default:
+				return _Utils_Tuple2(styles, trans);
+		}
+	});
+var $mdgriffith$elm_ui$Internal$Model$unwrapDecorations = function (attrs) {
+	var _v0 = A3(
+		$elm$core$List$foldl,
+		$mdgriffith$elm_ui$Internal$Model$unwrapDecsHelper,
+		_Utils_Tuple2(_List_Nil, $mdgriffith$elm_ui$Internal$Model$Untransformed),
+		attrs);
+	var styles = _v0.a;
+	var transform = _v0.b;
+	return A2(
+		$elm$core$List$cons,
+		$mdgriffith$elm_ui$Internal$Model$Transform(transform),
+		styles);
+};
+var $mdgriffith$elm_ui$Element$focused = function (decs) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$focus,
+		A2(
+			$mdgriffith$elm_ui$Internal$Model$PseudoSelector,
+			$mdgriffith$elm_ui$Internal$Model$Focus,
+			$mdgriffith$elm_ui$Internal$Model$unwrapDecorations(decs)));
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$OnBlur = {$: 'OnBlur'};
+var $elm$json$Json$Decode$oneOf = _Json_oneOf;
+var $elm$json$Json$Decode$maybe = function (decoder) {
+	return $elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2($elm$json$Json$Decode$map, $elm$core$Maybe$Just, decoder),
+				$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing)
+			]));
+};
+var $PaackEng$elm_ui_dropdown$Dropdown$onBlurAttribute = F2(
+	function (config, state) {
+		var dataDecoder = A2(
+			$elm$json$Json$Decode$at,
+			_List_fromArray(
+				['relatedTarget', 'attributes', $PaackEng$elm_ui_dropdown$Dropdown$referenceDataName, 'value']),
+			$elm$json$Json$Decode$string);
+		var attrToMsg = function (maybeAttr) {
+			if (maybeAttr.$ === 'Just') {
+				var attr = maybeAttr.a;
+				return _Utils_eq(attr, state.id) ? $elm$json$Json$Decode$fail('') : $elm$json$Json$Decode$succeed(
+					config.dropdownMsg($PaackEng$elm_ui_dropdown$Dropdown$OnBlur));
+			} else {
+				return $elm$json$Json$Decode$succeed(
+					config.dropdownMsg($PaackEng$elm_ui_dropdown$Dropdown$OnBlur));
+			}
+		};
+		return $mdgriffith$elm_ui$Element$htmlAttribute(
+			A2(
+				$elm$html$Html$Events$on,
+				'blur',
+				A2(
+					$elm$json$Json$Decode$andThen,
+					attrToMsg,
+					$elm$json$Json$Decode$maybe(dataDecoder))));
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$ArrowDown = {$: 'ArrowDown'};
+var $PaackEng$elm_ui_dropdown$Dropdown$ArrowUp = {$: 'ArrowUp'};
+var $PaackEng$elm_ui_dropdown$Dropdown$Enter = {$: 'Enter'};
+var $PaackEng$elm_ui_dropdown$Dropdown$Esc = {$: 'Esc'};
+var $PaackEng$elm_ui_dropdown$Dropdown$onKeyDown = function (msg) {
+	var stringToKey = function (str) {
+		switch (str) {
+			case 'ArrowDown':
+				return $elm$json$Json$Decode$succeed($PaackEng$elm_ui_dropdown$Dropdown$ArrowDown);
+			case 'ArrowUp':
+				return $elm$json$Json$Decode$succeed($PaackEng$elm_ui_dropdown$Dropdown$ArrowUp);
+			case 'Enter':
+				return $elm$json$Json$Decode$succeed($PaackEng$elm_ui_dropdown$Dropdown$Enter);
+			case 'Escape':
+				return $elm$json$Json$Decode$succeed($PaackEng$elm_ui_dropdown$Dropdown$Esc);
+			default:
+				return $elm$json$Json$Decode$fail('not used key');
+		}
+	};
+	var keyDecoder = A2(
+		$elm$json$Json$Decode$andThen,
+		stringToKey,
+		A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string));
+	return $mdgriffith$elm_ui$Element$htmlAttribute(
+		A2(
+			$elm$html$Html$Events$on,
+			'keydown',
+			A2($elm$json$Json$Decode$map, msg, keyDecoder)));
+};
+var $mdgriffith$elm_ui$Element$Input$Placeholder = F2(
+	function (a, b) {
+		return {$: 'Placeholder', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Element$Input$placeholder = $mdgriffith$elm_ui$Element$Input$Placeholder;
+var $mdgriffith$elm_ui$Element$Input$TextInputNode = function (a) {
+	return {$: 'TextInputNode', a: a};
+};
+var $mdgriffith$elm_ui$Element$Input$search = $mdgriffith$elm_ui$Element$Input$textHelper(
+	{
+		autofill: $elm$core$Maybe$Nothing,
+		spellchecked: false,
+		type_: $mdgriffith$elm_ui$Element$Input$TextInputNode('search')
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$triggerView = F3(
+	function (config, selectedItems, state) {
+		var selectAttrs = A2(
+			$elm$core$List$cons,
+			$PaackEng$elm_ui_dropdown$Dropdown$onClick(
+				config.dropdownMsg($PaackEng$elm_ui_dropdown$Dropdown$OnClickPrompt)),
+			A2(
+				$elm$core$List$cons,
+				$PaackEng$elm_ui_dropdown$Dropdown$onKeyDown(
+					A2($elm$core$Basics$composeL, config.dropdownMsg, $PaackEng$elm_ui_dropdown$Dropdown$OnKeyDown)),
+				A2(
+					$elm$core$List$cons,
+					$PaackEng$elm_ui_dropdown$Dropdown$tabIndexAttr(0),
+					A2(
+						$elm$core$List$cons,
+						$PaackEng$elm_ui_dropdown$Dropdown$ariaHasPopup,
+						A2(
+							$elm$core$List$cons,
+							$PaackEng$elm_ui_dropdown$Dropdown$ariaRoleButton,
+							A2(
+								$elm$core$List$cons,
+								$PaackEng$elm_ui_dropdown$Dropdown$referenceAttr(state),
+								_Utils_ap(
+									_Utils_eq(config.dropdownType, $PaackEng$elm_ui_dropdown$Dropdown$Basic) ? _List_fromArray(
+										[
+											A2($PaackEng$elm_ui_dropdown$Dropdown$onBlurAttribute, config, state)
+										]) : _List_Nil,
+									_Utils_ap(
+										state.isOpen ? _List_fromArray(
+											[$PaackEng$elm_ui_dropdown$Dropdown$ariaExpanded]) : _List_Nil,
+										config.selectAttributes))))))));
+		var searchInput = A2(
+			$mdgriffith$elm_ui$Element$Input$search,
+			A2(
+				$elm$core$List$cons,
+				$PaackEng$elm_ui_dropdown$Dropdown$idAttr(state.id + 'input-search'),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$focused(_List_Nil),
+					A2(
+						$elm$core$List$cons,
+						A2($PaackEng$elm_ui_dropdown$Dropdown$onBlurAttribute, config, state),
+						config.searchAttributes))),
+			{
+				label: $mdgriffith$elm_ui$Element$Input$labelHidden('Filter List'),
+				onChange: A2($elm$core$Basics$composeL, config.dropdownMsg, $PaackEng$elm_ui_dropdown$Dropdown$OnFilterTyped),
+				placeholder: A2(
+					$elm$core$Maybe$map,
+					A2(
+						$elm$core$Basics$composeR,
+						$mdgriffith$elm_ui$Element$text,
+						$mdgriffith$elm_ui$Element$Input$placeholder(_List_Nil)),
+					config.filterPlaceholder),
+				text: state.filterText
+			});
+		var prompt = A2(
+			$mdgriffith$elm_ui$Element$el,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			function () {
+				if (!selectedItems.b) {
+					return config.promptElement;
+				} else {
+					var xs = selectedItems;
+					var _v3 = config.selectionToPrompt;
+					if (_v3.$ === 'SingleItemToPrompt') {
+						var f = _v3.a;
+						var _v4 = $elm$core$List$head(xs);
+						if (_v4.$ === 'Nothing') {
+							return config.promptElement;
+						} else {
+							var x = _v4.a;
+							return f(x);
+						}
+					} else {
+						var f = _v3.a;
+						return f(xs);
+					}
+				}
+			}());
+		var search = function () {
+			var _v1 = config.dropdownType;
+			switch (_v1.$) {
+				case 'Basic':
+					return prompt;
+				case 'MultiSelect':
+					return prompt;
+				case 'Filterable':
+					return searchInput;
+				default:
+					return searchInput;
+			}
+		}();
+		var _v0 = state.isOpen ? _Utils_Tuple2(
+			search,
+			A2($mdgriffith$elm_ui$Element$el, _List_Nil, config.closeButton)) : _Utils_Tuple2(
+			prompt,
+			A2($mdgriffith$elm_ui$Element$el, _List_Nil, config.openButton));
+		var promptOrSearch = _v0.a;
+		var button = _v0.b;
+		return A2(
+			$mdgriffith$elm_ui$Element$row,
+			selectAttrs,
+			_List_fromArray(
+				[promptOrSearch, button]));
+	});
+var $PaackEng$elm_ui_dropdown$Dropdown$view = F3(
+	function (_v0, model, _v1) {
+		var config = _v0.a;
+		var state = _v1.a;
+		var selectedItems = A2($PaackEng$elm_ui_dropdown$Dropdown$selectedItemsAsList, config, model);
+		var trigger = A3($PaackEng$elm_ui_dropdown$Dropdown$triggerView, config, selectedItems, state);
+		var items = config.itemsFromModel(model);
+		var filter = function (item) {
+			return A2(
+				$elm$core$String$contains,
+				$elm$core$String$toLower(state.filterText),
+				$elm$core$String$toLower(
+					config.itemToText(item)));
+		};
+		var filteredData = A2($elm$core$List$filter, filter, items);
+		var data = function () {
+			var _v2 = config.dropdownType;
+			switch (_v2.$) {
+				case 'AutoCompleteHelper':
+					return items;
+				case 'Filterable':
+					return filteredData;
+				case 'Basic':
+					return items;
+				default:
+					return items;
+			}
+		}();
+		var body = A4($PaackEng$elm_ui_dropdown$Dropdown$bodyView, config, selectedItems, state, data);
+		var containerAttrs = A2(
+			$elm$core$List$cons,
+			$PaackEng$elm_ui_dropdown$Dropdown$idAttr(state.id),
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Element$below(body),
+				config.containerAttributes));
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			containerAttrs,
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					trigger)
+				]));
+	});
+var $author$project$Lib$ZipList$mapToList = F2(
+	function (f, _v0) {
+		var revLeft0 = _v0.a;
+		var x0 = _v0.b;
+		var right0 = _v0.c;
+		return _Utils_ap(
+			$elm$core$List$reverse(
+				A2($elm$core$List$map, f.others, revLeft0)),
+			A2(
+				$elm$core$List$cons,
+				f.current(x0),
+				A2($elm$core$List$map, f.others, right0)));
+	});
+var $mgold$elm_nonempty_list$List$Nonempty$reverse = function (_v0) {
+	var x = _v0.a;
+	var xs = _v0.b;
+	var revapp = function (_v1) {
+		revapp:
+		while (true) {
+			var ls = _v1.a;
+			var c = _v1.b;
+			var rs = _v1.c;
+			if (!rs.b) {
+				return A2($mgold$elm_nonempty_list$List$Nonempty$Nonempty, c, ls);
+			} else {
+				var r = rs.a;
+				var rss = rs.b;
+				var $temp$_v1 = _Utils_Tuple3(
+					A2($elm$core$List$cons, c, ls),
+					r,
+					rss);
+				_v1 = $temp$_v1;
+				continue revapp;
+			}
+		}
+	};
+	return revapp(
+		_Utils_Tuple3(_List_Nil, x, xs));
+};
+var $author$project$Lib$ZipListSelection$current = function (_v0) {
+	var middle = _v0.b;
+	if (middle.a.$ === 'Upwards') {
+		var _v2 = middle.a;
+		var mids = middle.b;
+		return mids;
+	} else {
+		var _v3 = middle.a;
+		var revMids = middle.b;
+		return $mgold$elm_nonempty_list$List$Nonempty$reverse(revMids);
+	}
+};
+var $author$project$Lib$ZipListSelection$mapToList = F2(
+	function (f, zipListSelection) {
+		var revUps = zipListSelection.a;
+		var downs = zipListSelection.c;
+		return $elm$core$List$concat(
+			_List_fromArray(
+				[
+					A2(
+					$elm$core$List$map,
+					f.others,
+					$elm$core$List$reverse(revUps)),
+					A2(
+					$elm$core$List$map,
+					f.current,
+					$mgold$elm_nonempty_list$List$Nonempty$toList(
+						$author$project$Lib$ZipListSelection$current(zipListSelection))),
+					A2($elm$core$List$map, f.others, downs)
+				]));
+	});
+var $author$project$RegisterMachine$Ui$Editor$ResetDebugConsole = {$: 'ResetDebugConsole'};
 var $elm$core$List$intersperse = F2(
 	function (sep, xs) {
 		if (!xs.b) {
@@ -21848,18 +26754,914 @@ var $elm$core$List$intersperse = F2(
 			return A2($elm$core$List$cons, hd, spersed);
 		}
 	});
-var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
-	function (instructionPointer, instructionBlock) {
-		var viewValue = function (x) {
-			return A2(
-				$mdgriffith$elm_ui$Element$row,
-				_List_Nil,
+var $author$project$RegisterMachine$Ui$Editor$NodeEdit = function (a) {
+	return {$: 'NodeEdit', a: a};
+};
+var $author$project$RegisterMachine$Ui$Color$error = A3($mdgriffith$elm_ui$Element$rgb255, 255, 0, 0);
+var $mdgriffith$elm_ui$Element$html = $mdgriffith$elm_ui$Internal$Model$unstyled;
+var $elm$html$Html$node = $elm$virtual_dom$VirtualDom$node;
+var $author$project$Ui$InputCell$htmlInputCell = $elm$html$Html$node('input-cell');
+var $author$project$Ui$InputCell$inputCell = F3(
+	function (fontSize, text, onChange) {
+		return $mdgriffith$elm_ui$Element$html(
+			A2(
+				$author$project$Ui$InputCell$htmlInputCell,
 				_List_fromArray(
 					[
-						$mdgriffith$elm_ui$Element$text(
-						$elm$core$String$fromInt(x))
-					]));
+						$elm$html$Html$Events$onInput(onChange),
+						$elm$html$Html$Attributes$value(text),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'font-size',
+						$elm$core$String$fromInt(fontSize) + 'px')
+					]),
+				_List_Nil));
+	});
+var $author$project$RegisterMachine$Ui$Color$label = A3($mdgriffith$elm_ui$Element$rgb255, 239, 151, 0);
+var $author$project$RegisterMachine$Ui$Color$register = A3($mdgriffith$elm_ui$Element$rgb255, 54, 108, 235);
+var $mdgriffith$elm_ui$Internal$Flag$borderStyle = $mdgriffith$elm_ui$Internal$Flag$flag(11);
+var $mdgriffith$elm_ui$Element$Border$solid = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$borderStyle, $mdgriffith$elm_ui$Internal$Style$classes.borderSolid);
+var $author$project$RegisterMachine$Ui$Editor$viewHole = function () {
+	var r = 5;
+	var d = 2 * r;
+	return A2(
+		$mdgriffith$elm_ui$Element$el,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width(
+				$mdgriffith$elm_ui$Element$px(d)),
+				$mdgriffith$elm_ui$Element$height(
+				$mdgriffith$elm_ui$Element$px(d)),
+				$mdgriffith$elm_ui$Element$Border$rounded(r),
+				$mdgriffith$elm_ui$Element$Background$color(
+				A3($mdgriffith$elm_ui$Element$rgb255, 183, 183, 183))
+			]),
+		$mdgriffith$elm_ui$Element$text(''));
+}();
+var $author$project$RegisterMachine$Ui$Editor$viewNode = F4(
+	function (isSelected, isInstructionSelected, nodeMode, _v0) {
+		var nodeValidation = _v0.b;
+		var nodeExpectation = _v0.c;
+		var str = _v0.d;
+		var viewStr = function (str0) {
+			switch (nodeValidation.$) {
+				case 'UnfinishedNode':
+					return $author$project$RegisterMachine$Ui$Editor$viewHole;
+				case 'ErrorNode':
+					return A2(
+						$mdgriffith$elm_ui$Element$el,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$Background$color($author$project$RegisterMachine$Ui$Color$error)
+							]),
+						$mdgriffith$elm_ui$Element$text(str0));
+				default:
+					var entityKind = nodeValidation.a;
+					switch (entityKind.$) {
+						case 'RegisterName':
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$Font$color($author$project$RegisterMachine$Ui$Color$register)
+									]),
+								$mdgriffith$elm_ui$Element$text(str0));
+						case 'RegisterUse':
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$Font$color($author$project$RegisterMachine$Ui$Color$register)
+									]),
+								$mdgriffith$elm_ui$Element$text(str0));
+						case 'Label':
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$Font$color($author$project$RegisterMachine$Ui$Color$label)
+									]),
+								$mdgriffith$elm_ui$Element$text(str0));
+						case 'LabelUse':
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$Font$color($author$project$RegisterMachine$Ui$Color$label)
+									]),
+								$mdgriffith$elm_ui$Element$text(str0));
+						case 'Integer':
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_Nil,
+								$mdgriffith$elm_ui$Element$text(str0));
+						case 'Nil':
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_Nil,
+								$mdgriffith$elm_ui$Element$text(str0));
+						default:
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_Nil,
+								$mdgriffith$elm_ui$Element$text(str0));
+					}
+			}
 		};
+		if (isSelected && isInstructionSelected) {
+			if (nodeMode.$ === 'TraversingNodes') {
+				return A2(
+					$mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Border$width(1),
+							$mdgriffith$elm_ui$Element$Border$solid
+						]),
+					viewStr(str));
+			} else {
+				return A3($author$project$Ui$InputCell$inputCell, 19, str, $author$project$RegisterMachine$Ui$Editor$NodeEdit);
+			}
+		} else {
+			return A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_Nil,
+				viewStr(str));
+		}
+	});
+var $author$project$RegisterMachine$Ui$Editor$viewDebuggingConsole = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$Input$button,
+				$author$project$Ui$Style$Button$buttonStyle,
+				{
+					label: $mdgriffith$elm_ui$Element$text('reset'),
+					onPress: $elm$core$Maybe$Just($author$project$RegisterMachine$Ui$Editor$ResetDebugConsole)
+				}),
+				A2(
+				$mdgriffith$elm_ui$Element$column,
+				_List_Nil,
+				A2(
+					$elm$core$List$map,
+					function (instruction) {
+						switch (instruction.$) {
+							case 'Instruction':
+								var instructionKind = instruction.a;
+								var _v1 = instruction.b;
+								var revLeftNodes = _v1.a;
+								var selectedNode = _v1.b;
+								var rightNodes = _v1.c;
+								var instructionValidity = instruction.c;
+								var viewDebuggedNode = F2(
+									function (isSelected, node) {
+										var nodeKind = node.a;
+										var nodeValidity = node.b;
+										var nodeExpectations = node.c;
+										var text = node.d;
+										return A2(
+											$mdgriffith$elm_ui$Element$row,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$spacing(5)
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$mdgriffith$elm_ui$Element$el,
+													_List_fromArray(
+														[$mdgriffith$elm_ui$Element$Font$bold]),
+													$mdgriffith$elm_ui$Element$text('Node')),
+													$mdgriffith$elm_ui$Element$text(
+													function () {
+														if (nodeKind.$ === 'Static') {
+															return 'S';
+														} else {
+															return 'D';
+														}
+													}()),
+													A2(
+													$mdgriffith$elm_ui$Element$el,
+													_List_fromArray(
+														[$mdgriffith$elm_ui$Element$Font$bold]),
+													$mdgriffith$elm_ui$Element$text('[ ')),
+													A4($author$project$RegisterMachine$Ui$Editor$viewNode, isSelected, true, $author$project$RegisterMachine$Ui$Editor$TraversingNodes, node),
+													A2(
+													$mdgriffith$elm_ui$Element$row,
+													_List_Nil,
+													_List_fromArray(
+														[
+															A2(
+															$mdgriffith$elm_ui$Element$el,
+															_List_fromArray(
+																[
+																	$mdgriffith$elm_ui$Element$Font$bold,
+																	$mdgriffith$elm_ui$Element$Font$color(
+																	A3($mdgriffith$elm_ui$Element$rgb, 0, 0, 1))
+																]),
+															$mdgriffith$elm_ui$Element$text(': {')),
+															A2(
+															$mdgriffith$elm_ui$Element$row,
+															_List_Nil,
+															A2(
+																$elm$core$List$intersperse,
+																$mdgriffith$elm_ui$Element$text(', '),
+																A2(
+																	$elm$core$List$map,
+																	function (nodeExpectation) {
+																		return $mdgriffith$elm_ui$Element$text(
+																			function () {
+																				switch (nodeExpectation.$) {
+																					case 'RegisterName':
+																						return 'reg-name';
+																					case 'RegisterUse':
+																						return 'reg-use';
+																					case 'Label':
+																						return 'label';
+																					case 'LabelUse':
+																						return 'label-use';
+																					case 'Integer':
+																						return 'int';
+																					case 'Nil':
+																						return 'nil';
+																					default:
+																						return 'op';
+																				}
+																			}());
+																	},
+																	nodeExpectations))),
+															A2(
+															$mdgriffith$elm_ui$Element$el,
+															_List_fromArray(
+																[
+																	$mdgriffith$elm_ui$Element$Font$bold,
+																	$mdgriffith$elm_ui$Element$Font$color(
+																	A3($mdgriffith$elm_ui$Element$rgb, 0, 0, 1))
+																]),
+															$mdgriffith$elm_ui$Element$text('}'))
+														])),
+													A2(
+													$mdgriffith$elm_ui$Element$el,
+													_List_fromArray(
+														[$mdgriffith$elm_ui$Element$Font$bold]),
+													$mdgriffith$elm_ui$Element$text(']'))
+												]));
+									});
+								return A2(
+									$mdgriffith$elm_ui$Element$row,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$spacing(10)
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$mdgriffith$elm_ui$Element$el,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$Font$bold,
+													$mdgriffith$elm_ui$Element$Font$color(
+													A3($mdgriffith$elm_ui$Element$rgb, 0, 0, 1))
+												]),
+											$mdgriffith$elm_ui$Element$text(
+												function () {
+													switch (instructionKind.$) {
+														case 'LabelKind':
+															return 'Label';
+														case 'OperationApplicationKind':
+															return 'OperationApplication';
+														case 'AssignmentKind':
+															return 'Assignment';
+														case 'JumpKind':
+															return 'Jump';
+														case 'JumpIfKind':
+															return 'JumpIf';
+														case 'PushKind':
+															return 'Push';
+														default:
+															return 'Halt';
+													}
+												}())),
+											function () {
+											switch (instructionValidity.$) {
+												case 'EveryNodeIsValid':
+													return A2(
+														$mdgriffith$elm_ui$Element$el,
+														_List_fromArray(
+															[
+																$mdgriffith$elm_ui$Element$Font$color(
+																A3($mdgriffith$elm_ui$Element$rgb, 0, 1, 0))
+															]),
+														$mdgriffith$elm_ui$Element$text('all-valid'));
+												case 'ContainsErrorNodes':
+													return A2(
+														$mdgriffith$elm_ui$Element$el,
+														_List_fromArray(
+															[
+																$mdgriffith$elm_ui$Element$Font$color(
+																A3($mdgriffith$elm_ui$Element$rgb, 1, 0, 0))
+															]),
+														$mdgriffith$elm_ui$Element$text('has-errors'));
+												case 'ContainsUnfinishedNodes':
+													return $mdgriffith$elm_ui$Element$text('unfinished');
+												default:
+													var expected = instructionValidity.a.expected;
+													var received = instructionValidity.a.received;
+													return $mdgriffith$elm_ui$Element$text(
+														$elm$core$String$concat(
+															_List_fromArray(
+																[
+																	'wrong-arity(expected ',
+																	function () {
+																	if (expected.$ === 'Atleast') {
+																		var x = expected.a;
+																		return 'atleast' + $elm$core$String$fromInt(x);
+																	} else {
+																		var x = expected.a;
+																		return 'exactly' + $elm$core$String$fromInt(x);
+																	}
+																}(),
+																	' received ',
+																	$elm$core$String$fromInt(received),
+																	')'
+																])));
+											}
+										}(),
+											A2(
+											$mdgriffith$elm_ui$Element$row,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$spacing(10)
+												]),
+											A2(
+												$elm$core$List$intersperse,
+												A2(
+													$mdgriffith$elm_ui$Element$el,
+													_List_Nil,
+													$mdgriffith$elm_ui$Element$text(',')),
+												$elm$core$List$concat(
+													_List_fromArray(
+														[
+															A2(
+															$elm$core$List$map,
+															viewDebuggedNode(false),
+															$elm$core$List$reverse(revLeftNodes)),
+															_List_fromArray(
+															[
+																A2(viewDebuggedNode, true, selectedNode)
+															]),
+															A2(
+															$elm$core$List$map,
+															viewDebuggedNode(false),
+															rightNodes)
+														]))))
+										]));
+							case 'Halt':
+								return _Debug_todo(
+									'RegisterMachine.Ui.Editor',
+									{
+										start: {line: 913, column: 33},
+										end: {line: 913, column: 43}
+									})('');
+							default:
+								var verticalDirection = instruction.a;
+								return _Debug_todo(
+									'RegisterMachine.Ui.Editor',
+									{
+										start: {line: 916, column: 33},
+										end: {line: 916, column: 43}
+									})('');
+						}
+					},
+					$elm$core$List$reverse(model.debugConsole.instructionsRev)))
+			]));
+};
+var $author$project$Lib$ZipList$mapToTaggedList = function (_v0) {
+	var revLeft0 = _v0.a;
+	var x0 = _v0.b;
+	var right0 = _v0.c;
+	var tagAsSelected = function (x) {
+		return _Utils_Tuple2(true, x);
+	};
+	var tagAsNotSelected = function (x) {
+		return _Utils_Tuple2(false, x);
+	};
+	return _Utils_ap(
+		A2(
+			$elm$core$List$map,
+			tagAsNotSelected,
+			$elm$core$List$reverse(revLeft0)),
+		A2(
+			$elm$core$List$cons,
+			tagAsSelected(x0),
+			A2($elm$core$List$map, tagAsNotSelected, right0)));
+};
+var $mdgriffith$elm_ui$Element$Font$heavy = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.textHeavy);
+var $author$project$RegisterMachine$Ui$Editor$viewKeyword = function (name) {
+	return A2(
+		$mdgriffith$elm_ui$Element$el,
+		_List_fromArray(
+			[$mdgriffith$elm_ui$Element$Font$heavy]),
+		$mdgriffith$elm_ui$Element$text(name));
+};
+var $author$project$RegisterMachine$Ui$Editor$viewInstruction = F3(
+	function (_v0, instructionMode, instruction) {
+		var isInstructionSelected = _v0.isInstructionSelected;
+		var isNodeSelected = _v0.isNodeSelected;
+		var viewBareInstruction = function (nodeMode) {
+			switch (instruction.$) {
+				case 'Halt':
+					return $author$project$RegisterMachine$Ui$Editor$viewKeyword('Halt');
+				case 'FutureInstruction':
+					return $author$project$RegisterMachine$Ui$Editor$viewKeyword('---should not be ever displayed---');
+				default:
+					var kind = instruction.a;
+					var nodes = instruction.b;
+					var validation = instruction.c;
+					switch (kind.$) {
+						case 'LabelKind':
+							return A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$author$project$RegisterMachine$Ui$Editor$viewKeyword('label '),
+										A4(
+										$author$project$RegisterMachine$Ui$Editor$viewNode,
+										isNodeSelected,
+										isInstructionSelected,
+										nodeMode,
+										$author$project$Lib$ZipList$current(nodes)),
+										$author$project$RegisterMachine$Ui$Editor$viewKeyword(':')
+									]));
+						case 'OperationApplicationKind':
+							return A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_Nil,
+								function () {
+									var _v4 = $author$project$Lib$ZipList$mapToTaggedList(nodes);
+									if (_v4.b && _v4.b.b) {
+										var _v5 = _v4.a;
+										var isSourceSelected = _v5.a;
+										var source = _v5.b;
+										var _v6 = _v4.b;
+										var _v7 = _v6.a;
+										var isOperationNameSelected = _v7.a;
+										var operationName = _v7.b;
+										var _arguments = _v6.b;
+										return $elm$core$List$concat(
+											_List_fromArray(
+												[
+													_List_fromArray(
+													[
+														A4($author$project$RegisterMachine$Ui$Editor$viewNode, isSourceSelected && isNodeSelected, isInstructionSelected, nodeMode, source),
+														$author$project$RegisterMachine$Ui$Editor$viewKeyword(' <- '),
+														A4($author$project$RegisterMachine$Ui$Editor$viewNode, isOperationNameSelected && isNodeSelected, isInstructionSelected, nodeMode, operationName),
+														$author$project$RegisterMachine$Ui$Editor$viewKeyword('(')
+													]),
+													A2(
+													$elm$core$List$intersperse,
+													$author$project$RegisterMachine$Ui$Editor$viewKeyword(', '),
+													A2(
+														$elm$core$List$map,
+														function (_v8) {
+															var isArgSelected = _v8.a;
+															var arg = _v8.b;
+															return A4($author$project$RegisterMachine$Ui$Editor$viewNode, isArgSelected && isNodeSelected, isInstructionSelected, nodeMode, arg);
+														},
+														_arguments)),
+													_List_fromArray(
+													[
+														$author$project$RegisterMachine$Ui$Editor$viewKeyword(')')
+													])
+												]));
+									} else {
+										return _List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$text('error when viewing OperationApplicationKind')
+											]);
+									}
+								}());
+						case 'AssignmentKind':
+							return A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_Nil,
+								function () {
+									var _v9 = $author$project$Lib$ZipList$mapToTaggedList(nodes);
+									if ((_v9.b && _v9.b.b) && (!_v9.b.b.b)) {
+										var _v10 = _v9.a;
+										var isSourceSelected = _v10.a;
+										var source = _v10.b;
+										var _v11 = _v9.b;
+										var _v12 = _v11.a;
+										var isTargetSelected = _v12.a;
+										var target = _v12.b;
+										return _List_fromArray(
+											[
+												A4($author$project$RegisterMachine$Ui$Editor$viewNode, isSourceSelected && isNodeSelected, isInstructionSelected, nodeMode, source),
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword(' <- '),
+												A4($author$project$RegisterMachine$Ui$Editor$viewNode, isTargetSelected && isNodeSelected, isInstructionSelected, nodeMode, target)
+											]);
+									} else {
+										return _List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$text('error when viewing AssignmentKind')
+											]);
+									}
+								}());
+						case 'JumpKind':
+							return A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_Nil,
+								function () {
+									var _v13 = $author$project$Lib$ZipList$mapToTaggedList(nodes);
+									if (_v13.b && (!_v13.b.b)) {
+										var _v14 = _v13.a;
+										var isArgSelected = _v14.a;
+										var arg = _v14.b;
+										return _List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('jump '),
+												A4($author$project$RegisterMachine$Ui$Editor$viewNode, isArgSelected && isNodeSelected, isInstructionSelected, nodeMode, arg)
+											]);
+									} else {
+										return _List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$text('error when viewing JumpKind')
+											]);
+									}
+								}());
+						case 'JumpIfKind':
+							return A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_Nil,
+								function () {
+									var _v15 = $author$project$Lib$ZipList$mapToTaggedList(nodes);
+									if ((_v15.b && _v15.b.b) && (!_v15.b.b.b)) {
+										var _v16 = _v15.a;
+										var isTestSelected = _v16.a;
+										var test = _v16.b;
+										var _v17 = _v15.b;
+										var _v18 = _v17.a;
+										var isArgSelected = _v18.a;
+										var arg = _v18.b;
+										return _List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('if '),
+												A4($author$project$RegisterMachine$Ui$Editor$viewNode, isTestSelected && isNodeSelected, isInstructionSelected, nodeMode, test),
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword(' jump '),
+												A4($author$project$RegisterMachine$Ui$Editor$viewNode, isArgSelected && isNodeSelected, isInstructionSelected, nodeMode, arg)
+											]);
+									} else {
+										return _List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$text('error when viewing JumpIfKind')
+											]);
+									}
+								}());
+						case 'HaltKind':
+							return $author$project$RegisterMachine$Ui$Editor$viewKeyword('Halt');
+						default:
+							return A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_Nil,
+								function () {
+									var _v19 = $author$project$Lib$ZipList$mapToTaggedList(nodes);
+									if (_v19.b && (!_v19.b.b)) {
+										var _v20 = _v19.a;
+										var isArgSelected = _v20.a;
+										var arg = _v20.b;
+										return _List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('push '),
+												A4($author$project$RegisterMachine$Ui$Editor$viewNode, isArgSelected && isNodeSelected, isInstructionSelected, nodeMode, arg)
+											]);
+									} else {
+										return _List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$text('error when viewing JumpKind')
+											]);
+									}
+								}());
+					}
+			}
+		};
+		switch (instructionMode.$) {
+			case 'InsertingInstruction':
+				return isInstructionSelected ? A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_Nil,
+							A2(
+								$elm$core$List$intersperse,
+								$mdgriffith$elm_ui$Element$text(' '),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$row,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('q:'),
+												$mdgriffith$elm_ui$Element$text('label')
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$row,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('w:'),
+												$mdgriffith$elm_ui$Element$text('jump')
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$row,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('e:'),
+												$mdgriffith$elm_ui$Element$text('if-jump')
+											]))
+									]))),
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_Nil,
+							A2(
+								$elm$core$List$intersperse,
+								$mdgriffith$elm_ui$Element$text(' '),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$row,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('a:'),
+												$mdgriffith$elm_ui$Element$text('apply')
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$row,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('s:'),
+												$mdgriffith$elm_ui$Element$text('assign')
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$row,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('d:'),
+												$mdgriffith$elm_ui$Element$text('push')
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$row,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Ui$Editor$viewKeyword('f:'),
+												$mdgriffith$elm_ui$Element$text('halt')
+											]))
+									])))
+						])) : viewBareInstruction($author$project$RegisterMachine$Ui$Editor$TraversingNodes);
+			case 'TraversingInstructions':
+				var nodeMode = instructionMode.a;
+				return viewBareInstruction(nodeMode);
+			default:
+				return viewBareInstruction($author$project$RegisterMachine$Ui$Editor$TraversingNodes);
+		}
+	});
+var $mdgriffith$elm_ui$Element$Border$widthXY = F2(
+	function (x, y) {
+		return A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$borderWidth,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$BorderWidth,
+				'b-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+				y,
+				x,
+				y,
+				x));
+	});
+var $mdgriffith$elm_ui$Element$Border$widthEach = function (_v0) {
+	var bottom = _v0.bottom;
+	var top = _v0.top;
+	var left = _v0.left;
+	var right = _v0.right;
+	return (_Utils_eq(top, bottom) && _Utils_eq(left, right)) ? (_Utils_eq(top, right) ? $mdgriffith$elm_ui$Element$Border$width(top) : A2($mdgriffith$elm_ui$Element$Border$widthXY, left, top)) : A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderWidth,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$BorderWidth,
+			'b-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left))))))),
+			top,
+			right,
+			bottom,
+			left));
+};
+var $author$project$RegisterMachine$Ui$Editor$viewFragmentBoard = function (_v0) {
+	var fragmentBoard = _v0.fragmentBoard;
+	var viewFragment = function (fragment) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_Nil,
+			A2(
+				$elm$core$List$map,
+				A2(
+					$author$project$RegisterMachine$Ui$Editor$viewInstruction,
+					{isInstructionSelected: false, isNodeSelected: false},
+					$author$project$RegisterMachine$Ui$Editor$TraversingInstructions($author$project$RegisterMachine$Ui$Editor$TraversingNodes)),
+				$mgold$elm_nonempty_list$List$Nonempty$toList(fragment)));
+	};
+	if (fragmentBoard.$ === 'EmptyBoard') {
+		return $mdgriffith$elm_ui$Element$text('');
+	} else {
+		var fragments = fragmentBoard.a;
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$spacing(15)
+				]),
+			A2(
+				$author$project$Lib$ZipList$mapToList,
+				{
+					current: function (currentFragment) {
+						return A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Border$solid,
+									$mdgriffith$elm_ui$Element$Border$widthEach(
+									{bottom: 0, left: 1, right: 0, top: 0})
+								]),
+							viewFragment(currentFragment));
+					},
+					others: function (fragment) {
+						return A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_Nil,
+							viewFragment(fragment));
+					}
+				},
+				fragments));
+	}
+};
+var $author$project$RegisterMachine$Ui$Editor$view = function (model) {
+	var instructions = model.instructions;
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_Nil,
+		_List_fromArray(
+			[
+				function () {
+				var _v0 = model.instructionMode;
+				switch (_v0.$) {
+					case 'TraversingInstructions':
+						var nodeMode = _v0.a;
+						if (nodeMode.$ === 'TraversingNodes') {
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_Nil,
+								$mdgriffith$elm_ui$Element$text('Moving'));
+						} else {
+							return A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_Nil,
+								$mdgriffith$elm_ui$Element$text('Editing'));
+						}
+					case 'InsertingInstruction':
+						return A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_Nil,
+							$mdgriffith$elm_ui$Element$text('Inserting'));
+					default:
+						return A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_Nil,
+							$mdgriffith$elm_ui$Element$text('Selecting'));
+				}
+			}(),
+				A2(
+				$mdgriffith$elm_ui$Element$column,
+				_List_Nil,
+				function () {
+					var bgColor = A3($mdgriffith$elm_ui$Element$rgb255, 215, 215, 215);
+					var _v2 = model.instructionMode;
+					if (_v2.$ === 'SelectingInstructions') {
+						var _v3 = model.selectedInstructions;
+						if (_v3.$ === 'Just') {
+							var instructionSelection = _v3.a;
+							return A2(
+								$author$project$Lib$ZipListSelection$mapToList,
+								{
+									current: function (instruction) {
+										return A2(
+											$mdgriffith$elm_ui$Element$el,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$Background$color(bgColor)
+												]),
+											A3(
+												$author$project$RegisterMachine$Ui$Editor$viewInstruction,
+												{isInstructionSelected: true, isNodeSelected: false},
+												model.instructionMode,
+												instruction));
+									},
+									others: function (instruction) {
+										return A2(
+											$mdgriffith$elm_ui$Element$el,
+											_List_Nil,
+											A3(
+												$author$project$RegisterMachine$Ui$Editor$viewInstruction,
+												{isInstructionSelected: false, isNodeSelected: false},
+												model.instructionMode,
+												instruction));
+									}
+								},
+								instructionSelection);
+						} else {
+							return _List_fromArray(
+								[
+									$author$project$RegisterMachine$Ui$Editor$viewKeyword('---should not be ever displayed---')
+								]);
+						}
+					} else {
+						return A2(
+							$author$project$Lib$ZipList$mapToList,
+							{
+								current: function (instruction) {
+									return A2(
+										$mdgriffith$elm_ui$Element$el,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$Background$color(bgColor)
+											]),
+										A3(
+											$author$project$RegisterMachine$Ui$Editor$viewInstruction,
+											{isInstructionSelected: true, isNodeSelected: true},
+											model.instructionMode,
+											instruction));
+								},
+								others: function (instruction) {
+									return A2(
+										$mdgriffith$elm_ui$Element$el,
+										_List_Nil,
+										A3(
+											$author$project$RegisterMachine$Ui$Editor$viewInstruction,
+											{isInstructionSelected: false, isNodeSelected: false},
+											model.instructionMode,
+											instruction));
+								}
+							},
+							instructions);
+					}
+				}()),
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_Nil,
+				$mdgriffith$elm_ui$Element$text('===Fragment Board===')),
+				$author$project$RegisterMachine$Ui$Editor$viewFragmentBoard(model),
+				A2(
+				$mdgriffith$elm_ui$Element$el,
+				_List_Nil,
+				$mdgriffith$elm_ui$Element$text('===Debugging===')),
+				$author$project$RegisterMachine$Ui$Editor$viewDebuggingConsole(model)
+			]));
+};
+var $author$project$Ui$Tab$RegisterMachine$Label = function (a) {
+	return {$: 'Label', a: a};
+};
+var $author$project$Ui$Tab$RegisterMachine$Perform = F2(
+	function (a, b) {
+		return {$: 'Perform', a: a, b: b};
+	});
+var $author$project$Ui$Tab$RegisterMachine$viewConstant = function (_const) {
+	return A2(
+		$mdgriffith$elm_ui$Element$row,
+		_List_Nil,
+		_List_fromArray(
+			[
+				function () {
+				if (_const.$ === 'Num') {
+					var x = _const.a;
+					return $mdgriffith$elm_ui$Element$text(
+						$elm$core$String$fromInt(x));
+				} else {
+					return $mdgriffith$elm_ui$Element$text('nil');
+				}
+			}()
+			]));
+};
+var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
+	function (instructionPointer, instructionBlock) {
 		var viewRegisterName = function (name) {
 			return A2(
 				$mdgriffith$elm_ui$Element$el,
@@ -21895,14 +27697,22 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 							$mdgriffith$elm_ui$Element$text(')')
 						]));
 			});
-		var viewOperationApplication = function (_v4) {
-			var opName = _v4.a;
-			var registers = _v4.b;
-			return A2(
-				viewOperationUse,
-				opName,
-				A2($elm$core$List$map, viewRegisterUse, registers));
+		var viewOperationArgument = function (argument) {
+			if (argument.$ === 'Register') {
+				var register = argument.a;
+				return viewRegisterUse(register);
+			} else {
+				var val = argument.a;
+				return $author$project$Ui$Tab$RegisterMachine$viewConstant(val);
+			}
 		};
+		var viewOperationApplication = F2(
+			function (opName, _arguments) {
+				return A2(
+					viewOperationUse,
+					opName,
+					A2($elm$core$List$map, viewOperationArgument, _arguments));
+			});
 		var viewLabel = function (label) {
 			return A2(
 				$mdgriffith$elm_ui$Element$el,
@@ -21986,12 +27796,14 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 									]);
 							case 'AssignOperation':
 								var target = instruction.a;
-								var operationApplication = instruction.b;
+								var _v4 = instruction.b;
+								var opName = _v4.a;
+								var args = _v4.b;
 								return _List_fromArray(
 									[
 										viewRegisterName(target),
 										viewInstructionName('<-'),
-										viewOperationApplication(operationApplication)
+										A2(viewOperationApplication, opName, args)
 									]);
 							case 'AssignConstant':
 								var target = instruction.a;
@@ -22000,7 +27812,7 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 									[
 										viewRegisterName(target),
 										viewInstructionName('<-'),
-										viewValue(x)
+										$author$project$Ui$Tab$RegisterMachine$viewConstant(x)
 									]);
 							case 'JumpToLabel':
 								var label = instruction.a;
@@ -22053,7 +27865,7 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 								return _List_fromArray(
 									[
 										viewInstructionName('push'),
-										viewValue(val)
+										$author$project$Ui$Tab$RegisterMachine$viewConstant(val)
 									]);
 							case 'PushLabel':
 								var label = instruction.a;
@@ -22080,7 +27892,7 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 										viewInstructionName('call'),
 										viewLabelUse(label)
 									]);
-							default:
+							case 'AssignCallAtRegister':
 								var target = instruction.a;
 								var labelRegister = instruction.b;
 								return _List_fromArray(
@@ -22089,6 +27901,146 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 										viewInstructionName('<-'),
 										viewInstructionName('call'),
 										viewRegisterUse(labelRegister)
+									]);
+							case 'ConstructPair':
+								var target = instruction.a;
+								var arg0 = instruction.b;
+								var arg1 = instruction.c;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										A2(
+										viewOperationApplication,
+										'pair',
+										_List_fromArray(
+											[arg0, arg1]))
+									]);
+							case 'First':
+								var target = instruction.a;
+								var source = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										A2(
+										viewOperationApplication,
+										'first',
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Base$Register(source)
+											]))
+									]);
+							case 'Second':
+								var target = instruction.a;
+								var source = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										A2(
+										viewOperationApplication,
+										'second',
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Base$Register(source)
+											]))
+									]);
+							case 'SetFirst':
+								var register = instruction.a;
+								var arg = instruction.b;
+								return _List_fromArray(
+									[
+										viewInstructionName('set-first'),
+										viewRegisterName(register),
+										viewOperationArgument(arg)
+									]);
+							case 'SetSecond':
+								var register = instruction.a;
+								var arg = instruction.b;
+								return _List_fromArray(
+									[
+										viewInstructionName('set-second'),
+										viewRegisterName(register),
+										viewOperationArgument(arg)
+									]);
+							case 'DualFirst':
+								var target = instruction.a;
+								var source = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										A2(
+										viewOperationApplication,
+										'dual-first',
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Base$Register(source)
+											]))
+									]);
+							case 'DualSecond':
+								var target = instruction.a;
+								var source = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										A2(
+										viewOperationApplication,
+										'dual-second',
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Base$Register(source)
+											]))
+									]);
+							case 'DualSetFirst':
+								var register = instruction.a;
+								var arg = instruction.b;
+								return _List_fromArray(
+									[
+										viewInstructionName('dual-set-first'),
+										viewRegisterName(register),
+										viewOperationArgument(arg)
+									]);
+							case 'DualSetSecond':
+								var register = instruction.a;
+								var arg = instruction.b;
+								return _List_fromArray(
+									[
+										viewInstructionName('dual-set-second'),
+										viewRegisterName(register),
+										viewOperationArgument(arg)
+									]);
+							case 'MoveToDual':
+								var target = instruction.a;
+								var source = instruction.b;
+								return _List_fromArray(
+									[
+										viewRegisterName(target),
+										viewInstructionName('<-'),
+										A2(
+										viewOperationApplication,
+										'move-to-dual',
+										_List_fromArray(
+											[
+												$author$project$RegisterMachine$Base$Register(source)
+											]))
+									]);
+							case 'MarkAsMoved':
+								var toBeCollected = instruction.a;
+								var referenceToDualMemory = instruction.b;
+								return _List_fromArray(
+									[
+										viewInstructionName('mark'),
+										viewRegisterUse(toBeCollected),
+										viewInstructionName('as-moved-to'),
+										viewRegisterUse(referenceToDualMemory)
+									]);
+							default:
+								return _List_fromArray(
+									[
+										viewInstructionName('swap-memory')
 									]);
 						}
 					}());
@@ -22146,80 +28098,381 @@ var $author$project$Ui$Tab$RegisterMachine$viewInstructions = F2(
 				},
 				convertInstructionBlock(instructionBlock)));
 	});
-var $author$project$Ui$Tab$RegisterMachine$viewRegisters = function (registers) {
-	var registerStyle = _List_fromArray(
-		[
-			$mdgriffith$elm_ui$Element$Background$color(
-			A3($mdgriffith$elm_ui$Element$rgb255, 240, 0, 245)),
-			$mdgriffith$elm_ui$Element$padding(20)
-		]);
-	var viewRegister = F2(
-		function (name, val) {
-			return A2(
-				$mdgriffith$elm_ui$Element$row,
+var $author$project$Ui$Tab$RegisterMachine$ShiftMemoryViewBy = function (a) {
+	return {$: 'ShiftMemoryViewBy', a: a};
+};
+var $elm$core$Elm$JsArray$appendN = _JsArray_appendN;
+var $elm$core$Elm$JsArray$slice = _JsArray_slice;
+var $elm$core$Array$appendHelpBuilder = F2(
+	function (tail, builder) {
+		var tailLen = $elm$core$Elm$JsArray$length(tail);
+		var notAppended = ($elm$core$Array$branchFactor - $elm$core$Elm$JsArray$length(builder.tail)) - tailLen;
+		var appended = A3($elm$core$Elm$JsArray$appendN, $elm$core$Array$branchFactor, builder.tail, tail);
+		return (notAppended < 0) ? {
+			nodeList: A2(
+				$elm$core$List$cons,
+				$elm$core$Array$Leaf(appended),
+				builder.nodeList),
+			nodeListSize: builder.nodeListSize + 1,
+			tail: A3($elm$core$Elm$JsArray$slice, notAppended, tailLen, tail)
+		} : ((!notAppended) ? {
+			nodeList: A2(
+				$elm$core$List$cons,
+				$elm$core$Array$Leaf(appended),
+				builder.nodeList),
+			nodeListSize: builder.nodeListSize + 1,
+			tail: $elm$core$Elm$JsArray$empty
+		} : {nodeList: builder.nodeList, nodeListSize: builder.nodeListSize, tail: appended});
+	});
+var $elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
+var $elm$core$Array$sliceLeft = F2(
+	function (from, array) {
+		var len = array.a;
+		var tree = array.c;
+		var tail = array.d;
+		if (!from) {
+			return array;
+		} else {
+			if (_Utils_cmp(
+				from,
+				$elm$core$Array$tailIndex(len)) > -1) {
+				return A4(
+					$elm$core$Array$Array_elm_builtin,
+					len - from,
+					$elm$core$Array$shiftStep,
+					$elm$core$Elm$JsArray$empty,
+					A3(
+						$elm$core$Elm$JsArray$slice,
+						from - $elm$core$Array$tailIndex(len),
+						$elm$core$Elm$JsArray$length(tail),
+						tail));
+			} else {
+				var skipNodes = (from / $elm$core$Array$branchFactor) | 0;
+				var helper = F2(
+					function (node, acc) {
+						if (node.$ === 'SubTree') {
+							var subTree = node.a;
+							return A3($elm$core$Elm$JsArray$foldr, helper, acc, subTree);
+						} else {
+							var leaf = node.a;
+							return A2($elm$core$List$cons, leaf, acc);
+						}
+					});
+				var leafNodes = A3(
+					$elm$core$Elm$JsArray$foldr,
+					helper,
+					_List_fromArray(
+						[tail]),
+					tree);
+				var nodesToInsert = A2($elm$core$List$drop, skipNodes, leafNodes);
+				if (!nodesToInsert.b) {
+					return $elm$core$Array$empty;
+				} else {
+					var head = nodesToInsert.a;
+					var rest = nodesToInsert.b;
+					var firstSlice = from - (skipNodes * $elm$core$Array$branchFactor);
+					var initialBuilder = {
+						nodeList: _List_Nil,
+						nodeListSize: 0,
+						tail: A3(
+							$elm$core$Elm$JsArray$slice,
+							firstSlice,
+							$elm$core$Elm$JsArray$length(head),
+							head)
+					};
+					return A2(
+						$elm$core$Array$builderToArray,
+						true,
+						A3($elm$core$List$foldl, $elm$core$Array$appendHelpBuilder, initialBuilder, rest));
+				}
+			}
+		}
+	});
+var $elm$core$Array$fetchNewTail = F4(
+	function (shift, end, treeEnd, tree) {
+		fetchNewTail:
+		while (true) {
+			var pos = $elm$core$Array$bitMask & (treeEnd >>> shift);
+			var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, pos, tree);
+			if (_v0.$ === 'SubTree') {
+				var sub = _v0.a;
+				var $temp$shift = shift - $elm$core$Array$shiftStep,
+					$temp$end = end,
+					$temp$treeEnd = treeEnd,
+					$temp$tree = sub;
+				shift = $temp$shift;
+				end = $temp$end;
+				treeEnd = $temp$treeEnd;
+				tree = $temp$tree;
+				continue fetchNewTail;
+			} else {
+				var values = _v0.a;
+				return A3($elm$core$Elm$JsArray$slice, 0, $elm$core$Array$bitMask & end, values);
+			}
+		}
+	});
+var $elm$core$Array$hoistTree = F3(
+	function (oldShift, newShift, tree) {
+		hoistTree:
+		while (true) {
+			if ((_Utils_cmp(oldShift, newShift) < 1) || (!$elm$core$Elm$JsArray$length(tree))) {
+				return tree;
+			} else {
+				var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, 0, tree);
+				if (_v0.$ === 'SubTree') {
+					var sub = _v0.a;
+					var $temp$oldShift = oldShift - $elm$core$Array$shiftStep,
+						$temp$newShift = newShift,
+						$temp$tree = sub;
+					oldShift = $temp$oldShift;
+					newShift = $temp$newShift;
+					tree = $temp$tree;
+					continue hoistTree;
+				} else {
+					return tree;
+				}
+			}
+		}
+	});
+var $elm$core$Array$sliceTree = F3(
+	function (shift, endIdx, tree) {
+		var lastPos = $elm$core$Array$bitMask & (endIdx >>> shift);
+		var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, lastPos, tree);
+		if (_v0.$ === 'SubTree') {
+			var sub = _v0.a;
+			var newSub = A3($elm$core$Array$sliceTree, shift - $elm$core$Array$shiftStep, endIdx, sub);
+			return (!$elm$core$Elm$JsArray$length(newSub)) ? A3($elm$core$Elm$JsArray$slice, 0, lastPos, tree) : A3(
+				$elm$core$Elm$JsArray$unsafeSet,
+				lastPos,
+				$elm$core$Array$SubTree(newSub),
+				A3($elm$core$Elm$JsArray$slice, 0, lastPos + 1, tree));
+		} else {
+			return A3($elm$core$Elm$JsArray$slice, 0, lastPos, tree);
+		}
+	});
+var $elm$core$Array$sliceRight = F2(
+	function (end, array) {
+		var len = array.a;
+		var startShift = array.b;
+		var tree = array.c;
+		var tail = array.d;
+		if (_Utils_eq(end, len)) {
+			return array;
+		} else {
+			if (_Utils_cmp(
+				end,
+				$elm$core$Array$tailIndex(len)) > -1) {
+				return A4(
+					$elm$core$Array$Array_elm_builtin,
+					end,
+					startShift,
+					tree,
+					A3($elm$core$Elm$JsArray$slice, 0, $elm$core$Array$bitMask & end, tail));
+			} else {
+				var endIdx = $elm$core$Array$tailIndex(end);
+				var depth = $elm$core$Basics$floor(
+					A2(
+						$elm$core$Basics$logBase,
+						$elm$core$Array$branchFactor,
+						A2($elm$core$Basics$max, 1, endIdx - 1)));
+				var newShift = A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep);
+				return A4(
+					$elm$core$Array$Array_elm_builtin,
+					end,
+					newShift,
+					A3(
+						$elm$core$Array$hoistTree,
+						startShift,
+						newShift,
+						A3($elm$core$Array$sliceTree, startShift, endIdx, tree)),
+					A4($elm$core$Array$fetchNewTail, startShift, end, endIdx, tree));
+			}
+		}
+	});
+var $elm$core$Array$translateIndex = F2(
+	function (index, _v0) {
+		var len = _v0.a;
+		var posIndex = (index < 0) ? (len + index) : index;
+		return (posIndex < 0) ? 0 : ((_Utils_cmp(posIndex, len) > 0) ? len : posIndex);
+	});
+var $elm$core$Array$slice = F3(
+	function (from, to, array) {
+		var correctTo = A2($elm$core$Array$translateIndex, to, array);
+		var correctFrom = A2($elm$core$Array$translateIndex, from, array);
+		return (_Utils_cmp(correctFrom, correctTo) > 0) ? $elm$core$Array$empty : A2(
+			$elm$core$Array$sliceLeft,
+			correctFrom,
+			A2($elm$core$Array$sliceRight, correctTo, array));
+	});
+var $elm$core$Array$toIndexedList = function (array) {
+	var len = array.a;
+	var helper = F2(
+		function (entry, _v0) {
+			var index = _v0.a;
+			var list = _v0.b;
+			return _Utils_Tuple2(
+				index - 1,
+				A2(
+					$elm$core$List$cons,
+					_Utils_Tuple2(index, entry),
+					list));
+		});
+	return A3(
+		$elm$core$Array$foldr,
+		helper,
+		_Utils_Tuple2(len - 1, _List_Nil),
+		array).b;
+};
+var $author$project$Ui$Tab$RegisterMachine$MemoryAddressClicked = function (a) {
+	return {$: 'MemoryAddressClicked', a: a};
+};
+var $author$project$Ui$Tab$RegisterMachine$viewMemoryAddress = function (p) {
+	return A2(
+		$mdgriffith$elm_ui$Element$el,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$Events$onClick(
+				$author$project$Ui$Tab$RegisterMachine$MemoryAddressClicked(p)),
+				$mdgriffith$elm_ui$Element$pointer
+			]),
+		$mdgriffith$elm_ui$Element$text(
+			$elm$core$String$concat(
 				_List_fromArray(
 					[
-						$mdgriffith$elm_ui$Element$spacing(10)
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$mdgriffith$elm_ui$Element$el,
+						'#',
+						$elm$core$String$fromInt(p)
+					]))));
+};
+var $mdgriffith$elm_ui$Internal$Model$CenterX = {$: 'CenterX'};
+var $mdgriffith$elm_ui$Element$centerX = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$CenterX);
+var $author$project$Ui$Tab$RegisterMachine$viewInstructionAddress = function (pointer) {
+	return $mdgriffith$elm_ui$Element$text(
+		$elm$core$String$concat(
+			_List_fromArray(
+				[
+					':',
+					$elm$core$String$fromInt(pointer)
+				])));
+};
+var $author$project$Ui$Tab$RegisterMachine$viewValue = F2(
+	function (value, model) {
+		switch (value.$) {
+			case 'ConstantValue':
+				var constant = value.a;
+				return $author$project$Ui$Tab$RegisterMachine$viewConstant(constant);
+			case 'Pair':
+				var memoryAddress = value.a;
+				return $author$project$Ui$Tab$RegisterMachine$viewMemoryAddress(memoryAddress);
+			case 'InstructionAddress':
+				var instructionAddress = value.a;
+				return $author$project$Ui$Tab$RegisterMachine$viewInstructionAddress(instructionAddress);
+			case 'Uninitialized':
+				return $mdgriffith$elm_ui$Element$text('');
+			default:
+				return $mdgriffith$elm_ui$Element$text('Moved');
+		}
+	});
+var $author$project$Ui$Tab$RegisterMachine$viewMemoryCell = F3(
+	function (memoryAddress, _v0, model) {
+		var a = _v0.a;
+		var b = _v0.b;
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$Border$solid,
+					$mdgriffith$elm_ui$Element$Border$width(1),
+					$mdgriffith$elm_ui$Element$width(
+					$mdgriffith$elm_ui$Element$px(70))
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$centerX,
+							A2($mdgriffith$elm_ui$Element$paddingXY, 0, 15),
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$px(50)),
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					_List_fromArray(
+						[
+							A2($author$project$Ui$Tab$RegisterMachine$viewValue, a, model),
+							A2($author$project$Ui$Tab$RegisterMachine$viewValue, b, model)
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$el,
+					$elm$core$List$concat(
 						_List_fromArray(
 							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$px(100))
-							]),
-						$mdgriffith$elm_ui$Element$text(name)),
-						$mdgriffith$elm_ui$Element$text('<-'),
-						A2(
-						$mdgriffith$elm_ui$Element$el,
-						registerStyle,
-						$mdgriffith$elm_ui$Element$text(
-							$elm$core$String$fromInt(val)))
-					]));
-		});
-	return A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-				$mdgriffith$elm_ui$Element$spacing(5)
-			]),
-		A2(
-			$elm$core$List$map,
-			function (_v0) {
-				var name = _v0.a;
-				var val = _v0.b;
-				return A2(viewRegister, name, val);
-			},
-			registers));
-};
-var $author$project$RegisterMachine$Base$stackToList = function (stack) {
-	return stack;
-};
-var $author$project$Ui$Tab$RegisterMachine$viewStack = function (stack) {
-	return A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-				$mdgriffith$elm_ui$Element$spacing(5)
-			]),
-		A2(
-			$elm$core$List$map,
-			function (val) {
-				return A2(
-					$mdgriffith$elm_ui$Element$el,
-					_List_Nil,
+								_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$centerX,
+									$mdgriffith$elm_ui$Element$Background$color(
+									A3($mdgriffith$elm_ui$Element$rgb, 0, 0, 0)),
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+								]),
+								_Utils_eq(model.currentlyHighlightedCell, memoryAddress) ? _List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Font$color(
+									A3($mdgriffith$elm_ui$Element$rgb255, 255, 0, 0))
+								]) : _List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$Font$color(
+									A3($mdgriffith$elm_ui$Element$rgb255, 255, 255, 255))
+								])
+							])),
 					$mdgriffith$elm_ui$Element$text(
-						$elm$core$String$fromInt(val)));
-			},
-			$elm$core$List$reverse(
-				$author$project$RegisterMachine$Base$stackToList(stack))));
-};
-var $author$project$Ui$Tab$RegisterMachine$view = F2(
-	function (config, model) {
+						$elm$core$String$concat(
+							_List_fromArray(
+								[
+									'#',
+									$elm$core$String$fromInt(memoryAddress)
+								]))))
+				]));
+	});
+var $author$project$Ui$Tab$RegisterMachine$viewMemoryState = F2(
+	function (memoryState, model) {
+		var viewMemorySegment = F2(
+			function (a, b) {
+				return A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					A2(
+						$elm$core$List$map,
+						function (_v0) {
+							var i = _v0.a;
+							var memoryCell = _v0.b;
+							return A3($author$project$Ui$Tab$RegisterMachine$viewMemoryCell, i + a, memoryCell, model);
+						},
+						$elm$core$Array$toIndexedList(
+							A3($elm$core$Array$slice, a, b + 1, memoryState.memory))));
+			});
 		return A2(
 			$mdgriffith$elm_ui$Element$column,
 			_List_fromArray(
@@ -22233,57 +28486,295 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 					_List_Nil,
 					_List_fromArray(
 						[
+							$mdgriffith$elm_ui$Element$text('Next free address: '),
+							$author$project$Ui$Tab$RegisterMachine$viewMemoryAddress(memoryState.nextFreePointer)
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_Nil,
+					_List_fromArray(
+						[
 							A2(
 							$mdgriffith$elm_ui$Element$Input$button,
 							$author$project$Ui$Style$Button$buttonStyle,
 							{
-								label: $mdgriffith$elm_ui$Element$text('Reset'),
-								onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$Reset)
+								label: $mdgriffith$elm_ui$Element$text('-1'),
+								onPress: $elm$core$Maybe$Just(
+									$author$project$Ui$Tab$RegisterMachine$ShiftMemoryViewBy(-1))
 							}),
 							A2(
 							$mdgriffith$elm_ui$Element$Input$button,
 							$author$project$Ui$Style$Button$buttonStyle,
 							{
-								label: $mdgriffith$elm_ui$Element$text('Start'),
-								onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$Start)
-							}),
-							A2(
-							$mdgriffith$elm_ui$Element$Input$button,
-							$author$project$Ui$Style$Button$buttonStyle,
-							{
-								label: $mdgriffith$elm_ui$Element$text('Run one step'),
-								onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$RunOneStep)
+								label: $mdgriffith$elm_ui$Element$text('+1'),
+								onPress: $elm$core$Maybe$Just(
+									$author$project$Ui$Tab$RegisterMachine$ShiftMemoryViewBy(1))
 							})
 						])),
+					A2(viewMemorySegment, model.memoryView.bottom, model.memoryView.top)
+				]));
+	});
+var $author$project$Ui$Tab$RegisterMachine$viewRegisters = F2(
+	function (registers, model) {
+		var registerStyle = _List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$Background$color(
+				A3($mdgriffith$elm_ui$Element$rgb255, 240, 0, 245)),
+				$mdgriffith$elm_ui$Element$padding(20)
+			]);
+		var viewRegister = F2(
+			function (name, val) {
+				return A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$spacing(10)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width(
+									$mdgriffith$elm_ui$Element$px(230))
+								]),
+							$mdgriffith$elm_ui$Element$text(name)),
+							$mdgriffith$elm_ui$Element$text('<-'),
+							A2(
+							$mdgriffith$elm_ui$Element$el,
+							registerStyle,
+							A2($author$project$Ui$Tab$RegisterMachine$viewValue, val, model))
+						]));
+			});
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+					$mdgriffith$elm_ui$Element$spacing(5)
+				]),
+			A2(
+				$elm$core$List$map,
+				function (_v0) {
+					var name = _v0.a;
+					var val = _v0.b;
+					return A2(viewRegister, name, val);
+				},
+				registers));
+	});
+var $author$project$RegisterMachine$Stack$toList = function (stack) {
+	return stack;
+};
+var $author$project$Ui$Tab$RegisterMachine$viewStack = F2(
+	function (stack, model) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			A2(
+				$elm$core$List$map,
+				function (val) {
+					return A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$Border$width(1),
+								$mdgriffith$elm_ui$Element$Border$solid,
+								A2($mdgriffith$elm_ui$Element$paddingXY, 0, 15),
+								$mdgriffith$elm_ui$Element$width(
+								$mdgriffith$elm_ui$Element$px(50))
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$el,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$centerX,
+										$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+									]),
+								A2($author$project$Ui$Tab$RegisterMachine$viewValue, val, model))
+							]));
+				},
+				$elm$core$List$reverse(
+					$author$project$RegisterMachine$Stack$toList(stack))));
+	});
+var $author$project$Ui$Tab$RegisterMachine$view = F2(
+	function (config, model) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+					$mdgriffith$elm_ui$Element$spacing(15)
+				]),
+			_List_fromArray(
+				[
+					$author$project$Ui$Tab$RegisterMachine$shouldDisplayEditor ? A2(
+					$mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Border$width(1),
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					A2(
+						$mdgriffith$elm_ui$Element$map,
+						$author$project$Ui$Tab$RegisterMachine$EditorMsg,
+						$author$project$RegisterMachine$Ui$Editor$view(model.editorModel))) : $mdgriffith$elm_ui$Element$text(''),
+					A3($PaackEng$elm_ui_dropdown$Dropdown$view, $author$project$Ui$Tab$RegisterMachine$dropdownConfig, model, model.controllerDropdownModel),
 					A2(
 					$mdgriffith$elm_ui$Element$row,
 					_List_fromArray(
 						[
-							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$spacing(30)
 						]),
-					function () {
-						var _v0 = model.maybeRuntime;
-						if (_v0.$ === 'Nothing') {
-							return _List_Nil;
-						} else {
-							if (_v0.a.$ === 'Err') {
-								var runtimeError = _v0.a.a;
-								return _List_fromArray(
-									[
-										$mdgriffith$elm_ui$Element$text('runtime error')
-									]);
-							} else {
-								var machine = _v0.a.a;
-								return _List_fromArray(
-									[
-										$author$project$Ui$Tab$RegisterMachine$viewRegisters(
-										$elm$core$Dict$toList(machine.env)),
-										$author$project$Ui$Tab$RegisterMachine$viewStack(machine.stack),
-										A2($author$project$Ui$Tab$RegisterMachine$viewInstructions, machine.instructionPointer, model.controller.instructions)
-									]);
-							}
-						}
-					}())
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$column,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+									$mdgriffith$elm_ui$Element$alignTop
+								]),
+							_List_fromArray(
+								[
+									function () {
+									var _v0 = model.maybeRuntime;
+									if (_v0.$ === 'Nothing') {
+										return $mdgriffith$elm_ui$Element$text('');
+									} else {
+										if (_v0.a.$ === 'Err') {
+											var runtimeError = _v0.a.a;
+											return $mdgriffith$elm_ui$Element$text(
+												$author$project$Ui$Tab$RegisterMachine$runTimeErrorToString(runtimeError));
+										} else {
+											var machine = _v0.a.a;
+											var _v1 = model.selectedController;
+											if (_v1.$ === 'Just') {
+												var controllerExample = _v1.a;
+												return A2(
+													$mdgriffith$elm_ui$Element$column,
+													_List_Nil,
+													_List_fromArray(
+														[
+															$author$project$Ui$Tab$RegisterMachine$heading('Controller'),
+															A2($author$project$Ui$Tab$RegisterMachine$viewInstructions, machine.instructionPointer, controllerExample.controller.instructions)
+														]));
+											} else {
+												return $mdgriffith$elm_ui$Element$text('');
+											}
+										}
+									}
+								}()
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$column,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+									$mdgriffith$elm_ui$Element$alignTop
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$mdgriffith$elm_ui$Element$row,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$mdgriffith$elm_ui$Element$Input$button,
+											$author$project$Ui$Style$Button$buttonStyle,
+											{
+												label: $mdgriffith$elm_ui$Element$text('Reset'),
+												onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$Reset)
+											}),
+											A2(
+											$mdgriffith$elm_ui$Element$Input$button,
+											$author$project$Ui$Style$Button$buttonStyle,
+											{
+												label: $mdgriffith$elm_ui$Element$text('Start'),
+												onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$Start)
+											}),
+											A2(
+											$mdgriffith$elm_ui$Element$Input$button,
+											$author$project$Ui$Style$Button$buttonStyle,
+											{
+												label: $mdgriffith$elm_ui$Element$text('Run one step'),
+												onPress: $elm$core$Maybe$Just($author$project$Ui$Tab$RegisterMachine$RunOneStep)
+											})
+										])),
+									function () {
+									var _v2 = model.maybeRuntime;
+									if (_v2.$ === 'Nothing') {
+										return $mdgriffith$elm_ui$Element$text('');
+									} else {
+										if (_v2.a.$ === 'Err') {
+											var runtimeError = _v2.a.a;
+											return $mdgriffith$elm_ui$Element$text(
+												$author$project$Ui$Tab$RegisterMachine$runTimeErrorToString(runtimeError));
+										} else {
+											var machine = _v2.a.a;
+											return A2(
+												$mdgriffith$elm_ui$Element$column,
+												_List_fromArray(
+													[
+														$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+														$mdgriffith$elm_ui$Element$spacing(20)
+													]),
+												_List_fromArray(
+													[
+														A2(
+														$mdgriffith$elm_ui$Element$column,
+														_List_Nil,
+														_List_fromArray(
+															[
+																$author$project$Ui$Tab$RegisterMachine$heading('Registers'),
+																A2(
+																$author$project$Ui$Tab$RegisterMachine$viewRegisters,
+																$elm$core$Dict$toList(machine.env),
+																model)
+															])),
+														A2(
+														$mdgriffith$elm_ui$Element$column,
+														_List_Nil,
+														_List_fromArray(
+															[
+																$author$project$Ui$Tab$RegisterMachine$heading('Memory'),
+																A2(
+																$author$project$Ui$Tab$RegisterMachine$viewMemoryState,
+																A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine),
+																model)
+															])),
+														A2(
+														$mdgriffith$elm_ui$Element$column,
+														_List_Nil,
+														_List_fromArray(
+															[
+																$author$project$Ui$Tab$RegisterMachine$heading('Dual Memory'),
+																A2(
+																$author$project$Ui$Tab$RegisterMachine$viewMemoryState,
+																A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Dual, machine),
+																model)
+															])),
+														A2(
+														$mdgriffith$elm_ui$Element$column,
+														_List_Nil,
+														_List_fromArray(
+															[
+																$author$project$Ui$Tab$RegisterMachine$heading('Stack'),
+																A2($author$project$Ui$Tab$RegisterMachine$viewStack, machine.stack, model)
+															]))
+													]));
+										}
+									}
+								}()
+								]))
+						]))
 				]));
 	});
 var $author$project$Ui$Main$view = F2(
