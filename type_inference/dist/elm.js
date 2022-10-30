@@ -26138,6 +26138,11 @@ var $author$project$Ui$Tab$Program$view = F2(
 var $author$project$Ui$Tab$RegisterMachine$Reset = {$: 'Reset'};
 var $author$project$Ui$Tab$RegisterMachine$RunOneStep = {$: 'RunOneStep'};
 var $author$project$Ui$Tab$RegisterMachine$Start = {$: 'Start'};
+var $mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
+	return {$: 'AlignX', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Model$Left = {$: 'Left'};
+var $mdgriffith$elm_ui$Element$alignLeft = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$Left);
 var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
 	return {$: 'AlignY', a: a};
 };
@@ -26333,9 +26338,6 @@ var $mdgriffith$elm_ui$Internal$Model$PseudoSelector = F2(
 		return {$: 'PseudoSelector', a: a, b: b};
 	});
 var $mdgriffith$elm_ui$Internal$Flag$focus = $mdgriffith$elm_ui$Internal$Flag$flag(31);
-var $mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
-	return {$: 'AlignX', a: a};
-};
 var $elm$virtual_dom$VirtualDom$mapAttribute = _VirtualDom_mapAttribute;
 var $mdgriffith$elm_ui$Internal$Model$mapAttrFromStyle = F2(
 	function (fn, attr) {
@@ -28585,7 +28587,7 @@ var $author$project$Ui$Tab$RegisterMachine$viewStack = F2(
 								$mdgriffith$elm_ui$Element$Border$solid,
 								A2($mdgriffith$elm_ui$Element$paddingXY, 0, 15),
 								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$px(50))
+								$mdgriffith$elm_ui$Element$px(70))
 							]),
 						_List_fromArray(
 							[
@@ -28639,7 +28641,8 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 							_List_fromArray(
 								[
 									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-									$mdgriffith$elm_ui$Element$alignTop
+									$mdgriffith$elm_ui$Element$alignTop,
+									$mdgriffith$elm_ui$Element$alignLeft
 								]),
 							_List_fromArray(
 								[
@@ -28675,10 +28678,7 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 							A2(
 							$mdgriffith$elm_ui$Element$column,
 							_List_fromArray(
-								[
-									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-									$mdgriffith$elm_ui$Element$alignTop
-								]),
+								[$mdgriffith$elm_ui$Element$alignTop]),
 							_List_fromArray(
 								[
 									A2(
@@ -28720,50 +28720,64 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 										} else {
 											var machine = _v2.a.a;
 											return A2(
-												$mdgriffith$elm_ui$Element$column,
+												$mdgriffith$elm_ui$Element$row,
 												_List_fromArray(
 													[
-														$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-														$mdgriffith$elm_ui$Element$spacing(20)
+														$mdgriffith$elm_ui$Element$spacing(30)
 													]),
 												_List_fromArray(
 													[
 														A2(
 														$mdgriffith$elm_ui$Element$column,
-														_List_Nil,
 														_List_fromArray(
 															[
-																$author$project$Ui$Tab$RegisterMachine$heading('Registers'),
+																$mdgriffith$elm_ui$Element$spacing(20),
+																$mdgriffith$elm_ui$Element$alignTop
+															]),
+														_List_fromArray(
+															[
 																A2(
-																$author$project$Ui$Tab$RegisterMachine$viewRegisters,
-																$elm$core$Dict$toList(machine.env),
-																model)
+																$mdgriffith$elm_ui$Element$column,
+																_List_Nil,
+																_List_fromArray(
+																	[
+																		$author$project$Ui$Tab$RegisterMachine$heading('Registers'),
+																		A2(
+																		$author$project$Ui$Tab$RegisterMachine$viewRegisters,
+																		$elm$core$Dict$toList(machine.env),
+																		model)
+																	])),
+																A2(
+																$mdgriffith$elm_ui$Element$column,
+																_List_Nil,
+																_List_fromArray(
+																	[
+																		$author$project$Ui$Tab$RegisterMachine$heading('Memory'),
+																		A2(
+																		$author$project$Ui$Tab$RegisterMachine$viewMemoryState,
+																		A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine),
+																		model)
+																	])),
+																A2(
+																$mdgriffith$elm_ui$Element$column,
+																_List_Nil,
+																_List_fromArray(
+																	[
+																		$author$project$Ui$Tab$RegisterMachine$heading('Dual Memory'),
+																		A2(
+																		$author$project$Ui$Tab$RegisterMachine$viewMemoryState,
+																		A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Dual, machine),
+																		model)
+																	]))
 															])),
 														A2(
 														$mdgriffith$elm_ui$Element$column,
-														_List_Nil,
 														_List_fromArray(
 															[
-																$author$project$Ui$Tab$RegisterMachine$heading('Memory'),
-																A2(
-																$author$project$Ui$Tab$RegisterMachine$viewMemoryState,
-																A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine),
-																model)
-															])),
-														A2(
-														$mdgriffith$elm_ui$Element$column,
-														_List_Nil,
-														_List_fromArray(
-															[
-																$author$project$Ui$Tab$RegisterMachine$heading('Dual Memory'),
-																A2(
-																$author$project$Ui$Tab$RegisterMachine$viewMemoryState,
-																A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Dual, machine),
-																model)
-															])),
-														A2(
-														$mdgriffith$elm_ui$Element$column,
-														_List_Nil,
+																$mdgriffith$elm_ui$Element$alignTop,
+																$mdgriffith$elm_ui$Element$width(
+																$mdgriffith$elm_ui$Element$px(100))
+															]),
 														_List_fromArray(
 															[
 																$author$project$Ui$Tab$RegisterMachine$heading('Stack'),
