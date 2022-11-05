@@ -13121,16 +13121,17 @@ var $author$project$RegisterMachine$Machine$makeMachine = F3(
 			$elm$core$Result$map,
 			function (instructions) {
 				return {
-					env: env,
-					instructionPointer: 0,
-					instructions: instructions,
-					memory: {
-						memoryInUse: $author$project$RegisterMachine$Machine$Zero,
-						memoryState0: $author$project$RegisterMachine$MemoryState$empty(4096),
-						memoryState1: $author$project$RegisterMachine$MemoryState$empty(4096)
-					},
-					operationEnv: operationsEnv,
-					stack: $author$project$RegisterMachine$Stack$empty
+					instructionsState: {instructionPointer: 0, instructions: instructions},
+					machineState: {
+						env: env,
+						memory: {
+							memoryInUse: $author$project$RegisterMachine$Machine$Zero,
+							memoryState0: $author$project$RegisterMachine$MemoryState$empty(4096),
+							memoryState1: $author$project$RegisterMachine$MemoryState$empty(4096)
+						},
+						operationEnv: operationsEnv,
+						stack: $author$project$RegisterMachine$Stack$empty
+					}
 				};
 			},
 			$author$project$RegisterMachine$Machine$parse(controller));
@@ -13409,7 +13410,6 @@ var $author$project$Ui$Tab$RegisterMachine$init = function () {
 						}
 					}(),
 					memoryView: $author$project$Ui$Tab$RegisterMachine$initMemoryView,
-					parsedMachine: parsedMachine,
 					selectedController: $elm$core$Maybe$Just(defaultSelectedController)
 				};
 			}));
@@ -20136,12 +20136,13 @@ var $author$project$Ui$Tab$RegisterMachine$reset = function (model) {
 	var _v0 = model.selectedController;
 	if (_v0.$ === 'Just') {
 		var controllerExample = _v0.a;
-		var parsedMachine = A3($author$project$RegisterMachine$Machine$makeMachine, controllerExample.controller, controllerExample.initialRegisterEnvironment, $author$project$Ui$Tab$RegisterMachine$operationEnv);
-		if (parsedMachine.$ === 'Ok') {
-			var machine = parsedMachine.a;
+		var parsedMachineResult = A3($author$project$RegisterMachine$Machine$makeMachine, controllerExample.controller, controllerExample.initialRegisterEnvironment, $author$project$Ui$Tab$RegisterMachine$operationEnv);
+		if (parsedMachineResult.$ === 'Ok') {
+			var machine = parsedMachineResult.a;
 			return _Utils_update(
 				model,
 				{
+					currentlyHighlightedCell: $author$project$Ui$Tab$RegisterMachine$centerOfMemoryView($author$project$Ui$Tab$RegisterMachine$initMemoryView),
 					maybeRuntime: $elm$core$Maybe$Just(
 						$elm$core$Result$Ok(machine)),
 					memoryView: $author$project$Ui$Tab$RegisterMachine$initMemoryView
@@ -20149,27 +20150,15 @@ var $author$project$Ui$Tab$RegisterMachine$reset = function (model) {
 		} else {
 			return _Utils_update(
 				model,
-				{maybeRuntime: $elm$core$Maybe$Nothing, memoryView: $author$project$Ui$Tab$RegisterMachine$initMemoryView});
+				{
+					currentlyHighlightedCell: $author$project$Ui$Tab$RegisterMachine$centerOfMemoryView($author$project$Ui$Tab$RegisterMachine$initMemoryView),
+					maybeRuntime: $elm$core$Maybe$Nothing,
+					memoryView: $author$project$Ui$Tab$RegisterMachine$initMemoryView
+				});
 		}
 	} else {
 		return model;
 	}
-};
-var $author$project$Ui$Tab$RegisterMachine$resetRuntime = function (model) {
-	return _Utils_update(
-		model,
-		{
-			maybeRuntime: function () {
-				var _v0 = model.parsedMachine;
-				if (_v0.$ === 'Ok') {
-					var machine = _v0.a;
-					return $elm$core$Maybe$Just(
-						$elm$core$Result$Ok(machine));
-				} else {
-					return $elm$core$Maybe$Nothing;
-				}
-			}()
-		});
 };
 var $author$project$RegisterMachine$Machine$Dual = {$: 'Dual'};
 var $author$project$RegisterMachine$Machine$FirstComponent = {$: 'FirstComponent'};
@@ -20188,10 +20177,10 @@ var $author$project$RegisterMachine$Base$Pair = function (a) {
 	return {$: 'Pair', a: a};
 };
 var $author$project$RegisterMachine$Machine$SecondComponent = {$: 'SecondComponent'};
-var $author$project$RegisterMachine$Machine$advanceInstructionPointer = function (machine) {
+var $author$project$RegisterMachine$Machine$advanceInstructionPointer = function (instructionsState) {
 	return _Utils_update(
-		machine,
-		{instructionPointer: machine.instructionPointer + 1});
+		instructionsState,
+		{instructionPointer: instructionsState.instructionPointer + 1});
 };
 var $author$project$RegisterMachine$Machine$currentMemoryState = F2(
 	function (memoryType, machine) {
@@ -20307,25 +20296,29 @@ var $author$project$RegisterMachine$Machine$updateRegister = F3(
 			});
 	});
 var $author$project$RegisterMachine$Machine$accessPair = F5(
-	function (memoryCellComponent, memoryType, target, source, machine) {
+	function (memoryCellComponent, memoryType, target, source, _v0) {
+		var machineState = _v0.machineState;
+		var instructionsState = _v0.instructionsState;
 		return A2(
 			$elm$core$Result$andThen,
 			function (pointer) {
 				return A2(
 					$elm$core$Result$map,
-					function (_v0) {
-						var a = _v0.a;
-						var b = _v0.b;
+					function (_v1) {
+						var a = _v1.a;
+						var b = _v1.b;
 						return {
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-								function () {
+							machine: {
+								instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+								machineState: function () {
 									if (memoryCellComponent.$ === 'FirstComponent') {
 										return A2($author$project$RegisterMachine$Machine$updateRegister, target, a);
 									} else {
 										return A2($author$project$RegisterMachine$Machine$updateRegister, target, b);
 									}
-								}()(machine))
+								}()(machineState)
+							}
 						};
 					},
 					A2(
@@ -20334,12 +20327,12 @@ var $author$project$RegisterMachine$Machine$accessPair = F5(
 						A2(
 							$author$project$RegisterMachine$MemoryState$get,
 							pointer,
-							A2($author$project$RegisterMachine$Machine$currentMemoryState, memoryType, machine))));
+							A2($author$project$RegisterMachine$Machine$currentMemoryState, memoryType, machineState))));
 			},
-			A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, source, machine));
+			A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, source, machineState));
 	});
-var $author$project$RegisterMachine$Machine$getInstruction = function (machine) {
-	return A2($elm$core$Array$get, machine.instructionPointer, machine.instructions.instructions);
+var $author$project$RegisterMachine$Machine$getInstruction = function (instructionsState) {
+	return A2($elm$core$Array$get, instructionsState.instructionPointer, instructionsState.instructions.instructions);
 };
 var $author$project$RegisterMachine$Machine$ExpectedInstructionAddressInRegister = {$: 'ExpectedInstructionAddressInRegister'};
 var $author$project$RegisterMachine$Machine$getInstructionAddressAtRegister = F2(
@@ -20357,8 +20350,8 @@ var $author$project$RegisterMachine$Machine$getInstructionAddressAtRegister = F2
 			A2($author$project$RegisterMachine$Machine$getRegister, register, machine));
 	});
 var $author$project$RegisterMachine$Machine$getLabelPosition = F2(
-	function (label, machine) {
-		return A2($elm$core$Dict$get, label, machine.instructions.labelToPosition);
+	function (label, instructionsState) {
+		return A2($elm$core$Dict$get, label, instructionsState.instructions.labelToPosition);
 	});
 var $author$project$RegisterMachine$Machine$UndefinedOperation = function (a) {
 	return {$: 'UndefinedOperation', a: a};
@@ -20389,19 +20382,19 @@ var $author$project$RegisterMachine$Machine$halt = function (machine) {
 	return {isFinished: true, machine: machine};
 };
 var $author$project$RegisterMachine$Machine$pointerJump = F2(
-	function (pointer, machine) {
+	function (pointer, instructionsState) {
 		return _Utils_update(
-			machine,
+			instructionsState,
 			{instructionPointer: pointer});
 	});
 var $author$project$RegisterMachine$Machine$jump = F2(
-	function (label, machine) {
-		var _v0 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, machine);
+	function (label, instructionsState) {
+		var _v0 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, instructionsState);
 		if (_v0.$ === 'Just') {
 			var pointer = _v0.a;
-			return A2($author$project$RegisterMachine$Machine$pointerJump, pointer, machine);
+			return A2($author$project$RegisterMachine$Machine$pointerJump, pointer, instructionsState);
 		} else {
-			return machine;
+			return instructionsState;
 		}
 	});
 var $author$project$RegisterMachine$MemoryState$MemoryExceeded = {$: 'MemoryExceeded'};
@@ -20606,38 +20599,42 @@ var $author$project$RegisterMachine$MemoryState$update = F3(
 			});
 	});
 var $author$project$RegisterMachine$Machine$setPair = F5(
-	function (memoryCellComponent, memoryType, register, arg, machine) {
+	function (memoryCellComponent, memoryType, register, arg, _v0) {
+		var machineState = _v0.machineState;
+		var instructionsState = _v0.instructionsState;
 		return A2(
 			$elm$core$Result$map,
-			function (_v0) {
-				var val = _v0.a;
-				var pointer = _v0.b;
+			function (_v1) {
+				var val = _v1.a;
+				var pointer = _v1.b;
 				return {
 					isFinished: false,
-					machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-						A3(
+					machine: {
+						instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+						machineState: A3(
 							$author$project$RegisterMachine$Machine$setMemoryStateOfMachine,
 							memoryType,
 							A3(
 								$author$project$RegisterMachine$MemoryState$update,
 								pointer,
-								function (_v1) {
-									var a = _v1.a;
-									var b = _v1.b;
+								function (_v2) {
+									var a = _v2.a;
+									var b = _v2.b;
 									if (memoryCellComponent.$ === 'FirstComponent') {
 										return _Utils_Tuple2(val, b);
 									} else {
 										return _Utils_Tuple2(a, val);
 									}
 								},
-								A2($author$project$RegisterMachine$Machine$currentMemoryState, memoryType, machine)),
-							machine))
+								A2($author$project$RegisterMachine$Machine$currentMemoryState, memoryType, machineState)),
+							machineState)
+					}
 				};
 			},
 			A2(
 				$author$project$Lib$Result$tuple2,
-				A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg, machine),
-				A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, register, machine)));
+				A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg, machineState),
+				A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, register, machineState)));
 	});
 var $author$project$RegisterMachine$Machine$One = {$: 'One'};
 var $author$project$RegisterMachine$Machine$swapMemory = function (machine) {
@@ -20660,7 +20657,9 @@ var $author$project$RegisterMachine$Machine$swapMemory = function (machine) {
 		});
 };
 var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
-	var _v0 = $author$project$RegisterMachine$Machine$getInstruction(machine);
+	var machineState = machine.machineState;
+	var instructionsState = machine.instructionsState;
+	var _v0 = $author$project$RegisterMachine$Machine$getInstruction(instructionsState);
 	if (_v0.$ === 'Just') {
 		var instruction = _v0.a;
 		switch (instruction.$) {
@@ -20672,26 +20671,30 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 					function (val) {
 						return {
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-								A3($author$project$RegisterMachine$Machine$updateRegister, target, val, machine))
+							machine: {
+								instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+								machineState: A3($author$project$RegisterMachine$Machine$updateRegister, target, val, machineState)
+							}
 						};
 					},
-					A2($author$project$RegisterMachine$Machine$getRegister, source, machine));
+					A2($author$project$RegisterMachine$Machine$getRegister, source, machineState));
 			case 'AssignLabel':
 				var target = instruction.a;
 				var label = instruction.b;
-				var _v2 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, machine);
+				var _v2 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, instructionsState);
 				if (_v2.$ === 'Just') {
 					var pointer = _v2.a;
 					return $elm$core$Result$Ok(
 						{
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-								A3(
+							machine: {
+								instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+								machineState: A3(
 									$author$project$RegisterMachine$Machine$updateRegister,
 									target,
 									$author$project$RegisterMachine$Base$InstructionAddress(pointer),
-									machine))
+									machineState)
+							}
 						});
 				} else {
 					return $elm$core$Result$Err(
@@ -20708,8 +20711,10 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 						function (output) {
 							return {
 								isFinished: false,
-								machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-									A3($author$project$RegisterMachine$Machine$updateRegister, target, output, machine))
+								machine: {
+									instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+									machineState: A3($author$project$RegisterMachine$Machine$updateRegister, target, output, machineState)
+								}
 							};
 						},
 						A2(
@@ -20719,33 +20724,38 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 								A2(
 									$elm$core$List$map,
 									function (argument) {
-										return A2($author$project$RegisterMachine$Machine$getValueFromArgument, argument, machine);
+										return A2($author$project$RegisterMachine$Machine$getValueFromArgument, argument, machineState);
 									},
 									args))));
 				};
 				return A2(
 					$elm$core$Result$andThen,
 					applyOp,
-					A2($author$project$RegisterMachine$Machine$getOperation, opName, machine));
+					A2($author$project$RegisterMachine$Machine$getOperation, opName, machineState));
 			case 'AssignConstant':
 				var target = instruction.a;
 				var x = instruction.b;
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-							A3(
+						machine: {
+							instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+							machineState: A3(
 								$author$project$RegisterMachine$Machine$updateRegister,
 								target,
 								$author$project$RegisterMachine$Base$ConstantValue(x),
-								machine))
+								machineState)
+						}
 					});
 			case 'JumpToLabel':
 				var label = instruction.a;
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: A2($author$project$RegisterMachine$Machine$jump, label, machine)
+						machine: {
+							instructionsState: A2($author$project$RegisterMachine$Machine$jump, label, instructionsState),
+							machineState: machineState
+						}
 					});
 			case 'JumpToLabelAtRegister':
 				var register = instruction.a;
@@ -20754,10 +20764,13 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 					function (pointer) {
 						return {
 							isFinished: false,
-							machine: A2($author$project$RegisterMachine$Machine$pointerJump, pointer, machine)
+							machine: {
+								instructionsState: A2($author$project$RegisterMachine$Machine$pointerJump, pointer, instructionsState),
+								machineState: machineState
+							}
 						};
 					},
-					A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, register, machine));
+					A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, register, machineState));
 			case 'JumpToLabelIf':
 				var testRegister = instruction.a;
 				var label = instruction.b;
@@ -20769,10 +20782,16 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 							machine: _Utils_eq(
 								val,
 								$author$project$RegisterMachine$Base$ConstantValue(
-									$author$project$RegisterMachine$Base$Num(1))) ? A2($author$project$RegisterMachine$Machine$jump, label, machine) : $author$project$RegisterMachine$Machine$advanceInstructionPointer(machine)
+									$author$project$RegisterMachine$Base$Num(1))) ? {
+								instructionsState: A2($author$project$RegisterMachine$Machine$jump, label, instructionsState),
+								machineState: machineState
+							} : {
+								instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+								machineState: machineState
+							}
 						};
 					},
-					A2($author$project$RegisterMachine$Machine$getRegister, testRegister, machine));
+					A2($author$project$RegisterMachine$Machine$getRegister, testRegister, machineState));
 			case 'JumpToLabelAtRegisterIf':
 				var testRegister = instruction.a;
 				var target = instruction.b;
@@ -20787,16 +20806,22 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 							function (pointer) {
 								return {
 									isFinished: false,
-									machine: A2($author$project$RegisterMachine$Machine$pointerJump, pointer, machine)
+									machine: {
+										instructionsState: A2($author$project$RegisterMachine$Machine$pointerJump, pointer, instructionsState),
+										machineState: machineState
+									}
 								};
 							},
-							A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, target, machine)) : $elm$core$Result$Ok(
+							A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, target, machineState)) : $elm$core$Result$Ok(
 							{
 								isFinished: false,
-								machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(machine)
+								machine: {
+									instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+									machineState: machineState
+								}
 							});
 					},
-					A2($author$project$RegisterMachine$Machine$getRegister, testRegister, machine));
+					A2($author$project$RegisterMachine$Machine$getRegister, testRegister, machineState));
 			case 'Halt':
 				return $elm$core$Result$Ok(
 					$author$project$RegisterMachine$Machine$halt(machine));
@@ -20807,35 +20832,41 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 					function (val) {
 						return {
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-								A2($author$project$RegisterMachine$Machine$push, val, machine))
+							machine: {
+								instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+								machineState: A2($author$project$RegisterMachine$Machine$push, val, machineState)
+							}
 						};
 					},
-					A2($author$project$RegisterMachine$Machine$getRegister, register, machine));
+					A2($author$project$RegisterMachine$Machine$getRegister, register, machineState));
 			case 'PushConstant':
 				var val = instruction.a;
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-							A2(
+						machine: {
+							instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+							machineState: A2(
 								$author$project$RegisterMachine$Machine$push,
 								$author$project$RegisterMachine$Base$ConstantValue(val),
-								machine))
+								machineState)
+						}
 					});
 			case 'PushLabel':
 				var label = instruction.a;
-				var _v4 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, machine);
+				var _v4 = A2($author$project$RegisterMachine$Machine$getLabelPosition, label, instructionsState);
 				if (_v4.$ === 'Just') {
 					var pointer = _v4.a;
 					return $elm$core$Result$Ok(
 						{
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-								A2(
+							machine: {
+								instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+								machineState: A2(
 									$author$project$RegisterMachine$Machine$push,
 									$author$project$RegisterMachine$Base$InstructionAddress(pointer),
-									machine))
+									machineState)
+							}
 						});
 				} else {
 					return $elm$core$Result$Err(
@@ -20847,28 +20878,30 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 					$elm$core$Result$map,
 					function (_v5) {
 						var val = _v5.a;
-						var newMachine = _v5.b;
+						var newMachineState = _v5.b;
 						return {
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-								A3($author$project$RegisterMachine$Machine$updateRegister, target, val, newMachine))
+							machine: {
+								instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+								machineState: A3($author$project$RegisterMachine$Machine$updateRegister, target, val, newMachineState)
+							}
 						};
 					},
-					$author$project$RegisterMachine$Machine$pop(machine));
+					$author$project$RegisterMachine$Machine$pop(machineState));
 			case 'AssignCallAtLabel':
 				var target = instruction.a;
 				var label = instruction.b;
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: A2(
-							$author$project$RegisterMachine$Machine$jump,
-							label,
-							A3(
+						machine: {
+							instructionsState: A2($author$project$RegisterMachine$Machine$jump, label, instructionsState),
+							machineState: A3(
 								$author$project$RegisterMachine$Machine$updateRegister,
 								target,
-								$author$project$RegisterMachine$Base$InstructionAddress(machine.instructionPointer + 1),
-								machine))
+								$author$project$RegisterMachine$Base$InstructionAddress(instructionsState.instructionPointer + 1),
+								machineState)
+						}
 					});
 			case 'AssignCallAtRegister':
 				var target = instruction.a;
@@ -20878,17 +20911,17 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 					function (pointer) {
 						return {
 							isFinished: false,
-							machine: A2(
-								$author$project$RegisterMachine$Machine$pointerJump,
-								pointer,
-								A3(
+							machine: {
+								instructionsState: A2($author$project$RegisterMachine$Machine$pointerJump, pointer, instructionsState),
+								machineState: A3(
 									$author$project$RegisterMachine$Machine$updateRegister,
 									target,
-									$author$project$RegisterMachine$Base$InstructionAddress(machine.instructionPointer + 1),
-									machine))
+									$author$project$RegisterMachine$Base$InstructionAddress(instructionsState.instructionPointer + 1),
+									machineState)
+							}
 						};
 					},
-					A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, labelRegister, machine));
+					A2($author$project$RegisterMachine$Machine$getInstructionAddressAtRegister, labelRegister, machineState));
 			case 'ConstructPair':
 				var target = instruction.a;
 				var arg0 = instruction.b;
@@ -20905,12 +20938,14 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 								var newMemoryState = _v7.b;
 								return {
 									isFinished: false,
-									machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-										A3(
+									machine: {
+										instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+										machineState: A3(
 											$author$project$RegisterMachine$Machine$updateRegister,
 											target,
 											$author$project$RegisterMachine$Base$Pair(newPairAddress),
-											A3($author$project$RegisterMachine$Machine$setMemoryStateOfMachine, $author$project$RegisterMachine$Machine$Main, newMemoryState, machine)))
+											A3($author$project$RegisterMachine$Machine$setMemoryStateOfMachine, $author$project$RegisterMachine$Machine$Main, newMemoryState, machineState))
+									}
 								};
 							},
 							A2(
@@ -20919,12 +20954,12 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 								A2(
 									$author$project$RegisterMachine$MemoryState$new,
 									_Utils_Tuple2(value0, value1),
-									A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine))));
+									A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machineState))));
 					},
 					A2(
 						$author$project$Lib$Result$tuple2,
-						A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg0, machine),
-						A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg1, machine)));
+						A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg0, machineState),
+						A2($author$project$RegisterMachine$Machine$getValueFromArgument, arg1, machineState)));
 			case 'First':
 				var target = instruction.a;
 				var source = instruction.b;
@@ -20970,12 +21005,14 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 								var newDualMemoryState = _v8.b;
 								return {
 									isFinished: false,
-									machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-										A3(
+									machine: {
+										instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+										machineState: A3(
 											$author$project$RegisterMachine$Machine$updateRegister,
 											target,
 											$author$project$RegisterMachine$Base$Pair(addressOfNewPair),
-											A2($author$project$RegisterMachine$Machine$setDualMemoryStateOfMachine, newDualMemoryState, machine)))
+											A2($author$project$RegisterMachine$Machine$setDualMemoryStateOfMachine, newDualMemoryState, machineState))
+									}
 								};
 							},
 							A2(
@@ -20987,7 +21024,7 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 										A2(
 											$author$project$RegisterMachine$MemoryState$new,
 											memoryCell,
-											A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Dual, machine)));
+											A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Dual, machineState)));
 								},
 								A2(
 									$elm$core$Result$mapError,
@@ -20995,9 +21032,9 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 									A2(
 										$author$project$RegisterMachine$MemoryState$get,
 										sourceAddress,
-										A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine)))));
+										A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machineState)))));
 					},
-					A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, source, machine));
+					A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, source, machineState));
 			case 'MarkAsMoved':
 				var toBeCollected = instruction.a;
 				var referenceToDualMemory = instruction.b;
@@ -21008,8 +21045,9 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 						var addressToDualMemory = _v9.b;
 						return {
 							isFinished: false,
-							machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-								A3(
+							machine: {
+								instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+								machineState: A3(
 									$author$project$RegisterMachine$Machine$setMemoryStateOfMachine,
 									$author$project$RegisterMachine$Machine$Main,
 									A3(
@@ -21018,20 +21056,23 @@ var $author$project$RegisterMachine$Machine$runOneStep = function (machine) {
 										_Utils_Tuple2(
 											$author$project$RegisterMachine$Base$Moved,
 											$author$project$RegisterMachine$Base$Pair(addressToDualMemory)),
-										A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine)),
-									machine))
+										A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machineState)),
+									machineState)
+							}
 						};
 					},
 					A2(
 						$author$project$Lib$Result$tuple2,
-						A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, toBeCollected, machine),
-						A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, referenceToDualMemory, machine)));
+						A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, toBeCollected, machineState),
+						A2($author$project$RegisterMachine$Machine$getMemoryAddressAtRegister, referenceToDualMemory, machineState)));
 			default:
 				return $elm$core$Result$Ok(
 					{
 						isFinished: false,
-						machine: $author$project$RegisterMachine$Machine$advanceInstructionPointer(
-							$author$project$RegisterMachine$Machine$swapMemory(machine))
+						machine: {
+							instructionsState: $author$project$RegisterMachine$Machine$advanceInstructionPointer(instructionsState),
+							machineState: $author$project$RegisterMachine$Machine$swapMemory(machineState)
+						}
 					});
 		}
 	} else {
@@ -22698,7 +22739,7 @@ var $author$project$Ui$Control$Context$updateWithCommand = function (f) {
 var $author$project$Ui$Tab$RegisterMachine$update = function (msg) {
 	switch (msg.$) {
 		case 'Reset':
-			return $author$project$Ui$Control$Context$update($author$project$Ui$Tab$RegisterMachine$resetRuntime);
+			return $author$project$Ui$Control$Context$update($author$project$Ui$Tab$RegisterMachine$reset);
 		case 'Start':
 			return $author$project$Ui$Control$Context$update(
 				function (model) {
@@ -26234,7 +26275,7 @@ var $author$project$Ui$Tab$RegisterMachine$runTimeErrorToString = function (err)
 			}
 	}
 };
-var $author$project$Ui$Tab$RegisterMachine$shouldDisplayEditor = false;
+var $author$project$Ui$Tab$RegisterMachine$shouldDisplayEditor = true;
 var $mdgriffith$elm_ui$Internal$Model$Below = {$: 'Below'};
 var $mdgriffith$elm_ui$Element$below = function (element) {
 	return A2($mdgriffith$elm_ui$Element$createNearby, $mdgriffith$elm_ui$Internal$Model$Below, element);
@@ -28522,7 +28563,11 @@ var $author$project$Ui$Tab$RegisterMachine$viewRegisters = F2(
 			[
 				$mdgriffith$elm_ui$Element$Background$color(
 				A3($mdgriffith$elm_ui$Element$rgb255, 240, 0, 245)),
-				$mdgriffith$elm_ui$Element$padding(20)
+				$mdgriffith$elm_ui$Element$padding(20),
+				$mdgriffith$elm_ui$Element$width(
+				$mdgriffith$elm_ui$Element$px(60)),
+				$mdgriffith$elm_ui$Element$height(
+				$mdgriffith$elm_ui$Element$px(60))
 			]);
 		var viewRegister = F2(
 			function (name, val) {
@@ -28657,6 +28702,8 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 												$author$project$Ui$Tab$RegisterMachine$runTimeErrorToString(runtimeError));
 										} else {
 											var machine = _v0.a.a;
+											var machineState = machine.machineState;
+											var instructionsState = machine.instructionsState;
 											var _v1 = model.selectedController;
 											if (_v1.$ === 'Just') {
 												var controllerExample = _v1.a;
@@ -28666,7 +28713,7 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 													_List_fromArray(
 														[
 															$author$project$Ui$Tab$RegisterMachine$heading('Controller'),
-															A2($author$project$Ui$Tab$RegisterMachine$viewInstructions, machine.instructionPointer, controllerExample.controller.instructions)
+															A2($author$project$Ui$Tab$RegisterMachine$viewInstructions, instructionsState.instructionPointer, controllerExample.controller.instructions)
 														]));
 											} else {
 												return $mdgriffith$elm_ui$Element$text('');
@@ -28719,6 +28766,8 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 												$author$project$Ui$Tab$RegisterMachine$runTimeErrorToString(runtimeError));
 										} else {
 											var machine = _v2.a.a;
+											var machineState = machine.machineState;
+											var instructionsState = machine.instructionsState;
 											return A2(
 												$mdgriffith$elm_ui$Element$row,
 												_List_fromArray(
@@ -28744,7 +28793,7 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 																		$author$project$Ui$Tab$RegisterMachine$heading('Registers'),
 																		A2(
 																		$author$project$Ui$Tab$RegisterMachine$viewRegisters,
-																		$elm$core$Dict$toList(machine.env),
+																		$elm$core$Dict$toList(machineState.env),
 																		model)
 																	])),
 																A2(
@@ -28755,7 +28804,7 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 																		$author$project$Ui$Tab$RegisterMachine$heading('Memory'),
 																		A2(
 																		$author$project$Ui$Tab$RegisterMachine$viewMemoryState,
-																		A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machine),
+																		A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Main, machineState),
 																		model)
 																	])),
 																A2(
@@ -28766,7 +28815,7 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 																		$author$project$Ui$Tab$RegisterMachine$heading('Dual Memory'),
 																		A2(
 																		$author$project$Ui$Tab$RegisterMachine$viewMemoryState,
-																		A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Dual, machine),
+																		A2($author$project$RegisterMachine$Machine$currentMemoryState, $author$project$RegisterMachine$Machine$Dual, machineState),
 																		model)
 																	]))
 															])),
@@ -28781,7 +28830,7 @@ var $author$project$Ui$Tab$RegisterMachine$view = F2(
 														_List_fromArray(
 															[
 																$author$project$Ui$Tab$RegisterMachine$heading('Stack'),
-																A2($author$project$Ui$Tab$RegisterMachine$viewStack, machine.stack, model)
+																A2($author$project$Ui$Tab$RegisterMachine$viewStack, machineState.stack, model)
 															]))
 													]));
 										}
