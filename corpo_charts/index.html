@@ -7845,6 +7845,72 @@ var $rtfeldman$elm_css$Html$Styled$Events$onInput = function (tagger) {
 			$rtfeldman$elm_css$Html$Styled$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $rtfeldman$elm_css$Html$Styled$Events$targetValue)));
 };
+var $author$project$Main$pairQuery = F2(
+	function (query0, query1) {
+		var _v0 = _Utils_Tuple2(query0, query1);
+		_v0$2:
+		while (true) {
+			_v0$3:
+			while (true) {
+				_v0$4:
+				while (true) {
+					_v0$5:
+					while (true) {
+						switch (_v0.a.$) {
+							case 'Ready':
+								switch (_v0.b.$) {
+									case 'Ready':
+										var a = _v0.a.a;
+										var b = _v0.b.a;
+										return $author$project$Main$Ready(
+											_Utils_Tuple2(a, b));
+									case 'Loading':
+										break _v0$2;
+									case 'Error':
+										break _v0$4;
+									default:
+										var _v4 = _v0.b;
+										return $author$project$Main$NotStarted;
+								}
+							case 'Loading':
+								var _v1 = _v0.a;
+								return $author$project$Main$Loading;
+							case 'Error':
+								switch (_v0.b.$) {
+									case 'Loading':
+										break _v0$2;
+									case 'Error':
+										break _v0$3;
+									case 'NotStarted':
+										break _v0$3;
+									default:
+										break _v0$3;
+								}
+							default:
+								switch (_v0.b.$) {
+									case 'Loading':
+										break _v0$2;
+									case 'Error':
+										break _v0$4;
+									case 'NotStarted':
+										break _v0$5;
+									default:
+										break _v0$5;
+								}
+						}
+					}
+					var _v3 = _v0.a;
+					return $author$project$Main$NotStarted;
+				}
+				var error = _v0.b.a;
+				return $author$project$Main$Error(error);
+			}
+			var error = _v0.a.a;
+			return $author$project$Main$Error(error);
+		}
+		var _v2 = _v0.b;
+		return $author$project$Main$Loading;
+	});
 var $author$project$Main$ratiosColumns = _List_fromArray(
 	[
 		_Utils_Tuple2(
@@ -12920,6 +12986,7 @@ var $rtfeldman$elm_css$Css$prop1 = F2(
 		return A2($rtfeldman$elm_css$Css$property, key, arg.value);
 	});
 var $rtfeldman$elm_css$Css$height = $rtfeldman$elm_css$Css$prop1('height');
+var $rtfeldman$elm_css$Css$marginLeft = $rtfeldman$elm_css$Css$prop1('margin-left');
 var $rtfeldman$elm_css$Css$PxUnits = {$: 'PxUnits'};
 var $rtfeldman$elm_css$Css$Structure$Compatible = {$: 'Compatible'};
 var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
@@ -16086,8 +16153,8 @@ var $author$project$Main$viewFieldChart = F3(
 							$rtfeldman$elm_css$Html$Styled$text(title)
 						])),
 					function () {
-					var w = 600;
-					var h = 600;
+					var w = 300;
+					var h = 300;
 					return A2(
 						$rtfeldman$elm_css$Html$Styled$div,
 						_List_fromArray(
@@ -16099,6 +16166,8 @@ var $author$project$Main$viewFieldChart = F3(
 										$rtfeldman$elm_css$Css$px(w)),
 										$rtfeldman$elm_css$Css$height(
 										$rtfeldman$elm_css$Css$px(h)),
+										$rtfeldman$elm_css$Css$marginLeft(
+										$rtfeldman$elm_css$Css$px(160)),
 										A3(
 										$rtfeldman$elm_css$Css$border3,
 										$rtfeldman$elm_css$Css$px(1),
@@ -16143,61 +16212,69 @@ var $author$project$Main$viewFieldChart = F3(
 				}()
 				]));
 	});
-var $author$project$Main$viewIncomeStatementsCharts = function (incomeStatements) {
-	return A2(
-		$author$project$Lib$Html$itemsY,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				$author$project$Lib$Html$itemsX,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A3(
-						$author$project$Main$viewFieldChart,
-						'revenue',
-						function ($) {
-							return $.revenue;
-						},
-						incomeStatements),
-						A3(
-						$author$project$Main$viewFieldChart,
-						'gross margin',
-						function ($) {
-							return $.grossProfitRatio;
-						},
-						incomeStatements),
-						A3(
-						$author$project$Main$viewFieldChart,
-						'ebitda',
-						function ($) {
-							return $.ebitda;
-						},
-						incomeStatements)
-					])),
-				A2(
-				$author$project$Lib$Html$itemsX,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A3(
-						$author$project$Main$viewFieldChart,
-						'net income',
-						function ($) {
-							return $.netIncome;
-						},
-						incomeStatements),
-						A3(
-						$author$project$Main$viewFieldChart,
-						'EPS',
-						function ($) {
-							return $.eps;
-						},
-						incomeStatements)
-					]))
-			]));
-};
+var $author$project$Main$viewCharts = F2(
+	function (incomeStatements, ratios) {
+		return A2(
+			$author$project$Lib$Html$itemsY,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$author$project$Lib$Html$itemsX,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A3(
+							$author$project$Main$viewFieldChart,
+							'revenue',
+							function ($) {
+								return $.revenue;
+							},
+							incomeStatements),
+							A3(
+							$author$project$Main$viewFieldChart,
+							'gross margin',
+							function ($) {
+								return $.grossProfitRatio;
+							},
+							incomeStatements),
+							A3(
+							$author$project$Main$viewFieldChart,
+							'ebitda',
+							function ($) {
+								return $.ebitda;
+							},
+							incomeStatements)
+						])),
+					A2(
+					$author$project$Lib$Html$itemsX,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A3(
+							$author$project$Main$viewFieldChart,
+							'net income',
+							function ($) {
+								return $.netIncome;
+							},
+							incomeStatements),
+							A3(
+							$author$project$Main$viewFieldChart,
+							'EPS',
+							function ($) {
+								return $.eps;
+							},
+							incomeStatements),
+							A3(
+							$author$project$Main$viewFieldChart,
+							'Return on Capital Employed',
+							function ($) {
+								return $.returnOnCapitalEmployed;
+							},
+							ratios)
+						]))
+				]));
+	});
 var $author$project$Main$viewQuery = F2(
 	function (f, query) {
 		switch (query.$) {
@@ -16372,7 +16449,14 @@ var $author$project$Main$view = function (model) {
 						_List_Nil,
 						_List_fromArray(
 							[
-								A2($author$project$Main$viewQuery, $author$project$Main$viewIncomeStatementsCharts, model.incomeStatementQuery),
+								A2(
+								$author$project$Main$viewQuery,
+								function (_v2) {
+									var incomeStatements = _v2.a;
+									var ratios = _v2.b;
+									return A2($author$project$Main$viewCharts, incomeStatements, ratios);
+								},
+								A2($author$project$Main$pairQuery, model.incomeStatementQuery, model.ratiosQuery)),
 								A2(
 								$author$project$Main$viewQuery,
 								function (data) {
