@@ -4421,7 +4421,182 @@ var _Bitwise_shiftRightZfBy = F2(function(offset, a)
 {
 	return a >>> offset;
 });
-var $elm$core$Basics$apR = F2(
+
+
+
+// SEND REQUEST
+
+var _Http_toTask = F3(function(router, toTask, request)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		function done(response) {
+			callback(toTask(request.expect.a(response)));
+		}
+
+		var xhr = new XMLHttpRequest();
+		xhr.addEventListener('error', function() { done($elm$http$Http$NetworkError_); });
+		xhr.addEventListener('timeout', function() { done($elm$http$Http$Timeout_); });
+		xhr.addEventListener('load', function() { done(_Http_toResponse(request.expect.b, xhr)); });
+		$elm$core$Maybe$isJust(request.tracker) && _Http_track(router, xhr, request.tracker.a);
+
+		try {
+			xhr.open(request.method, request.url, true);
+		} catch (e) {
+			return done($elm$http$Http$BadUrl_(request.url));
+		}
+
+		_Http_configureRequest(xhr, request);
+
+		request.body.a && xhr.setRequestHeader('Content-Type', request.body.a);
+		xhr.send(request.body.b);
+
+		return function() { xhr.c = true; xhr.abort(); };
+	});
+});
+
+
+// CONFIGURE
+
+function _Http_configureRequest(xhr, request)
+{
+	for (var headers = request.headers; headers.b; headers = headers.b) // WHILE_CONS
+	{
+		xhr.setRequestHeader(headers.a.a, headers.a.b);
+	}
+	xhr.timeout = request.timeout.a || 0;
+	xhr.responseType = request.expect.d;
+	xhr.withCredentials = request.allowCookiesFromOtherDomains;
+}
+
+
+// RESPONSES
+
+function _Http_toResponse(toBody, xhr)
+{
+	return A2(
+		200 <= xhr.status && xhr.status < 300 ? $elm$http$Http$GoodStatus_ : $elm$http$Http$BadStatus_,
+		_Http_toMetadata(xhr),
+		toBody(xhr.response)
+	);
+}
+
+
+// METADATA
+
+function _Http_toMetadata(xhr)
+{
+	return {
+		url: xhr.responseURL,
+		statusCode: xhr.status,
+		statusText: xhr.statusText,
+		headers: _Http_parseHeaders(xhr.getAllResponseHeaders())
+	};
+}
+
+
+// HEADERS
+
+function _Http_parseHeaders(rawHeaders)
+{
+	if (!rawHeaders)
+	{
+		return $elm$core$Dict$empty;
+	}
+
+	var headers = $elm$core$Dict$empty;
+	var headerPairs = rawHeaders.split('\r\n');
+	for (var i = headerPairs.length; i--; )
+	{
+		var headerPair = headerPairs[i];
+		var index = headerPair.indexOf(': ');
+		if (index > 0)
+		{
+			var key = headerPair.substring(0, index);
+			var value = headerPair.substring(index + 2);
+
+			headers = A3($elm$core$Dict$update, key, function(oldValue) {
+				return $elm$core$Maybe$Just($elm$core$Maybe$isJust(oldValue)
+					? value + ', ' + oldValue.a
+					: value
+				);
+			}, headers);
+		}
+	}
+	return headers;
+}
+
+
+// EXPECT
+
+var _Http_expect = F3(function(type, toBody, toValue)
+{
+	return {
+		$: 0,
+		d: type,
+		b: toBody,
+		a: toValue
+	};
+});
+
+var _Http_mapExpect = F2(function(func, expect)
+{
+	return {
+		$: 0,
+		d: expect.d,
+		b: expect.b,
+		a: function(x) { return func(expect.a(x)); }
+	};
+});
+
+function _Http_toDataView(arrayBuffer)
+{
+	return new DataView(arrayBuffer);
+}
+
+
+// BODY and PARTS
+
+var _Http_emptyBody = { $: 0 };
+var _Http_pair = F2(function(a, b) { return { $: 0, a: a, b: b }; });
+
+function _Http_toFormData(parts)
+{
+	for (var formData = new FormData(); parts.b; parts = parts.b) // WHILE_CONS
+	{
+		var part = parts.a;
+		formData.append(part.a, part.b);
+	}
+	return formData;
+}
+
+var _Http_bytesToBlob = F2(function(mime, bytes)
+{
+	return new Blob([bytes], { type: mime });
+});
+
+
+// PROGRESS
+
+function _Http_track(router, xhr, tracker)
+{
+	// TODO check out lengthComputable on loadstart event
+
+	xhr.upload.addEventListener('progress', function(event) {
+		if (xhr.c) { return; }
+		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Sending({
+			sent: event.loaded,
+			size: event.total
+		}))));
+	});
+	xhr.addEventListener('progress', function(event) {
+		if (xhr.c) { return; }
+		_Scheduler_rawSpawn(A2($elm$core$Platform$sendToSelf, router, _Utils_Tuple2(tracker, $elm$http$Http$Receiving({
+			received: event.loaded,
+			size: event.lengthComputable ? $elm$core$Maybe$Just(event.total) : $elm$core$Maybe$Nothing
+		}))));
+	});
+}var $elm$core$Basics$apR = F2(
 	function (x, f) {
 		return f(x);
 	});
@@ -5210,10 +5385,12 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
+var $author$project$Main$NotStarted = {$: 'NotStarted'};
 var $author$project$Main$initModel = {
+	data: $author$project$Main$NotStarted,
 	numbersReversed: _List_fromArray(
 		[123, 123, 123, 123, 123, 5, 5, 5, 34, 34, 34]),
-	textInput: ''
+	symbolInput: 'AAPL'
 };
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
@@ -6149,32 +6326,817 @@ var $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 	}
 };
 var $rtfeldman$elm_css$Html$Styled$toUnstyled = $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
+var $author$project$Main$Error = function (a) {
+	return {$: 'Error', a: a};
+};
+var $author$project$Main$HttpError = function (a) {
+	return {$: 'HttpError', a: a};
+};
+var $author$project$Main$Loading = {$: 'Loading'};
+var $author$project$Main$Ready = function (a) {
+	return {$: 'Ready', a: a};
+};
+var $author$project$Main$Year = {$: 'Year'};
+var $Fresheyeball$elm_return$Return$command = F2(
+	function (cmd, _v0) {
+		var model = _v0.a;
+		var cmd_ = _v0.b;
+		return _Utils_Tuple2(
+			model,
+			$elm$core$Platform$Cmd$batch(
+				_List_fromArray(
+					[cmd, cmd_])));
+	});
+var $author$project$Main$ServerRespondedWithData = function (a) {
+	return {$: 'ServerRespondedWithData', a: a};
+};
+var $author$project$Main$apiKey = 'a970040c0cddd1c693e8919579f32c04';
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
+var $elm$json$Json$Decode$decodeString = _Json_runOnString;
+var $elm$http$Http$BadStatus_ = F2(
+	function (a, b) {
+		return {$: 'BadStatus_', a: a, b: b};
+	});
+var $elm$http$Http$BadUrl_ = function (a) {
+	return {$: 'BadUrl_', a: a};
+};
+var $elm$http$Http$GoodStatus_ = F2(
+	function (a, b) {
+		return {$: 'GoodStatus_', a: a, b: b};
+	});
+var $elm$http$Http$NetworkError_ = {$: 'NetworkError_'};
+var $elm$http$Http$Receiving = function (a) {
+	return {$: 'Receiving', a: a};
+};
+var $elm$http$Http$Sending = function (a) {
+	return {$: 'Sending', a: a};
+};
+var $elm$http$Http$Timeout_ = {$: 'Timeout_'};
+var $elm$core$Maybe$isJust = function (maybe) {
+	if (maybe.$ === 'Just') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$core$Dict$getMin = function (dict) {
+	getMin:
+	while (true) {
+		if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
+			var left = dict.d;
+			var $temp$dict = left;
+			dict = $temp$dict;
+			continue getMin;
+		} else {
+			return dict;
+		}
+	}
+};
+var $elm$core$Dict$moveRedLeft = function (dict) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.e.d.$ === 'RBNode_elm_builtin') && (dict.e.d.a.$ === 'Red')) {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v1 = dict.d;
+			var lClr = _v1.a;
+			var lK = _v1.b;
+			var lV = _v1.c;
+			var lLeft = _v1.d;
+			var lRight = _v1.e;
+			var _v2 = dict.e;
+			var rClr = _v2.a;
+			var rK = _v2.b;
+			var rV = _v2.c;
+			var rLeft = _v2.d;
+			var _v3 = rLeft.a;
+			var rlK = rLeft.b;
+			var rlV = rLeft.c;
+			var rlL = rLeft.d;
+			var rlR = rLeft.e;
+			var rRight = _v2.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				$elm$core$Dict$Red,
+				rlK,
+				rlV,
+				A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					rlL),
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rlR, rRight));
+		} else {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v4 = dict.d;
+			var lClr = _v4.a;
+			var lK = _v4.b;
+			var lV = _v4.c;
+			var lLeft = _v4.d;
+			var lRight = _v4.e;
+			var _v5 = dict.e;
+			var rClr = _v5.a;
+			var rK = _v5.b;
+			var rV = _v5.c;
+			var rLeft = _v5.d;
+			var rRight = _v5.e;
+			if (clr.$ === 'Black') {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			}
+		}
+	} else {
+		return dict;
+	}
+};
+var $elm$core$Dict$moveRedRight = function (dict) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.d.d.$ === 'RBNode_elm_builtin') && (dict.d.d.a.$ === 'Red')) {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v1 = dict.d;
+			var lClr = _v1.a;
+			var lK = _v1.b;
+			var lV = _v1.c;
+			var _v2 = _v1.d;
+			var _v3 = _v2.a;
+			var llK = _v2.b;
+			var llV = _v2.c;
+			var llLeft = _v2.d;
+			var llRight = _v2.e;
+			var lRight = _v1.e;
+			var _v4 = dict.e;
+			var rClr = _v4.a;
+			var rK = _v4.b;
+			var rV = _v4.c;
+			var rLeft = _v4.d;
+			var rRight = _v4.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				$elm$core$Dict$Red,
+				lK,
+				lV,
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
+				A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					lRight,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight)));
+		} else {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v5 = dict.d;
+			var lClr = _v5.a;
+			var lK = _v5.b;
+			var lV = _v5.c;
+			var lLeft = _v5.d;
+			var lRight = _v5.e;
+			var _v6 = dict.e;
+			var rClr = _v6.a;
+			var rK = _v6.b;
+			var rV = _v6.c;
+			var rLeft = _v6.d;
+			var rRight = _v6.e;
+			if (clr.$ === 'Black') {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			}
+		}
+	} else {
+		return dict;
+	}
+};
+var $elm$core$Dict$removeHelpPrepEQGT = F7(
+	function (targetKey, dict, color, key, value, left, right) {
+		if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
+			var _v1 = left.a;
+			var lK = left.b;
+			var lV = left.c;
+			var lLeft = left.d;
+			var lRight = left.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				lK,
+				lV,
+				lLeft,
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, lRight, right));
+		} else {
+			_v2$2:
+			while (true) {
+				if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Black')) {
+					if (right.d.$ === 'RBNode_elm_builtin') {
+						if (right.d.a.$ === 'Black') {
+							var _v3 = right.a;
+							var _v4 = right.d;
+							var _v5 = _v4.a;
+							return $elm$core$Dict$moveRedRight(dict);
+						} else {
+							break _v2$2;
+						}
+					} else {
+						var _v6 = right.a;
+						var _v7 = right.d;
+						return $elm$core$Dict$moveRedRight(dict);
+					}
+				} else {
+					break _v2$2;
+				}
+			}
+			return dict;
+		}
+	});
+var $elm$core$Dict$removeMin = function (dict) {
+	if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
+		var color = dict.a;
+		var key = dict.b;
+		var value = dict.c;
+		var left = dict.d;
+		var lColor = left.a;
+		var lLeft = left.d;
+		var right = dict.e;
+		if (lColor.$ === 'Black') {
+			if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
+				var _v3 = lLeft.a;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					color,
+					key,
+					value,
+					$elm$core$Dict$removeMin(left),
+					right);
+			} else {
+				var _v4 = $elm$core$Dict$moveRedLeft(dict);
+				if (_v4.$ === 'RBNode_elm_builtin') {
+					var nColor = _v4.a;
+					var nKey = _v4.b;
+					var nValue = _v4.c;
+					var nLeft = _v4.d;
+					var nRight = _v4.e;
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						$elm$core$Dict$removeMin(nLeft),
+						nRight);
+				} else {
+					return $elm$core$Dict$RBEmpty_elm_builtin;
+				}
+			}
+		} else {
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				key,
+				value,
+				$elm$core$Dict$removeMin(left),
+				right);
+		}
+	} else {
+		return $elm$core$Dict$RBEmpty_elm_builtin;
+	}
+};
+var $elm$core$Dict$removeHelp = F2(
+	function (targetKey, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		} else {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			if (_Utils_cmp(targetKey, key) < 0) {
+				if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Black')) {
+					var _v4 = left.a;
+					var lLeft = left.d;
+					if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
+						var _v6 = lLeft.a;
+						return A5(
+							$elm$core$Dict$RBNode_elm_builtin,
+							color,
+							key,
+							value,
+							A2($elm$core$Dict$removeHelp, targetKey, left),
+							right);
+					} else {
+						var _v7 = $elm$core$Dict$moveRedLeft(dict);
+						if (_v7.$ === 'RBNode_elm_builtin') {
+							var nColor = _v7.a;
+							var nKey = _v7.b;
+							var nValue = _v7.c;
+							var nLeft = _v7.d;
+							var nRight = _v7.e;
+							return A5(
+								$elm$core$Dict$balance,
+								nColor,
+								nKey,
+								nValue,
+								A2($elm$core$Dict$removeHelp, targetKey, nLeft),
+								nRight);
+						} else {
+							return $elm$core$Dict$RBEmpty_elm_builtin;
+						}
+					}
+				} else {
+					return A5(
+						$elm$core$Dict$RBNode_elm_builtin,
+						color,
+						key,
+						value,
+						A2($elm$core$Dict$removeHelp, targetKey, left),
+						right);
+				}
+			} else {
+				return A2(
+					$elm$core$Dict$removeHelpEQGT,
+					targetKey,
+					A7($elm$core$Dict$removeHelpPrepEQGT, targetKey, dict, color, key, value, left, right));
+			}
+		}
+	});
+var $elm$core$Dict$removeHelpEQGT = F2(
+	function (targetKey, dict) {
+		if (dict.$ === 'RBNode_elm_builtin') {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			if (_Utils_eq(targetKey, key)) {
+				var _v1 = $elm$core$Dict$getMin(right);
+				if (_v1.$ === 'RBNode_elm_builtin') {
+					var minKey = _v1.b;
+					var minValue = _v1.c;
+					return A5(
+						$elm$core$Dict$balance,
+						color,
+						minKey,
+						minValue,
+						left,
+						$elm$core$Dict$removeMin(right));
+				} else {
+					return $elm$core$Dict$RBEmpty_elm_builtin;
+				}
+			} else {
+				return A5(
+					$elm$core$Dict$balance,
+					color,
+					key,
+					value,
+					left,
+					A2($elm$core$Dict$removeHelp, targetKey, right));
+			}
+		} else {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		}
+	});
+var $elm$core$Dict$remove = F2(
+	function (key, dict) {
+		var _v0 = A2($elm$core$Dict$removeHelp, key, dict);
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
+			var _v1 = _v0.a;
+			var k = _v0.b;
+			var v = _v0.c;
+			var l = _v0.d;
+			var r = _v0.e;
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
+		} else {
+			var x = _v0;
+			return x;
+		}
+	});
+var $elm$core$Dict$update = F3(
+	function (targetKey, alter, dictionary) {
+		var _v0 = alter(
+			A2($elm$core$Dict$get, targetKey, dictionary));
+		if (_v0.$ === 'Just') {
+			var value = _v0.a;
+			return A3($elm$core$Dict$insert, targetKey, value, dictionary);
+		} else {
+			return A2($elm$core$Dict$remove, targetKey, dictionary);
+		}
+	});
+var $elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
+	});
+var $elm$http$Http$expectStringResponse = F2(
+	function (toMsg, toResult) {
+		return A3(
+			_Http_expect,
+			'',
+			$elm$core$Basics$identity,
+			A2($elm$core$Basics$composeR, toResult, toMsg));
+	});
+var $elm$core$Result$mapError = F2(
+	function (f, result) {
+		if (result.$ === 'Ok') {
+			var v = result.a;
+			return $elm$core$Result$Ok(v);
+		} else {
+			var e = result.a;
+			return $elm$core$Result$Err(
+				f(e));
+		}
+	});
+var $elm$http$Http$BadBody = function (a) {
+	return {$: 'BadBody', a: a};
+};
+var $elm$http$Http$BadStatus = function (a) {
+	return {$: 'BadStatus', a: a};
+};
+var $elm$http$Http$BadUrl = function (a) {
+	return {$: 'BadUrl', a: a};
+};
+var $elm$http$Http$NetworkError = {$: 'NetworkError'};
+var $elm$http$Http$Timeout = {$: 'Timeout'};
+var $elm$http$Http$resolve = F2(
+	function (toResult, response) {
+		switch (response.$) {
+			case 'BadUrl_':
+				var url = response.a;
+				return $elm$core$Result$Err(
+					$elm$http$Http$BadUrl(url));
+			case 'Timeout_':
+				return $elm$core$Result$Err($elm$http$Http$Timeout);
+			case 'NetworkError_':
+				return $elm$core$Result$Err($elm$http$Http$NetworkError);
+			case 'BadStatus_':
+				var metadata = response.a;
+				return $elm$core$Result$Err(
+					$elm$http$Http$BadStatus(metadata.statusCode));
+			default:
+				var body = response.b;
+				return A2(
+					$elm$core$Result$mapError,
+					$elm$http$Http$BadBody,
+					toResult(body));
+		}
+	});
+var $elm$http$Http$expectJson = F2(
+	function (toMsg, decoder) {
+		return A2(
+			$elm$http$Http$expectStringResponse,
+			toMsg,
+			$elm$http$Http$resolve(
+				function (string) {
+					return A2(
+						$elm$core$Result$mapError,
+						$elm$json$Json$Decode$errorToString,
+						A2($elm$json$Json$Decode$decodeString, decoder, string));
+				}));
+	});
+var $elm$http$Http$emptyBody = _Http_emptyBody;
+var $elm$http$Http$Request = function (a) {
+	return {$: 'Request', a: a};
+};
+var $elm$http$Http$State = F2(
+	function (reqs, subs) {
+		return {reqs: reqs, subs: subs};
+	});
+var $elm$http$Http$init = $elm$core$Task$succeed(
+	A2($elm$http$Http$State, $elm$core$Dict$empty, _List_Nil));
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Process$spawn = _Scheduler_spawn;
+var $elm$http$Http$updateReqs = F3(
+	function (router, cmds, reqs) {
+		updateReqs:
+		while (true) {
+			if (!cmds.b) {
+				return $elm$core$Task$succeed(reqs);
+			} else {
+				var cmd = cmds.a;
+				var otherCmds = cmds.b;
+				if (cmd.$ === 'Cancel') {
+					var tracker = cmd.a;
+					var _v2 = A2($elm$core$Dict$get, tracker, reqs);
+					if (_v2.$ === 'Nothing') {
+						var $temp$router = router,
+							$temp$cmds = otherCmds,
+							$temp$reqs = reqs;
+						router = $temp$router;
+						cmds = $temp$cmds;
+						reqs = $temp$reqs;
+						continue updateReqs;
+					} else {
+						var pid = _v2.a;
+						return A2(
+							$elm$core$Task$andThen,
+							function (_v3) {
+								return A3(
+									$elm$http$Http$updateReqs,
+									router,
+									otherCmds,
+									A2($elm$core$Dict$remove, tracker, reqs));
+							},
+							$elm$core$Process$kill(pid));
+					}
+				} else {
+					var req = cmd.a;
+					return A2(
+						$elm$core$Task$andThen,
+						function (pid) {
+							var _v4 = req.tracker;
+							if (_v4.$ === 'Nothing') {
+								return A3($elm$http$Http$updateReqs, router, otherCmds, reqs);
+							} else {
+								var tracker = _v4.a;
+								return A3(
+									$elm$http$Http$updateReqs,
+									router,
+									otherCmds,
+									A3($elm$core$Dict$insert, tracker, pid, reqs));
+							}
+						},
+						$elm$core$Process$spawn(
+							A3(
+								_Http_toTask,
+								router,
+								$elm$core$Platform$sendToApp(router),
+								req)));
+				}
+			}
+		}
+	});
+var $elm$http$Http$onEffects = F4(
+	function (router, cmds, subs, state) {
+		return A2(
+			$elm$core$Task$andThen,
+			function (reqs) {
+				return $elm$core$Task$succeed(
+					A2($elm$http$Http$State, reqs, subs));
+			},
+			A3($elm$http$Http$updateReqs, router, cmds, state.reqs));
+	});
+var $elm$core$List$maybeCons = F3(
+	function (f, mx, xs) {
+		var _v0 = f(mx);
+		if (_v0.$ === 'Just') {
+			var x = _v0.a;
+			return A2($elm$core$List$cons, x, xs);
+		} else {
+			return xs;
+		}
+	});
+var $elm$core$List$filterMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			$elm$core$List$maybeCons(f),
+			_List_Nil,
+			xs);
+	});
+var $elm$http$Http$maybeSend = F4(
+	function (router, desiredTracker, progress, _v0) {
+		var actualTracker = _v0.a;
+		var toMsg = _v0.b;
+		return _Utils_eq(desiredTracker, actualTracker) ? $elm$core$Maybe$Just(
+			A2(
+				$elm$core$Platform$sendToApp,
+				router,
+				toMsg(progress))) : $elm$core$Maybe$Nothing;
+	});
+var $elm$http$Http$onSelfMsg = F3(
+	function (router, _v0, state) {
+		var tracker = _v0.a;
+		var progress = _v0.b;
+		return A2(
+			$elm$core$Task$andThen,
+			function (_v1) {
+				return $elm$core$Task$succeed(state);
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$filterMap,
+					A3($elm$http$Http$maybeSend, router, tracker, progress),
+					state.subs)));
+	});
+var $elm$http$Http$Cancel = function (a) {
+	return {$: 'Cancel', a: a};
+};
+var $elm$http$Http$cmdMap = F2(
+	function (func, cmd) {
+		if (cmd.$ === 'Cancel') {
+			var tracker = cmd.a;
+			return $elm$http$Http$Cancel(tracker);
+		} else {
+			var r = cmd.a;
+			return $elm$http$Http$Request(
+				{
+					allowCookiesFromOtherDomains: r.allowCookiesFromOtherDomains,
+					body: r.body,
+					expect: A2(_Http_mapExpect, func, r.expect),
+					headers: r.headers,
+					method: r.method,
+					timeout: r.timeout,
+					tracker: r.tracker,
+					url: r.url
+				});
+		}
+	});
+var $elm$http$Http$MySub = F2(
+	function (a, b) {
+		return {$: 'MySub', a: a, b: b};
+	});
+var $elm$http$Http$subMap = F2(
+	function (func, _v0) {
+		var tracker = _v0.a;
+		var toMsg = _v0.b;
+		return A2(
+			$elm$http$Http$MySub,
+			tracker,
+			A2($elm$core$Basics$composeR, toMsg, func));
+	});
+_Platform_effectManagers['Http'] = _Platform_createManager($elm$http$Http$init, $elm$http$Http$onEffects, $elm$http$Http$onSelfMsg, $elm$http$Http$cmdMap, $elm$http$Http$subMap);
+var $elm$http$Http$command = _Platform_leaf('Http');
+var $elm$http$Http$subscription = _Platform_leaf('Http');
+var $elm$http$Http$request = function (r) {
+	return $elm$http$Http$command(
+		$elm$http$Http$Request(
+			{allowCookiesFromOtherDomains: false, body: r.body, expect: r.expect, headers: r.headers, method: r.method, timeout: r.timeout, tracker: r.tracker, url: r.url}));
+};
+var $elm$http$Http$get = function (r) {
+	return $elm$http$Http$request(
+		{body: $elm$http$Http$emptyBody, expect: r.expect, headers: _List_Nil, method: 'GET', timeout: $elm$core$Maybe$Nothing, tracker: $elm$core$Maybe$Nothing, url: r.url});
+};
+var $author$project$Main$IncomeStatement = function (calendarYear) {
+	return function (period) {
+		return function (revenue) {
+			return function (grossProfit) {
+				return function (grossProfitRatio) {
+					return function (depreciationAndAmortization) {
+						return function (ebitda) {
+							return function (operatingIncome) {
+								return function (incomeBeforeTax) {
+									return function (incomeTaxExpense) {
+										return function (netIncome) {
+											return function (eps) {
+												return {calendarYear: calendarYear, depreciationAndAmortization: depreciationAndAmortization, ebitda: ebitda, eps: eps, grossProfit: grossProfit, grossProfitRatio: grossProfitRatio, incomeBeforeTax: incomeBeforeTax, incomeTaxExpense: incomeTaxExpense, netIncome: netIncome, operatingIncome: operatingIncome, period: period, revenue: revenue};
+											};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+var $elm_community$json_extra$Json$Decode$Extra$andMap = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$float = _Json_decodeFloat;
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $author$project$Main$incomeStatementDecoder = A2(
+	$elm_community$json_extra$Json$Decode$Extra$andMap,
+	A2($elm$json$Json$Decode$field, 'eps', $elm$json$Json$Decode$float),
+	A2(
+		$elm_community$json_extra$Json$Decode$Extra$andMap,
+		A2($elm$json$Json$Decode$field, 'netIncome', $elm$json$Json$Decode$float),
+		A2(
+			$elm_community$json_extra$Json$Decode$Extra$andMap,
+			A2($elm$json$Json$Decode$field, 'incomeTaxExpense', $elm$json$Json$Decode$float),
+			A2(
+				$elm_community$json_extra$Json$Decode$Extra$andMap,
+				A2($elm$json$Json$Decode$field, 'incomeBeforeTax', $elm$json$Json$Decode$float),
+				A2(
+					$elm_community$json_extra$Json$Decode$Extra$andMap,
+					A2($elm$json$Json$Decode$field, 'operatingIncome', $elm$json$Json$Decode$float),
+					A2(
+						$elm_community$json_extra$Json$Decode$Extra$andMap,
+						A2($elm$json$Json$Decode$field, 'ebitda', $elm$json$Json$Decode$float),
+						A2(
+							$elm_community$json_extra$Json$Decode$Extra$andMap,
+							A2($elm$json$Json$Decode$field, 'depreciationAndAmortization', $elm$json$Json$Decode$float),
+							A2(
+								$elm_community$json_extra$Json$Decode$Extra$andMap,
+								A2($elm$json$Json$Decode$field, 'grossProfitRatio', $elm$json$Json$Decode$float),
+								A2(
+									$elm_community$json_extra$Json$Decode$Extra$andMap,
+									A2($elm$json$Json$Decode$field, 'grossProfit', $elm$json$Json$Decode$float),
+									A2(
+										$elm_community$json_extra$Json$Decode$Extra$andMap,
+										A2($elm$json$Json$Decode$field, 'revenue', $elm$json$Json$Decode$float),
+										A2(
+											$elm_community$json_extra$Json$Decode$Extra$andMap,
+											A2($elm$json$Json$Decode$field, 'period', $elm$json$Json$Decode$string),
+											A2(
+												$elm_community$json_extra$Json$Decode$Extra$andMap,
+												A2($elm$json$Json$Decode$field, 'calendarYear', $elm$json$Json$Decode$string),
+												$elm$json$Json$Decode$succeed($author$project$Main$IncomeStatement)))))))))))));
+var $elm$json$Json$Decode$list = _Json_decodeList;
+var $author$project$Main$periodToString = function (period) {
+	if (period.$ === 'Year') {
+		return 'year';
+	} else {
+		return 'quarter';
+	}
+};
+var $author$project$Main$getCompanyFinancials = F3(
+	function (symbol, period, limit) {
+		return $elm$http$Http$get(
+			{
+				expect: A2(
+					$elm$http$Http$expectJson,
+					$author$project$Main$ServerRespondedWithData,
+					$elm$json$Json$Decode$list($author$project$Main$incomeStatementDecoder)),
+				url: $elm$core$String$concat(
+					_List_fromArray(
+						[
+							'https://fmpcloud.io/api/v3/income-statement/',
+							symbol,
+							'?',
+							'period=' + ($author$project$Main$periodToString(period) + '&'),
+							'limit=' + ($elm$core$String$fromInt(limit) + '&'),
+							'apikey=' + $author$project$Main$apiKey
+						]))
+			});
+	});
+var $elm$core$Debug$log = _Debug_log;
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		if (msg.$ === 'AddButtonClicked') {
-			var _v1 = $elm$core$String$toInt(model.textInput);
-			if (_v1.$ === 'Just') {
-				var x = _v1.a;
+		switch (msg.$) {
+			case 'SymbolInputChanged':
+				var input = msg.a;
 				return $Fresheyeball$elm_return$Return$singleton(
 					_Utils_update(
 						model,
-						{
-							numbersReversed: A2($elm$core$List$cons, x, model.numbersReversed)
-						}));
-			} else {
-				return $Fresheyeball$elm_return$Return$singleton(model);
-			}
-		} else {
-			var input = msg.a;
-			return $Fresheyeball$elm_return$Return$singleton(
-				_Utils_update(
-					model,
-					{textInput: input}));
+						{symbolInput: input}));
+			case 'RequestDataButtonClicked':
+				return A2(
+					$Fresheyeball$elm_return$Return$command,
+					A3($author$project$Main$getCompanyFinancials, model.symbolInput, $author$project$Main$Year, 20),
+					$Fresheyeball$elm_return$Return$singleton(
+						_Utils_update(
+							model,
+							{data: $author$project$Main$Loading})));
+			default:
+				var result = msg.a;
+				var _v1 = A2($elm$core$Debug$log, '', result);
+				if (result.$ === 'Ok') {
+					var data = result.a;
+					return $Fresheyeball$elm_return$Return$singleton(
+						_Utils_update(
+							model,
+							{
+								data: $author$project$Main$Ready(data)
+							}));
+				} else {
+					var httpErr = result.a;
+					return $Fresheyeball$elm_return$Return$singleton(
+						_Utils_update(
+							model,
+							{
+								data: $author$project$Main$Error(
+									$author$project$Main$HttpError(httpErr))
+							}));
+				}
 		}
 	});
-var $author$project$Main$AddButtonClicked = {$: 'AddButtonClicked'};
-var $author$project$Main$TextInputChanged = function (a) {
-	return {$: 'TextInputChanged', a: a};
+var $author$project$Main$RequestDataButtonClicked = {$: 'RequestDataButtonClicked'};
+var $author$project$Main$SymbolInputChanged = function (a) {
+	return {$: 'SymbolInputChanged', a: a};
 };
 var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 	function (a, b, c) {
@@ -7711,6 +8673,7 @@ var $rtfeldman$elm_css$Html$Styled$Internal$css = function (styles) {
 };
 var $rtfeldman$elm_css$Html$Styled$Attributes$css = $rtfeldman$elm_css$Html$Styled$Internal$css;
 var $rtfeldman$elm_css$Html$Styled$div = $rtfeldman$elm_css$Html$Styled$node('div');
+var $rtfeldman$elm_css$Html$Styled$h3 = $rtfeldman$elm_css$Html$Styled$node('h3');
 var $rtfeldman$elm_css$Css$Preprocess$AppendProperty = function (a) {
 	return {$: 'AppendProperty', a: a};
 };
@@ -7725,24 +8688,6 @@ var $rtfeldman$elm_css$Css$prop1 = F2(
 	});
 var $rtfeldman$elm_css$Css$height = $rtfeldman$elm_css$Css$prop1('height');
 var $rtfeldman$elm_css$Html$Styled$input = $rtfeldman$elm_css$Html$Styled$node('input');
-var $elm$core$List$intersperse = F2(
-	function (sep, xs) {
-		if (!xs.b) {
-			return _List_Nil;
-		} else {
-			var hd = xs.a;
-			var tl = xs.b;
-			var step = F2(
-				function (x, rest) {
-					return A2(
-						$elm$core$List$cons,
-						sep,
-						A2($elm$core$List$cons, x, rest));
-				});
-			var spersed = A3($elm$core$List$foldr, step, _List_Nil, tl);
-			return A2($elm$core$List$cons, hd, spersed);
-		}
-	});
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $rtfeldman$elm_css$VirtualDom$Styled$style = F2(
 	function (key, val) {
@@ -7753,19 +8698,6 @@ var $rtfeldman$elm_css$VirtualDom$Styled$style = F2(
 			'');
 	});
 var $rtfeldman$elm_css$Html$Styled$Attributes$style = $rtfeldman$elm_css$VirtualDom$Styled$style;
-var $author$project$Lib$Html$itemsX = F2(
-	function (attrs, html) {
-		return A2(
-			$rtfeldman$elm_css$Html$Styled$div,
-			_Utils_ap(
-				_List_fromArray(
-					[
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'display', 'flex'),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-direction', 'row')
-					]),
-				attrs),
-			html);
-	});
 var $author$project$Lib$Html$itemsY = F2(
 	function (attrs, html) {
 		return A2(
@@ -7779,6 +8711,7 @@ var $author$project$Lib$Html$itemsY = F2(
 				attrs),
 			html);
 	});
+var $rtfeldman$elm_css$Css$marginBottom = $rtfeldman$elm_css$Css$prop1('margin-bottom');
 var $rtfeldman$elm_css$Css$marginLeft = $rtfeldman$elm_css$Css$prop1('margin-left');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
@@ -7818,12 +8751,10 @@ var $rtfeldman$elm_css$Html$Styled$Events$stopPropagationOn = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
 	});
-var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$at = F2(
 	function (fields, decoder) {
 		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
 	});
-var $elm$json$Json$Decode$string = _Json_decodeString;
 var $rtfeldman$elm_css$Html$Styled$Events$targetValue = A2(
 	$elm$json$Json$Decode$at,
 	_List_fromArray(
@@ -7875,10 +8806,179 @@ var $rtfeldman$elm_css$VirtualDom$Styled$text = function (str) {
 		$elm$virtual_dom$VirtualDom$text(str));
 };
 var $rtfeldman$elm_css$Html$Styled$text = $rtfeldman$elm_css$VirtualDom$Styled$text;
-var $elm$core$Basics$composeR = F3(
-	function (f, g, x) {
-		return g(
-			f(x));
+var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
+	function (key, value) {
+		return A3(
+			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2($elm$virtual_dom$VirtualDom$property, key, value),
+			false,
+			'');
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$value = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('value');
+var $author$project$Main$incomeStatementColumns = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		'year',
+		function ($) {
+			return $.calendarYear;
+		}),
+		_Utils_Tuple2(
+		'period',
+		function ($) {
+			return $.period;
+		}),
+		_Utils_Tuple2(
+		'revenue',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.revenue;
+			})),
+		_Utils_Tuple2(
+		'gross profit',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.grossProfit;
+			})),
+		_Utils_Tuple2(
+		'gross margin',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.grossProfitRatio;
+			})),
+		_Utils_Tuple2(
+		'DA',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.depreciationAndAmortization;
+			})),
+		_Utils_Tuple2(
+		'ebitda ',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.ebitda;
+			})),
+		_Utils_Tuple2(
+		'operating income',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.operatingIncome;
+			})),
+		_Utils_Tuple2(
+		'income before tax',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.incomeBeforeTax;
+			})),
+		_Utils_Tuple2(
+		'incomeTaxExpense',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.incomeTaxExpense;
+			})),
+		_Utils_Tuple2(
+		'netIncome',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.netIncome;
+			})),
+		_Utils_Tuple2(
+		'eps',
+		A2(
+			$elm$core$Basics$composeL,
+			$elm$core$String$fromFloat,
+			function ($) {
+				return $.eps;
+			}))
+	]);
+var $rtfeldman$elm_css$Html$Styled$table = $rtfeldman$elm_css$Html$Styled$node('table');
+var $rtfeldman$elm_css$Html$Styled$th = $rtfeldman$elm_css$Html$Styled$node('th');
+var $rtfeldman$elm_css$Html$Styled$tr = $rtfeldman$elm_css$Html$Styled$node('tr');
+var $rtfeldman$elm_css$Html$Styled$td = $rtfeldman$elm_css$Html$Styled$node('td');
+var $author$project$Main$viewIncomeStatement = function (incomeStatement) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$tr,
+		_List_Nil,
+		A2(
+			$elm$core$List$map,
+			function (_v0) {
+				var accessor = _v0.b;
+				return A2(
+					$rtfeldman$elm_css$Html$Styled$td,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text(
+							accessor(incomeStatement))
+						]));
+			},
+			$author$project$Main$incomeStatementColumns));
+};
+var $author$project$Main$viewIncomeStatements = function (incomeStatements) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$table,
+		_List_Nil,
+		$elm$core$List$concat(
+			_List_fromArray(
+				[
+					_List_fromArray(
+					[
+						A2(
+						$rtfeldman$elm_css$Html$Styled$tr,
+						_List_Nil,
+						A2(
+							$elm$core$List$map,
+							function (_v0) {
+								var fieldName = _v0.a;
+								return A2(
+									$rtfeldman$elm_css$Html$Styled$th,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$rtfeldman$elm_css$Html$Styled$text(fieldName)
+										]));
+							},
+							$author$project$Main$incomeStatementColumns))
+					]),
+					A2($elm$core$List$map, $author$project$Main$viewIncomeStatement, incomeStatements)
+				])));
+};
+var $author$project$Lib$Html$itemsX = F2(
+	function (attrs, html) {
+		return A2(
+			$rtfeldman$elm_css$Html$Styled$div,
+			_Utils_ap(
+				_List_fromArray(
+					[
+						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'display', 'flex'),
+						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-direction', 'row')
+					]),
+				attrs),
+			html);
 	});
 var $terezka$elm_charts$Internal$Property$Property = function (a) {
 	return {$: 'Property', a: a};
@@ -9143,24 +10243,6 @@ var $terezka$elm_charts$Internal$Svg$bar = F3(
 					]));
 		}
 	});
-var $elm$core$List$maybeCons = F3(
-	function (f, mx, xs) {
-		var _v0 = f(mx);
-		if (_v0.$ === 'Just') {
-			var x = _v0.a;
-			return A2($elm$core$List$cons, x, xs);
-		} else {
-			return xs;
-		}
-	});
-var $elm$core$List$filterMap = F2(
-	function (f, xs) {
-		return A3(
-			$elm$core$List$foldr,
-			$elm$core$List$maybeCons(f),
-			_List_Nil,
-			xs);
-	});
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $terezka$elm_charts$Internal$Produce$toDefaultName = F2(
 	function (index, name) {
@@ -9616,6 +10698,11 @@ var $terezka$elm_charts$Chart$bars = F3(
 	function (edits, properties, data) {
 		return A4($terezka$elm_charts$Chart$barsMap, $elm$core$Basics$identity, edits, properties, data);
 	});
+var $rtfeldman$elm_css$Css$prop3 = F4(
+	function (key, argA, argB, argC) {
+		return A2($rtfeldman$elm_css$Css$property, key, argA.value + (' ' + (argB.value + (' ' + argC.value))));
+	});
+var $rtfeldman$elm_css$Css$border3 = $rtfeldman$elm_css$Css$prop3('border');
 var $terezka$elm_charts$Internal$Svg$Event = F2(
 	function (name, handler) {
 		return {handler: handler, name: name};
@@ -9630,7 +10717,6 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$svg$Svg$clipPath = $elm$svg$Svg$trustedNode('clipPath');
 var $elm$json$Json$Decode$map3 = _Json_map3;
-var $elm$json$Json$Decode$float = _Json_decodeFloat;
 var $debois$elm_dom$DOM$offsetHeight = A2($elm$json$Json$Decode$field, 'offsetHeight', $elm$json$Json$Decode$float);
 var $debois$elm_dom$DOM$offsetWidth = A2($elm$json$Json$Decode$field, 'offsetWidth', $elm$json$Json$Decode$float);
 var $elm$json$Json$Decode$andThen = _Json_andThen;
@@ -11349,11 +12435,36 @@ var $terezka$elm_charts$Chart$chart = F2(
 	});
 var $rtfeldman$elm_css$VirtualDom$Styled$unstyledNode = $rtfeldman$elm_css$VirtualDom$Styled$Unstyled;
 var $rtfeldman$elm_css$Html$Styled$fromUnstyled = $rtfeldman$elm_css$VirtualDom$Styled$unstyledNode;
-var $terezka$elm_charts$Chart$Attributes$ungroup = function (config) {
-	return _Utils_update(
-		config,
-		{grouped: false});
-};
+var $terezka$elm_charts$Chart$Attributes$height = F2(
+	function (v, config) {
+		return _Utils_update(
+			config,
+			{height: v});
+	});
+var $rtfeldman$elm_css$Css$cssFunction = F2(
+	function (funcName, args) {
+		return funcName + ('(' + (A2($elm$core$String$join, ',', args) + ')'));
+	});
+var $rtfeldman$elm_css$Css$rgb = F3(
+	function (r, g, b) {
+		return {
+			alpha: 1,
+			blue: b,
+			color: $rtfeldman$elm_css$Css$Structure$Compatible,
+			green: g,
+			red: r,
+			value: A2(
+				$rtfeldman$elm_css$Css$cssFunction,
+				'rgb',
+				A2(
+					$elm$core$List$map,
+					$elm$core$String$fromInt,
+					_List_fromArray(
+						[r, g, b])))
+		};
+	});
+var $rtfeldman$elm_css$Css$solid = {borderStyle: $rtfeldman$elm_css$Css$Structure$Compatible, textDecorationStyle: $rtfeldman$elm_css$Css$Structure$Compatible, value: 'solid'};
+var $rtfeldman$elm_css$Css$width = $rtfeldman$elm_css$Css$prop1('width');
 var $terezka$elm_charts$Chart$AxisElement = F2(
 	function (a, b) {
 		return {$: 'AxisElement', a: a, b: b};
@@ -14453,7 +15564,134 @@ var $terezka$elm_charts$Chart$yTicks = function (edits) {
 					toTicks(p)));
 		});
 };
-var $author$project$Main$viewChart = function (model) {
+var $author$project$Main$viewFieldChart = F3(
+	function (title, accessor, incomeStatements) {
+		return A2(
+			$rtfeldman$elm_css$Html$Styled$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$h3,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text(title)
+						])),
+					function () {
+					var w = 600;
+					var h = 600;
+					return A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(
+										$rtfeldman$elm_css$Css$px(w)),
+										$rtfeldman$elm_css$Css$height(
+										$rtfeldman$elm_css$Css$px(h)),
+										A3(
+										$rtfeldman$elm_css$Css$border3,
+										$rtfeldman$elm_css$Css$px(1),
+										$rtfeldman$elm_css$Css$solid,
+										A3($rtfeldman$elm_css$Css$rgb, 0, 0, 0))
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$fromUnstyled(
+								A2(
+									$terezka$elm_charts$Chart$chart,
+									_List_fromArray(
+										[
+											$terezka$elm_charts$Chart$Attributes$width(w),
+											$terezka$elm_charts$Chart$Attributes$height(h)
+										]),
+									_List_fromArray(
+										[
+											A3(
+											$terezka$elm_charts$Chart$bars,
+											_List_Nil,
+											_List_fromArray(
+												[
+													A2(
+													$terezka$elm_charts$Chart$bar,
+													function (data) {
+														return data;
+													},
+													_List_Nil)
+												]),
+											$elm$core$List$reverse(
+												A2($elm$core$List$map, accessor, incomeStatements))),
+											$terezka$elm_charts$Chart$xAxis(_List_Nil),
+											$terezka$elm_charts$Chart$yAxis(_List_Nil),
+											$terezka$elm_charts$Chart$xTicks(_List_Nil),
+											$terezka$elm_charts$Chart$yTicks(_List_Nil),
+											$terezka$elm_charts$Chart$xLabels(_List_Nil),
+											$terezka$elm_charts$Chart$yLabels(_List_Nil)
+										])))
+							]));
+				}()
+				]));
+	});
+var $author$project$Main$viewIncomeStatementsCharts = function (incomeStatements) {
+	return A2(
+		$author$project$Lib$Html$itemsY,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$author$project$Lib$Html$itemsX,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A3(
+						$author$project$Main$viewFieldChart,
+						'revenue',
+						function ($) {
+							return $.revenue;
+						},
+						incomeStatements),
+						A3(
+						$author$project$Main$viewFieldChart,
+						'gross margin',
+						function ($) {
+							return $.grossProfitRatio;
+						},
+						incomeStatements),
+						A3(
+						$author$project$Main$viewFieldChart,
+						'ebitda',
+						function ($) {
+							return $.ebitda;
+						},
+						incomeStatements)
+					])),
+				A2(
+				$author$project$Lib$Html$itemsX,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A3(
+						$author$project$Main$viewFieldChart,
+						'net income',
+						function ($) {
+							return $.netIncome;
+						},
+						incomeStatements),
+						A3(
+						$author$project$Main$viewFieldChart,
+						'EPS',
+						function ($) {
+							return $.eps;
+						},
+						incomeStatements)
+					]))
+			]));
+};
+var $author$project$Main$viewRevenueChart = function (incomeStatements) {
 	return $rtfeldman$elm_css$Html$Styled$fromUnstyled(
 		A2(
 			$terezka$elm_charts$Chart$chart,
@@ -14462,14 +15700,23 @@ var $author$project$Main$viewChart = function (model) {
 				[
 					A3(
 					$terezka$elm_charts$Chart$bars,
-					_List_fromArray(
-						[$terezka$elm_charts$Chart$Attributes$ungroup]),
+					_List_Nil,
 					_List_fromArray(
 						[
-							A2($terezka$elm_charts$Chart$bar, $elm$core$Basics$identity, _List_Nil)
+							A2(
+							$terezka$elm_charts$Chart$bar,
+							function (data) {
+								return data;
+							},
+							_List_Nil)
 						]),
 					$elm$core$List$reverse(
-						A2($elm$core$List$map, $elm$core$Basics$toFloat, model.numbersReversed))),
+						A2(
+							$elm$core$List$map,
+							function (incomeStatement) {
+								return incomeStatement.revenue;
+							},
+							incomeStatements))),
 					$terezka$elm_charts$Chart$xAxis(_List_Nil),
 					$terezka$elm_charts$Chart$yAxis(_List_Nil),
 					$terezka$elm_charts$Chart$xTicks(_List_Nil),
@@ -14478,7 +15725,6 @@ var $author$project$Main$viewChart = function (model) {
 					$terezka$elm_charts$Chart$yLabels(_List_Nil)
 				])));
 };
-var $rtfeldman$elm_css$Css$width = $rtfeldman$elm_css$Css$prop1('width');
 var $author$project$Main$view = function (model) {
 	return A2(
 		$author$project$Lib$Html$itemsY,
@@ -14486,73 +15732,83 @@ var $author$project$Main$view = function (model) {
 		_List_fromArray(
 			[
 				A2(
-				$rtfeldman$elm_css$Html$Styled$div,
-				_List_Nil,
+				$rtfeldman$elm_css$Html$Styled$input,
 				_List_fromArray(
 					[
-						$rtfeldman$elm_css$Html$Styled$text('hello, world. Type in some numbers.')
-					])),
+						$rtfeldman$elm_css$Html$Styled$Events$onInput($author$project$Main$SymbolInputChanged),
+						$rtfeldman$elm_css$Html$Styled$Attributes$value(model.symbolInput)
+					]),
+				_List_Nil),
 				A2(
-				$author$project$Lib$Html$itemsX,
-				_List_Nil,
+				$rtfeldman$elm_css$Html$Styled$button,
 				_List_fromArray(
 					[
-						A2(
-						$rtfeldman$elm_css$Html$Styled$input,
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$Attributes$css(
-								_List_fromArray(
-									[
-										$rtfeldman$elm_css$Css$width(
-										$rtfeldman$elm_css$Css$px(100))
-									])),
-								$rtfeldman$elm_css$Html$Styled$Events$onInput($author$project$Main$TextInputChanged)
-							]),
-						_List_Nil),
-						A2(
-						$rtfeldman$elm_css$Html$Styled$button,
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Main$AddButtonClicked)
-							]),
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$text('add')
-							]))
-					])),
-				A2(
-				$rtfeldman$elm_css$Html$Styled$div,
-				_List_Nil,
-				A2(
-					$elm$core$List$intersperse,
-					$rtfeldman$elm_css$Html$Styled$text(', '),
-					A2(
-						$elm$core$List$map,
-						function (x) {
-							return $rtfeldman$elm_css$Html$Styled$text(
-								$elm$core$String$fromInt(x));
-						},
-						$elm$core$List$reverse(model.numbersReversed)))),
-				A2(
-				$rtfeldman$elm_css$Html$Styled$div,
-				_List_fromArray(
-					[
-						$rtfeldman$elm_css$Html$Styled$Attributes$css(
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Css$marginLeft(
-								$rtfeldman$elm_css$Css$px(50)),
-								$rtfeldman$elm_css$Css$width(
-								$rtfeldman$elm_css$Css$px(300)),
-								$rtfeldman$elm_css$Css$height(
-								$rtfeldman$elm_css$Css$px(200))
-							]))
+						$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Main$RequestDataButtonClicked)
 					]),
 				_List_fromArray(
 					[
-						$author$project$Main$viewChart(model)
-					]))
+						$rtfeldman$elm_css$Html$Styled$text('click me')
+					])),
+				function () {
+				var _v0 = model.data;
+				switch (_v0.$) {
+					case 'NotStarted':
+						return $rtfeldman$elm_css$Html$Styled$text('');
+					case 'Loading':
+						return $rtfeldman$elm_css$Html$Styled$text('Loading...');
+					case 'Error':
+						var error = _v0.a;
+						if (error.$ === 'HttpError') {
+							return $rtfeldman$elm_css$Html$Styled$text('Oh no it\'s an http error');
+						} else {
+							return $rtfeldman$elm_css$Html$Styled$text('Oh no it\'s a decoding error');
+						}
+					default:
+						var incomeStatements = _v0.a;
+						return A2(
+							$rtfeldman$elm_css$Html$Styled$div,
+							_List_Nil,
+							_List_fromArray(
+								[
+									A2(
+									$rtfeldman$elm_css$Html$Styled$div,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$rtfeldman$elm_css$Html$Styled$h3,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$text('Revenue')
+												])),
+											A2(
+											$rtfeldman$elm_css$Html$Styled$div,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$Attributes$css(
+													_List_fromArray(
+														[
+															$rtfeldman$elm_css$Css$width(
+															$rtfeldman$elm_css$Css$px(800)),
+															$rtfeldman$elm_css$Css$height(
+															$rtfeldman$elm_css$Css$px(1000)),
+															$rtfeldman$elm_css$Css$marginLeft(
+															$rtfeldman$elm_css$Css$px(500)),
+															$rtfeldman$elm_css$Css$marginBottom(
+															$rtfeldman$elm_css$Css$px(50))
+														]))
+												]),
+											_List_fromArray(
+												[
+													$author$project$Main$viewRevenueChart(incomeStatements)
+												]))
+										])),
+									$author$project$Main$viewIncomeStatementsCharts(incomeStatements),
+									$author$project$Main$viewIncomeStatements(incomeStatements)
+								]));
+				}
+			}()
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
