@@ -7276,7 +7276,13 @@ var $author$project$Main$ratiosDecoder = A2(
 			A2($elm$json$Json$Decode$field, 'freeCashFlowPerShare', $elm$json$Json$Decode$float),
 			A2(
 				$elm_community$json_extra$Json$Decode$Extra$andMap,
-				A2($elm$json$Json$Decode$field, 'returnOnCapitalEmployed', $elm$json$Json$Decode$float),
+				A2(
+					$elm$json$Json$Decode$field,
+					'returnOnCapitalEmployed',
+					A2(
+						$elm$json$Json$Decode$map,
+						$elm$core$Maybe$withDefault(0),
+						$elm$json$Json$Decode$nullable($elm$json$Json$Decode$float))),
 				A2(
 					$elm_community$json_extra$Json$Decode$Extra$andMap,
 					A2($elm$json$Json$Decode$field, 'returnOnEquity', $elm$json$Json$Decode$float),
