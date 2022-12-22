@@ -5387,7 +5387,7 @@ var $elm$core$Task$perform = F2(
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Main$NotStarted = {$: 'NotStarted'};
 var $author$project$Main$YearlyTab = {$: 'YearlyTab'};
-var $author$project$Main$initModel = {cashFlowStatementQuery: $author$project$Main$NotStarted, enterpriseValuesQuery: $author$project$Main$NotStarted, incomeStatementQuery: $author$project$Main$NotStarted, keyMetricsQuery: $author$project$Main$NotStarted, ratiosQuery: $author$project$Main$NotStarted, stockDividendsQuery: $author$project$Main$NotStarted, symbolInput: 'AAPL', tab: $author$project$Main$YearlyTab};
+var $author$project$Main$initModel = {cashFlowStatementQuery: $author$project$Main$NotStarted, enterpriseValuesQuery: $author$project$Main$NotStarted, incomeStatementQuery: $author$project$Main$NotStarted, keyMetricsQuery: $author$project$Main$NotStarted, ratiosQuery: $author$project$Main$NotStarted, symbolInput: 'AAPL', tab: $author$project$Main$YearlyTab};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $Fresheyeball$elm_return$Return$singleton = function (a) {
@@ -6322,6 +6322,9 @@ var $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 	}
 };
 var $rtfeldman$elm_css$Html$Styled$toUnstyled = $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
+var $author$project$Main$CompanySymbol = function (a) {
+	return {$: 'CompanySymbol', a: a};
+};
 var $author$project$Main$Error = function (a) {
 	return {$: 'Error', a: a};
 };
@@ -6352,28 +6355,55 @@ var $author$project$Main$CashFlowStatement = F6(
 	function (calendarYear, period, changeInWorkingCapital, dividendsPaid, capitalExpenditure, freeCashFlow) {
 		return {calendarYear: calendarYear, capitalExpenditure: capitalExpenditure, changeInWorkingCapital: changeInWorkingCapital, dividendsPaid: dividendsPaid, freeCashFlow: freeCashFlow, period: period};
 	});
+var $author$project$Main$Date = function (a) {
+	return {$: 'Date', a: a};
+};
+var $author$project$Main$Dollars = function (a) {
+	return {$: 'Dollars', a: a};
+};
+var $author$project$Main$PeriodSimple = function (a) {
+	return {$: 'PeriodSimple', a: a};
+};
 var $elm_community$json_extra$Json$Decode$Extra$andMap = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$float = _Json_decodeFloat;
 var $elm$json$Json$Decode$string = _Json_decodeString;
 var $author$project$Main$cashFlowStatementDecoder = A2(
 	$elm_community$json_extra$Json$Decode$Extra$andMap,
-	A2($elm$json$Json$Decode$field, 'freeCashFlow', $elm$json$Json$Decode$float),
+	A2(
+		$elm$json$Json$Decode$field,
+		'freeCashFlow',
+		A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 	A2(
 		$elm_community$json_extra$Json$Decode$Extra$andMap,
-		A2($elm$json$Json$Decode$field, 'capitalExpenditure', $elm$json$Json$Decode$float),
+		A2(
+			$elm$json$Json$Decode$field,
+			'capitalExpenditure',
+			A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 		A2(
 			$elm_community$json_extra$Json$Decode$Extra$andMap,
-			A2($elm$json$Json$Decode$field, 'dividendsPaid', $elm$json$Json$Decode$float),
+			A2(
+				$elm$json$Json$Decode$field,
+				'dividendsPaid',
+				A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 			A2(
 				$elm_community$json_extra$Json$Decode$Extra$andMap,
-				A2($elm$json$Json$Decode$field, 'changeInWorkingCapital', $elm$json$Json$Decode$float),
+				A2(
+					$elm$json$Json$Decode$field,
+					'changeInWorkingCapital',
+					A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 				A2(
 					$elm_community$json_extra$Json$Decode$Extra$andMap,
-					A2($elm$json$Json$Decode$field, 'period', $elm$json$Json$Decode$string),
+					A2(
+						$elm$json$Json$Decode$field,
+						'period',
+						A2($elm$json$Json$Decode$map, $author$project$Main$PeriodSimple, $elm$json$Json$Decode$string)),
 					A2(
 						$elm_community$json_extra$Json$Decode$Extra$andMap,
-						A2($elm$json$Json$Decode$field, 'calendarYear', $elm$json$Json$Decode$string),
+						A2(
+							$elm$json$Json$Decode$field,
+							'calendarYear',
+							A2($elm$json$Json$Decode$map, $author$project$Main$Date, $elm$json$Json$Decode$string)),
 						$elm$json$Json$Decode$succeed($author$project$Main$CashFlowStatement)))))));
 var $elm$core$String$concat = function (strings) {
 	return A2($elm$core$String$join, '', strings);
@@ -7033,7 +7063,8 @@ var $author$project$Main$periodToString = function (period) {
 	}
 };
 var $author$project$Main$getCashFlowStatements = F3(
-	function (symbol, period, limit) {
+	function (_v0, period, limit) {
+		var symbol = _v0.a;
 		return $elm$http$Http$get(
 			{
 				expect: A2(
@@ -7060,21 +7091,37 @@ var $author$project$Main$EnterpriseValues = F4(
 	function (date, numberOfShares, minusCashAndCashEquivalents, addTotalDebt) {
 		return {addTotalDebt: addTotalDebt, date: date, minusCashAndCashEquivalents: minusCashAndCashEquivalents, numberOfShares: numberOfShares};
 	});
+var $author$project$Main$Shares = function (a) {
+	return {$: 'Shares', a: a};
+};
 var $author$project$Main$enterpriseValuesDecoder = A2(
 	$elm_community$json_extra$Json$Decode$Extra$andMap,
-	A2($elm$json$Json$Decode$field, 'addTotalDebt', $elm$json$Json$Decode$float),
+	A2(
+		$elm$json$Json$Decode$field,
+		'addTotalDebt',
+		A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 	A2(
 		$elm_community$json_extra$Json$Decode$Extra$andMap,
-		A2($elm$json$Json$Decode$field, 'minusCashAndCashEquivalents', $elm$json$Json$Decode$float),
+		A2(
+			$elm$json$Json$Decode$field,
+			'minusCashAndCashEquivalents',
+			A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 		A2(
 			$elm_community$json_extra$Json$Decode$Extra$andMap,
-			A2($elm$json$Json$Decode$field, 'numberOfShares', $elm$json$Json$Decode$float),
+			A2(
+				$elm$json$Json$Decode$field,
+				'numberOfShares',
+				A2($elm$json$Json$Decode$map, $author$project$Main$Shares, $elm$json$Json$Decode$float)),
 			A2(
 				$elm_community$json_extra$Json$Decode$Extra$andMap,
-				A2($elm$json$Json$Decode$field, 'date', $elm$json$Json$Decode$string),
+				A2(
+					$elm$json$Json$Decode$field,
+					'date',
+					A2($elm$json$Json$Decode$map, $author$project$Main$Date, $elm$json$Json$Decode$string)),
 				$elm$json$Json$Decode$succeed($author$project$Main$EnterpriseValues)))));
 var $author$project$Main$getEnterpriseValues = F3(
-	function (symbol, period, limit) {
+	function (_v0, period, limit) {
+		var symbol = _v0.a;
 		return $elm$http$Http$get(
 			{
 				expect: A2(
@@ -7096,6 +7143,9 @@ var $author$project$Main$getEnterpriseValues = F3(
 	});
 var $author$project$Main$ServerRespondedWithIncomeStatements = function (a) {
 	return {$: 'ServerRespondedWithIncomeStatements', a: a};
+};
+var $author$project$Main$DollarsPerShare = function (a) {
+	return {$: 'DollarsPerShare', a: a};
 };
 var $author$project$Main$IncomeStatement = function (calendarYear) {
 	return function (period) {
@@ -7122,45 +7172,85 @@ var $author$project$Main$IncomeStatement = function (calendarYear) {
 		};
 	};
 };
+var $author$project$Main$Ratio = function (a) {
+	return {$: 'Ratio', a: a};
+};
 var $author$project$Main$incomeStatementDecoder = A2(
 	$elm_community$json_extra$Json$Decode$Extra$andMap,
-	A2($elm$json$Json$Decode$field, 'eps', $elm$json$Json$Decode$float),
+	A2(
+		$elm$json$Json$Decode$field,
+		'eps',
+		A2($elm$json$Json$Decode$map, $author$project$Main$DollarsPerShare, $elm$json$Json$Decode$float)),
 	A2(
 		$elm_community$json_extra$Json$Decode$Extra$andMap,
-		A2($elm$json$Json$Decode$field, 'netIncome', $elm$json$Json$Decode$float),
+		A2(
+			$elm$json$Json$Decode$field,
+			'netIncome',
+			A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 		A2(
 			$elm_community$json_extra$Json$Decode$Extra$andMap,
-			A2($elm$json$Json$Decode$field, 'incomeTaxExpense', $elm$json$Json$Decode$float),
+			A2(
+				$elm$json$Json$Decode$field,
+				'incomeTaxExpense',
+				A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 			A2(
 				$elm_community$json_extra$Json$Decode$Extra$andMap,
-				A2($elm$json$Json$Decode$field, 'incomeBeforeTax', $elm$json$Json$Decode$float),
+				A2(
+					$elm$json$Json$Decode$field,
+					'incomeBeforeTax',
+					A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 				A2(
 					$elm_community$json_extra$Json$Decode$Extra$andMap,
-					A2($elm$json$Json$Decode$field, 'operatingIncome', $elm$json$Json$Decode$float),
+					A2(
+						$elm$json$Json$Decode$field,
+						'operatingIncome',
+						A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 					A2(
 						$elm_community$json_extra$Json$Decode$Extra$andMap,
-						A2($elm$json$Json$Decode$field, 'ebitda', $elm$json$Json$Decode$float),
+						A2(
+							$elm$json$Json$Decode$field,
+							'ebitda',
+							A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 						A2(
 							$elm_community$json_extra$Json$Decode$Extra$andMap,
-							A2($elm$json$Json$Decode$field, 'depreciationAndAmortization', $elm$json$Json$Decode$float),
+							A2(
+								$elm$json$Json$Decode$field,
+								'depreciationAndAmortization',
+								A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 							A2(
 								$elm_community$json_extra$Json$Decode$Extra$andMap,
-								A2($elm$json$Json$Decode$field, 'grossProfitRatio', $elm$json$Json$Decode$float),
+								A2(
+									$elm$json$Json$Decode$field,
+									'grossProfitRatio',
+									A2($elm$json$Json$Decode$map, $author$project$Main$Ratio, $elm$json$Json$Decode$float)),
 								A2(
 									$elm_community$json_extra$Json$Decode$Extra$andMap,
-									A2($elm$json$Json$Decode$field, 'grossProfit', $elm$json$Json$Decode$float),
+									A2(
+										$elm$json$Json$Decode$field,
+										'grossProfit',
+										A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 									A2(
 										$elm_community$json_extra$Json$Decode$Extra$andMap,
-										A2($elm$json$Json$Decode$field, 'revenue', $elm$json$Json$Decode$float),
+										A2(
+											$elm$json$Json$Decode$field,
+											'revenue',
+											A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 										A2(
 											$elm_community$json_extra$Json$Decode$Extra$andMap,
-											A2($elm$json$Json$Decode$field, 'period', $elm$json$Json$Decode$string),
+											A2(
+												$elm$json$Json$Decode$field,
+												'period',
+												A2($elm$json$Json$Decode$map, $author$project$Main$PeriodSimple, $elm$json$Json$Decode$string)),
 											A2(
 												$elm_community$json_extra$Json$Decode$Extra$andMap,
-												A2($elm$json$Json$Decode$field, 'calendarYear', $elm$json$Json$Decode$string),
+												A2(
+													$elm$json$Json$Decode$field,
+													'calendarYear',
+													A2($elm$json$Json$Decode$map, $author$project$Main$Date, $elm$json$Json$Decode$string)),
 												$elm$json$Json$Decode$succeed($author$project$Main$IncomeStatement)))))))))))));
 var $author$project$Main$getIncomeStatements = F3(
-	function (symbol, period, limit) {
+	function (_v0, period, limit) {
+		var symbol = _v0.a;
 		return $elm$http$Http$get(
 			{
 				expect: A2(
@@ -7189,25 +7279,44 @@ var $author$project$Main$KeyMetrics = F6(
 	});
 var $author$project$Main$keyMetricsDecoder = A2(
 	$elm_community$json_extra$Json$Decode$Extra$andMap,
-	A2($elm$json$Json$Decode$field, 'roic', $elm$json$Json$Decode$float),
+	A2(
+		$elm$json$Json$Decode$field,
+		'roic',
+		A2($elm$json$Json$Decode$map, $author$project$Main$Ratio, $elm$json$Json$Decode$float)),
 	A2(
 		$elm_community$json_extra$Json$Decode$Extra$andMap,
-		A2($elm$json$Json$Decode$field, 'netDebtToEBITDA', $elm$json$Json$Decode$float),
+		A2(
+			$elm$json$Json$Decode$field,
+			'netDebtToEBITDA',
+			A2($elm$json$Json$Decode$map, $author$project$Main$DollarsPerShare, $elm$json$Json$Decode$float)),
 		A2(
 			$elm_community$json_extra$Json$Decode$Extra$andMap,
-			A2($elm$json$Json$Decode$field, 'freeCashFlowYield', $elm$json$Json$Decode$float),
+			A2(
+				$elm$json$Json$Decode$field,
+				'freeCashFlowYield',
+				A2($elm$json$Json$Decode$map, $author$project$Main$Ratio, $elm$json$Json$Decode$float)),
 			A2(
 				$elm_community$json_extra$Json$Decode$Extra$andMap,
-				A2($elm$json$Json$Decode$field, 'peRatio', $elm$json$Json$Decode$float),
+				A2(
+					$elm$json$Json$Decode$field,
+					'peRatio',
+					A2($elm$json$Json$Decode$map, $author$project$Main$DollarsPerShare, $elm$json$Json$Decode$float)),
 				A2(
 					$elm_community$json_extra$Json$Decode$Extra$andMap,
-					A2($elm$json$Json$Decode$field, 'period', $elm$json$Json$Decode$string),
+					A2(
+						$elm$json$Json$Decode$field,
+						'period',
+						A2($elm$json$Json$Decode$map, $author$project$Main$PeriodSimple, $elm$json$Json$Decode$string)),
 					A2(
 						$elm_community$json_extra$Json$Decode$Extra$andMap,
-						A2($elm$json$Json$Decode$field, 'date', $elm$json$Json$Decode$string),
+						A2(
+							$elm$json$Json$Decode$field,
+							'date',
+							A2($elm$json$Json$Decode$map, $author$project$Main$Date, $elm$json$Json$Decode$string)),
 						$elm$json$Json$Decode$succeed($author$project$Main$KeyMetrics)))))));
 var $author$project$Main$getKeyMetrics = F3(
-	function (symbol, period, limit) {
+	function (_v0, period, limit) {
+		var symbol = _v0.a;
 		return $elm$http$Http$get(
 			{
 				expect: A2(
@@ -7260,8 +7369,11 @@ var $author$project$Main$ratiosDecoder = A2(
 		'dividendYield',
 		A2(
 			$elm$json$Json$Decode$map,
-			$elm$core$Maybe$withDefault(0),
-			$elm$json$Json$Decode$nullable($elm$json$Json$Decode$float))),
+			$author$project$Main$Ratio,
+			A2(
+				$elm$json$Json$Decode$map,
+				$elm$core$Maybe$withDefault(0),
+				$elm$json$Json$Decode$nullable($elm$json$Json$Decode$float)))),
 	A2(
 		$elm_community$json_extra$Json$Decode$Extra$andMap,
 		A2(
@@ -7269,11 +7381,17 @@ var $author$project$Main$ratiosDecoder = A2(
 			'dividendPayoutRatio',
 			A2(
 				$elm$json$Json$Decode$map,
-				$elm$core$Maybe$withDefault(0),
-				$elm$json$Json$Decode$nullable($elm$json$Json$Decode$float))),
+				$author$project$Main$Ratio,
+				A2(
+					$elm$json$Json$Decode$map,
+					$elm$core$Maybe$withDefault(0),
+					$elm$json$Json$Decode$nullable($elm$json$Json$Decode$float)))),
 		A2(
 			$elm_community$json_extra$Json$Decode$Extra$andMap,
-			A2($elm$json$Json$Decode$field, 'freeCashFlowPerShare', $elm$json$Json$Decode$float),
+			A2(
+				$elm$json$Json$Decode$field,
+				'freeCashFlowPerShare',
+				A2($elm$json$Json$Decode$map, $author$project$Main$DollarsPerShare, $elm$json$Json$Decode$float)),
 			A2(
 				$elm_community$json_extra$Json$Decode$Extra$andMap,
 				A2(
@@ -7281,20 +7399,33 @@ var $author$project$Main$ratiosDecoder = A2(
 					'returnOnCapitalEmployed',
 					A2(
 						$elm$json$Json$Decode$map,
-						$elm$core$Maybe$withDefault(0),
-						$elm$json$Json$Decode$nullable($elm$json$Json$Decode$float))),
+						$author$project$Main$Ratio,
+						A2(
+							$elm$json$Json$Decode$map,
+							$elm$core$Maybe$withDefault(0),
+							$elm$json$Json$Decode$nullable($elm$json$Json$Decode$float)))),
 				A2(
 					$elm_community$json_extra$Json$Decode$Extra$andMap,
-					A2($elm$json$Json$Decode$field, 'returnOnEquity', $elm$json$Json$Decode$float),
+					A2(
+						$elm$json$Json$Decode$field,
+						'returnOnEquity',
+						A2($elm$json$Json$Decode$map, $author$project$Main$Ratio, $elm$json$Json$Decode$float)),
 					A2(
 						$elm_community$json_extra$Json$Decode$Extra$andMap,
-						A2($elm$json$Json$Decode$field, 'period', $elm$json$Json$Decode$string),
+						A2(
+							$elm$json$Json$Decode$field,
+							'period',
+							A2($elm$json$Json$Decode$map, $author$project$Main$PeriodSimple, $elm$json$Json$Decode$string)),
 						A2(
 							$elm_community$json_extra$Json$Decode$Extra$andMap,
-							A2($elm$json$Json$Decode$field, 'date', $elm$json$Json$Decode$string),
+							A2(
+								$elm$json$Json$Decode$field,
+								'date',
+								A2($elm$json$Json$Decode$map, $author$project$Main$Date, $elm$json$Json$Decode$string)),
 							$elm$json$Json$Decode$succeed($author$project$Main$Ratios))))))));
 var $author$project$Main$getRatios = F3(
-	function (symbol, period, limit) {
+	function (_v0, period, limit) {
+		var symbol = _v0.a;
 		return $elm$http$Http$get(
 			{
 				expect: A2(
@@ -7314,45 +7445,6 @@ var $author$project$Main$getRatios = F3(
 						]))
 			});
 	});
-var $author$project$Main$ServerRespondedWithStockDividends = function (a) {
-	return {$: 'ServerRespondedWithStockDividends', a: a};
-};
-var $elm$json$Json$Decode$maybe = function (decoder) {
-	return $elm$json$Json$Decode$oneOf(
-		_List_fromArray(
-			[
-				A2($elm$json$Json$Decode$map, $elm$core$Maybe$Just, decoder),
-				$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing)
-			]));
-};
-var $author$project$Main$StockDividend = F2(
-	function (date, dividend) {
-		return {date: date, dividend: dividend};
-	});
-var $author$project$Main$stockDividendDecoder = A2(
-	$elm_community$json_extra$Json$Decode$Extra$andMap,
-	A2($elm$json$Json$Decode$field, 'dividend', $elm$json$Json$Decode$float),
-	A2(
-		$elm_community$json_extra$Json$Decode$Extra$andMap,
-		A2($elm$json$Json$Decode$field, 'date', $elm$json$Json$Decode$string),
-		$elm$json$Json$Decode$succeed($author$project$Main$StockDividend)));
-var $author$project$Main$getStockDividends = function (symbol) {
-	return $elm$http$Http$get(
-		{
-			expect: A2(
-				$elm$http$Http$expectJson,
-				$author$project$Main$ServerRespondedWithStockDividends,
-				$elm$json$Json$Decode$maybe(
-					A2(
-						$elm$json$Json$Decode$field,
-						'historical',
-						$elm$json$Json$Decode$list($author$project$Main$stockDividendDecoder)))),
-			url: $elm$core$String$concat(
-				_List_fromArray(
-					[$author$project$Main$fmpcloudUrl, 'historical-price-full/stock_dividend/', symbol, '?', 'apikey=' + $author$project$Main$apiKey]))
-		});
-};
-var $elm$core$Debug$log = _Debug_log;
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -7380,13 +7472,16 @@ var $author$project$Main$update = F2(
 											A3($author$project$Main$getEnterpriseValues, symbol, period, limit)
 										]));
 							});
-						switch (tab.$) {
-							case 'DividendsTab':
-								return $author$project$Main$getStockDividends(model.symbolInput);
-							case 'YearlyTab':
-								return A2(getAllNonDividendData, model.symbolInput, $author$project$Main$Year);
-							default:
-								return A2(getAllNonDividendData, model.symbolInput, $author$project$Main$Quarter);
+						if (tab.$ === 'YearlyTab') {
+							return A2(
+								getAllNonDividendData,
+								$author$project$Main$CompanySymbol(model.symbolInput),
+								$author$project$Main$Year);
+						} else {
+							return A2(
+								getAllNonDividendData,
+								$author$project$Main$CompanySymbol(model.symbolInput),
+								$author$project$Main$Quarter);
 						}
 					}(),
 					$Fresheyeball$elm_return$Return$singleton(
@@ -7473,7 +7568,7 @@ var $author$project$Main$update = F2(
 									$author$project$Main$HttpError(httpErr))
 							}));
 				}
-			case 'ServerRespondedWithEnterpriseValues':
+			default:
 				var result = msg.a;
 				if (result.$ === 'Ok') {
 					var data = result.a;
@@ -7493,30 +7588,8 @@ var $author$project$Main$update = F2(
 									$author$project$Main$HttpError(httpErr))
 							}));
 				}
-			default:
-				var result = msg.a;
-				var _v7 = A2($elm$core$Debug$log, '', result);
-				if (result.$ === 'Ok') {
-					var data = result.a;
-					return $Fresheyeball$elm_return$Return$singleton(
-						_Utils_update(
-							model,
-							{
-								stockDividendsQuery: $author$project$Main$Ready(data)
-							}));
-				} else {
-					var httpErr = result.a;
-					return $Fresheyeball$elm_return$Return$singleton(
-						_Utils_update(
-							model,
-							{
-								stockDividendsQuery: $author$project$Main$Error(
-									$author$project$Main$HttpError(httpErr))
-							}));
-				}
 		}
 	});
-var $author$project$Main$DividendsTab = {$: 'DividendsTab'};
 var $author$project$Main$QuerterlyTab = {$: 'QuerterlyTab'};
 var $author$project$Main$RequestDataButtonClicked = function (a) {
 	return {$: 'RequestDataButtonClicked', a: a};
@@ -7531,29 +7604,43 @@ var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 var $rtfeldman$elm_css$VirtualDom$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$Node;
 var $rtfeldman$elm_css$Html$Styled$node = $rtfeldman$elm_css$VirtualDom$Styled$node;
 var $rtfeldman$elm_css$Html$Styled$button = $rtfeldman$elm_css$Html$Styled$node('button');
+var $author$project$Main$Date_ = function (a) {
+	return {$: 'Date_', a: a};
+};
+var $author$project$Main$Dollars_ = function (a) {
+	return {$: 'Dollars_', a: a};
+};
+var $author$project$Main$PeriodSimple_ = function (a) {
+	return {$: 'PeriodSimple_', a: a};
+};
 var $elm$core$Basics$composeL = F3(
 	function (g, f, x) {
 		return g(
 			f(x));
 	});
-var $elm$core$String$fromFloat = _String_fromNumber;
 var $author$project$Main$cashFlowStatementColumns = _List_fromArray(
 	[
 		_Utils_Tuple2(
 		'year',
-		function ($) {
-			return $.calendarYear;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$Date_,
+			function ($) {
+				return $.calendarYear;
+			})),
 		_Utils_Tuple2(
 		'period',
-		function ($) {
-			return $.period;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$PeriodSimple_,
+			function ($) {
+				return $.period;
+			})),
 		_Utils_Tuple2(
 		'change in working capital',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.changeInWorkingCapital;
 			})),
@@ -7561,7 +7648,7 @@ var $author$project$Main$cashFlowStatementColumns = _List_fromArray(
 		'dividens paid',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.dividendsPaid;
 			})),
@@ -7569,7 +7656,7 @@ var $author$project$Main$cashFlowStatementColumns = _List_fromArray(
 		'capital expenditure',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.capitalExpenditure;
 			})),
@@ -7577,24 +7664,30 @@ var $author$project$Main$cashFlowStatementColumns = _List_fromArray(
 		'free cash flow',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.freeCashFlow;
 			}))
 	]);
 var $rtfeldman$elm_css$Html$Styled$div = $rtfeldman$elm_css$Html$Styled$node('div');
+var $author$project$Main$Shares_ = function (a) {
+	return {$: 'Shares_', a: a};
+};
 var $author$project$Main$enterpriseValuesColumns = _List_fromArray(
 	[
 		_Utils_Tuple2(
 		'date',
-		function ($) {
-			return $.date;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$Date_,
+			function ($) {
+				return $.date;
+			})),
 		_Utils_Tuple2(
 		'numberOfShares',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Shares_,
 			function ($) {
 				return $.numberOfShares;
 			})),
@@ -7602,7 +7695,7 @@ var $author$project$Main$enterpriseValuesColumns = _List_fromArray(
 		'minusCashAndCashEquivalents',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.minusCashAndCashEquivalents;
 			})),
@@ -7610,29 +7703,41 @@ var $author$project$Main$enterpriseValuesColumns = _List_fromArray(
 		'addTotalDebt',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.addTotalDebt;
 			}))
 	]);
 var $rtfeldman$elm_css$Html$Styled$h2 = $rtfeldman$elm_css$Html$Styled$node('h2');
+var $author$project$Main$DollarsPerShare_ = function (a) {
+	return {$: 'DollarsPerShare_', a: a};
+};
+var $author$project$Main$Ratio_ = function (a) {
+	return {$: 'Ratio_', a: a};
+};
 var $author$project$Main$incomeStatementColumns = _List_fromArray(
 	[
 		_Utils_Tuple2(
 		'year',
-		function ($) {
-			return $.calendarYear;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$Date_,
+			function ($) {
+				return $.calendarYear;
+			})),
 		_Utils_Tuple2(
 		'period',
-		function ($) {
-			return $.period;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$PeriodSimple_,
+			function ($) {
+				return $.period;
+			})),
 		_Utils_Tuple2(
 		'revenue',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.revenue;
 			})),
@@ -7640,7 +7745,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'gross profit',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.grossProfit;
 			})),
@@ -7648,7 +7753,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'gross margin',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Ratio_,
 			function ($) {
 				return $.grossProfitRatio;
 			})),
@@ -7656,7 +7761,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'DA',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.depreciationAndAmortization;
 			})),
@@ -7664,7 +7769,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'ebitda ',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.ebitda;
 			})),
@@ -7672,7 +7777,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'operating income',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.operatingIncome;
 			})),
@@ -7680,7 +7785,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'income before tax',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.incomeBeforeTax;
 			})),
@@ -7688,7 +7793,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'incomeTaxExpense',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.incomeTaxExpense;
 			})),
@@ -7696,7 +7801,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'netIncome',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Dollars_,
 			function ($) {
 				return $.netIncome;
 			})),
@@ -7704,7 +7809,7 @@ var $author$project$Main$incomeStatementColumns = _List_fromArray(
 		'eps',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$DollarsPerShare_,
 			function ($) {
 				return $.eps;
 			}))
@@ -7754,19 +7859,25 @@ var $author$project$Main$keyMetricsColumns = _List_fromArray(
 	[
 		_Utils_Tuple2(
 		'date',
-		function ($) {
-			return $.date;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$Date_,
+			function ($) {
+				return $.date;
+			})),
 		_Utils_Tuple2(
 		'period',
-		function ($) {
-			return $.period;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$PeriodSimple_,
+			function ($) {
+				return $.period;
+			})),
 		_Utils_Tuple2(
 		'peRatio',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$DollarsPerShare_,
 			function ($) {
 				return $.peRatio;
 			})),
@@ -7774,7 +7885,7 @@ var $author$project$Main$keyMetricsColumns = _List_fromArray(
 		'freeCashFlowYield',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Ratio_,
 			function ($) {
 				return $.freeCashFlowYield;
 			})),
@@ -7782,7 +7893,7 @@ var $author$project$Main$keyMetricsColumns = _List_fromArray(
 		'netDebtToEBITDA',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$DollarsPerShare_,
 			function ($) {
 				return $.netDebtToEBITDA;
 			})),
@@ -7790,7 +7901,7 @@ var $author$project$Main$keyMetricsColumns = _List_fromArray(
 		'roic',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Ratio_,
 			function ($) {
 				return $.roic;
 			}))
@@ -7921,19 +8032,25 @@ var $author$project$Main$ratiosColumns = _List_fromArray(
 	[
 		_Utils_Tuple2(
 		'date',
-		function ($) {
-			return $.date;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$Date_,
+			function ($) {
+				return $.date;
+			})),
 		_Utils_Tuple2(
 		'period',
-		function ($) {
-			return $.period;
-		}),
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$PeriodSimple_,
+			function ($) {
+				return $.period;
+			})),
 		_Utils_Tuple2(
 		'returnOnEquity',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Ratio_,
 			function ($) {
 				return $.returnOnEquity;
 			})),
@@ -7941,7 +8058,7 @@ var $author$project$Main$ratiosColumns = _List_fromArray(
 		'returnOnCapitalEmployed',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Ratio_,
 			function ($) {
 				return $.returnOnCapitalEmployed;
 			})),
@@ -7949,7 +8066,7 @@ var $author$project$Main$ratiosColumns = _List_fromArray(
 		'freeCashFlowPerShare',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$DollarsPerShare_,
 			function ($) {
 				return $.freeCashFlowPerShare;
 			})),
@@ -7957,7 +8074,7 @@ var $author$project$Main$ratiosColumns = _List_fromArray(
 		'dividendPayoutRatio',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Ratio_,
 			function ($) {
 				return $.dividendPayoutRatio;
 			})),
@@ -7965,25 +8082,9 @@ var $author$project$Main$ratiosColumns = _List_fromArray(
 		'dividendYield',
 		A2(
 			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
+			$author$project$Main$Ratio_,
 			function ($) {
 				return $.dividendYield;
-			}))
-	]);
-var $author$project$Main$stockDividendColumns = _List_fromArray(
-	[
-		_Utils_Tuple2(
-		'date',
-		function ($) {
-			return $.date;
-		}),
-		_Utils_Tuple2(
-		'dividend',
-		A2(
-			$elm$core$Basics$composeL,
-			$elm$core$String$fromFloat,
-			function ($) {
-				return $.dividend;
 			}))
 	]);
 var $rtfeldman$elm_css$VirtualDom$Styled$Unstyled = function (a) {
@@ -8010,9 +8111,22 @@ var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $rtfeldman$elm_css$Html$Styled$Attributes$value = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('value');
+var $author$project$Main$dollarsPerShareToFloat = function (_v0) {
+	var x = _v0.a;
+	return x;
+};
+var $author$project$Main$dollarsToFloat = function (_v0) {
+	var x = _v0.a;
+	return x;
+};
+var $author$project$Main$ratioToFloat = function (_v0) {
+	var x = _v0.a;
+	return x;
+};
 var $terezka$elm_charts$Internal$Property$Property = function (a) {
 	return {$: 'Property', a: a};
 };
+var $elm$core$String$fromFloat = _String_fromNumber;
 var $elm$core$Maybe$map = F2(
 	function (f, maybe) {
 		if (maybe.$ === 'Just') {
@@ -16233,23 +16347,32 @@ var $author$project$Main$viewCharts = F2(
 							A3(
 							$author$project$Main$viewFieldChart,
 							'revenue',
-							function ($) {
-								return $.revenue;
-							},
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.revenue;
+								}),
 							incomeStatements),
 							A3(
 							$author$project$Main$viewFieldChart,
 							'gross margin',
-							function ($) {
-								return $.grossProfitRatio;
-							},
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$ratioToFloat,
+								function ($) {
+									return $.grossProfitRatio;
+								}),
 							incomeStatements),
 							A3(
 							$author$project$Main$viewFieldChart,
 							'ebitda',
-							function ($) {
-								return $.ebitda;
-							},
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.ebitda;
+								}),
 							incomeStatements)
 						])),
 					A2(
@@ -16260,23 +16383,32 @@ var $author$project$Main$viewCharts = F2(
 							A3(
 							$author$project$Main$viewFieldChart,
 							'net income',
-							function ($) {
-								return $.netIncome;
-							},
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.netIncome;
+								}),
 							incomeStatements),
 							A3(
 							$author$project$Main$viewFieldChart,
 							'EPS',
-							function ($) {
-								return $.eps;
-							},
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsPerShareToFloat,
+								function ($) {
+									return $.eps;
+								}),
 							incomeStatements),
 							A3(
 							$author$project$Main$viewFieldChart,
 							'Return on Capital Employed',
-							function ($) {
-								return $.returnOnCapitalEmployed;
-							},
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$ratioToFloat,
+								function ($) {
+									return $.returnOnCapitalEmployed;
+								}),
 							ratios)
 						]))
 				]));
@@ -16300,15 +16432,364 @@ var $author$project$Main$viewQuery = F2(
 				return f(a);
 		}
 	});
+var $rtfeldman$elm_css$Css$borderSpacing = $rtfeldman$elm_css$Css$prop1('border-spacing');
+var $rtfeldman$elm_css$Css$right = $rtfeldman$elm_css$Css$prop1('right');
 var $rtfeldman$elm_css$Html$Styled$table = $rtfeldman$elm_css$Html$Styled$node('table');
 var $rtfeldman$elm_css$Html$Styled$td = $rtfeldman$elm_css$Html$Styled$node('td');
+var $rtfeldman$elm_css$Css$Preprocess$ApplyStyles = function (a) {
+	return {$: 'ApplyStyles', a: a};
+};
+var $rtfeldman$elm_css$Css$Internal$property = F2(
+	function (key, value) {
+		return $rtfeldman$elm_css$Css$Preprocess$AppendProperty(
+			$rtfeldman$elm_css$Css$Structure$Property(key + (':' + value)));
+	});
+var $rtfeldman$elm_css$Css$Internal$getOverloadedProperty = F3(
+	function (functionName, desiredKey, style) {
+		getOverloadedProperty:
+		while (true) {
+			switch (style.$) {
+				case 'AppendProperty':
+					var str = style.a.a;
+					var key = A2(
+						$elm$core$Maybe$withDefault,
+						'',
+						$elm$core$List$head(
+							A2($elm$core$String$split, ':', str)));
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, key);
+				case 'ExtendSelector':
+					var selector = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-selector'));
+				case 'NestSnippet':
+					var combinator = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-combinator'));
+				case 'WithPseudoElement':
+					var pseudoElement = style.a;
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-pseudo-element setter'));
+				case 'WithMedia':
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-media-query'));
+				case 'WithKeyframes':
+					return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-inapplicable-Style-for-keyframes'));
+				default:
+					if (!style.a.b) {
+						return A2($rtfeldman$elm_css$Css$Internal$property, desiredKey, 'elm-css-error-cannot-apply-' + (functionName + '-with-empty-Style'));
+					} else {
+						if (!style.a.b.b) {
+							var _v1 = style.a;
+							var only = _v1.a;
+							var $temp$functionName = functionName,
+								$temp$desiredKey = desiredKey,
+								$temp$style = only;
+							functionName = $temp$functionName;
+							desiredKey = $temp$desiredKey;
+							style = $temp$style;
+							continue getOverloadedProperty;
+						} else {
+							var _v2 = style.a;
+							var first = _v2.a;
+							var rest = _v2.b;
+							var $temp$functionName = functionName,
+								$temp$desiredKey = desiredKey,
+								$temp$style = $rtfeldman$elm_css$Css$Preprocess$ApplyStyles(rest);
+							functionName = $temp$functionName;
+							desiredKey = $temp$desiredKey;
+							style = $temp$style;
+							continue getOverloadedProperty;
+						}
+					}
+			}
+		}
+	});
+var $rtfeldman$elm_css$Css$Internal$IncompatibleUnits = {$: 'IncompatibleUnits'};
+var $rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty = A3($rtfeldman$elm_css$Css$Internal$lengthConverter, $rtfeldman$elm_css$Css$Internal$IncompatibleUnits, '', 0);
+var $rtfeldman$elm_css$Css$textAlign = function (fn) {
+	return A3(
+		$rtfeldman$elm_css$Css$Internal$getOverloadedProperty,
+		'textAlign',
+		'text-align',
+		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
+};
 var $rtfeldman$elm_css$Html$Styled$th = $rtfeldman$elm_css$Html$Styled$node('th');
 var $rtfeldman$elm_css$Html$Styled$tr = $rtfeldman$elm_css$Html$Styled$node('tr');
+var $author$project$Main$viewCompanySymbol = function (_v0) {
+	var companySymbol = _v0.a;
+	return $rtfeldman$elm_css$Html$Styled$text(companySymbol);
+};
+var $author$project$Main$viewDate = function (_v0) {
+	var date = _v0.a;
+	return $rtfeldman$elm_css$Html$Styled$text(date);
+};
+var $cuducos$elm_format_number$FormatNumber$Locales$Exact = function (a) {
+	return {$: 'Exact', a: a};
+};
+var $cuducos$elm_format_number$FormatNumber$Parser$FormattedNumber = F5(
+	function (original, integers, decimals, prefix, suffix) {
+		return {decimals: decimals, integers: integers, original: original, prefix: prefix, suffix: suffix};
+	});
+var $cuducos$elm_format_number$FormatNumber$Parser$Negative = {$: 'Negative'};
+var $cuducos$elm_format_number$FormatNumber$Parser$Positive = {$: 'Positive'};
+var $cuducos$elm_format_number$FormatNumber$Parser$Zero = {$: 'Zero'};
+var $cuducos$elm_format_number$FormatNumber$Parser$classify = function (formatted) {
+	var onlyZeros = A2(
+		$elm$core$String$all,
+		function (_char) {
+			return _Utils_eq(
+				_char,
+				_Utils_chr('0'));
+		},
+		$elm$core$String$concat(
+			A2(
+				$elm$core$List$append,
+				formatted.integers,
+				$elm$core$List$singleton(formatted.decimals))));
+	return onlyZeros ? $cuducos$elm_format_number$FormatNumber$Parser$Zero : ((formatted.original < 0) ? $cuducos$elm_format_number$FormatNumber$Parser$Negative : $cuducos$elm_format_number$FormatNumber$Parser$Positive);
+};
+var $elm$core$String$filter = _String_filter;
+var $cuducos$elm_format_number$FormatNumber$Parser$addZerosToFit = F2(
+	function (desiredLength, value) {
+		var length = $elm$core$String$length(value);
+		var missing = (_Utils_cmp(length, desiredLength) < 0) ? $elm$core$Basics$abs(desiredLength - length) : 0;
+		return _Utils_ap(
+			value,
+			A2($elm$core$String$repeat, missing, '0'));
+	});
+var $elm$core$String$dropRight = F2(
+	function (n, string) {
+		return (n < 1) ? string : A3($elm$core$String$slice, 0, -n, string);
+	});
+var $cuducos$elm_format_number$FormatNumber$Parser$removeZeros = function (decimals) {
+	return (A2($elm$core$String$right, 1, decimals) !== '0') ? decimals : $cuducos$elm_format_number$FormatNumber$Parser$removeZeros(
+		A2($elm$core$String$dropRight, 1, decimals));
+};
+var $cuducos$elm_format_number$FormatNumber$Parser$getDecimals = F2(
+	function (locale, digits) {
+		var _v0 = locale.decimals;
+		switch (_v0.$) {
+			case 'Max':
+				return $cuducos$elm_format_number$FormatNumber$Parser$removeZeros(digits);
+			case 'Exact':
+				return digits;
+			default:
+				var min = _v0.a;
+				return A2($cuducos$elm_format_number$FormatNumber$Parser$addZerosToFit, min, digits);
+		}
+	});
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $cuducos$elm_format_number$FormatNumber$Parser$splitInParts = F2(
+	function (locale, value) {
+		var toString = function () {
+			var _v1 = locale.decimals;
+			switch (_v1.$) {
+				case 'Max':
+					var max = _v1.a;
+					return $myrho$elm_round$Round$round(max);
+				case 'Min':
+					return $elm$core$String$fromFloat;
+				default:
+					var exact = _v1.a;
+					return $myrho$elm_round$Round$round(exact);
+			}
+		}();
+		var asList = A2(
+			$elm$core$String$split,
+			'.',
+			toString(value));
+		var decimals = function () {
+			var _v0 = $elm$core$List$tail(asList);
+			if (_v0.$ === 'Just') {
+				var values = _v0.a;
+				return A2(
+					$elm$core$Maybe$withDefault,
+					'',
+					$elm$core$List$head(values));
+			} else {
+				return '';
+			}
+		}();
+		var integers = A2(
+			$elm$core$Maybe$withDefault,
+			'',
+			$elm$core$List$head(asList));
+		return _Utils_Tuple2(integers, decimals);
+	});
+var $cuducos$elm_format_number$FormatNumber$Parser$splitByIndian = function (integers) {
+	var thousand = ($elm$core$String$length(integers) > 3) ? A2($elm$core$String$right, 3, integers) : integers;
+	var reversedSplitHundreds = function (value) {
+		return ($elm$core$String$length(value) > 2) ? A2(
+			$elm$core$List$cons,
+			A2($elm$core$String$right, 2, value),
+			reversedSplitHundreds(
+				A2($elm$core$String$dropRight, 2, value))) : ((!$elm$core$String$length(value)) ? _List_Nil : _List_fromArray(
+			[value]));
+	};
+	return $elm$core$List$reverse(
+		A2(
+			$elm$core$List$cons,
+			thousand,
+			reversedSplitHundreds(
+				A2($elm$core$String$dropRight, 3, integers))));
+};
+var $cuducos$elm_format_number$FormatNumber$Parser$splitByWestern = function (integers) {
+	var reversedSplitThousands = function (value) {
+		return ($elm$core$String$length(value) > 3) ? A2(
+			$elm$core$List$cons,
+			A2($elm$core$String$right, 3, value),
+			reversedSplitThousands(
+				A2($elm$core$String$dropRight, 3, value))) : _List_fromArray(
+			[value]);
+	};
+	return $elm$core$List$reverse(
+		reversedSplitThousands(integers));
+};
+var $cuducos$elm_format_number$FormatNumber$Parser$splitIntegers = F2(
+	function (system, integers) {
+		if (system.$ === 'Western') {
+			return $cuducos$elm_format_number$FormatNumber$Parser$splitByWestern(
+				A2($elm$core$String$filter, $elm$core$Char$isDigit, integers));
+		} else {
+			return $cuducos$elm_format_number$FormatNumber$Parser$splitByIndian(
+				A2($elm$core$String$filter, $elm$core$Char$isDigit, integers));
+		}
+	});
+var $cuducos$elm_format_number$FormatNumber$Parser$parse = F2(
+	function (locale, original) {
+		var parts = A2($cuducos$elm_format_number$FormatNumber$Parser$splitInParts, locale, original);
+		var integers = A2(
+			$cuducos$elm_format_number$FormatNumber$Parser$splitIntegers,
+			locale.system,
+			A2($elm$core$String$filter, $elm$core$Char$isDigit, parts.a));
+		var decimals = A2($cuducos$elm_format_number$FormatNumber$Parser$getDecimals, locale, parts.b);
+		var partial = A5($cuducos$elm_format_number$FormatNumber$Parser$FormattedNumber, original, integers, decimals, '', '');
+		var _v0 = $cuducos$elm_format_number$FormatNumber$Parser$classify(partial);
+		switch (_v0.$) {
+			case 'Negative':
+				return _Utils_update(
+					partial,
+					{prefix: locale.negativePrefix, suffix: locale.negativeSuffix});
+			case 'Positive':
+				return _Utils_update(
+					partial,
+					{prefix: locale.positivePrefix, suffix: locale.positiveSuffix});
+			default:
+				return _Utils_update(
+					partial,
+					{prefix: locale.zeroPrefix, suffix: locale.zeroSuffix});
+		}
+	});
+var $cuducos$elm_format_number$FormatNumber$Stringfy$formatDecimals = F2(
+	function (locale, decimals) {
+		return (decimals === '') ? '' : _Utils_ap(locale.decimalSeparator, decimals);
+	});
+var $cuducos$elm_format_number$FormatNumber$Stringfy$stringfy = F2(
+	function (locale, formatted) {
+		var stringfyDecimals = $cuducos$elm_format_number$FormatNumber$Stringfy$formatDecimals(locale);
+		var integers = A2($elm$core$String$join, locale.thousandSeparator, formatted.integers);
+		var decimals = stringfyDecimals(formatted.decimals);
+		return $elm$core$String$concat(
+			_List_fromArray(
+				[formatted.prefix, integers, decimals, formatted.suffix]));
+	});
+var $cuducos$elm_format_number$FormatNumber$format = F2(
+	function (locale, number_) {
+		return A2(
+			$cuducos$elm_format_number$FormatNumber$Stringfy$stringfy,
+			locale,
+			A2($cuducos$elm_format_number$FormatNumber$Parser$parse, locale, number_));
+	});
+var $cuducos$elm_format_number$FormatNumber$Locales$Min = function (a) {
+	return {$: 'Min', a: a};
+};
+var $cuducos$elm_format_number$FormatNumber$Locales$Western = {$: 'Western'};
+var $cuducos$elm_format_number$FormatNumber$Locales$base = {
+	decimalSeparator: '.',
+	decimals: $cuducos$elm_format_number$FormatNumber$Locales$Min(0),
+	negativePrefix: '−',
+	negativeSuffix: '',
+	positivePrefix: '',
+	positiveSuffix: '',
+	system: $cuducos$elm_format_number$FormatNumber$Locales$Western,
+	thousandSeparator: '',
+	zeroPrefix: '',
+	zeroSuffix: ''
+};
+var $cuducos$elm_format_number$FormatNumber$Locales$usLocale = _Utils_update(
+	$cuducos$elm_format_number$FormatNumber$Locales$base,
+	{
+		decimals: $cuducos$elm_format_number$FormatNumber$Locales$Exact(2),
+		thousandSeparator: ','
+	});
+var $author$project$Main$viewDollar = function (_v0) {
+	var x = _v0.a;
+	return $rtfeldman$elm_css$Html$Styled$text(
+		A2(
+			$cuducos$elm_format_number$FormatNumber$format,
+			_Utils_update(
+				$cuducos$elm_format_number$FormatNumber$Locales$usLocale,
+				{
+					decimals: $cuducos$elm_format_number$FormatNumber$Locales$Exact(0)
+				}),
+			x / 1000));
+};
+var $author$project$Main$viewDollarsPerShare = function (_v0) {
+	var x = _v0.a;
+	return $rtfeldman$elm_css$Html$Styled$text(
+		A2($cuducos$elm_format_number$FormatNumber$format, $cuducos$elm_format_number$FormatNumber$Locales$usLocale, x));
+};
+var $author$project$Main$viewPeriodSimple = function (_v0) {
+	var period = _v0.a;
+	return $rtfeldman$elm_css$Html$Styled$text(period);
+};
+var $author$project$Main$viewRatio = function (_v0) {
+	var r = _v0.a;
+	return $rtfeldman$elm_css$Html$Styled$text(
+		A2($cuducos$elm_format_number$FormatNumber$format, $cuducos$elm_format_number$FormatNumber$Locales$usLocale, r * 100));
+};
+var $author$project$Main$viewShares = function (_v0) {
+	var x = _v0.a;
+	return $rtfeldman$elm_css$Html$Styled$text(
+		A2($cuducos$elm_format_number$FormatNumber$format, $cuducos$elm_format_number$FormatNumber$Locales$usLocale, x / 1000));
+};
+var $author$project$Main$viewTaggedValue = function (taggedValue) {
+	switch (taggedValue.$) {
+		case 'Dollars_':
+			var x = taggedValue.a;
+			return $author$project$Main$viewDollar(x);
+		case 'DollarsPerShare_':
+			var x = taggedValue.a;
+			return $author$project$Main$viewDollarsPerShare(x);
+		case 'Ratio_':
+			var r = taggedValue.a;
+			return $author$project$Main$viewRatio(r);
+		case 'Shares_':
+			var x = taggedValue.a;
+			return $author$project$Main$viewShares(x);
+		case 'Date_':
+			var date = taggedValue.a;
+			return $author$project$Main$viewDate(date);
+		case 'PeriodSimple_':
+			var period = taggedValue.a;
+			return $author$project$Main$viewPeriodSimple(period);
+		default:
+			var companySymbol = taggedValue.a;
+			return $author$project$Main$viewCompanySymbol(companySymbol);
+	}
+};
 var $author$project$Main$viewTable = F2(
 	function (columns, xs) {
 		return A2(
 			$rtfeldman$elm_css$Html$Styled$table,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Html$Styled$Attributes$css(
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Css$borderSpacing(
+							$rtfeldman$elm_css$Css$px(10))
+						]))
+				]),
 			$elm$core$List$concat(
 				_List_fromArray(
 					[
@@ -16343,10 +16824,17 @@ var $author$project$Main$viewTable = F2(
 										var accessor = _v1.b;
 										return A2(
 											$rtfeldman$elm_css$Html$Styled$td,
-											_List_Nil,
 											_List_fromArray(
 												[
-													$rtfeldman$elm_css$Html$Styled$text(
+													$rtfeldman$elm_css$Html$Styled$Attributes$css(
+													_List_fromArray(
+														[
+															$rtfeldman$elm_css$Css$textAlign($rtfeldman$elm_css$Css$right)
+														]))
+												]),
+											_List_fromArray(
+												[
+													$author$project$Main$viewTaggedValue(
 													accessor(x))
 												]));
 									},
@@ -16395,171 +16883,119 @@ var $author$project$Main$view = function (model) {
 						_List_fromArray(
 							[
 								$rtfeldman$elm_css$Html$Styled$text('Quarterly')
-							])),
-						A2(
-						$rtfeldman$elm_css$Html$Styled$button,
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$Events$onClick(
-								$author$project$Main$RequestDataButtonClicked($author$project$Main$DividendsTab))
-							]),
-						_List_fromArray(
-							[
-								$rtfeldman$elm_css$Html$Styled$text('Dividends')
 							]))
 					])),
 				function () {
 				var _v0 = model.tab;
-				if (_v0.$ === 'DividendsTab') {
-					return A2(
-						$rtfeldman$elm_css$Html$Styled$div,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$author$project$Main$viewQuery,
-								function (maybeData) {
-									return A2(
-										$rtfeldman$elm_css$Html$Styled$div,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$rtfeldman$elm_css$Html$Styled$h2,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$rtfeldman$elm_css$Html$Styled$text('Stock Dividends')
-													])),
-												function () {
-												if (maybeData.$ === 'Just') {
-													var data = maybeData.a;
-													return A2($author$project$Main$viewTable, $author$project$Main$stockDividendColumns, data);
-												} else {
-													return A2(
-														$rtfeldman$elm_css$Html$Styled$div,
-														_List_Nil,
-														_List_fromArray(
-															[
-																$rtfeldman$elm_css$Html$Styled$text('No dividents')
-															]));
-												}
-											}()
-											]));
-								},
-								model.stockDividendsQuery)
-							]));
-				} else {
-					return A2(
-						$rtfeldman$elm_css$Html$Styled$div,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$author$project$Main$viewQuery,
-								function (_v2) {
-									var incomeStatements = _v2.a;
-									var ratios = _v2.b;
-									return A2($author$project$Main$viewCharts, incomeStatements, ratios);
-								},
-								A2($author$project$Main$pairQuery, model.incomeStatementQuery, model.ratiosQuery)),
-								A2(
-								$author$project$Main$viewQuery,
-								function (data) {
-									return A2(
-										$rtfeldman$elm_css$Html$Styled$div,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$rtfeldman$elm_css$Html$Styled$h2,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$rtfeldman$elm_css$Html$Styled$text('Income Statements')
-													])),
-												A2($author$project$Main$viewTable, $author$project$Main$incomeStatementColumns, data)
-											]));
-								},
-								model.incomeStatementQuery),
-								A2(
-								$author$project$Main$viewQuery,
-								function (data) {
-									return A2(
-										$rtfeldman$elm_css$Html$Styled$div,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$rtfeldman$elm_css$Html$Styled$h2,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$rtfeldman$elm_css$Html$Styled$text('Cash Flow Statements')
-													])),
-												A2($author$project$Main$viewTable, $author$project$Main$cashFlowStatementColumns, data)
-											]));
-								},
-								model.cashFlowStatementQuery),
-								A2(
-								$author$project$Main$viewQuery,
-								function (data) {
-									return A2(
-										$rtfeldman$elm_css$Html$Styled$div,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$rtfeldman$elm_css$Html$Styled$h2,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$rtfeldman$elm_css$Html$Styled$text('Ratios')
-													])),
-												A2($author$project$Main$viewTable, $author$project$Main$ratiosColumns, data)
-											]));
-								},
-								model.ratiosQuery),
-								A2(
-								$author$project$Main$viewQuery,
-								function (data) {
-									return A2(
-										$rtfeldman$elm_css$Html$Styled$div,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$rtfeldman$elm_css$Html$Styled$h2,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$rtfeldman$elm_css$Html$Styled$text('Key Metrics')
-													])),
-												A2($author$project$Main$viewTable, $author$project$Main$keyMetricsColumns, data)
-											]));
-								},
-								model.keyMetricsQuery),
-								A2(
-								$author$project$Main$viewQuery,
-								function (data) {
-									return A2(
-										$rtfeldman$elm_css$Html$Styled$div,
-										_List_Nil,
-										_List_fromArray(
-											[
-												A2(
-												$rtfeldman$elm_css$Html$Styled$h2,
-												_List_Nil,
-												_List_fromArray(
-													[
-														$rtfeldman$elm_css$Html$Styled$text('Enterprise Values')
-													])),
-												A2($author$project$Main$viewTable, $author$project$Main$enterpriseValuesColumns, data)
-											]));
-								},
-								model.enterpriseValuesQuery)
-							]));
-				}
+				return A2(
+					$rtfeldman$elm_css$Html$Styled$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$author$project$Main$viewQuery,
+							function (_v1) {
+								var incomeStatements = _v1.a;
+								var ratios = _v1.b;
+								return A2($author$project$Main$viewCharts, incomeStatements, ratios);
+							},
+							A2($author$project$Main$pairQuery, model.incomeStatementQuery, model.ratiosQuery)),
+							A2(
+							$author$project$Main$viewQuery,
+							function (data) {
+								return A2(
+									$rtfeldman$elm_css$Html$Styled$div,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$rtfeldman$elm_css$Html$Styled$h2,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$text('Income Statements')
+												])),
+											A2($author$project$Main$viewTable, $author$project$Main$incomeStatementColumns, data)
+										]));
+							},
+							model.incomeStatementQuery),
+							A2(
+							$author$project$Main$viewQuery,
+							function (data) {
+								return A2(
+									$rtfeldman$elm_css$Html$Styled$div,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$rtfeldman$elm_css$Html$Styled$h2,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$text('Cash Flow Statements')
+												])),
+											A2($author$project$Main$viewTable, $author$project$Main$cashFlowStatementColumns, data)
+										]));
+							},
+							model.cashFlowStatementQuery),
+							A2(
+							$author$project$Main$viewQuery,
+							function (data) {
+								return A2(
+									$rtfeldman$elm_css$Html$Styled$div,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$rtfeldman$elm_css$Html$Styled$h2,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$text('Ratios')
+												])),
+											A2($author$project$Main$viewTable, $author$project$Main$ratiosColumns, data)
+										]));
+							},
+							model.ratiosQuery),
+							A2(
+							$author$project$Main$viewQuery,
+							function (data) {
+								return A2(
+									$rtfeldman$elm_css$Html$Styled$div,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$rtfeldman$elm_css$Html$Styled$h2,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$text('Key Metrics')
+												])),
+											A2($author$project$Main$viewTable, $author$project$Main$keyMetricsColumns, data)
+										]));
+							},
+							model.keyMetricsQuery),
+							A2(
+							$author$project$Main$viewQuery,
+							function (data) {
+								return A2(
+									$rtfeldman$elm_css$Html$Styled$div,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$rtfeldman$elm_css$Html$Styled$h2,
+											_List_Nil,
+											_List_fromArray(
+												[
+													$rtfeldman$elm_css$Html$Styled$text('Enterprise Values')
+												])),
+											A2($author$project$Main$viewTable, $author$project$Main$enterpriseValuesColumns, data)
+										]));
+							},
+							model.enterpriseValuesQuery)
+						]));
 			}()
 			]));
 };
