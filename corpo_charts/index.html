@@ -6351,10 +6351,6 @@ var $author$project$Main$ServerRespondedWithCashFlowStatements = function (a) {
 	return {$: 'ServerRespondedWithCashFlowStatements', a: a};
 };
 var $author$project$Main$apiKey = 'a970040c0cddd1c693e8919579f32c04';
-var $author$project$Main$CashFlowStatement = F6(
-	function (calendarYear, period, changeInWorkingCapital, dividendsPaid, capitalExpenditure, freeCashFlow) {
-		return {calendarYear: calendarYear, capitalExpenditure: capitalExpenditure, changeInWorkingCapital: changeInWorkingCapital, dividendsPaid: dividendsPaid, freeCashFlow: freeCashFlow, period: period};
-	});
 var $author$project$Main$Date = function (a) {
 	return {$: 'Date', a: a};
 };
@@ -6363,6 +6359,9 @@ var $author$project$Main$Dollars = function (a) {
 };
 var $author$project$Main$PeriodSimple = function (a) {
 	return {$: 'PeriodSimple', a: a};
+};
+var $author$project$Main$Ratio = function (a) {
+	return {$: 'Ratio', a: a};
 };
 var $elm_community$json_extra$Json$Decode$Extra$andMap = $elm$json$Json$Decode$map2($elm$core$Basics$apR);
 var $elm$json$Json$Decode$field = _Json_decodeField;
@@ -6378,33 +6377,55 @@ var $author$project$Main$cashFlowStatementDecoder = A2(
 		$elm_community$json_extra$Json$Decode$Extra$andMap,
 		A2(
 			$elm$json$Json$Decode$field,
-			'capitalExpenditure',
+			'stockBasedCompensation',
 			A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 		A2(
 			$elm_community$json_extra$Json$Decode$Extra$andMap,
 			A2(
 				$elm$json$Json$Decode$field,
-				'dividendsPaid',
+				'capitalExpenditure',
 				A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 			A2(
 				$elm_community$json_extra$Json$Decode$Extra$andMap,
 				A2(
 					$elm$json$Json$Decode$field,
-					'changeInWorkingCapital',
+					'dividendsPaid',
 					A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 				A2(
 					$elm_community$json_extra$Json$Decode$Extra$andMap,
 					A2(
 						$elm$json$Json$Decode$field,
-						'period',
-						A2($elm$json$Json$Decode$map, $author$project$Main$PeriodSimple, $elm$json$Json$Decode$string)),
+						'changeInWorkingCapital',
+						A2($elm$json$Json$Decode$map, $author$project$Main$Dollars, $elm$json$Json$Decode$float)),
 					A2(
 						$elm_community$json_extra$Json$Decode$Extra$andMap,
 						A2(
 							$elm$json$Json$Decode$field,
-							'calendarYear',
-							A2($elm$json$Json$Decode$map, $author$project$Main$Date, $elm$json$Json$Decode$string)),
-						$elm$json$Json$Decode$succeed($author$project$Main$CashFlowStatement)))))));
+							'period',
+							A2($elm$json$Json$Decode$map, $author$project$Main$PeriodSimple, $elm$json$Json$Decode$string)),
+						A2(
+							$elm_community$json_extra$Json$Decode$Extra$andMap,
+							A2(
+								$elm$json$Json$Decode$field,
+								'calendarYear',
+								A2($elm$json$Json$Decode$map, $author$project$Main$Date, $elm$json$Json$Decode$string)),
+							$elm$json$Json$Decode$succeed(
+								F7(
+									function (calendarYear, period, changeInWorkingCapital, _v0, capitalExpenditure, stockBasedCompensation, _v1) {
+										var dividendsPaid = _v0.a;
+										var freeCashFlow = _v1.a;
+										return {
+											calendarYear: calendarYear,
+											capitalExpenditure: capitalExpenditure,
+											changeInWorkingCapital: changeInWorkingCapital,
+											dividendsPaid: $author$project$Main$Dollars(-dividendsPaid),
+											fcfPayout: $author$project$Main$Ratio(
+												(!freeCashFlow) ? 0 : ((-dividendsPaid) / freeCashFlow)),
+											freeCashFlow: $author$project$Main$Dollars(freeCashFlow),
+											period: period,
+											stockBasedCompensation: stockBasedCompensation
+										};
+									})))))))));
 var $elm$core$String$concat = function (strings) {
 	return A2($elm$core$String$join, '', strings);
 };
@@ -7172,9 +7193,6 @@ var $author$project$Main$IncomeStatement = function (calendarYear) {
 		};
 	};
 };
-var $author$project$Main$Ratio = function (a) {
-	return {$: 'Ratio', a: a};
-};
 var $author$project$Main$incomeStatementDecoder = A2(
 	$elm_community$json_extra$Json$Decode$Extra$andMap,
 	A2(
@@ -7613,6 +7631,9 @@ var $author$project$Main$Dollars_ = function (a) {
 var $author$project$Main$PeriodSimple_ = function (a) {
 	return {$: 'PeriodSimple_', a: a};
 };
+var $author$project$Main$Ratio_ = function (a) {
+	return {$: 'Ratio_', a: a};
+};
 var $elm$core$Basics$composeL = F3(
 	function (g, f, x) {
 		return g(
@@ -7661,12 +7682,28 @@ var $author$project$Main$cashFlowStatementColumns = _List_fromArray(
 				return $.capitalExpenditure;
 			})),
 		_Utils_Tuple2(
+		'stock-based compensation',
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$Dollars_,
+			function ($) {
+				return $.stockBasedCompensation;
+			})),
+		_Utils_Tuple2(
 		'free cash flow',
 		A2(
 			$elm$core$Basics$composeL,
 			$author$project$Main$Dollars_,
 			function ($) {
 				return $.freeCashFlow;
+			})),
+		_Utils_Tuple2(
+		'FCF Payout',
+		A2(
+			$elm$core$Basics$composeL,
+			$author$project$Main$Ratio_,
+			function ($) {
+				return $.fcfPayout;
 			}))
 	]);
 var $rtfeldman$elm_css$Html$Styled$div = $rtfeldman$elm_css$Html$Styled$node('div');
@@ -7711,9 +7748,6 @@ var $author$project$Main$enterpriseValuesColumns = _List_fromArray(
 var $rtfeldman$elm_css$Html$Styled$h2 = $rtfeldman$elm_css$Html$Styled$node('h2');
 var $author$project$Main$DollarsPerShare_ = function (a) {
 	return {$: 'DollarsPerShare_', a: a};
-};
-var $author$project$Main$Ratio_ = function (a) {
-	return {$: 'Ratio_', a: a};
 };
 var $author$project$Main$incomeStatementColumns = _List_fromArray(
 	[
@@ -8119,6 +8153,39 @@ var $author$project$Main$dollarsToFloat = function (_v0) {
 	var x = _v0.a;
 	return x;
 };
+var $author$project$Main$zipList = F2(
+	function (xs0, ys0) {
+		var _v0 = _Utils_Tuple2(xs0, ys0);
+		if (!_v0.a.b) {
+			return _List_Nil;
+		} else {
+			if (!_v0.b.b) {
+				return _List_Nil;
+			} else {
+				var _v1 = _v0.a;
+				var x = _v1.a;
+				var xs1 = _v1.b;
+				var _v2 = _v0.b;
+				var y = _v2.a;
+				var ys1 = _v2.b;
+				return A2(
+					$elm$core$List$cons,
+					_Utils_Tuple2(x, y),
+					A2($author$project$Main$zipList, xs1, ys1));
+			}
+		}
+	});
+var $author$project$Main$makeDividentYields = F2(
+	function (cashFlowStatements, ratios) {
+		return A2(
+			$elm$core$List$map,
+			function (_v0) {
+				var cashFlowRow = _v0.a;
+				var ratioRow = _v0.b;
+				return {dividendPayoutRatio: ratioRow.dividendPayoutRatio, fcfPayout: cashFlowRow.fcfPayout};
+			},
+			A2($author$project$Main$zipList, cashFlowStatements, ratios));
+	});
 var $author$project$Main$ratioToFloat = function (_v0) {
 	var x = _v0.a;
 	return x;
@@ -16258,7 +16325,7 @@ var $terezka$elm_charts$Chart$yTicks = function (edits) {
 					toTicks(p)));
 		});
 };
-var $author$project$Main$viewFieldChart = F3(
+var $author$project$Main$viewOneFloatChart = F3(
 	function (title, accessor, incomeStatements) {
 		return A2(
 			$rtfeldman$elm_css$Html$Styled$div,
@@ -16332,8 +16399,107 @@ var $author$project$Main$viewFieldChart = F3(
 				}()
 				]));
 	});
-var $author$project$Main$viewCharts = F2(
-	function (incomeStatements, ratios) {
+var $terezka$elm_charts$Chart$Attributes$green = $terezka$elm_charts$Internal$Helpers$green;
+var $terezka$elm_charts$Chart$Attributes$red = $terezka$elm_charts$Internal$Helpers$red;
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $author$project$Main$viewTwoFloatChart = F4(
+	function (title, accessor0, accessor1, incomeStatements) {
+		return A2(
+			$rtfeldman$elm_css$Html$Styled$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$rtfeldman$elm_css$Html$Styled$h3,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text(title)
+						])),
+					function () {
+					var w = 300;
+					var h = 300;
+					return A2(
+						$rtfeldman$elm_css$Html$Styled$div,
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$Attributes$css(
+								_List_fromArray(
+									[
+										$rtfeldman$elm_css$Css$width(
+										$rtfeldman$elm_css$Css$px(w)),
+										$rtfeldman$elm_css$Css$height(
+										$rtfeldman$elm_css$Css$px(h)),
+										$rtfeldman$elm_css$Css$marginLeft(
+										$rtfeldman$elm_css$Css$px(160)),
+										A3(
+										$rtfeldman$elm_css$Css$border3,
+										$rtfeldman$elm_css$Css$px(1),
+										$rtfeldman$elm_css$Css$solid,
+										A3($rtfeldman$elm_css$Css$rgb, 0, 0, 0))
+									]))
+							]),
+						_List_fromArray(
+							[
+								$rtfeldman$elm_css$Html$Styled$fromUnstyled(
+								A2(
+									$terezka$elm_charts$Chart$chart,
+									_List_fromArray(
+										[
+											$terezka$elm_charts$Chart$Attributes$width(w),
+											$terezka$elm_charts$Chart$Attributes$height(h)
+										]),
+									_List_fromArray(
+										[
+											A3(
+											$terezka$elm_charts$Chart$bars,
+											_List_Nil,
+											_List_fromArray(
+												[
+													A2(
+													$terezka$elm_charts$Chart$bar,
+													function (data) {
+														return data.a;
+													},
+													_List_fromArray(
+														[
+															$terezka$elm_charts$Chart$Attributes$color($terezka$elm_charts$Chart$Attributes$green)
+														])),
+													A2(
+													$terezka$elm_charts$Chart$bar,
+													function (data) {
+														return data.b;
+													},
+													_List_fromArray(
+														[
+															$terezka$elm_charts$Chart$Attributes$color($terezka$elm_charts$Chart$Attributes$red)
+														]))
+												]),
+											$elm$core$List$reverse(
+												A2(
+													$elm$core$List$map,
+													function (row) {
+														return _Utils_Tuple2(
+															accessor0(row),
+															accessor1(row));
+													},
+													incomeStatements))),
+											$terezka$elm_charts$Chart$xAxis(_List_Nil),
+											$terezka$elm_charts$Chart$yAxis(_List_Nil),
+											$terezka$elm_charts$Chart$xTicks(_List_Nil),
+											$terezka$elm_charts$Chart$yTicks(_List_Nil),
+											$terezka$elm_charts$Chart$xLabels(_List_Nil),
+											$terezka$elm_charts$Chart$yLabels(_List_Nil)
+										])))
+							]));
+				}()
+				]));
+	});
+var $author$project$Main$viewCharts = F4(
+	function (incomeStatements, ratios, cashFlowStatements, enterpriseValues) {
 		return A2(
 			$author$project$Lib$Html$itemsY,
 			_List_Nil,
@@ -16345,8 +16511,8 @@ var $author$project$Main$viewCharts = F2(
 					_List_fromArray(
 						[
 							A3(
-							$author$project$Main$viewFieldChart,
-							'revenue',
+							$author$project$Main$viewOneFloatChart,
+							'Revenue',
 							A2(
 								$elm$core$Basics$composeL,
 								$author$project$Main$dollarsToFloat,
@@ -16355,8 +16521,8 @@ var $author$project$Main$viewCharts = F2(
 								}),
 							incomeStatements),
 							A3(
-							$author$project$Main$viewFieldChart,
-							'gross margin',
+							$author$project$Main$viewOneFloatChart,
+							'Gross Margin',
 							A2(
 								$elm$core$Basics$composeL,
 								$author$project$Main$ratioToFloat,
@@ -16365,7 +16531,7 @@ var $author$project$Main$viewCharts = F2(
 								}),
 							incomeStatements),
 							A3(
-							$author$project$Main$viewFieldChart,
+							$author$project$Main$viewOneFloatChart,
 							'ebitda',
 							A2(
 								$elm$core$Basics$composeL,
@@ -16381,8 +16547,8 @@ var $author$project$Main$viewCharts = F2(
 					_List_fromArray(
 						[
 							A3(
-							$author$project$Main$viewFieldChart,
-							'net income',
+							$author$project$Main$viewOneFloatChart,
+							'Net Income',
 							A2(
 								$elm$core$Basics$composeL,
 								$author$project$Main$dollarsToFloat,
@@ -16391,7 +16557,7 @@ var $author$project$Main$viewCharts = F2(
 								}),
 							incomeStatements),
 							A3(
-							$author$project$Main$viewFieldChart,
+							$author$project$Main$viewOneFloatChart,
 							'EPS',
 							A2(
 								$elm$core$Basics$composeL,
@@ -16401,7 +16567,7 @@ var $author$project$Main$viewCharts = F2(
 								}),
 							incomeStatements),
 							A3(
-							$author$project$Main$viewFieldChart,
+							$author$project$Main$viewOneFloatChart,
 							'Return on Capital Employed',
 							A2(
 								$elm$core$Basics$composeL,
@@ -16410,6 +16576,96 @@ var $author$project$Main$viewCharts = F2(
 									return $.returnOnCapitalEmployed;
 								}),
 							ratios)
+						])),
+					A2(
+					$author$project$Lib$Html$itemsX,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A3(
+							$author$project$Main$viewOneFloatChart,
+							'Free Cash flow',
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.freeCashFlow;
+								}),
+							cashFlowStatements),
+							A3(
+							$author$project$Main$viewOneFloatChart,
+							'Stock-based compensation',
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.stockBasedCompensation;
+								}),
+							cashFlowStatements),
+							A3(
+							$author$project$Main$viewOneFloatChart,
+							'Dividends Paid',
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.dividendsPaid;
+								}),
+							cashFlowStatements)
+						])),
+					A2(
+					$author$project$Lib$Html$itemsX,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A4(
+							$author$project$Main$viewTwoFloatChart,
+							'Divident Yield',
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$ratioToFloat,
+								function ($) {
+									return $.fcfPayout;
+								}),
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$ratioToFloat,
+								function ($) {
+									return $.dividendPayoutRatio;
+								}),
+							A2($author$project$Main$makeDividentYields, cashFlowStatements, ratios)),
+							A4(
+							$author$project$Main$viewTwoFloatChart,
+							'Debt vs Cash',
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.minusCashAndCashEquivalents;
+								}),
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.addTotalDebt;
+								}),
+							enterpriseValues),
+							A4(
+							$author$project$Main$viewTwoFloatChart,
+							'FCF vs SBC',
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.freeCashFlow;
+								}),
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$dollarsToFloat,
+								function ($) {
+									return $.stockBasedCompensation;
+								}),
+							cashFlowStatements)
 						]))
 				]));
 	});
@@ -16574,10 +16830,6 @@ var $cuducos$elm_format_number$FormatNumber$Parser$getDecimals = F2(
 				return A2($cuducos$elm_format_number$FormatNumber$Parser$addZerosToFit, min, digits);
 		}
 	});
-var $elm$core$Tuple$second = function (_v0) {
-	var y = _v0.b;
-	return y;
-};
 var $cuducos$elm_format_number$FormatNumber$Parser$splitInParts = F2(
 	function (locale, value) {
 		var toString = function () {
@@ -16896,10 +17148,20 @@ var $author$project$Main$view = function (model) {
 							$author$project$Main$viewQuery,
 							function (_v1) {
 								var incomeStatements = _v1.a;
-								var ratios = _v1.b;
-								return A2($author$project$Main$viewCharts, incomeStatements, ratios);
+								var _v2 = _v1.b;
+								var ratios = _v2.a;
+								var _v3 = _v2.b;
+								var cashFlowStatements = _v3.a;
+								var enerpriseValues = _v3.b;
+								return A4($author$project$Main$viewCharts, incomeStatements, ratios, cashFlowStatements, enerpriseValues);
 							},
-							A2($author$project$Main$pairQuery, model.incomeStatementQuery, model.ratiosQuery)),
+							A2(
+								$author$project$Main$pairQuery,
+								model.incomeStatementQuery,
+								A2(
+									$author$project$Main$pairQuery,
+									model.ratiosQuery,
+									A2($author$project$Main$pairQuery, model.cashFlowStatementQuery, model.enterpriseValuesQuery)))),
 							A2(
 							$author$project$Main$viewQuery,
 							function (data) {
