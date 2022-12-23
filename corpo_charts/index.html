@@ -8190,6 +8190,10 @@ var $author$project$Main$ratioToFloat = function (_v0) {
 	var x = _v0.a;
 	return x;
 };
+var $author$project$Main$sharesToFloat = function (_v0) {
+	var x = _v0.a;
+	return x;
+};
 var $terezka$elm_charts$Internal$Property$Property = function (a) {
 	return {$: 'Property', a: a};
 };
@@ -16666,6 +16670,22 @@ var $author$project$Main$viewCharts = F4(
 									return $.stockBasedCompensation;
 								}),
 							cashFlowStatements)
+						])),
+					A2(
+					$author$project$Lib$Html$itemsX,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A3(
+							$author$project$Main$viewOneFloatChart,
+							'Number of shares',
+							A2(
+								$elm$core$Basics$composeL,
+								$author$project$Main$sharesToFloat,
+								function ($) {
+									return $.numberOfShares;
+								}),
+							enterpriseValues)
 						]))
 				]));
 	});
